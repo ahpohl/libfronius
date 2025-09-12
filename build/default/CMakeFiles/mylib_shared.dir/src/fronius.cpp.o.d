@@ -151,4 +151,5 @@ CMakeFiles/mylib_shared.dir/src/fronius.cpp.o: \
  /usr/include/c++/15.2.1/bits/formatfwd.h \
  /home/alex/eclipse-workspace/libfronius/include/common_registers.h \
  /usr/include/c++/15.2.1/cstdint \
- /home/alex/eclipse-workspace/libfronius/include/modbus_error.h
+ /home/alex/eclipse-workspace/libfronius/include/modbus_error.h \
+ /home/alex/eclipse-workspace/libfronius/include/modbus_utils.h

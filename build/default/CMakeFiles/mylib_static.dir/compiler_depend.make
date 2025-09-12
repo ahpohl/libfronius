@@ -5,6 +5,7 @@ CMakeFiles/mylib_static.dir/src/fronius.cpp.o: /home/alex/eclipse-workspace/libf
   /home/alex/eclipse-workspace/libfronius/include/common_registers.h \
   /home/alex/eclipse-workspace/libfronius/include/fronius.h \
   /home/alex/eclipse-workspace/libfronius/include/modbus_error.h \
+  /home/alex/eclipse-workspace/libfronius/include/modbus_utils.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
@@ -753,8 +754,6 @@ CMakeFiles/mylib_static.dir/src/meter.cpp.o: /home/alex/eclipse-workspace/libfro
 
 /usr/include/c++/15.2.1/bits/refwrap.h:
 
-/usr/include/bits/types/__FILE.h:
-
 /usr/include/bits/types/FILE.h:
 
 /usr/include/bits/types.h:
@@ -767,29 +766,19 @@ CMakeFiles/mylib_static.dir/src/meter.cpp.o: /home/alex/eclipse-workspace/libfro
 
 /usr/include/bits/types/time_t.h:
 
+/usr/include/bits/types/__FILE.h:
+
 /usr/include/bits/types/struct_sigstack.h:
 
 /usr/include/sys/ucontext.h:
 
 /usr/include/bits/signal_ext.h:
 
-/usr/include/c++/15.2.1/ext/numeric_traits.h:
-
-/usr/include/bits/local_lim.h:
-
-/usr/include/c++/15.2.1/bits/basic_string.h:
-
 /usr/include/bits/struct_mutex.h:
 
 /usr/include/bits/signum-generic.h:
 
 /usr/include/bits/sigaction.h:
-
-/usr/include/bits/getopt_core.h:
-
-/usr/include/bits/siginfo-consts-arch.h:
-
-/usr/include/bits/sigstack.h:
 
 /usr/include/bits/select.h:
 
@@ -803,21 +792,39 @@ CMakeFiles/mylib_static.dir/src/meter.cpp.o: /home/alex/eclipse-workspace/libfro
 
 /usr/include/bits/pthreadtypes-arch.h:
 
-/usr/include/bits/byteswap.h:
-
-/usr/include/c++/15.2.1/bits/max_size_type.h:
-
 /usr/include/asm/errno.h:
 
 /usr/include/c++/15.2.1/bits/version.h:
 
 /usr/include/bits/types/__sigval_t.h:
 
+/usr/include/bits/byteswap.h:
+
+/usr/include/c++/15.2.1/bits/max_size_type.h:
+
+/usr/include/bits/getopt_core.h:
+
+/usr/include/bits/sigstack.h:
+
+/usr/include/bits/siginfo-consts-arch.h:
+
+/usr/include/c++/15.2.1/ext/numeric_traits.h:
+
+/usr/include/bits/local_lim.h:
+
+/usr/include/c++/15.2.1/bits/basic_string.h:
+
+/home/alex/eclipse-workspace/libfronius/include/modbus_utils.h:
+
+/usr/include/modbus/modbus.h:
+
+/usr/include/bits/timesize.h:
+
+/usr/include/bits/waitstatus.h:
+
 /usr/include/asm-generic/errno.h:
 
 /usr/include/asm-generic/errno-base.h:
-
-/usr/include/bits/confname.h:
 
 /usr/include/bits/stdint-least.h:
 
@@ -845,9 +852,17 @@ CMakeFiles/mylib_static.dir/src/meter.cpp.o: /home/alex/eclipse-workspace/libfro
 
 /usr/include/asm-generic/param.h:
 
+/usr/include/c++/15.2.1/pstl/pstl_config.h:
+
+/usr/include/c++/15.2.1/bits/ranges_util.h:
+
+/usr/include/bits/pthread_stack_min-dynamic.h:
+
 /usr/include/c++/15.2.1/ext/string_conversions.h:
 
 /usr/include/c++/15.2.1/bits/predefined_ops.h:
+
+/usr/include/bits/confname.h:
 
 /usr/include/features.h:
 
@@ -941,12 +956,6 @@ CMakeFiles/mylib_static.dir/src/meter.cpp.o: /home/alex/eclipse-workspace/libfro
 
 /usr/include/bits/types/mbstate_t.h:
 
-/usr/include/c++/15.2.1/pstl/pstl_config.h:
-
-/usr/include/bits/pthread_stack_min-dynamic.h:
-
-/usr/include/c++/15.2.1/bits/ranges_util.h:
-
 /usr/include/bits/types/sigevent_t.h:
 
 /usr/include/c++/15.2.1/bits/stl_algobase.h:
@@ -994,12 +1003,6 @@ CMakeFiles/mylib_static.dir/src/meter.cpp.o: /home/alex/eclipse-workspace/libfro
 /usr/include/bits/waitflags.h:
 
 /usr/include/c++/15.2.1/bits/exception_defines.h:
-
-/usr/include/modbus/modbus.h:
-
-/usr/include/bits/timesize.h:
-
-/usr/include/bits/waitstatus.h:
 
 /usr/include/bits/wchar.h:
 

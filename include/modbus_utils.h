@@ -1,8 +1,14 @@
 #ifndef MODBUS_UTILS_H_
 #define MODBUS_UTILS_H_
 
+#include "modbus_error.h"
+#include <cctype>
+#include <cerrno>
 #include <cstdint>
+#include <expected>
 #include <string>
+
+namespace modbus_utils {
 
 inline uint16_t swap_bytes16(uint16_t v) { return (v >> 8) | (v << 8); }
 
@@ -45,13 +51,40 @@ inline int64_t modbus_get_int64(const uint16_t *regs, bool word_swap = false,
   return static_cast<int64_t>(modbus_get_uint64(regs, word_swap, byte_swap));
 }
 
-inline std::string modbus_get_string(const uint16_t *tab_reg, int size) {
+inline std::expected<std::string, ModbusError>
+modbus_get_string(const uint16_t *tab_reg, int size) {
   std::string str;
+  str.reserve(size * 2); // avoid reallocations
+
   for (int i = 0; i < size; i++) {
-    str.push_back((tab_reg[i] >> 8) & 0xFF);
-    str.push_back(tab_reg[i]);
+    char hi = static_cast<char>((tab_reg[i] >> 8) & 0xFF);
+    char lo = static_cast<char>(tab_reg[i] & 0xFF);
+
+    if (hi != '\0')
+      str.push_back(hi);
+    if (lo != '\0')
+      str.push_back(lo);
   }
+
+  if (str.empty())
+    return std::string{};
+
+  for (unsigned char c : str) {
+    if (!std::isprint(c) && c != ' ') { // allow space but not control chars
+      return std::unexpected(ModbusError::custom(
+          EINVAL, "String contains unprintable characters"));
+    }
+  }
+
   return str;
 }
+
+inline std::string to_hex(uint16_t val) {
+  char buf[7];
+  snprintf(buf, sizeof(buf), "%04X", val);
+  return std::string(buf);
+}
+
+} // namespace modbus_utils
 
 #endif /* MODBUS_UTILS_H_ */

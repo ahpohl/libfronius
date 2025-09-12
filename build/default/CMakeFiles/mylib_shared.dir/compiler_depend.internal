@@ -6,6 +6,7 @@ CMakeFiles/mylib_shared.dir/src/fronius.cpp.o
  /home/alex/eclipse-workspace/libfronius/include/common_registers.h
  /home/alex/eclipse-workspace/libfronius/include/fronius.h
  /home/alex/eclipse-workspace/libfronius/include/modbus_error.h
+ /home/alex/eclipse-workspace/libfronius/include/modbus_utils.h
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
