@@ -1,9 +1,9 @@
 CMakeFiles/mylib_static.dir/src/meter.cpp.o: \
  /home/alex/eclipse-workspace/libfronius/src/meter.cpp \
  /usr/include/stdc-predef.h \
- /home/alex/eclipse-workspace/libfronius/src/../include/meter.h \
- /home/alex/eclipse-workspace/libfronius/src/../include/fronius.h \
- /home/alex/eclipse-workspace/libfronius/src/../include/modbus_error.h \
+ /home/alex/eclipse-workspace/libfronius/include/meter.h \
+ /home/alex/eclipse-workspace/libfronius/include/fronius.h \
+ /home/alex/eclipse-workspace/libfronius/include/modbus_error.h \
  /usr/include/c++/15.2.1/cerrno \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \
@@ -150,4 +150,90 @@ CMakeFiles/mylib_static.dir/src/meter.cpp.o: \
  /usr/include/c++/15.2.1/bits/stl_bvector.h \
  /usr/include/c++/15.2.1/bits/vector.tcc \
  /usr/include/c++/15.2.1/bits/formatfwd.h \
- /home/alex/eclipse-workspace/libfronius/include/modbus_error.h
+ /home/alex/eclipse-workspace/libfronius/include/modbus_error.h \
+ /home/alex/eclipse-workspace/libfronius/include/meter_float_registers.h \
+ /usr/include/c++/15.2.1/cstdint \
+ /home/alex/eclipse-workspace/libfronius/include/meter_intsf_registers.h \
+ /home/alex/eclipse-workspace/libfronius/include/modbus_utils.h \
+ /usr/include/c++/15.2.1/array /usr/include/c++/15.2.1/cmath \
+ /usr/include/math.h /usr/include/bits/math-vector.h \
+ /usr/include/bits/libm-simd-decl-stubs.h \
+ /usr/include/bits/flt-eval-method.h /usr/include/bits/fp-logb.h \
+ /usr/include/bits/fp-fast.h /usr/include/bits/mathcalls-macros.h \
+ /usr/include/bits/mathcalls-helper-functions.h \
+ /usr/include/bits/mathcalls.h /usr/include/bits/mathcalls-narrow.h \
+ /usr/include/bits/iscanonical.h /usr/include/c++/15.2.1/bits/specfun.h \
+ /usr/include/c++/15.2.1/limits /usr/include/c++/15.2.1/tr1/gamma.tcc \
+ /usr/include/c++/15.2.1/tr1/special_function_util.h \
+ /usr/include/c++/15.2.1/tr1/bessel_function.tcc \
+ /usr/include/c++/15.2.1/tr1/beta_function.tcc \
+ /usr/include/c++/15.2.1/tr1/ell_integral.tcc \
+ /usr/include/c++/15.2.1/tr1/exp_integral.tcc \
+ /usr/include/c++/15.2.1/tr1/hypergeometric.tcc \
+ /usr/include/c++/15.2.1/tr1/legendre_function.tcc \
+ /usr/include/c++/15.2.1/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/15.2.1/tr1/poly_hermite.tcc \
+ /usr/include/c++/15.2.1/tr1/poly_laguerre.tcc \
+ /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc \
+ /usr/include/c++/15.2.1/iostream /usr/include/c++/15.2.1/ostream \
+ /usr/include/c++/15.2.1/bits/ostream.h /usr/include/c++/15.2.1/ios \
+ /usr/include/c++/15.2.1/exception \
+ /usr/include/c++/15.2.1/bits/exception_ptr.h \
+ /usr/include/c++/15.2.1/bits/cxxabi_init_exception.h \
+ /usr/include/c++/15.2.1/typeinfo \
+ /usr/include/c++/15.2.1/bits/nested_exception.h \
+ /usr/include/c++/15.2.1/bits/ios_base.h \
+ /usr/include/c++/15.2.1/ext/atomicity.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+ /usr/include/linux/sched/types.h /usr/include/linux/types.h \
+ /usr/include/asm/types.h /usr/include/asm-generic/types.h \
+ /usr/include/asm-generic/int-ll64.h /usr/include/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h /usr/include/asm/posix_types.h \
+ /usr/include/asm/posix_types_64.h /usr/include/asm-generic/posix_types.h \
+ /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
+ /usr/include/time.h /usr/include/bits/time.h /usr/include/bits/timex.h \
+ /usr/include/bits/types/struct_tm.h \
+ /usr/include/bits/types/struct_itimerspec.h /usr/include/bits/setjmp.h \
+ /usr/include/bits/types/struct___jmp_buf_tag.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/atomic_word.h \
+ /usr/include/sys/single_threaded.h \
+ /usr/include/c++/15.2.1/bits/locale_classes.h \
+ /usr/include/c++/15.2.1/bits/locale_classes.tcc \
+ /usr/include/c++/15.2.1/system_error \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/error_constants.h \
+ /usr/include/c++/15.2.1/stdexcept /usr/include/c++/15.2.1/streambuf \
+ /usr/include/c++/15.2.1/bits/streambuf.tcc \
+ /usr/include/c++/15.2.1/bits/basic_ios.h \
+ /usr/include/c++/15.2.1/bits/locale_facets.h \
+ /usr/include/c++/15.2.1/cwctype /usr/include/wctype.h \
+ /usr/include/bits/wctype-wchar.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h \
+ /usr/include/c++/15.2.1/bits/streambuf_iterator.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h \
+ /usr/include/c++/15.2.1/bits/locale_facets.tcc \
+ /usr/include/c++/15.2.1/bits/basic_ios.tcc \
+ /usr/include/c++/15.2.1/format /usr/include/c++/15.2.1/charconv \
+ /usr/include/c++/15.2.1/locale \
+ /usr/include/c++/15.2.1/bits/locale_facets_nonio.h \
+ /usr/include/c++/15.2.1/ctime \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/time_members.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/15.2.1/bits/codecvt.h \
+ /usr/include/c++/15.2.1/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/15.2.1/bits/locale_conv.h \
+ /usr/include/c++/15.2.1/optional \
+ /usr/include/c++/15.2.1/bits/enable_special_members.h \
+ /usr/include/c++/15.2.1/span /usr/include/c++/15.2.1/bits/monostate.h \
+ /usr/include/c++/15.2.1/bits/unicode.h \
+ /usr/include/c++/15.2.1/bits/stl_algo.h \
+ /usr/include/c++/15.2.1/bits/algorithmfwd.h \
+ /usr/include/c++/15.2.1/bits/stl_heap.h \
+ /usr/include/c++/15.2.1/bits/uniform_int_dist.h \
+ /usr/include/c++/15.2.1/bits/stl_tempbuf.h \
+ /usr/include/c++/15.2.1/bits/unicode-data.h \
+ /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
+ /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/sstream \
+ /usr/include/c++/15.2.1/bits/sstream.tcc

@@ -12,6 +12,9 @@ public:
   Fronius();
   virtual ~Fronius();
 
+  /** Modbus debug output (very verbose) */
+  std::expected<void, ModbusError> setModbusDebugFlag(const bool &flag);
+
   /** Create a Modbus context for TCP/IPv4
 
      The ConnectTcp() function shall allocate and initialize a modbus_t
@@ -35,7 +38,7 @@ public:
                                                     const int baud = 9600);
 
   /** Test if the Fronius device is SunSpec compatible */
-  std::expected<bool, ModbusError> isSunSpecCompatible(void);
+  std::expected<bool, ModbusError> isSunSpecDevice(void);
 
   /** Read the complete Fronius Common Register Map */
   std::expected<void, ModbusError> readCommonRegisters(void);
@@ -77,7 +80,10 @@ public:
   std::expected<uint16_t, ModbusError> getModbusDeviceAddress(void);
 
 protected:
+  /* Connection handle for the libmodbus context */
   modbus_t *ctx_;
+
+  /* Vector to hold the complete register map */
   std::vector<uint16_t> regs_;
 };
 

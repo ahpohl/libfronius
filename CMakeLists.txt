@@ -21,18 +21,8 @@ set(MYLIB_SOURCES
     src/inverter.cpp
 )
 
-# Common headers
-set(MYLIB_HEADERS
-    include/fronius.h
-    include/meter.h
-    include/inverter.h
-    include/common_registers.h
-    include/modbus_utils.h
-    include/modbus_error.h
-)
-
 if(BUILD_SHARED_LIBS)
-    add_library(mylib_shared SHARED ${MYLIB_SOURCES} ${MYLIB_HEADERS})
+    add_library(mylib_shared SHARED ${MYLIB_SOURCES})
     
     target_include_directories(mylib_shared
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
