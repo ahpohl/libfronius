@@ -40,8 +40,8 @@ public:
   /** Test if the Fronius device is SunSpec compatible */
   std::expected<bool, ModbusError> isSunSpecDevice(void);
 
-  /** Read the complete Fronius Common Register Map */
-  std::expected<void, ModbusError> readCommonRegisters(void);
+  /** Get the complete Fronius Common Register Map from device */
+  std::expected<void, ModbusError> getCommonRegisters(void);
 
   /** The the device manufacturer
 

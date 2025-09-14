@@ -10,14 +10,29 @@ public:
   Meter();
   virtual ~Meter();
 
-  /** Test if the smart meter has SunSpec registers */
-  std::expected<bool, ModbusError> isSunSpecMeter(void);
+  /** Get the meter type
 
-  /** Get the register model */
-  bool getFloatRegisterModel(void) const;
+   Uniquely identifies this as a SunSpec Meter Modbus Map
 
-  /** Read the complete Fronius Meter Register Map */
-  std::expected<void, ModbusError> readMeterRegisters(void);
+   Float register model:
+   211: single phase
+   212: split phase
+   213: three phase
+
+   Integer and scale factor model:
+   201: single phase
+   202: split phase
+   203: three phase
+
+   @returns pair, meter ID and length of register map
+   */
+  std::expected<std::pair<int, int>, ModbusError> getMeterType(void);
+
+  /** Return the current register model in use */
+  bool isFloatRegisters(void) const;
+
+  /** Get the complete Fronius Meter Register Map from device */
+  std::expected<void, ModbusError> getMeterRegisters(void);
 
   /** AC total current [A] */
   double getAcCurrent(void);
