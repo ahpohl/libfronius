@@ -6,5 +6,5 @@ CXX_DEFINES = -Dmylib_shared_EXPORTS
 
 CXX_INCLUDES = -I/home/alex/eclipse-workspace/libfronius/include
 
-CXX_FLAGS = -std=gnu++23 -fPIC
+CXX_FLAGS = -g -std=gnu++23 -fPIC
 

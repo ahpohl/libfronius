@@ -10,9 +10,12 @@ public:
   Meter();
   virtual ~Meter();
 
-  /** Get the meter type
+  /** Return the meter initialization state  */
+  bool isInitialized() const noexcept { return isInitialized_; }
 
-   Uniquely identifies this as a SunSpec Meter Modbus Map
+  /** Get the meter ID and set the register map model
+
+   Must be called after the connection has been established.
 
    Float register model:
    211: single phase
@@ -24,12 +27,15 @@ public:
    202: split phase
    203: three phase
 
-   @returns pair, meter ID and length of register map
+   @returns meter ID
    */
-  std::expected<std::pair<int, int>, ModbusError> getMeterType(void);
+  std::expected<int, ModbusError> detectAndInitializeMeter(void);
 
   /** Return the current register model in use */
-  bool isFloatRegisters(void) const;
+  bool getUseFloatRegisters(void) const;
+
+  /** Return the number of phases */
+  int getPhases(void) const;
 
   /** Get the complete Fronius Meter Register Map from device */
   std::expected<void, ModbusError> getMeterRegisters(void);
@@ -80,11 +86,21 @@ public:
   double getAcEnergyImport(void);
 
 private:
+  /** Guard that detectAndInitializeMeter() has been called */
+  void checkInitialized() const;
+
+  /** Initialization state*/
+  bool isInitialized_;
+
   /** Current register map model in use */
   bool useFloatRegisters_;
 
+  /** Store the number of phases */
+  int phases_;
+
   /** Read meter event flags */
-  bool readEventFlags_(uint32_t &flag1, uint32_t &flag2);
+  std::expected<void, ModbusError> getEventFlags_(uint32_t &flag1,
+                                                  uint32_t &flag2);
 };
 
 #endif /* METER_H_ */

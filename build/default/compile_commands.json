@@ -1,37 +1,37 @@
 [
 {
   "directory": "/home/alex/eclipse-workspace/libfronius/build/default",
-  "command": "/usr/bin/c++ -Dmylib_shared_EXPORTS -I/home/alex/eclipse-workspace/libfronius/include -std=gnu++23 -fPIC -o CMakeFiles/mylib_shared.dir/src/fronius.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/fronius.cpp",
+  "command": "/usr/bin/c++ -Dmylib_shared_EXPORTS -I/home/alex/eclipse-workspace/libfronius/include -g -std=gnu++23 -fPIC -o CMakeFiles/mylib_shared.dir/src/fronius.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/fronius.cpp",
   "file": "/home/alex/eclipse-workspace/libfronius/src/fronius.cpp",
   "output": "CMakeFiles/mylib_shared.dir/src/fronius.cpp.o"
 },
 {
   "directory": "/home/alex/eclipse-workspace/libfronius/build/default",
-  "command": "/usr/bin/c++ -Dmylib_shared_EXPORTS -I/home/alex/eclipse-workspace/libfronius/include -std=gnu++23 -fPIC -o CMakeFiles/mylib_shared.dir/src/meter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/meter.cpp",
+  "command": "/usr/bin/c++ -Dmylib_shared_EXPORTS -I/home/alex/eclipse-workspace/libfronius/include -g -std=gnu++23 -fPIC -o CMakeFiles/mylib_shared.dir/src/meter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/meter.cpp",
   "file": "/home/alex/eclipse-workspace/libfronius/src/meter.cpp",
   "output": "CMakeFiles/mylib_shared.dir/src/meter.cpp.o"
 },
 {
   "directory": "/home/alex/eclipse-workspace/libfronius/build/default",
-  "command": "/usr/bin/c++ -Dmylib_shared_EXPORTS -I/home/alex/eclipse-workspace/libfronius/include -std=gnu++23 -fPIC -o CMakeFiles/mylib_shared.dir/src/inverter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/inverter.cpp",
+  "command": "/usr/bin/c++ -Dmylib_shared_EXPORTS -I/home/alex/eclipse-workspace/libfronius/include -g -std=gnu++23 -fPIC -o CMakeFiles/mylib_shared.dir/src/inverter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/inverter.cpp",
   "file": "/home/alex/eclipse-workspace/libfronius/src/inverter.cpp",
   "output": "CMakeFiles/mylib_shared.dir/src/inverter.cpp.o"
 },
 {
   "directory": "/home/alex/eclipse-workspace/libfronius/build/default",
-  "command": "/usr/bin/c++  -I/home/alex/eclipse-workspace/libfronius/include -std=gnu++23 -fPIC -o CMakeFiles/mylib_static.dir/src/fronius.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/fronius.cpp",
+  "command": "/usr/bin/c++  -I/home/alex/eclipse-workspace/libfronius/include -g -std=gnu++23 -fPIC -o CMakeFiles/mylib_static.dir/src/fronius.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/fronius.cpp",
   "file": "/home/alex/eclipse-workspace/libfronius/src/fronius.cpp",
   "output": "CMakeFiles/mylib_static.dir/src/fronius.cpp.o"
 },
 {
   "directory": "/home/alex/eclipse-workspace/libfronius/build/default",
-  "command": "/usr/bin/c++  -I/home/alex/eclipse-workspace/libfronius/include -std=gnu++23 -fPIC -o CMakeFiles/mylib_static.dir/src/meter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/meter.cpp",
+  "command": "/usr/bin/c++  -I/home/alex/eclipse-workspace/libfronius/include -g -std=gnu++23 -fPIC -o CMakeFiles/mylib_static.dir/src/meter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/meter.cpp",
   "file": "/home/alex/eclipse-workspace/libfronius/src/meter.cpp",
   "output": "CMakeFiles/mylib_static.dir/src/meter.cpp.o"
 },
 {
   "directory": "/home/alex/eclipse-workspace/libfronius/build/default",
-  "command": "/usr/bin/c++  -I/home/alex/eclipse-workspace/libfronius/include -std=gnu++23 -fPIC -o CMakeFiles/mylib_static.dir/src/inverter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/inverter.cpp",
+  "command": "/usr/bin/c++  -I/home/alex/eclipse-workspace/libfronius/include -g -std=gnu++23 -fPIC -o CMakeFiles/mylib_static.dir/src/inverter.cpp.o -c /home/alex/eclipse-workspace/libfronius/src/inverter.cpp",
   "file": "/home/alex/eclipse-workspace/libfronius/src/inverter.cpp",
   "output": "CMakeFiles/mylib_static.dir/src/inverter.cpp.o"
 }

@@ -10,12 +10,20 @@
 #include <modbus/modbus.h>
 #include <modbus_error.h>
 #include <sstream>
+#include <stdexcept>
 
-Meter::Meter() : useFloatRegisters_(false) {}
+Meter::Meter() : isInitialized_(false), useFloatRegisters_(false), phases_(1) {}
 
 Meter::~Meter() {}
 
-std::expected<std::pair<int, int>, ModbusError> Meter::getMeterType() {
+void Meter::checkInitialized() const {
+  if (!isInitialized_) {
+    throw std::logic_error(
+        "Meter not initialized: call detectAndInitializeMeter() first");
+  }
+}
+
+std::expected<int, ModbusError> Meter::detectAndInitializeMeter() {
   int rc = modbus_read_registers(ctx_, M20X_ID::ADDR, 2,
                                  regs_.data() + M20X_ID::ADDR);
   if (rc == -1) {
@@ -58,12 +66,25 @@ std::expected<std::pair<int, int>, ModbusError> Meter::getMeterType() {
                     std::to_string(M21X_SIZE) + "]"));
   }
 
-  return std::pair{meterID, regMapSize};
+  // Store number of phases
+  phases_ = meterID % 10;
+
+  isInitialized_ = true;
+  return meterID;
 }
 
-bool Meter::isFloatRegisters(void) const { return useFloatRegisters_; }
+bool Meter::getUseFloatRegisters(void) const {
+  checkInitialized();
+  return useFloatRegisters_;
+}
+
+int Meter::getPhases(void) const {
+  checkInitialized();
+  return phases_;
+};
 
 std::expected<void, ModbusError> Meter::getMeterRegisters(void) {
+  checkInitialized();
 
   // Get the meter registers
   uint16_t meterBlockAddr = (useFloatRegisters_) ? M21X_A::ADDR : M20X_A::ADDR;
