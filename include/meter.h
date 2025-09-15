@@ -37,8 +37,8 @@ public:
   /** Return the number of phases */
   int getPhases(void) const;
 
-  /** Get the complete Fronius Meter Register Map from device */
-  std::expected<void, ModbusError> getMeterRegisters(void);
+  /** Fetch the complete Fronius Meter Register Map from device */
+  std::expected<void, ModbusError> fetchMeterRegisters(void);
 
   /** AC total current [A] */
   double getAcCurrent(void);

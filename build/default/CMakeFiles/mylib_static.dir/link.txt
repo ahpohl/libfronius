@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libfronius.a CMakeFiles/mylib_static.dir/src/fronius.cpp.o CMakeFiles/mylib_static.dir/src/meter.cpp.o CMakeFiles/mylib_static.dir/src/inverter.cpp.o
-/usr/bin/ranlib lib/libfronius.a

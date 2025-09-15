@@ -98,7 +98,7 @@ std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {
   return {};
 }
 
-std::expected<void, ModbusError> Fronius::getCommonRegisters(void) {
+std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
 
   int rc = modbus_read_registers(ctx_, C001_MN::ADDR, C001_SIZE,
                                  regs_.data() + C001_MN::ADDR);

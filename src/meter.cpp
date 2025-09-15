@@ -51,10 +51,10 @@ std::expected<int, ModbusError> Meter::detectAndInitializeMeter() {
                     ", expected [" + oss.str() + "]"));
   }
 
-  if (meterID == 201 || meterID == 202 || meterID == 203)
-    useFloatRegisters_ = false;
-  else
+  if (meterID / 10 % 10)
     useFloatRegisters_ = true;
+  else
+    useFloatRegisters_ = false;
 
   // Validate the register length
   uint16_t regMapSize = regs_[M20X_L::ADDR];
@@ -83,7 +83,7 @@ int Meter::getPhases(void) const {
   return phases_;
 };
 
-std::expected<void, ModbusError> Meter::getMeterRegisters(void) {
+std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   checkInitialized();
 
   // Get the meter registers

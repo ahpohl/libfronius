@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -Wl,--dependency-file=CMakeFiles/mylib_shared.dir/link.d -shared -Wl,-soname,libfronius.so.1 -o lib/libfronius.so.1.0.0 CMakeFiles/mylib_shared.dir/src/fronius.cpp.o CMakeFiles/mylib_shared.dir/src/meter.cpp.o CMakeFiles/mylib_shared.dir/src/inverter.cpp.o
