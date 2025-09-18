@@ -16,7 +16,7 @@ std::expected<void, ModbusError> Fronius::setModbusDebugFlag(const bool &flag) {
   int rc = modbus_set_debug(ctx_, flag);
   if (rc == -1) {
     return std::unexpected(ModbusError::fromErrno(
-        std::string("Unable to set the libmodbus debug flag: ")));
+        std::string("Unable to set the libmodbus debug flag")));
   }
 
   return {};
@@ -34,7 +34,7 @@ Fronius::connectModbusTcp(const std::string &host, const int port) {
   }
   if (modbus_connect(ctx_) == -1) {
     return std::unexpected(ModbusError::fromErrno(
-        std::string("Connection to \"") + host + "\" failed"));
+        std::string("Connection to '") + host + "' failed"));
   }
 
   return {};
@@ -53,7 +53,7 @@ Fronius::connectModbusRtu(const std::string &device, const int baud) {
   }
   if (modbus_connect(ctx_) == -1) {
     return std::unexpected(ModbusError::fromErrno(
-        std::string("Connection to \"") + device + "\" failed"));
+        std::string("Connection to '") + device + "' failed"));
   }
 
   return {};
@@ -67,7 +67,7 @@ std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {
   if (rc == -1) {
     return std::unexpected(
         ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(C001_SID::ADDR) + " failed: "));
+                               std::to_string(C001_SID::ADDR) + " failed"));
   }
 
   // Test for "SunS" string
@@ -105,7 +105,7 @@ std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
   if (rc == -1) {
     return std::unexpected(
         ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(C001_MN::ADDR) + " failed: "));
+                               std::to_string(C001_MN::ADDR) + " failed"));
   }
   return {};
 }
