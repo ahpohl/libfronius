@@ -10,7 +10,13 @@
 
 Fronius::Fronius() : ctx_(nullptr) { regs_.resize(0xFFFF, 0); }
 
-Fronius::~Fronius() { modbus_free(ctx_); }
+Fronius::~Fronius() {
+  if (ctx_) {
+    modbus_close(ctx_);
+    modbus_free(ctx_);
+    ctx_ = nullptr;
+  }
+}
 
 std::expected<void, ModbusError> Fronius::setModbusDebugFlag(const bool &flag) {
   int rc = modbus_set_debug(ctx_, flag);
