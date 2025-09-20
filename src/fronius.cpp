@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-Fronius::Fronius() : ctx_(nullptr) { regs_.resize(0xFFFF, 0); }
+Fronius::Fronius() { regs_.resize(0xFFFF, 0); }
 
 Fronius::~Fronius() {
   if (ctx_) {

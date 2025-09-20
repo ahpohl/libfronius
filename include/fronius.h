@@ -79,9 +79,37 @@ public:
    */
   std::expected<uint16_t, ModbusError> getModbusDeviceAddress(void);
 
+  /* Phase names */
+  enum class Phase {
+    TOTAL,
+    AVERAGE,
+    PHA,
+    PHB,
+    PHC,
+    PHAB,
+    PHBC,
+    PHCA,
+    Q1,
+    Q1PHA,
+    Q1PHB,
+    Q1PHC,
+    Q2,
+    Q2PHA,
+    Q2PHB,
+    Q2PHC,
+    Q3,
+    Q3PHA,
+    Q3PHB,
+    Q3PHC,
+    Q4,
+    Q4PHA,
+    Q4PHB,
+    Q4PHC
+  };
+
 protected:
   /* Connection handle for the libmodbus context */
-  modbus_t *ctx_;
+  modbus_t *ctx_{nullptr};
 
   /* Vector to hold the complete register map */
   std::vector<uint16_t> regs_;

@@ -40,63 +40,77 @@ public:
   /** Fetch the complete Fronius Meter Register Map from device */
   std::expected<void, ModbusError> fetchMeterRegisters(void);
 
-  /** AC total current [A] */
-  double getAcCurrent(void);
+  /** AC current [A]
 
-  /** AC phase current
-
-   param res current [A]
-   param ph phase A, B or C (default A)
+   @param ph phase name [TOTAL, PHA, PHB or PHC]
+   @returns current [A]
    */
-  double getAcCurrentPhase(const char &ph = 'A');
+  double getAcCurrent(const Phase ph = Phase::TOTAL) const;
 
-  /** AC voltage phase-to-neutral
+  /** AC voltage [V]
 
-   param res voltage [V]
-   param ph phase A, B or C (default A)
+   @param ph phase name [AVERAGE, PHA, PHB or PHC]
+   @returns voltage [V]
    */
-  double getAcVoltage(const char &ph = 'A');
+  double getAcVoltage(const Phase ph = Phase::AVERAGE) const;
 
-  /** AC phase-to-phase voltage
+  /** AC active power [W]
 
-   param res voltage [V]
-   param ph_pair phase AB, BC or CA
+   @param ph phase name [TOTAL, PHA, PHB or PHC]
+   @returns voltage [V]
    */
-  double getAcVoltagePhaseToPhase(const std::string &ph_pair);
-
-  /** AC power value [W] */
-  double getAcPower(void);
+  double getAcPowerActive(const Phase ph = Phase::TOTAL) const;
 
   /** AC frequency value [Hz] */
-  double getAcFrequency(void);
+  double getAcFrequency(void) const;
 
-  /** Apparent power [VA] */
-  double getAcPowerApparent(void);
+  /** AC apparent power [VA]
 
-  /** Reactive power [VAr] */
-  double getAcPowerReactive(void);
+   @param ph phase name [TOTAL, PHA, PHB or PHC]
+   @returns power [VA]
+   */
+  double getAcPowerApparent(const Phase ph = Phase::TOTAL) const;
 
-  /** Power factor [%] */
-  double getAcPowerFactor(void);
+  /** AC reactive power [VAr]
 
-  /** AC energy total exported [kWh] */
-  double getAcEnergyExport(void);
+   @param ph phase name [TOTAL, PHA, PHB or PHC]
+   @returns power [VAr]
+   */
+  double getAcPowerReactive(const Phase ph = Phase::TOTAL) const;
 
-  /** AC energy total imported [kWh] */
-  double getAcEnergyImport(void);
+  /** Power factor [%]
+
+   @param ph phase name [AVERAGE, PHA, PHB or PHC]
+   @returns power factor
+  */
+  double getAcPowerFactor(const Phase ph = Phase::AVERAGE) const;
+
+  /** AC active energy exported [kWh]
+
+   @param ph phase name [TOTAL, PHA, PHB or PHC]
+   @returns energy [kWh]
+   */
+  double getAcEnergyActiveExport(const Phase ph = Phase::TOTAL) const;
+
+  /** AC active energy imported [kWh]
+
+   @param ph phase name [TOTAL, PHA, PHB or PHC]
+   @returns energy [kWh]
+   */
+  double getAcEnergyActiveImport(const Phase ph = Phase::TOTAL) const;
 
 private:
   /** Guard that detectAndInitializeMeter() has been called */
   void checkInitialized() const;
 
   /** Initialization state*/
-  bool isInitialized_;
+  bool isInitialized_{false};
 
   /** Current register map model in use */
-  bool useFloatRegisters_;
+  bool useFloatRegisters_{false};
 
   /** Store the number of phases */
-  int phases_;
+  int phases_{0};
 
   /** Read meter event flags */
   std::expected<void, ModbusError> getEventFlags_(uint32_t &flag1,
