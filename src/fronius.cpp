@@ -11,12 +11,15 @@
 Fronius::Fronius() { regs_.resize(0xFFFF, 0); }
 
 Fronius::~Fronius() {
+  connected_ = false;
   if (ctx_) {
     modbus_close(ctx_);
     modbus_free(ctx_);
     ctx_ = nullptr;
   }
 }
+
+bool Fronius::isConnected(void) const { return connected_; }
 
 std::expected<void, ModbusError> Fronius::setModbusDebugFlag(const bool &flag) {
   int rc = modbus_set_debug(ctx_, flag);
@@ -42,6 +45,7 @@ Fronius::connectModbusTcp(const std::string &host, const int port) {
     return std::unexpected(ModbusError::fromErrno(
         std::string("Connection to '") + host + "' failed"));
   }
+  connected_ = true;
 
   return {};
 }
@@ -61,6 +65,7 @@ Fronius::connectModbusRtu(const std::string &device, const int baud) {
     return std::unexpected(ModbusError::fromErrno(
         std::string("Connection to '") + device + "' failed"));
   }
+  connected_ = true;
 
   return {};
 }

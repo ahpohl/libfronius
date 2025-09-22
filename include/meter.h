@@ -13,6 +13,12 @@ public:
   /** Return the meter initialization state  */
   bool isInitialized() const noexcept { return isInitialized_; }
 
+  /** Return the current register model in use */
+  bool getUseFloatRegisters(void) const;
+
+  /** Return the number of phases */
+  int getPhases(void) const;
+
   /** Get the meter ID and set the register map model
 
    Must be called after the connection has been established.
@@ -29,13 +35,7 @@ public:
 
    @returns meter ID
    */
-  std::expected<int, ModbusError> detectAndInitializeMeter(void);
-
-  /** Return the current register model in use */
-  bool getUseFloatRegisters(void) const;
-
-  /** Return the number of phases */
-  int getPhases(void) const;
+  std::expected<int, ModbusError> detectAndInitialize(void);
 
   /** Fetch the complete Fronius Meter Register Map from device */
   std::expected<void, ModbusError> fetchMeterRegisters(void);
@@ -85,22 +85,22 @@ public:
   */
   double getAcPowerFactor(const Phase ph = Phase::AVERAGE) const;
 
-  /** AC active energy exported [kWh]
+  /** AC active energy exported [Wh]
 
    @param ph phase name [TOTAL, PHA, PHB or PHC]
-   @returns energy [kWh]
+   @returns energy [Wh]
    */
   double getAcEnergyActiveExport(const Phase ph = Phase::TOTAL) const;
 
-  /** AC active energy imported [kWh]
+  /** AC active energy imported [Wh]
 
    @param ph phase name [TOTAL, PHA, PHB or PHC]
-   @returns energy [kWh]
+   @returns energy [Wh]
    */
   double getAcEnergyActiveImport(const Phase ph = Phase::TOTAL) const;
 
 private:
-  /** Guard that detectAndInitializeMeter() has been called */
+  /** Guard that detectAndInitialize() has been called */
   void checkInitialized() const;
 
   /** Initialization state*/
@@ -112,7 +112,7 @@ private:
   /** Store the number of phases */
   int phases_{0};
 
-  /** Read meter event flags */
+  /** Read event flags */
   std::expected<void, ModbusError> getEventFlags_(uint32_t &flag1,
                                                   uint32_t &flag2);
 };

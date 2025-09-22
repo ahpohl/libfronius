@@ -50,37 +50,37 @@ struct I11X_APHC {
 };
 
 /** AC voltage phase-AB value [V] */
-struct I11X_PPVPH_AB {
+struct I11X_PPVPHAB {
   static constexpr uint16_t ADDR = 40080 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** AC voltage phase-BC value [V] */
-struct I11X_PPVPH_BC {
+struct I11X_PPVPHBC {
   static constexpr uint16_t ADDR = 40082 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** AC voltage phase-CA value [V] */
-struct I11X_PPVPH_CA {
+struct I11X_PPVPHCA {
   static constexpr uint16_t ADDR = 40084 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** AC voltage phase-A-to-neutral value [V] */
-struct I11X_PHVPH_A {
+struct I11X_PHVPHA {
   static constexpr uint16_t ADDR = 40086 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** AC voltage phase-B-to-neutral value [V] */
-struct I11X_PHVPH_B {
+struct I11X_PHVPHB {
   static constexpr uint16_t ADDR = 40088 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** AC voltage phase-C-to-neutral value [V] */
-struct I11X_PHVPH_C {
+struct I11X_PHVPHC {
   static constexpr uint16_t ADDR = 40090 - 1;
   static constexpr uint16_t NB = 2;
 };
@@ -140,25 +140,25 @@ struct I11X_DCW {
 };
 
 /** Cabinet temperature [°C] */
-struct I11X_TMP_CAB {
+struct I11X_TMPCAB {
   static constexpr uint16_t ADDR = 40110 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Coolant or heat sink temperature [°C] */
-struct I11X_TMP_SNK {
+struct I11X_TMPSNK {
   static constexpr uint16_t ADDR = 40112 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Transformer temperature [°C] */
-struct I11X_TMP_TRNS {
+struct I11X_TMPTRNS {
   static constexpr uint16_t ADDR = 40114 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Other temperature [°C] */
-struct I11X_TMP_OT {
+struct I11X_TMPOT {
   static constexpr uint16_t ADDR = 40116 - 1;
   static constexpr uint16_t NB = 2;
 };
@@ -170,7 +170,7 @@ struct I11X_ST {
 };
 
 /** Vendor defined operating state */
-struct I11X_ST_VND {
+struct I11X_STVND {
   static constexpr uint16_t ADDR = 40119 - 1;
   static constexpr uint16_t NB = 1;
 };
@@ -188,27 +188,45 @@ struct I11X_EVT2 {
 };
 
 /** Vendor defined event flags (bits 0-31) */
-struct I11X_EVT_VND1 {
+struct I11X_EVTVND1 {
   static constexpr uint16_t ADDR = 40124 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Vendor defined event flags (bits 32-63) */
-struct I11X_EVT_VND2 {
+struct I11X_EVTVND2 {
   static constexpr uint16_t ADDR = 40126 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Vendor defined event flags (bits 64-95) */
-struct I11X_EVT_VND3 {
+struct I11X_EVTVND3 {
   static constexpr uint16_t ADDR = 40128 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Vendor defined event flags (bits 96-127) */
-struct I11X_EVT_VND4 {
+struct I11X_EVTVND4 {
   static constexpr uint16_t ADDR = 40130 - 1;
   static constexpr uint16_t NB = 2;
+};
+
+/** End block identifier
+
+ @returns 0xFFFF
+ */
+struct E11X_ID {
+  static constexpr uint16_t ADDR = 40340 - 1;
+  static constexpr uint16_t NB = 1;
+};
+
+/** End block length
+
+ @returns 0
+ */
+struct E11X_L {
+  static constexpr uint16_t ADDR = 40341 - 1;
+  static constexpr uint16_t NB = 1;
 };
 
 #endif /* INVERTER_FLOAT_REGISTERS_H_ */

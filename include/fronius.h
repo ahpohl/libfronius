@@ -12,6 +12,8 @@ public:
   Fronius();
   virtual ~Fronius();
 
+  bool isConnected(void) const;
+
   /** Modbus debug output (very verbose) */
   std::expected<void, ModbusError> setModbusDebugFlag(const bool &flag);
 
@@ -113,6 +115,9 @@ protected:
 
   /* Vector to hold the complete register map */
   std::vector<uint16_t> regs_;
+
+private:
+  bool connected_{false};
 };
 
 #endif /* FRONIUS_H_ */

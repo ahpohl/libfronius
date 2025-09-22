@@ -56,37 +56,37 @@ struct I10X_A_SF {
 };
 
 /** AC voltage phase-AB value [V] */
-struct I10X_PPVPH_AB {
+struct I10X_PPVPHAB {
   static constexpr uint16_t ADDR = 40077 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** AC voltage phase-BC value [V] */
-struct I10X_PPVPH_BC {
+struct I10X_PPVPHBC {
   static constexpr uint16_t ADDR = 40078 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** AC voltage phase-CA value [V] */
-struct I10X_PPVPH_CA {
+struct I10X_PPVPHCA {
   static constexpr uint16_t ADDR = 40079 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** AC voltage phase-A-to-neutral value [V] */
-struct I10X_PHVPH_A {
+struct I10X_PHVPHA {
   static constexpr uint16_t ADDR = 40080 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** AC voltage phase-B-to-neutral value [V] */
-struct I10X_PHVPH_B {
+struct I10X_PHVPHB {
   static constexpr uint16_t ADDR = 40081 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** AC voltage phase-C-to-neutral value [V] */
-struct I10X_PHVPH_C {
+struct I10X_PHVPHC {
   static constexpr uint16_t ADDR = 40082 - 1;
   static constexpr uint16_t NB = 1;
 };
@@ -206,25 +206,25 @@ struct I10X_DCW_SF {
 };
 
 /** Cabinet temperature [°C] */
-struct I10X_TMP_CAB {
+struct I10X_TMPCAB {
   static constexpr uint16_t ADDR = 40103 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** Coolant or heat sink temperature [°C] */
-struct I10X_TMP_SNK {
+struct I10X_TMPSNK {
   static constexpr uint16_t ADDR = 40104 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** Transformer temperature [°C] */
-struct I10X_TMP_TRNS {
+struct I10X_TMPTRNS {
   static constexpr uint16_t ADDR = 40105 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /** Other temperature [°C] */
-struct I10X_TMP_OT {
+struct I10X_TMPOT {
   static constexpr uint16_t ADDR = 40106 - 1;
   static constexpr uint16_t NB = 1;
 };
@@ -242,7 +242,7 @@ struct I10X_ST {
 };
 
 /** Vendor defined operating state */
-struct I10X_ST_VND {
+struct I10X_STVND {
   static constexpr uint16_t ADDR = 40109 - 1;
   static constexpr uint16_t NB = 1;
 };
@@ -260,27 +260,45 @@ struct I10X_EVT2 {
 };
 
 /** Vendor defined event flags (bits 0-31) */
-struct I10X_EVT_VND1 {
+struct I10X_EVTVND1 {
   static constexpr uint16_t ADDR = 40114 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Vendor defined event flags (bits 32-63) */
-struct I10X_EVT_VND2 {
+struct I10X_EVTVND2 {
   static constexpr uint16_t ADDR = 40116 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Vendor defined event flags (bits 64-95) */
-struct I10X_EVT_VND3 {
+struct I10X_EVTVND3 {
   static constexpr uint16_t ADDR = 40118 - 1;
   static constexpr uint16_t NB = 2;
 };
 
 /** Vendor defined event flags (bits 96-127) */
-struct I10X_EVT_VND4 {
+struct I10X_EVTVND4 {
   static constexpr uint16_t ADDR = 40120 - 1;
   static constexpr uint16_t NB = 2;
+};
+
+/** End block identifier
+
+ @returns 0xFFFF
+ */
+struct E10X_ID {
+  static constexpr uint16_t ADDR = 40330 - 1;
+  static constexpr uint16_t NB = 1;
+};
+
+/** End block length
+
+ @returns 0
+ */
+struct E10X_L {
+  static constexpr uint16_t ADDR = 40331 - 1;
+  static constexpr uint16_t NB = 1;
 };
 
 #endif /* INVERTER_INTSF_REGISTERS_H_ */
