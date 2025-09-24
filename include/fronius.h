@@ -1,18 +1,33 @@
 #ifndef FRONIUS_H_
 #define FRONIUS_H_
 
+#include "modbus_config.h"
 #include "modbus_error.h"
+#include <condition_variable>
 #include <expected>
+#include <functional>
 #include <modbus/modbus.h>
+#include <mutex>
 #include <string>
+#include <thread>
 #include <vector>
 
 class Fronius {
 public:
-  Fronius();
+  explicit Fronius(const ModbusConfig &cfg);
   virtual ~Fronius();
 
   bool isConnected(void) const;
+
+  /** Start connection thread */
+  std::expected<void, ModbusError> connect();
+
+  /** Wait indefinitely for connection to be established */
+  void waitForConnection(void);
+
+  /** Set callbacks (thread-safe) */
+  void setOnConnect(std::function<void()> cb);
+  void setOnDisconnect(std::function<void()> cb);
 
   /** Modbus debug output (very verbose) */
   std::expected<void, ModbusError> setModbusDebugFlag(const bool &flag);
@@ -81,7 +96,7 @@ public:
    */
   std::expected<uint16_t, ModbusError> getModbusDeviceAddress(void);
 
-  /* Phase names */
+  /** Phase names */
   enum class Phase {
     TOTAL,
     AVERAGE,
@@ -117,7 +132,20 @@ protected:
   std::vector<uint16_t> regs_;
 
 private:
-  bool connected_{false};
+  const ModbusConfig cfg_;
+  std::thread connectionThread_;
+  mutable std::mutex mtx_;
+  std::condition_variable cv_;
+  std::atomic<bool> running_{false};
+  std::atomic<bool> connected_{false};
+
+  /** forward declarations */
+  void connectionLoop();
+  std::expected<void, ModbusError> tryConnect();
+
+  /** Optional callbacks (can also be set directly) */
+  std::function<void()> onConnect;
+  std::function<void()> onDisconnect;
 };
 
 #endif /* FRONIUS_H_ */

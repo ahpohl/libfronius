@@ -8,10 +8,11 @@
 #include <expected>
 #include <iostream>
 #include <modbus/modbus.h>
+#include <modbus_config.h>
 #include <modbus_error.h>
 #include <sstream>
 
-Inverter::Inverter() {}
+Inverter::Inverter(const ModbusConfig &cfg) : Fronius(cfg) {}
 
 Inverter::~Inverter() {}
 

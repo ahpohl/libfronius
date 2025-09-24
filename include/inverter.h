@@ -5,7 +5,7 @@
 
 class Inverter : public Fronius {
 public:
-  Inverter();
+  Inverter(const ModbusConfig &cfg);
   virtual ~Inverter();
 
   /** Return the meter initialization state  */

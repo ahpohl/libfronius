@@ -5,13 +5,20 @@
 #include <cerrno>
 #include <expected>
 #include <modbus/modbus.h>
+#include <mutex>
 #include <string>
+#include <thread>
 #include <vector>
 
-Fronius::Fronius() { regs_.resize(0xFFFF, 0); }
+Fronius::Fronius(const ModbusConfig &cfg) : cfg_(cfg) {
+  regs_.resize(0xFFFF, 0);
+}
 
 Fronius::~Fronius() {
-  connected_ = false;
+  running_.store(false);
+  if (connectionThread_.joinable())
+    connectionThread_.join();
+
   if (ctx_) {
     modbus_close(ctx_);
     modbus_free(ctx_);
@@ -19,7 +26,95 @@ Fronius::~Fronius() {
   }
 }
 
-bool Fronius::isConnected(void) const { return connected_; }
+bool Fronius::isConnected() const { return connected_.load(); }
+
+std::expected<void, ModbusError> Fronius::connect() {
+  running_.store(true);
+  connectionThread_ = std::thread(&Fronius::connectionLoop, this);
+  return {};
+}
+
+void Fronius::waitForConnection() {
+  std::unique_lock<std::mutex> lock(mtx_);
+  cv_.wait(lock, [this]() { return connected_.load(); });
+}
+
+void Fronius::setOnConnect(std::function<void()> cb) {
+  onConnect = std::move(cb);
+}
+void Fronius::setOnDisconnect(std::function<void()> cb) {
+  onDisconnect = std::move(cb);
+}
+
+std::expected<void, ModbusError> Fronius::tryConnect() {
+  // Free existing context if any
+  if (ctx_) {
+    modbus_close(ctx_);
+    modbus_free(ctx_);
+    ctx_ = nullptr;
+  }
+
+  // Create new context based on config
+  if (cfg_.useTcp) {
+    ctx_ =
+        modbus_new_tcp_pi(cfg_.host.c_str(), std::to_string(cfg_.port).c_str());
+  } else {
+    ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, 'N', 8, 1);
+  }
+
+  if (!ctx_) {
+    return std::unexpected(ModbusError::custom(
+        ENOMEM, "Unable to create the libmodbus TCP context"));
+  }
+
+  // Attempt connection
+  if (modbus_connect(ctx_) == -1) {
+    modbus_free(ctx_);
+    ctx_ = nullptr;
+    return std::unexpected(ModbusError::fromErrno(
+        "Connection to '" + (cfg_.useTcp ? cfg_.host : cfg_.device) +
+        "' failed"));
+  }
+
+  return {};
+}
+
+void Fronius::connectionLoop() {
+  int retryDelay = cfg_.minRetryDelay;
+
+  while (true) {
+    {
+      std::lock_guard<std::mutex> lock(mtx_);
+      if (!running_)
+        break;
+    }
+
+    auto res = tryConnect();
+
+    {
+      std::lock_guard<std::mutex> lock(mtx_);
+      if (res) {
+        if (!connected_.load()) {
+          connected_.store(true);
+          cv_.notify_all();
+          if (onConnect)
+            onConnect();
+        }
+        retryDelay = cfg_.minRetryDelay;
+      } else {
+        if (connected_.load()) {
+          connected_.store(false);
+          if (onDisconnect)
+            onDisconnect();
+        }
+      }
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(retryDelay));
+    if (!res && retryDelay < cfg_.maxRetryDelay)
+      retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
+  }
+}
 
 std::expected<void, ModbusError> Fronius::setModbusDebugFlag(const bool &flag) {
   int rc = modbus_set_debug(ctx_, flag);
@@ -27,45 +122,6 @@ std::expected<void, ModbusError> Fronius::setModbusDebugFlag(const bool &flag) {
     return std::unexpected(ModbusError::fromErrno(
         std::string("Unable to set the libmodbus debug flag")));
   }
-
-  return {};
-}
-
-std::expected<void, ModbusError>
-Fronius::connectModbusTcp(const std::string &host, const int port) {
-  if (host.empty()) {
-    return std::unexpected(ModbusError::custom(EINVAL, "Host argument empty"));
-  }
-  ctx_ = modbus_new_tcp_pi(host.c_str(), std::to_string(port).c_str());
-  if (!ctx_) {
-    return std::unexpected(
-        ModbusError::custom(ENOMEM, "Unable to create the libmodbus context"));
-  }
-  if (modbus_connect(ctx_) == -1) {
-    return std::unexpected(ModbusError::fromErrno(
-        std::string("Connection to '") + host + "' failed"));
-  }
-  connected_ = true;
-
-  return {};
-}
-
-std::expected<void, ModbusError>
-Fronius::connectModbusRtu(const std::string &device, const int baud) {
-  if (device.empty()) {
-    return std::unexpected(
-        ModbusError::custom(EINVAL, "Device argument empty"));
-  }
-  ctx_ = modbus_new_rtu(device.c_str(), baud, 'N', 8, 1);
-  if (!ctx_) {
-    return std::unexpected(
-        ModbusError::custom(ENOMEM, "Unable to create the libmodbus context"));
-  }
-  if (modbus_connect(ctx_) == -1) {
-    return std::unexpected(ModbusError::fromErrno(
-        std::string("Connection to '") + device + "' failed"));
-  }
-  connected_ = true;
 
   return {};
 }

@@ -8,12 +8,15 @@
 #include <expected>
 #include <iostream>
 #include <modbus/modbus.h>
+#include <modbus_config.h>
 #include <modbus_error.h>
 #include <sstream>
+#include <stdexcept>
+#include <vector>
 
-Meter::Meter() {}
+Meter::Meter(const ModbusConfig &cfg) : Fronius(cfg) {}
 
-Meter::~Meter() {}
+Meter::~Meter() {};
 
 void Meter::checkInitialized() const {
   if (!isInitialized_) {

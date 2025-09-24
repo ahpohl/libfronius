@@ -2,12 +2,14 @@
 #define METER_H_
 
 #include "fronius.h"
+#include "modbus_config.h"
+#include "modbus_error.h"
 #include <expected>
-#include <modbus_error.h>
+#include <modbus/modbus.h>
 
 class Meter : public Fronius {
 public:
-  Meter();
+  explicit Meter(const ModbusConfig &cfg);
   virtual ~Meter();
 
   /** Return the meter initialization state  */
