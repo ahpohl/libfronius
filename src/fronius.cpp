@@ -67,6 +67,14 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
         ENOMEM, "Unable to create the libmodbus TCP context"));
   }
 
+  if (cfg_.debug) {
+    int rc = modbus_set_debug(ctx_, true);
+    if (rc == -1) {
+      return std::unexpected(ModbusError::fromErrno(
+          std::string("Unable to set the libmodbus debug flag")));
+    }
+  }
+
   // Attempt connection
   if (modbus_connect(ctx_) == -1) {
     modbus_free(ctx_);
@@ -114,16 +122,6 @@ void Fronius::connectionLoop() {
     if (!res && retryDelay < cfg_.maxRetryDelay)
       retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
   }
-}
-
-std::expected<void, ModbusError> Fronius::setModbusDebugFlag(const bool &flag) {
-  int rc = modbus_set_debug(ctx_, flag);
-  if (rc == -1) {
-    return std::unexpected(ModbusError::fromErrno(
-        std::string("Unable to set the libmodbus debug flag")));
-  }
-
-  return {};
 }
 
 std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {

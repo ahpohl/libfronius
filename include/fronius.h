@@ -29,9 +29,6 @@ public:
   void setOnConnect(std::function<void()> cb);
   void setOnDisconnect(std::function<void()> cb);
 
-  /** Modbus debug output (very verbose) */
-  std::expected<void, ModbusError> setModbusDebugFlag(const bool &flag);
-
   /** Create a Modbus context for TCP/IPv4
 
      The ConnectTcp() function shall allocate and initialize a modbus_t

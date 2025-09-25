@@ -32,10 +32,15 @@ bool Meter::getUseFloatRegisters(void) const {
 
 int Meter::getPhases(void) const {
   checkInitialized();
-  return phases_;
+  return id_ % 10;
 };
 
-std::expected<int, ModbusError> Meter::detectAndInitialize() {
+int Meter::getId(void) const {
+  checkInitialized();
+  return id_;
+};
+
+std::expected<void, ModbusError> Meter::detectAndInitialize() {
   std::fill(regs_.begin(), regs_.end(), 0);
 
   int rc = modbus_read_registers(ctx_, M20X_ID::ADDR, 2,
@@ -65,6 +70,10 @@ std::expected<int, ModbusError> Meter::detectAndInitialize() {
                     ", expected [" + oss.str() + "]"));
   }
 
+  // Store meter ID
+  id_ = meterID;
+
+  // Set register model
   if (meterID / 10 % 10)
     useFloatRegisters_ = true;
   else
@@ -80,11 +89,8 @@ std::expected<int, ModbusError> Meter::detectAndInitialize() {
                     std::to_string(M21X_SIZE) + "]"));
   }
 
-  // Store number of phases
-  phases_ = meterID % 10;
-
   isInitialized_ = true;
-  return meterID;
+  return {};
 }
 
 std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {

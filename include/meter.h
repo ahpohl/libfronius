@@ -21,9 +21,13 @@ public:
   /** Return the number of phases */
   int getPhases(void) const;
 
-  /** Get the meter ID and set the register map model
+  /** Return the meter ID */
+  int getId(void) const;
+
+  /** Detect and initialize the meter
 
    Must be called after the connection has been established.
+   Sets the register model from the meter ID
 
    Float register model:
    211: single phase
@@ -34,10 +38,8 @@ public:
    201: single phase
    202: split phase
    203: three phase
-
-   @returns meter ID
    */
-  std::expected<int, ModbusError> detectAndInitialize(void);
+  std::expected<void, ModbusError> detectAndInitialize(void);
 
   /** Fetch the complete Fronius Meter Register Map from device */
   std::expected<void, ModbusError> fetchMeterRegisters(void);
@@ -111,8 +113,8 @@ private:
   /** Current register map model in use */
   bool useFloatRegisters_{false};
 
-  /** Store the number of phases */
-  int phases_{0};
+  /** Store the meter ID */
+  int id_{0};
 
   /** Read event flags */
   std::expected<void, ModbusError> getEventFlags_(uint32_t &flag1,

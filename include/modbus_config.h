@@ -4,13 +4,12 @@
 #include <string>
 
 struct ModbusConfig {
+  bool debug{false};
   bool useTcp{true};
   std::string host;
   int port{502};
   std::string device;
   int baud{9600};
-
-  // Exponential backoff parameters (seconds)
   int minRetryDelay{5};
   int maxRetryDelay{300};
 };
