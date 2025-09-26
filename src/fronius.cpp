@@ -18,6 +18,8 @@ Fronius::~Fronius() {
   running_.store(false);
   if (connectionThread_.joinable())
     connectionThread_.join();
+  if (pingThread_.joinable())
+    pingThread_.join();
 
   if (ctx_) {
     modbus_close(ctx_);
@@ -31,6 +33,7 @@ bool Fronius::isConnected() const { return connected_.load(); }
 std::expected<void, ModbusError> Fronius::connect() {
   running_.store(true);
   connectionThread_ = std::thread(&Fronius::connectionLoop, this);
+  // pingThread_ = std::thread(&Fronius::pingLoop, this);
   return {};
 }
 
@@ -39,11 +42,15 @@ void Fronius::waitForConnection() {
   cv_.wait(lock, [this]() { return connected_.load(); });
 }
 
-void Fronius::setOnConnect(std::function<void()> cb) {
+void Fronius::setConnectCallback(std::function<void()> cb) {
   onConnect = std::move(cb);
 }
-void Fronius::setOnDisconnect(std::function<void()> cb) {
+void Fronius::setDisconnectCallback(std::function<void()> cb) {
   onDisconnect = std::move(cb);
+}
+
+void Fronius::setErrorCallback(std::function<void(const ModbusError &)> cb) {
+  onError = std::move(cb);
 }
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
@@ -56,8 +63,7 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
 
   // Create new context based on config
   if (cfg_.useTcp) {
-    ctx_ =
-        modbus_new_tcp_pi(cfg_.host.c_str(), std::to_string(cfg_.port).c_str());
+    ctx_ = modbus_new_tcp(cfg_.host.c_str(), cfg_.port);
   } else {
     ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, 'N', 8, 1);
   }
@@ -97,31 +103,77 @@ void Fronius::connectionLoop() {
         break;
     }
 
+    // If we’re already connected, just loop again quickly
+    if (connected_.load()) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      continue;
+    }
+
+    // Only attempt to connect if not connected
     auto res = tryConnect();
 
     {
       std::lock_guard<std::mutex> lock(mtx_);
       if (res) {
-        if (!connected_.load()) {
-          connected_.store(true);
-          cv_.notify_all();
-          if (onConnect)
-            onConnect();
-        }
+        // Transition to connected state
+        connected_.store(true);
+        cv_.notify_all();
+        if (onConnect)
+          onConnect();
         retryDelay = cfg_.minRetryDelay;
       } else {
+        // Transition to disconnected state
         if (connected_.load()) {
           connected_.store(false);
           if (onDisconnect)
             onDisconnect();
         }
+        if (onError)
+          onError(res.error());
       }
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(retryDelay));
-    if (!res && retryDelay < cfg_.maxRetryDelay)
-      retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
+    // If connection attempt failed, wait with backoff
+    if (!res) {
+      for (int i = 0; i < retryDelay * 10 && running_; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      }
+      if (retryDelay <= cfg_.maxRetryDelay) {
+        retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
+      }
+    }
   }
+}
+
+void Fronius::pingLoop() {
+  int pingInterval = cfg_.pingInterval;
+
+  while (true) {
+    {
+      std::lock_guard<std::mutex> lock(mtx_);
+      if (!running_)
+        break;
+    }
+
+    bool isConnected = connected_.load();
+    if (isConnected) {
+      auto check = ping();
+      if (!check) {
+        if (onError)
+          onError(check.error());
+      }
+    }
+    std::this_thread::sleep_for(std::chrono::seconds(pingInterval));
+  }
+}
+
+std::expected<void, ModbusError> Fronius::ping() {
+  uint16_t dummy;
+  int rc = modbus_read_registers(ctx_, C001_ID::ADDR, 1, &dummy);
+  if (rc == -1) {
+    return std::unexpected(ModbusError::fromErrno("Ping failed"));
+  }
+  return {};
 }
 
 std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {

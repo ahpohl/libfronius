@@ -11,7 +11,8 @@ struct ModbusConfig {
   std::string device;
   int baud{9600};
   int minRetryDelay{5};
-  int maxRetryDelay{300};
+  int maxRetryDelay{320};
+  int pingInterval{1};
 };
 
 #endif /* MB_CONFIG_H_ */

@@ -26,16 +26,17 @@ public:
   void waitForConnection(void);
 
   /** Set callbacks (thread-safe) */
-  void setOnConnect(std::function<void()> cb);
-  void setOnDisconnect(std::function<void()> cb);
+  void setConnectCallback(std::function<void()> cb);
+  void setDisconnectCallback(std::function<void()> cb);
+  void setErrorCallback(std::function<void(const ModbusError &)> cb);
 
   /** Create a Modbus context for TCP/IPv4
 
      The ConnectTcp() function shall allocate and initialize a modbus_t
      structure to communicate with a Modbus TCP IPv4/IPv6 server.
 
-     @param host hostname or address of the server to which the client wants to
-     establish a connection
+     @param host hostname or address of the server to which the client wants
+     to establish a connection
      @param port service name/port number to connect to
      */
   std::expected<void, ModbusError> connectModbusTcp(const std::string &host,
@@ -131,6 +132,7 @@ protected:
 private:
   const ModbusConfig cfg_;
   std::thread connectionThread_;
+  std::thread pingThread_;
   mutable std::mutex mtx_;
   std::condition_variable cv_;
   std::atomic<bool> running_{false};
@@ -138,11 +140,14 @@ private:
 
   /** forward declarations */
   void connectionLoop();
+  void pingLoop();
   std::expected<void, ModbusError> tryConnect();
+  std::expected<void, ModbusError> ping();
 
   /** Optional callbacks (can also be set directly) */
   std::function<void()> onConnect;
   std::function<void()> onDisconnect;
+  std::function<void(const ModbusError &)> onError;
 };
 
 #endif /* FRONIUS_H_ */
