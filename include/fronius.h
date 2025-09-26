@@ -132,7 +132,6 @@ protected:
 private:
   const ModbusConfig cfg_;
   std::thread connectionThread_;
-  std::thread pingThread_;
   mutable std::mutex mtx_;
   std::condition_variable cv_;
   std::atomic<bool> running_{false};
@@ -140,9 +139,7 @@ private:
 
   /** forward declarations */
   void connectionLoop();
-  void pingLoop();
   std::expected<void, ModbusError> tryConnect();
-  std::expected<void, ModbusError> ping();
 
   /** Optional callbacks (can also be set directly) */
   std::function<void()> onConnect;
