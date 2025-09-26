@@ -89,6 +89,15 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     }
   }
 
+  // Set slave/unit ID
+  if (modbus_set_slave(ctx_, cfg_.slave_id) == -1) {
+    modbus_free(ctx_);
+    ctx_ = nullptr;
+    return std::unexpected(
+        ModbusError::fromErrno(std::string("Setting slave id '") +
+                               std::to_string(cfg_.slave_id) + "' failed"));
+  }
+
   // Attempt connection
   if (modbus_connect(ctx_) == -1) {
     modbus_free(ctx_);
