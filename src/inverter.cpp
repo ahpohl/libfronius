@@ -40,7 +40,8 @@ std::expected<int, ModbusError> Inverter::detectAndInitialize() {
                                  regs_.data() + I10X_ID::ADDR);
   if (rc == -1) {
     return std::unexpected(ModbusError::fromErrno(
-        "Receive register " + std::to_string(I10X_ID::ADDR) + " failed"));
+        "Receive register " + std::to_string(I10X_ID::ADDR) + " failed",
+        ModbusError::Severity::TRANSIENT));
   }
 
   // Validate meter ID
@@ -59,8 +60,10 @@ std::expected<int, ModbusError> Inverter::detectAndInitialize() {
       first = false;
     }
     return std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter ID: received " + std::to_string(inverterID) +
-                    ", expected [" + oss.str() + "]"));
+        EINVAL,
+        "Invalid meter ID: received " + std::to_string(inverterID) +
+            ", expected [" + oss.str() + "]",
+        ModbusError::Severity::FATAL));
   }
 
   if (inverterID / 10 % 10)
@@ -72,10 +75,11 @@ std::expected<int, ModbusError> Inverter::detectAndInitialize() {
   uint16_t regMapSize = regs_[I10X_L::ADDR];
   if (regMapSize != I10X_SIZE && regMapSize != I11X_SIZE) {
     return std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter register map size: received " +
-                    std::to_string(regMapSize) + ", expected [" +
-                    std::to_string(I10X_SIZE) + ", " +
-                    std::to_string(I11X_SIZE) + "]"));
+        EINVAL,
+        "Invalid meter register map size: received " +
+            std::to_string(regMapSize) + ", expected [" +
+            std::to_string(I10X_SIZE) + ", " + std::to_string(I11X_SIZE) + "]",
+        ModbusError::Severity::FATAL));
   }
 
   // Store number of phases
@@ -88,36 +92,39 @@ std::expected<int, ModbusError> Inverter::detectAndInitialize() {
 std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   checkInitialized();
 
+  uint16_t endBlockAddr = (useFloatRegisters_) ? E11X_ID::ADDR : E10X_ID::ADDR;
+  int rc =
+      modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
+  if (rc == -1) {
+    return std::unexpected(
+        ModbusError::fromErrno(std::string("Receive register ") +
+                                   std::to_string(endBlockAddr) + " failed",
+                               ModbusError::Severity::TRANSIENT));
+  }
+
+  // Validate the end block
+  uint16_t endBlockLength = (useFloatRegisters_) ? E11X_L::ADDR : E10X_L::ADDR;
+  if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
+    return std::unexpected(ModbusError::custom(
+        EINVAL,
+        "Invalid meter register end block: received [0x" +
+            modbus_utils::to_hex(regs_[endBlockAddr]) + ", " +
+            std::to_string(regs_[endBlockLength]) + "], expected [0xFFFF, 0]",
+        ModbusError::Severity::FATAL));
+  }
+
   // Get the inverter registers
   uint16_t inverterBlockAddr =
       (useFloatRegisters_) ? I11X_A::ADDR : I10X_A::ADDR;
   uint16_t inverterBlockSize = (useFloatRegisters_) ? I11X_SIZE : I10X_SIZE;
 
-  int rc = modbus_read_registers(ctx_, inverterBlockAddr, inverterBlockSize,
-                                 regs_.data() + inverterBlockAddr);
+  rc = modbus_read_registers(ctx_, inverterBlockAddr, inverterBlockSize,
+                             regs_.data() + inverterBlockAddr);
   if (rc == -1) {
-    return std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(inverterBlockAddr) + " failed"));
-  }
-
-  // Validate the end block
-  uint16_t endBlockAddr = (useFloatRegisters_) ? E11X_ID::ADDR : E10X_ID::ADDR;
-  rc =
-      modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
-  if (rc == -1) {
-    return std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(endBlockAddr) + " failed"));
-  }
-
-  uint16_t endBlockLength = (useFloatRegisters_) ? E11X_L::ADDR : E10X_L::ADDR;
-  if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
-    return std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter register end block: received [0x" +
-                    modbus_utils::to_hex(regs_[endBlockAddr]) + ", " +
-                    std::to_string(regs_[endBlockLength]) +
-                    "], expected [0xFFFF, 0]"));
+    return std::unexpected(ModbusError::fromErrno(
+        std::string("Receive register ") + std::to_string(inverterBlockAddr) +
+            " failed",
+        ModbusError::Severity::TRANSIENT));
   }
 
   return {};

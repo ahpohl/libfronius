@@ -6,15 +6,22 @@
 #include <string>
 
 struct ModbusError {
+  enum class Severity { TRANSIENT, FATAL };
+
   int code;
   std::string message;
+  Severity severity;
 
-  static ModbusError fromErrno(const std::string &context = "") {
-    return {errno, context + ": " + std::string(modbus_strerror(errno))};
+  // Factory for errors based on errno
+  static ModbusError fromErrno(const std::string &msg,
+                               Severity sev = Severity::TRANSIENT) {
+    return {errno, msg, sev};
   }
 
-  static ModbusError custom(int errCode, const std::string &msg) {
-    return {errCode, msg};
+  // Factory for custom errors with specific code
+  static ModbusError custom(int c, const std::string &msg,
+                            Severity sev = Severity::TRANSIENT) {
+    return {c, msg, sev};
   }
 };
 

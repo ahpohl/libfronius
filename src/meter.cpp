@@ -47,7 +47,8 @@ std::expected<void, ModbusError> Meter::detectAndInitialize() {
                                  regs_.data() + M20X_ID::ADDR);
   if (rc == -1) {
     return std::unexpected(ModbusError::fromErrno(
-        "Receive register " + std::to_string(M20X_ID::ADDR) + " failed"));
+        "Receive register " + std::to_string(M20X_ID::ADDR) + " failed",
+        ModbusError::Severity::TRANSIENT));
   }
 
   // Validate meter ID
@@ -66,8 +67,10 @@ std::expected<void, ModbusError> Meter::detectAndInitialize() {
       first = false;
     }
     return std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter ID: received " + std::to_string(meterID) +
-                    ", expected [" + oss.str() + "]"));
+        EINVAL,
+        "Invalid meter ID: received " + std::to_string(meterID) +
+            ", expected [" + oss.str() + "]",
+        ModbusError::Severity::FATAL));
   }
 
   // Store meter ID
@@ -83,10 +86,11 @@ std::expected<void, ModbusError> Meter::detectAndInitialize() {
   uint16_t regMapSize = regs_[M20X_L::ADDR];
   if (regMapSize != M20X_SIZE && regMapSize != M21X_SIZE) {
     return std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter register map size: received " +
-                    std::to_string(regMapSize) + ", expected [" +
-                    std::to_string(M20X_SIZE) + ", " +
-                    std::to_string(M21X_SIZE) + "]"));
+        EINVAL,
+        "Invalid meter register map size: received " +
+            std::to_string(regMapSize) + ", expected [" +
+            std::to_string(M20X_SIZE) + ", " + std::to_string(M21X_SIZE) + "]",
+        ModbusError::Severity::FATAL));
   }
 
   isInitialized_ = true;
@@ -96,23 +100,25 @@ std::expected<void, ModbusError> Meter::detectAndInitialize() {
 std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   checkInitialized();
 
-  // Validate the end block
   uint16_t endBlockAddr = (useFloatRegisters_) ? E21X_ID::ADDR : E20X_ID::ADDR;
   int rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
     return std::unexpected(
         ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(endBlockAddr) + " failed"));
+                                   std::to_string(endBlockAddr) + " failed",
+                               ModbusError::Severity::TRANSIENT));
   }
 
+  // Validate the end block
   uint16_t endBlockLength = (useFloatRegisters_) ? E21X_L::ADDR : E20X_L::ADDR;
   if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
     return std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter register end block: received [0x" +
-                    modbus_utils::to_hex(regs_[endBlockAddr]) + ", " +
-                    std::to_string(regs_[endBlockLength]) +
-                    "], expected [0xFFFF, 0]"));
+        EINVAL,
+        "Invalid meter register end block: received [0x" +
+            modbus_utils::to_hex(regs_[endBlockAddr]) + ", " +
+            std::to_string(regs_[endBlockLength]) + "], expected [0xFFFF, 0]",
+        ModbusError::Severity::FATAL));
   }
 
   // Get the meter registers
@@ -124,7 +130,8 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   if (rc == -1) {
     return std::unexpected(
         ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(meterBlockAddr) + " failed"));
+                                   std::to_string(meterBlockAddr) + " failed",
+                               ModbusError::Severity::TRANSIENT));
   }
 
   return {};
