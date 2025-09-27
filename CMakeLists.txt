@@ -5,10 +5,13 @@ project(libfronius VERSION 1.0.0 LANGUAGES CXX
 # Ensure position independent code for shared libraries
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Force default build type to Debug if none specified
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+# Set default build type if not specified
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
+
+# Optional: show the build type
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 # Options to control which libraries are built
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)

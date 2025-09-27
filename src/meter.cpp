@@ -100,6 +100,16 @@ std::expected<void, ModbusError> Meter::detectAndInitialize() {
 std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   checkInitialized();
 
+  if (!ctx_) {
+    return std::unexpected(ModbusError::custom(
+        ENOTCONN, "Modbus context is null", ModbusError::Severity::TRANSIENT));
+  }
+
+  if (!isConnected()) {
+    return std::unexpected(ModbusError::custom(
+        ENOTCONN, "Meter not connected", ModbusError::Severity::TRANSIENT));
+  }
+
   uint16_t endBlockAddr = (useFloatRegisters_) ? E21X_ID::ADDR : E20X_ID::ADDR;
   int rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);

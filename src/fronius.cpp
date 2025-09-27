@@ -84,12 +84,17 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   }
 
   // Set libmodbus debug
-  if (cfg_.debug && modbus_set_debug(ctx_, true) == -1) {
-    modbus_free(ctx_);
-    ctx_ = nullptr;
-    return std::unexpected(
-        ModbusError::fromErrno("Unable to set the libmodbus debug flag",
-                               ModbusError::Severity::FATAL));
+  if (cfg_.debug) {
+    if (modbus_set_debug(ctx_, true) == -1) {
+      modbus_free(ctx_);
+      ctx_ = nullptr;
+      return std::unexpected(
+          ModbusError::fromErrno("Unable to set the libmodbus debug flag",
+                                 ModbusError::Severity::FATAL));
+    }
+
+    // --- Extend timeout for debugging ---
+    modbus_set_response_timeout(ctx_, 60, 0);
   }
 
   // Set slave/unit ID
@@ -151,8 +156,14 @@ void Fronius::connectionLoop() {
       if (onError)
         onError(err);
 
+      // If FATAL, stop retrying
+      if (err.severity == ModbusError::Severity::FATAL) {
+        running_.store(false);
+        break;
+      }
+
       // --- Transient errors: sleep + exponential backoff
-      for (int i = 0; i < retryDelay * 10 && running_; ++i)
+      for (int i = 0; i < retryDelay * 10 && running_.load(); ++i)
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
       retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
