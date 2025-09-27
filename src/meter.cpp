@@ -96,21 +96,9 @@ std::expected<void, ModbusError> Meter::detectAndInitialize() {
 std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   checkInitialized();
 
-  // Get the meter registers
-  uint16_t meterBlockAddr = (useFloatRegisters_) ? M21X_A::ADDR : M20X_A::ADDR;
-  uint16_t meterBlockSize = (useFloatRegisters_) ? M21X_SIZE : M20X_SIZE;
-
-  int rc = modbus_read_registers(ctx_, meterBlockAddr, meterBlockSize,
-                                 regs_.data() + meterBlockAddr);
-  if (rc == -1) {
-    return std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(meterBlockAddr) + " failed"));
-  }
-
   // Validate the end block
   uint16_t endBlockAddr = (useFloatRegisters_) ? E21X_ID::ADDR : E20X_ID::ADDR;
-  rc =
+  int rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
     return std::unexpected(
@@ -125,6 +113,18 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
                     modbus_utils::to_hex(regs_[endBlockAddr]) + ", " +
                     std::to_string(regs_[endBlockLength]) +
                     "], expected [0xFFFF, 0]"));
+  }
+
+  // Get the meter registers
+  uint16_t meterBlockAddr = (useFloatRegisters_) ? M21X_A::ADDR : M20X_A::ADDR;
+  uint16_t meterBlockSize = (useFloatRegisters_) ? M21X_SIZE : M20X_SIZE;
+
+  rc = modbus_read_registers(ctx_, meterBlockAddr, meterBlockSize,
+                             regs_.data() + meterBlockAddr);
+  if (rc == -1) {
+    return std::unexpected(
+        ModbusError::fromErrno(std::string("Receive register ") +
+                               std::to_string(meterBlockAddr) + " failed"));
   }
 
   return {};

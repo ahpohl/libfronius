@@ -11,6 +11,7 @@
 #include <vector>
 
 Fronius::Fronius(const ModbusConfig &cfg) : cfg_(cfg) {
+  cfg.validate();
   regs_.resize(0xFFFF, 0);
 }
 
@@ -51,6 +52,7 @@ void Fronius::setErrorCallback(std::function<void(const ModbusError &)> cb) {
 }
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
+
   // If we already have a context, check if the connection is still alive
   if (ctx_) {
     uint16_t dummy;
@@ -73,11 +75,10 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   } else {
     ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, 'N', 8, 1);
   }
-
-  if (!ctx_) {
+  if (!ctx_)
     return std::unexpected(ModbusError::custom(
-        ENOMEM, "Unable to create the libmodbus TCP context"));
-  }
+        ENOMEM, std::string("Unable to create the libmodbus ") +
+                    (cfg_.useTcp ? "TCP" : "RTU") + " context"));
 
   if (cfg_.debug) {
     int rc = modbus_set_debug(ctx_, true);
@@ -90,12 +91,12 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   }
 
   // Set slave/unit ID
-  if (modbus_set_slave(ctx_, cfg_.slave_id) == -1) {
+  if (modbus_set_slave(ctx_, cfg_.slaveId) == -1) {
     modbus_free(ctx_);
     ctx_ = nullptr;
     return std::unexpected(
         ModbusError::fromErrno(std::string("Setting slave id '") +
-                               std::to_string(cfg_.slave_id) + "' failed"));
+                               std::to_string(cfg_.slaveId) + "' failed"));
   }
 
   // Attempt connection
@@ -112,7 +113,6 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
 
 void Fronius::connectionLoop() {
   int retryDelay = cfg_.minRetryDelay;
-
   while (true) {
     {
       std::lock_guard<std::mutex> lock(mtx_);
@@ -120,7 +120,6 @@ void Fronius::connectionLoop() {
         break;
     }
     auto res = tryConnect();
-
     std::lock_guard<std::mutex> lock(mtx_);
     if (res) {
       if (!connected_.load()) {
@@ -139,7 +138,6 @@ void Fronius::connectionLoop() {
           onError(res.error());
       }
     }
-
     for (int i = 0; i < retryDelay * 10 && running_; ++i) {
       std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
