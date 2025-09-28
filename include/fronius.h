@@ -17,8 +17,6 @@ public:
   explicit Fronius(const ModbusConfig &cfg);
   virtual ~Fronius();
 
-  bool isConnected(void) const;
-
   /** Start connection thread */
   std::expected<void, ModbusError> connect();
 
@@ -123,11 +121,26 @@ public:
   };
 
 protected:
-  /* Connection handle for the libmodbus context */
+  /** Connection handle for the libmodbus context */
   modbus_t *ctx_{nullptr};
 
-  /* Vector to hold the complete register map */
+  /** Vector to hold the complete register map */
   std::vector<uint16_t> regs_;
+
+  /** Optional callbacks (can also be set directly) */
+  std::function<void()> onConnect;
+  std::function<void()> onDisconnect;
+  std::function<void(const ModbusError &)> onError;
+
+  /** Report error via onError callback */
+  template <typename T>
+  std::expected<T, ModbusError>
+  reportError(std::expected<T, ModbusError> &&res) {
+    if (!res && onError) {
+      onError(res.error());
+    }
+    return std::move(res);
+  }
 
 private:
   const ModbusConfig cfg_;
@@ -140,11 +153,6 @@ private:
   /** forward declarations */
   void connectionLoop();
   std::expected<void, ModbusError> tryConnect();
-
-  /** Optional callbacks (can also be set directly) */
-  std::function<void()> onConnect;
-  std::function<void()> onDisconnect;
-  std::function<void(const ModbusError &)> onError;
 };
 
 #endif /* FRONIUS_H_ */
