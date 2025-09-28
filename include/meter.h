@@ -12,8 +12,8 @@ public:
   explicit Meter(const ModbusConfig &cfg);
   virtual ~Meter();
 
-  /** Return the meter initialization state  */
-  bool isInitialized() const noexcept { return isInitialized_; }
+  /** Validate the meter registers */
+  std::expected<void, ModbusError> validateDevice();
 
   /** Return the current register model in use */
   bool getUseFloatRegisters(void) const;
@@ -104,11 +104,8 @@ public:
   double getAcEnergyActiveImport(const Phase ph = Phase::TOTAL) const;
 
 private:
-  /** Guard that detectAndInitialize() has been called */
-  void checkInitialized() const;
-
-  /** Initialization state*/
-  bool isInitialized_{false};
+  /** Store connection and register validity states */
+  bool connectedAndValid_{false};
 
   /** Current register map model in use */
   bool useFloatRegisters_{false};

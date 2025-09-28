@@ -11,36 +11,24 @@
 #include <modbus_config.h>
 #include <modbus_error.h>
 #include <sstream>
-#include <stdexcept>
 #include <vector>
 
 Meter::Meter(const ModbusConfig &cfg) : Fronius(cfg) {}
 
 Meter::~Meter() {};
 
-void Meter::checkInitialized() const {
-  if (!isInitialized_) {
-    throw std::logic_error(
-        "Device not initialized: call detectAndInitialize() first");
-  }
-}
+bool Meter::getUseFloatRegisters(void) const { return useFloatRegisters_; }
 
-bool Meter::getUseFloatRegisters(void) const {
-  checkInitialized();
-  return useFloatRegisters_;
-}
+int Meter::getPhases(void) const { return id_ % 10; };
 
-int Meter::getPhases(void) const {
-  checkInitialized();
-  return id_ % 10;
-};
-
-int Meter::getId(void) const {
-  checkInitialized();
-  return id_;
-};
+int Meter::getId(void) const { return id_; };
 
 std::expected<void, ModbusError> Meter::detectAndInitialize() {
+  if (!ctx_) {
+    return std::unexpected(ModbusError::custom(
+        ENOTCONN, "Modbus context is null", ModbusError::Severity::TRANSIENT));
+  }
+
   std::fill(regs_.begin(), regs_.end(), 0);
 
   int rc = modbus_read_registers(ctx_, M20X_ID::ADDR, 2,
@@ -93,13 +81,10 @@ std::expected<void, ModbusError> Meter::detectAndInitialize() {
         ModbusError::Severity::FATAL));
   }
 
-  isInitialized_ = true;
   return {};
 }
 
 std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
-  checkInitialized();
-
   if (!ctx_) {
     return std::unexpected(ModbusError::custom(
         ENOTCONN, "Modbus context is null", ModbusError::Severity::TRANSIENT));
@@ -144,6 +129,30 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
                                ModbusError::Severity::TRANSIENT));
   }
 
+  return {};
+}
+
+std::expected<void, ModbusError> Meter::validateDevice() {
+  // Assume not valid until proven otherwise
+  connectedAndValid_ = false;
+
+  // --- Step 1: Detect & initialize meter ---
+  auto init = detectAndInitialize();
+  if (!init)
+    return std::unexpected(init.error());
+
+  // --- Step 2: Check SunSpec signature ---
+  auto sunspec = isSunSpecDevice();
+  if (!sunspec)
+    return std::unexpected(sunspec.error());
+
+  // --- Step 3: Fetch common registers ---
+  auto common = fetchCommonRegisters();
+  if (!common)
+    return std::unexpected(common.error());
+
+  // If we got here, device is fully valid
+  connectedAndValid_ = true;
   return {};
 }
 

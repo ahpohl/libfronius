@@ -57,8 +57,8 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   if (ctx_) {
     uint16_t dummy;
     int rc = modbus_read_registers(ctx_, C001_ID::ADDR, C001_ID::NB, &dummy);
-    if (rc != -1)
-      return {}; // Connection healthy
+    if (dummy == 0x01) // Check common register ID
+      return {};       // Connection healthy
 
     // Connection lost → transient error
     modbus_close(ctx_);
@@ -122,21 +122,17 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
 void Fronius::connectionLoop() {
   int retryDelay = cfg_.minRetryDelay;
 
-  while (true) {
-    {
-      std::lock_guard<std::mutex> lock(mtx_);
-      if (!running_)
-        break; // Stop loop if requested
-    }
+  while (running_.load()) {
 
     auto res = tryConnect();
-    std::lock_guard<std::mutex> lock(mtx_);
-
     if (res) {
       // --- Successful connection
       if (!connected_.load()) {
         connected_.store(true);
-        cv_.notify_all();
+        {
+          std::lock_guard<std::mutex> lock(mtx_);
+          cv_.notify_all();
+        }
         if (onConnect)
           onConnect();
       }
@@ -155,23 +151,20 @@ void Fronius::connectionLoop() {
       // --- Notify via onError (callback handles logging and severity)
       if (onError)
         onError(err);
-
-      // If FATAL, stop retrying
-      if (err.severity == ModbusError::Severity::FATAL) {
-        running_.store(false);
-        break;
-      }
-
-      // --- Transient errors: sleep + exponential backoff
-      for (int i = 0; i < retryDelay * 10 && running_.load(); ++i)
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-      retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
     }
+    // sleep + exponential backoff
+    for (int i = 0; i < retryDelay * 10 && running_.load(); ++i)
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
   }
 }
 
 std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {
+  if (!ctx_) {
+    return std::unexpected(ModbusError::custom(
+        ENOTCONN, "Modbus context is null", ModbusError::Severity::TRANSIENT));
+  }
 
   // Get registers
   int rc = modbus_read_registers(ctx_, C001_SID::ADDR, 4,
@@ -218,6 +211,10 @@ std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {
 }
 
 std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
+  if (!ctx_) {
+    return std::unexpected(ModbusError::custom(
+        ENOTCONN, "Modbus context is null", ModbusError::Severity::TRANSIENT));
+  }
 
   int rc = modbus_read_registers(ctx_, C001_MN::ADDR, C001_SIZE,
                                  regs_.data() + C001_MN::ADDR);
