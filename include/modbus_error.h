@@ -27,8 +27,9 @@ private:
   // Deduce severity based on errno or custom code
   static Severity deduceSeverity(int c) {
     switch (c) {
-    case EINVAL: // Invalid argument
-    case ENOMEM: // Out of memory
+    case EINVAL:   // Invalid argument
+    case ENOMEM:   // Out of memory
+    case EMBMDATA: // Too many registers requested
       return Severity::FATAL;
     default:
       return Severity::TRANSIENT;

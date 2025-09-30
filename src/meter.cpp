@@ -23,13 +23,11 @@ int Meter::getPhases(void) const { return id_ % 10; };
 
 int Meter::getId(void) const { return id_; };
 
-std::expected<void, ModbusError> Meter::detectAndInitialize() {
+std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
   if (!ctx_) {
     return reportError<void>(std::unexpected(
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
   }
-
-  std::fill(regs_.begin(), regs_.end(), 0);
 
   int rc = modbus_read_registers(ctx_, M20X_ID::ADDR, 2,
                                  regs_.data() + M20X_ID::ADDR);
@@ -124,20 +122,20 @@ std::expected<void, ModbusError> Meter::validateDevice() {
   // Assume not valid until proven otherwise
   connectedAndValid_ = false;
 
-  // --- Step 1: Detect & initialize meter ---
-  auto init = detectAndInitialize();
-  if (!init)
-    return std::unexpected(init.error());
-
-  // --- Step 2: Check SunSpec signature ---
-  auto sunspec = isSunSpecDevice();
+  // --- Step 1: Check SunSpec signature ---
+  auto sunspec = validateSunSpecRegisters();
   if (!sunspec)
     return std::unexpected(sunspec.error());
 
-  // --- Step 3: Fetch common registers ---
+  // --- Step 2: Fetch common registers ---
   auto common = fetchCommonRegisters();
   if (!common)
-    return std::unexpected(common.error());
+    return common;
+
+  // --- Step 3: Detect register map type & initialize meter ---
+  auto init = detectFloatOrIntRegisters();
+  if (!init)
+    return std::unexpected(init.error());
 
   // If we got here, device is fully valid
   connectedAndValid_ = true;

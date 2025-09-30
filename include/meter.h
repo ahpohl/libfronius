@@ -15,6 +15,9 @@ public:
   /** Validate the meter registers */
   std::expected<void, ModbusError> validateDevice();
 
+  /** Fetch the complete Fronius Meter Register Map from device */
+  std::expected<void, ModbusError> fetchMeterRegisters(void);
+
   /** Return the current register model in use */
   bool getUseFloatRegisters(void) const;
 
@@ -23,26 +26,6 @@ public:
 
   /** Return the meter ID */
   int getId(void) const;
-
-  /** Detect and initialize the meter
-
-   Must be called after the connection has been established.
-   Sets the register model from the meter ID
-
-   Float register model:
-   211: single phase
-   212: split phase
-   213: three phase
-
-   Integer and scale factor model:
-   201: single phase
-   202: split phase
-   203: three phase
-   */
-  std::expected<void, ModbusError> detectAndInitialize(void);
-
-  /** Fetch the complete Fronius Meter Register Map from device */
-  std::expected<void, ModbusError> fetchMeterRegisters(void);
 
   /** AC current [A]
 
@@ -113,9 +96,22 @@ private:
   /** Store the meter ID */
   int id_{0};
 
-  /** Read event flags */
-  std::expected<void, ModbusError> getEventFlags_(uint32_t &flag1,
-                                                  uint32_t &flag2);
+  /** Detect register map type and initialize the meter
+
+   Must be called after the connection has been established.
+   Sets the register model from the meter ID
+
+   Float register model:
+   211: single phase
+   212: split phase
+   213: three phase
+
+   Integer and scale factor model:
+   201: single phase
+   202: split phase
+   203: three phase
+   */
+  std::expected<void, ModbusError> detectFloatOrIntRegisters(void);
 };
 
 #endif /* METER_H_ */

@@ -50,12 +50,6 @@ public:
   std::expected<void, ModbusError> connectModbusRtu(const std::string &device,
                                                     const int baud = 9600);
 
-  /** Test if the Fronius device is SunSpec compatible */
-  std::expected<bool, ModbusError> isSunSpecDevice(void);
-
-  /** Fetch the complete Fronius Common Register Map from device */
-  std::expected<void, ModbusError> fetchCommonRegisters(void);
-
   /** The the device manufacturer
 
     @returns string, i.e. Fronius
@@ -141,6 +135,12 @@ protected:
     }
     return std::move(res);
   }
+
+  /** Test if the Fronius device is SunSpec compatible */
+  std::expected<bool, ModbusError> validateSunSpecRegisters(void);
+
+  /** Fetch the complete Fronius Common Register Map from device */
+  std::expected<void, ModbusError> fetchCommonRegisters(void);
 
 private:
   const ModbusConfig cfg_;

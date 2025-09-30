@@ -4,6 +4,7 @@
 #include "modbus_utils.h"
 #include <cerrno>
 #include <expected>
+#include <iostream>
 #include <modbus/modbus.h>
 #include <mutex>
 #include <string>
@@ -55,16 +56,17 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   if (ctx_) {
     uint16_t dummy;
     int rc = modbus_read_registers(ctx_, C001_ID::ADDR, C001_ID::NB, &dummy);
-    if (dummy == 0x01) // Check common register ID
-      return {};       // Connection healthy
+    if (rc > 0)
+      return {}; // Connection healthy, return
 
     // Connection lost → transient error
     modbus_close(ctx_);
     modbus_free(ctx_);
     ctx_ = nullptr;
-    return reportError<void>(
-        std::unexpected(ModbusError::fromErrno("Connection lost")));
   }
+
+  // Start with a fresh register map
+  std::fill(regs_.begin(), regs_.end(), 0);
 
   // Create new context based on config
   if (cfg_.useTcp) {
@@ -153,7 +155,7 @@ void Fronius::connectionLoop() {
   }
 }
 
-std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {
+std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
   if (!ctx_) {
     return reportError<bool>(std::unexpected(
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
@@ -179,11 +181,13 @@ std::expected<bool, ModbusError> Fronius::isSunSpecDevice(void) {
   }
 
   // Test for Common Register ID
-  if (!(regs_[C001_ID::ADDR] = 0x1)) {
+  if (regs_[C001_ID::ADDR] != 0x1) {
     return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "Not a SunSpec common register map: received " +
+        EINVAL, "Invalid common register map ID: received " +
                     std::to_string(regs_[C001_ID::ADDR]) + ", expected 1")));
   }
+  std::cerr << std::string("Common register ID received ")
+            << std::to_string(regs_[C001_ID::ADDR]) << ", expected 1" << "\n";
 
   // Test for Common Register Map Length
   if (regs_[C001_L::ADDR] != C001_SIZE) {
@@ -213,28 +217,28 @@ std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
 }
 
 std::expected<std::string, ModbusError> Fronius::getManufacturer() {
-  return modbus_utils::modbus_get_string(regs_.data() + C001_MN::ADDR,
-                                         C001_MN::NB);
+  return reportError<std::string>(modbus_utils::modbus_get_string(
+      regs_.data() + C001_MN::ADDR, C001_MN::NB));
 }
 
 std::expected<std::string, ModbusError> Fronius::getDeviceModel() {
-  return modbus_utils::modbus_get_string(regs_.data() + C001_MD::ADDR,
-                                         C001_MD::NB);
+  return reportError<std::string>(modbus_utils::modbus_get_string(
+      regs_.data() + C001_MD::ADDR, C001_MD::NB));
 }
 
 std::expected<std::string, ModbusError> Fronius::getOptions() {
-  return modbus_utils::modbus_get_string(regs_.data() + C001_OPT::ADDR,
-                                         C001_OPT::NB);
+  return reportError<std::string>(modbus_utils::modbus_get_string(
+      regs_.data() + C001_OPT::ADDR, C001_OPT::NB));
 }
 
 std::expected<std::string, ModbusError> Fronius::getFwVersion() {
-  return modbus_utils::modbus_get_string(regs_.data() + C001_VR::ADDR,
-                                         C001_VR::NB);
+  return reportError<std::string>(modbus_utils::modbus_get_string(
+      regs_.data() + C001_VR::ADDR, C001_VR::NB));
 }
 
 std::expected<std::string, ModbusError> Fronius::getSerialNumber() {
-  return modbus_utils::modbus_get_string(regs_.data() + C001_SN::ADDR,
-                                         C001_SN::NB);
+  return reportError<std::string>(modbus_utils::modbus_get_string(
+      regs_.data() + C001_SN::ADDR, C001_SN::NB));
 }
 
 std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {
