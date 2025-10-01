@@ -263,16 +263,20 @@ double Meter::getAcEnergyActiveExport(const Phase ph) const {
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(regs_[M20X_TOTWH_EXP::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_EXP::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(regs_[M20X_TOTWH_EXPPHA::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_EXPPHA::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(regs_[M20X_TOTWH_EXPPHB::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_EXPPHB::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(regs_[M20X_TOTWH_EXPPHC::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_EXPPHC::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     default:
       return 0.0;
@@ -297,16 +301,20 @@ double Meter::getAcEnergyActiveImport(const Phase ph) const {
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(regs_[M20X_TOTWH_IMP::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_IMP::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(regs_[M20X_TOTWH_IMPPHA::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_IMPPHA::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(regs_[M20X_TOTWH_IMPPHB::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_IMPPHB::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(regs_[M20X_TOTWH_IMPPHC::ADDR]) *
+      return static_cast<double>(modbus_utils::modbus_get_uint32(
+                 regs_.data() + M20X_TOTWH_IMPPHC::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
     default:
       return 0.0;

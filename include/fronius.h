@@ -17,38 +17,16 @@ public:
   explicit Fronius(const ModbusConfig &cfg);
   virtual ~Fronius();
 
-  /** Start connection thread */
-  std::expected<void, ModbusError> connect();
-
-  /** Wait indefinitely for connection to be established */
-  void waitForConnection(void);
-
   /** Set callbacks (thread-safe) */
   void setConnectCallback(std::function<void()> cb);
   void setDisconnectCallback(std::function<void()> cb);
   void setErrorCallback(std::function<void(const ModbusError &)> cb);
 
-  /** Create a Modbus context for TCP/IPv4
+  /** Start connection thread */
+  std::expected<void, ModbusError> connect();
 
-     The ConnectTcp() function shall allocate and initialize a modbus_t
-     structure to communicate with a Modbus TCP IPv4/IPv6 server.
-
-     @param host hostname or address of the server to which the client wants
-     to establish a connection
-     @param port service name/port number to connect to
-     */
-  std::expected<void, ModbusError> connectModbusTcp(const std::string &host,
-                                                    const int port = 502);
-  /** Create a Modbus context for RTU serial
-
-     The ConnectRtu() function shall allocate and initialize a modbus_t
-     structure to communicate in RTU mode on a serial line.
-
-     @param device device specifies the name of the serial port
-     @param baud_rate baud rate (9600 or 19200)
-   */
-  std::expected<void, ModbusError> connectModbusRtu(const std::string &device,
-                                                    const int baud = 9600);
+  /** Wait indefinitely for connection to be established */
+  void waitForConnection(void);
 
   /** The the device manufacturer
 
@@ -121,11 +99,6 @@ protected:
   /** Vector to hold the complete register map */
   std::vector<uint16_t> regs_;
 
-  /** Optional callbacks (can also be set directly) */
-  std::function<void()> onConnect;
-  std::function<void()> onDisconnect;
-  std::function<void(const ModbusError &)> onError;
-
   /** Report error via onError callback */
   template <typename T>
   std::expected<T, ModbusError>
@@ -150,9 +123,36 @@ private:
   std::atomic<bool> running_{false};
   std::atomic<bool> connected_{false};
 
+  /** Optional callbacks (can also be set directly) */
+  std::function<void()> onConnect;
+  std::function<void()> onDisconnect;
+  std::function<void(const ModbusError &)> onError;
+
   /** forward declarations */
   void connectionLoop();
   std::expected<void, ModbusError> tryConnect();
+
+  /** Create a Modbus context for TCP/IPv4
+
+   The ConnectTcp() function shall allocate and initialize a modbus_t
+   structure to communicate with a Modbus TCP IPv4/IPv6 server.
+
+   @param host hostname or address of the server to which the client wants
+   to establish a connection
+   @param port service name/port number to connect to
+   */
+  std::expected<void, ModbusError> connectModbusTcp(const std::string &host,
+                                                    const int port = 502);
+  /** Create a Modbus context for RTU serial
+
+     The ConnectRtu() function shall allocate and initialize a modbus_t
+     structure to communicate in RTU mode on a serial line.
+
+     @param device device specifies the name of the serial port
+     @param baud_rate baud rate (9600 or 19200)
+   */
+  std::expected<void, ModbusError> connectModbusRtu(const std::string &device,
+                                                    const int baud = 9600);
 };
 
 #endif /* FRONIUS_H_ */
