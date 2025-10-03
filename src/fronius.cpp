@@ -4,7 +4,6 @@
 #include "modbus_utils.h"
 #include <cerrno>
 #include <expected>
-#include <iostream>
 #include <modbus/modbus.h>
 #include <mutex>
 #include <string>
@@ -17,7 +16,12 @@ Fronius::Fronius(const ModbusConfig &cfg) : cfg_(cfg) {
 }
 
 Fronius::~Fronius() {
-  running_.store(false);
+  {
+    std::lock_guard<std::mutex> lock(mtx_);
+    running_.store(false);
+    cv_.notify_all();
+  }
+
   if (connectionThread_.joinable())
     connectionThread_.join();
 
@@ -40,14 +44,14 @@ void Fronius::waitForConnection() {
 }
 
 void Fronius::setConnectCallback(std::function<void()> cb) {
-  onConnect = std::move(cb);
+  onConnect_ = std::move(cb);
 }
 void Fronius::setDisconnectCallback(std::function<void()> cb) {
-  onDisconnect = std::move(cb);
+  onDisconnect_ = std::move(cb);
 }
 
 void Fronius::setErrorCallback(std::function<void(const ModbusError &)> cb) {
-  onError = std::move(cb);
+  onError_ = std::move(cb);
 }
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
@@ -128,8 +132,8 @@ void Fronius::connectionLoop() {
           std::lock_guard<std::mutex> lock(mtx_);
           cv_.notify_all();
         }
-        if (onConnect)
-          onConnect();
+        if (onConnect_)
+          onConnect_();
       }
       retryDelay = cfg_.minRetryDelay; // reset retry delay after success
 
@@ -139,18 +143,22 @@ void Fronius::connectionLoop() {
       // --- Update connected state if necessary
       if (connected_.load()) {
         connected_.store(false);
-        if (onDisconnect)
-          onDisconnect();
+        if (onDisconnect_)
+          onDisconnect_();
       }
 
       // --- Notify via onError (callback handles logging and severity)
-      if (onError)
-        onError(err);
+      if (onError_)
+        onError_(err);
     }
-    // sleep + exponential backoff
-    for (int i = 0; i < retryDelay * 10 && running_.load(); ++i)
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // --- Wait for retryDelay seconds or until shutdown ---
+    {
+      std::unique_lock<std::mutex> lock(mtx_);
+      cv_.wait_for(lock, std::chrono::seconds(retryDelay),
+                   [this] { return !running_.load(); });
+    }
 
+    // --- Exponential backoff for next retry ---
     retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
   }
 }
@@ -186,8 +194,6 @@ std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
         EINVAL, "Invalid common register map ID: received " +
                     std::to_string(regs_[C001_ID::ADDR]) + ", expected 1")));
   }
-  std::cerr << std::string("Common register ID received ")
-            << std::to_string(regs_[C001_ID::ADDR]) << ", expected 1" << "\n";
 
   // Test for Common Register Map Length
   if (regs_[C001_L::ADDR] != C001_SIZE) {

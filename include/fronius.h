@@ -103,8 +103,8 @@ protected:
   template <typename T>
   std::expected<T, ModbusError>
   reportError(std::expected<T, ModbusError> &&res) {
-    if (!res && onError) {
-      onError(res.error());
+    if (!res && onError_) {
+      onError_(res.error());
     }
     return std::move(res);
   }
@@ -124,9 +124,9 @@ private:
   std::atomic<bool> connected_{false};
 
   /** Optional callbacks (can also be set directly) */
-  std::function<void()> onConnect;
-  std::function<void()> onDisconnect;
-  std::function<void(const ModbusError &)> onError;
+  std::function<void()> onConnect_;
+  std::function<void()> onDisconnect_;
+  std::function<void(const ModbusError &)> onError_;
 
   /** forward declarations */
   void connectionLoop();
