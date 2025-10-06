@@ -16,8 +16,9 @@ struct ModbusConfig {
   int baud{9600};
 
   // Reconnect parameters
-  int minRetryDelay{5};
-  int maxRetryDelay{320};
+  int reconnectDelay{5};
+  int reconnectDelayMax{320};
+  bool exponential{true};
 
   void validate() const {
     if (slaveId < 1 || slaveId > 247) {
@@ -30,13 +31,13 @@ struct ModbusConfig {
     if (port <= 0 || port > 65535) {
       throw std::invalid_argument("TCP port must be in range 1–65535");
     }
-    if (minRetryDelay < 0 || maxRetryDelay < 0) {
+    if (reconnectDelay < 0 || reconnectDelayMax < 0) {
       throw std::invalid_argument(
-          "minRetryDelay and maxRetryDelay must be > 0");
+          "reconnectDelay and reconnectDelayMax must be > 0");
     }
-    if (minRetryDelay >= maxRetryDelay) {
+    if (reconnectDelay >= reconnectDelayMax) {
       throw std::invalid_argument(
-          "minRetryDelay must be smaller than maxRetryDelay");
+          "reconnectDelay must be smaller than reconnectDelayMax");
     }
   }
 };

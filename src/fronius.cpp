@@ -119,7 +119,7 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
 }
 
 void Fronius::connectionLoop() {
-  int retryDelay = cfg_.minRetryDelay;
+  int reconnectDelay = cfg_.reconnectDelay;
 
   while (running_.load()) {
 
@@ -135,7 +135,8 @@ void Fronius::connectionLoop() {
         if (onConnect_)
           onConnect_();
       }
-      retryDelay = cfg_.minRetryDelay; // reset retry delay after success
+      if (cfg_.exponential)
+        reconnectDelay = cfg_.reconnectDelay;
 
     } else {
       auto &err = res.error();
@@ -154,12 +155,13 @@ void Fronius::connectionLoop() {
     // --- Wait for retryDelay seconds or until shutdown ---
     {
       std::unique_lock<std::mutex> lock(mtx_);
-      cv_.wait_for(lock, std::chrono::seconds(retryDelay),
+      cv_.wait_for(lock, std::chrono::seconds(reconnectDelay),
                    [this] { return !running_.load(); });
     }
 
     // --- Exponential backoff for next retry ---
-    retryDelay = std::min(retryDelay * 2, cfg_.maxRetryDelay);
+    if (cfg_.exponential)
+      reconnectDelay = std::min(reconnectDelay * 2, cfg_.reconnectDelayMax);
   }
 }
 
