@@ -1,104 +1,147 @@
+/**
+ * @file common_registers.h
+ * @brief Defines SunSpec Common Model (C001) register mappings for Fronius
+ * devices.
+ *
+ * This header provides symbolic register definitions for the SunSpec Modbus
+ * Common Model block (C001), which describes general device information such as
+ * manufacturer, model, firmware versions, and serial number.
+ *
+ * These definitions are used for Modbus communication with Fronius inverters,
+ * meters, and other compatible devices.
+ */
+
 #ifndef COMMON_REGISTERS_H_
 #define COMMON_REGISTERS_H_
 
 #include <cstdint>
 
-/** Length of Common Model block */
+/** @brief Total length of the Common Model block (in registers). */
 constexpr uint16_t C001_SIZE = 65;
 
-/** Uniquely identifies this as a SunSpec ModBus map.
+/**
+ * @struct C001_SID
+ * @brief SunSpec identifier register.
  *
- * @returns 0x53756e53 ('SunS')
+ * @details Uniquely identifies this Modbus map as a SunSpec device.
+ * The returned value corresponds to the ASCII string `"SunS"`.
+ *
+ * @return 0x53756e53 ('SunS')
  */
 struct C001_SID {
-  static constexpr uint16_t ADDR = 40001 - 1;
-  static constexpr uint16_t NB = 2;
+  static constexpr uint16_t ADDR = 40001 - 1; ///< Starting register address.
+  static constexpr uint16_t NB = 2;           ///< Number of registers.
 };
 
-/** Uniquely identifies this as a SunSpec Common Model block
+/**
+ * @struct C001_ID
+ * @brief Common Model ID register.
  *
- * @returns 1
+ * @details Identifies this block as the SunSpec Common Model.
+ *
+ * @return Always returns 1.
  */
 struct C001_ID {
   static constexpr uint16_t ADDR = 40003 - 1;
   static constexpr uint16_t NB = 1;
 };
 
-/** Length of Common Model block.
+/**
+ * @struct C001_L
+ * @brief Length of the Common Model block.
  *
- * @returns 65
+ * @details Indicates the number of registers (65) used by this model.
+ *
+ * @return Always returns 65.
  */
 struct C001_L {
   static constexpr uint16_t ADDR = 40004 - 1;
   static constexpr uint16_t NB = 1;
 };
 
-/** Manufacturer
+/**
+ * @struct C001_MN
+ * @brief Manufacturer name.
  *
- * @returns: Fronius
+ * @details Contains the manufacturer string, typically "Fronius".
+ *
+ * @return Manufacturer name as a string (e.g. "Fronius").
  */
 struct C001_MN {
   static constexpr uint16_t ADDR = 40005 - 1;
   static constexpr uint16_t NB = 16;
 };
 
-/** Device model
+/**
+ * @struct C001_MD
+ * @brief Device model.
  *
- * @returns i.e. IG+150V [3p]
+ * @details Specifies the model name of the device.
+ *
+ * @return Model string (e.g. "IG+150V [3p]").
  */
 struct C001_MD {
   static constexpr uint16_t ADDR = 40021 - 1;
   static constexpr uint16_t NB = 16;
 };
 
-/** SW version of installed option
+/**
+ * @struct C001_OPT
+ * @brief Software version of installed option.
  *
- * @returns i.e. Firmware version of Datamanager
+ * @details Indicates firmware version of optional components,
+ * such as the Datamanager board.
+ *
+ * @return Firmware version string.
  */
 struct C001_OPT {
   static constexpr uint16_t ADDR = 40037 - 1;
   static constexpr uint16_t NB = 8;
 };
 
-/** SW version of main device
+/**
+ * @struct C001_VR
+ * @brief Main device firmware version.
  *
- * @returns i.e. Firmware version of inverter, meter, battery etc.
+ * @details Provides the firmware version of the primary device,
+ * such as inverter, meter, or battery.
+ *
+ * @return Firmware version string.
  */
 struct C001_VR {
   static constexpr uint16_t ADDR = 40045 - 1;
   static constexpr uint16_t NB = 8;
 };
 
-/** Serial number of the inverter
+/**
+ * @struct C001_SN
+ * @brief Device serial number.
  *
- * Please note, that the inverter serial number is not supported on all devices
- * and also depends on the internal inverter controller‘s production date and
- * its software version.
+ * @details Contains the serial number of the device. Depending on
+ * device type and firmware, this field may not always represent the
+ * printed serial number on the nameplate.
  *
- * If the inverter serial number is not supported, then two fallbacks are
- * implemented that are still unique but may not match the inverter serial
- * number printed on the nameplate:
+ * Fallbacks if the inverter serial number is not supported:
+ *  - **1:** Serial of inverter controller (PMC)
+ *  - **2:** Unique ID (UID) of inverter controller
  *
- * 1: Serial of inverter controller (PMC) if supported
- * 2: Unique ID (UID) of inverter controller
+ * @note On SYMOHYBRID devices, only fallback values are available.
+ * @note This field may change dynamically during startup or synchronization.
  *
- * For SYMOHYBRID inverters the inverter serial number is not supported and this
- * addrister always contains one of the two implemented fallbacks.
- *
- * Please note further that due to startup timing issues or synchronization
- * faults this field may change its value during operation from one option to
- * another, e.g. at boot time only UID is available and after some time device
- * information is synchronized then this field changes from UID to PMC or
- * inverter serial number.
+ * @return Serial number or fallback unique identifier.
  */
 struct C001_SN {
   static constexpr uint16_t ADDR = 40053 - 1;
   static constexpr uint16_t NB = 16;
 };
 
-/** Read ModBus device address
+/**
+ * @struct C001_DA
+ * @brief Modbus device address register.
  *
- * @returns 1-247
+ * @details Contains the current Modbus slave ID of the device.
+ *
+ * @return Device address (1–247).
  */
 struct C001_DA {
   static constexpr uint16_t ADDR = 40069 - 1;

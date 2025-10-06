@@ -12,59 +12,126 @@
 #include <thread>
 #include <vector>
 
+/**
+ * @class Fronius
+ * @brief Provides a Modbus communication interface for Fronius devices.
+ *
+ * The Fronius class handles establishing and maintaining a Modbus
+ * TCP or RTU connection to Fronius devices, reading common device
+ * information registers, and reporting connection or protocol errors
+ * via callbacks.
+ */
 class Fronius {
 public:
+  /**
+   * @brief Construct a new Fronius instance.
+   *
+   * @param cfg Modbus configuration parameters.
+   */
   explicit Fronius(const ModbusConfig &cfg);
+
+  /**
+   * @brief Destroy the Fronius instance and stop any running connection
+   * threads.
+   */
   virtual ~Fronius();
 
-  /** Set callbacks (thread-safe) */
+  /**
+   * @brief Set a callback to be invoked when a connection is established.
+   *
+   * @param cb Function to call upon successful connection.
+   * @note Thread-safe.
+   */
   void setConnectCallback(std::function<void()> cb);
+
+  /**
+   * @brief Set a callback to be invoked when the connection is lost.
+   *
+   * @param cb Function to call when disconnected.
+   * @note Thread-safe.
+   */
   void setDisconnectCallback(std::function<void()> cb);
+
+  /**
+   * @brief Set a callback to report Modbus communication errors.
+   *
+   * @param cb Function to call when an error occurs.
+   * @note Thread-safe.
+   */
   void setErrorCallback(std::function<void(const ModbusError &)> cb);
 
-  /** Start connection thread */
+  /**
+   * @brief Start the asynchronous connection loop in a separate thread.
+   *
+   * This function attempts to establish a connection based on the
+   * configuration (TCP or RTU). It returns immediately after launching
+   * the thread.
+   *
+   * @return `std::expected<void, ModbusError>` indicating success or failure.
+   */
   std::expected<void, ModbusError> connect();
 
-  /** Wait indefinitely for connection to be established */
+  /**
+   * @brief Block until a connection to the device has been established.
+   *
+   * This function waits indefinitely until the connection thread
+   * reports a successful connection.
+   */
   void waitForConnection(void);
 
-  /** The the device manufacturer
-
-    @returns string, i.e. Fronius
+  /**
+   * @brief Get the manufacturer name from the device.
+   *
+   * @return `std::expected<std::string, ModbusError>`
+   *         On success, returns `"Fronius"`.
    */
   std::expected<std::string, ModbusError> getManufacturer(void);
 
-  /** Device model
-
-   @returns string, i.e. IG+150V [3p]
+  /**
+   * @brief Get the device model name.
+   *
+   * @return `std::expected<std::string, ModbusError>`
+   *         On success, returns a string like `"IG+150V [3p]"`.
    */
   std::expected<std::string, ModbusError> getDeviceModel(void);
 
-  /** Get the software version of installed option
-
-   @returns string, i.e. firmware version of Datamanager
+  /**
+   * @brief Get the software version of any installed option (e.g.,
+   * Datamanager).
+   *
+   * @return `std::expected<std::string, ModbusError>`
+   *         On success, returns the firmware version string.
    */
   std::expected<std::string, ModbusError> getOptions(void);
 
-  /** Get the software version of main device
-
-   @returns string, i.e. firmware version of inverter, meter, battery etc.
+  /**
+   * @brief Get the main device firmware version.
+   *
+   * @return `std::expected<std::string, ModbusError>`
+   *         On success, returns the firmware version string.
    */
   std::expected<std::string, ModbusError> getFwVersion(void);
 
-  /** Get the serial number of the device
-
-   @returns string, i.e. serial number
+  /**
+   * @brief Get the serial number of the connected device.
+   *
+   * @return `std::expected<std::string, ModbusError>`
+   *         On success, returns the serial number string.
    */
   std::expected<std::string, ModbusError> getSerialNumber(void);
 
-  /** Get the serial number of the device
-
-   @returns string, i.e. serial number
+  /**
+   * @brief Get the Modbus slave address reported by the remote device.
+   *
+   * @return `std::expected<uint16_t, ModbusError>`
+   *         On success, returns the slave ID.
    */
   std::expected<uint16_t, ModbusError> getModbusDeviceAddress(void);
 
-  /** Phase names */
+  /**
+   * @enum Phase
+   * @brief Identifiers for phase-related values.
+   */
   enum class Phase {
     TOTAL,
     AVERAGE,
@@ -93,13 +160,24 @@ public:
   };
 
 protected:
-  /** Connection handle for the libmodbus context */
+  /**
+   * @brief Handle for the libmodbus connection context.
+   */
   modbus_t *ctx_{nullptr};
 
-  /** Vector to hold the complete register map */
+  /**
+   * @brief Buffer storing the complete device register map.
+   */
   std::vector<uint16_t> regs_;
 
-  /** Report error via onError callback */
+  /**
+   * @brief Report a Modbus error via the registered error callback.
+   *
+   * @tparam T Expected return type.
+   * @param res The result to report. If it contains an error, the
+   *        registered error callback will be invoked.
+   * @return The same expected result, unmodified.
+   */
   template <typename T>
   std::expected<T, ModbusError>
   reportError(std::expected<T, ModbusError> &&res) {
@@ -109,47 +187,90 @@ protected:
     return std::move(res);
   }
 
-  /** Test if the Fronius device is SunSpec compatible */
+  /**
+   * @brief Validate that the connected device is SunSpec-compliant.
+   *
+   * @return `std::expected<bool, ModbusError>`
+   *         Returns `true` if the device supports SunSpec.
+   */
   std::expected<bool, ModbusError> validateSunSpecRegisters(void);
 
-  /** Fetch the complete Fronius Common Register Map from device */
+  /**
+   * @brief Fetch the complete Fronius Common Register Map from the device.
+   *
+   * @return `std::expected<void, ModbusError>` indicating success or failure.
+   */
   std::expected<void, ModbusError> fetchCommonRegisters(void);
 
 private:
+  /** @brief Configuration object defining Modbus parameters. */
   const ModbusConfig cfg_;
+
+  /** @brief Background thread managing connection and reconnection logic. */
   std::thread connectionThread_;
+
+  /** @brief Mutex protecting condition variable access. */
   mutable std::mutex mtx_;
+
+  /** @brief Condition variable used to signal connection state changes. */
   std::condition_variable cv_;
+
+  /** @brief Flag indicating if the connection loop thread is running. */
   std::atomic<bool> running_{false};
+
+  /** @brief Flag indicating if the device is currently connected. */
   std::atomic<bool> connected_{false};
 
-  /** Optional callbacks (can also be set directly) */
+  /** @brief Optional callback invoked on successful connection. */
   std::function<void()> onConnect_;
+
+  /** @brief Optional callback invoked when disconnected. */
   std::function<void()> onDisconnect_;
+
+  /** @brief Optional callback invoked on Modbus communication error. */
   std::function<void(const ModbusError &)> onError_;
 
-  /** forward declarations */
+  /**
+   * @brief Connection management loop.
+   *
+   * Continuously attempts to connect to the device until successful
+   * or until the running flag is cleared.
+   */
   void connectionLoop();
+
+  /**
+   * @brief Attempt a single connection to the Modbus device.
+   *
+   * @return `std::expected<void, ModbusError>` indicating success or failure.
+   */
   std::expected<void, ModbusError> tryConnect();
 
-  /** Create a Modbus context for TCP/IPv4
-
-   The ConnectTcp() function shall allocate and initialize a modbus_t
-   structure to communicate with a Modbus TCP IPv4/IPv6 server.
-
-   @param host hostname or address of the server to which the client wants
-   to establish a connection
-   @param port service name/port number to connect to
+  /**
+   * @brief Establish a Modbus TCP/IPv4 connection.
+   *
+   * Allocates and initializes a Modbus context to communicate with
+   * a TCP server.
+   *
+   * @param host Hostname or IP address of the Modbus server.
+   * @param port Port number of the Modbus server (default: 502).
+   * @return `std::expected<void, ModbusError>` indicating success or failure.
+   *
+   * @see connectModbusRtu()
    */
   std::expected<void, ModbusError> connectModbusTcp(const std::string &host,
                                                     const int port = 502);
-  /** Create a Modbus context for RTU serial
 
-     The ConnectRtu() function shall allocate and initialize a modbus_t
-     structure to communicate in RTU mode on a serial line.
-
-     @param device device specifies the name of the serial port
-     @param baud_rate baud rate (9600 or 19200)
+  /**
+   * @brief Establish a Modbus RTU serial connection.
+   *
+   * Allocates and initializes a Modbus context to communicate
+   * over a serial line in RTU mode.
+   *
+   * @param device Serial device name (e.g., `/dev/ttyUSB0`).
+   * @param baud Baud rate (typically 9600 or 19200).
+   * @return `std::expected<void, ModbusError>` indicating success or failure.
+   *
+   * @see connectModbusTcp()
    */
   std::expected<void, ModbusError> connectModbusRtu(const std::string &device,
                                                     const int baud = 9600);

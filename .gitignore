@@ -1,2 +1,5 @@
 build/
 logs/
+html/
+.~lock*
+.bak
