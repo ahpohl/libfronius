@@ -1,7 +1,7 @@
 /**
  * @file inverter_intsf_registers.h
  * @brief Defines SunSpec Inverter (Integer + Scale Factor) Model registers
- * (I10X) for Fronius devices.
+ * (I10X) for Fronius devices
  *
  * @details
  * This header provides symbolic register definitions for the SunSpec Modbus
@@ -23,471 +23,765 @@
 
 #include <cstdint>
 
+/**
+ * @namespace I10X_INT
+ * @brief SunSpec Inverter (Integer + Scale Factor) Model registers (I10X)
+ * for Fronius devices.
+ */
+namespace I10X_INT {
+
 /** @brief Total number of registers in the inverter model (integer + scale
  * factor). */
-constexpr uint16_t I10X_SIZE = 50;
+constexpr uint16_t SIZE = 50;
 
 /**
- * @struct I10X_ID
+ * @struct ID
  * @brief SunSpec inverter model identifier (integer + scale factor).
- *
- * @return
+ * @returns
  *  - 101: Single-phase
  *  - 102: Split-phase
  *  - 103: Three-phase
  */
-struct I10X_ID {
-  static constexpr uint16_t ADDR = 40070 - 1; ///< Register start address.
-  static constexpr uint16_t NB = 1;           ///< Number of registers.
-};
-
-/**
- * @struct I10X_L
- * @brief Length of inverter model block.
- *
- * @return Always returns 50.
- */
-struct I10X_L {
-  static constexpr uint16_t ADDR = 40071 - 1;
+struct ID {
+  static constexpr uint16_t ADDR = 40069;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_A
+ * @struct L
+ * @brief Length of inverter model block.
+ * @returns Always returns 50.
+ */
+struct L {
+  static constexpr uint16_t ADDR = 40070;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct A
  * @brief AC total current.
  * @unit Amperes [A]
  */
-struct I10X_A {
-  static constexpr uint16_t ADDR = 40072 - 1;
+struct A {
+  static constexpr uint16_t ADDR = 40071;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_APHA
+ * @struct APHA
  * @brief AC current in phase A.
  * @unit Amperes [A]
  */
-struct I10X_APHA {
-  static constexpr uint16_t ADDR = 40073 - 1;
+struct APHA {
+  static constexpr uint16_t ADDR = 40072;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_APHB
+ * @struct APHB
  * @brief AC current in phase B.
  * @unit Amperes [A]
  */
-struct I10X_APHB {
-  static constexpr uint16_t ADDR = 40074 - 1;
+struct APHB {
+  static constexpr uint16_t ADDR = 40073;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_APHC
+ * @struct APHC
  * @brief AC current in phase C.
  * @unit Amperes [A]
  */
-struct I10X_APHC {
-  static constexpr uint16_t ADDR = 40075 - 1;
+struct APHC {
+  static constexpr uint16_t ADDR = 40074;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_A_SF
+ * @struct A_SF
  * @brief AC current scale factor.
  */
-struct I10X_A_SF {
-  static constexpr uint16_t ADDR = 40076 - 1;
+struct A_SF {
+  static constexpr uint16_t ADDR = 40075;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PPVPHAB
+ * @struct PPVPHAB
  * @brief AC voltage phase-to-phase AB.
  * @unit Volts [V]
  */
-struct I10X_PPVPHAB {
-  static constexpr uint16_t ADDR = 40077 - 1;
+struct PPVPHAB {
+  static constexpr uint16_t ADDR = 40076;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PPVPHBC
+ * @struct PPVPHBC
  * @brief AC voltage phase-to-phase BC.
  * @unit Volts [V]
  */
-struct I10X_PPVPHBC {
-  static constexpr uint16_t ADDR = 40078 - 1;
+struct PPVPHBC {
+  static constexpr uint16_t ADDR = 40077;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PPVPHCA
+ * @struct PPVPHCA
  * @brief AC voltage phase-to-phase CA.
  * @unit Volts [V]
  */
-struct I10X_PPVPHCA {
-  static constexpr uint16_t ADDR = 40079 - 1;
+struct PPVPHCA {
+  static constexpr uint16_t ADDR = 40078;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PHVPHA
+ * @struct PHVPHA
  * @brief AC voltage phase A to neutral.
  * @unit Volts [V]
  */
-struct I10X_PHVPHA {
-  static constexpr uint16_t ADDR = 40080 - 1;
+struct PHVPHA {
+  static constexpr uint16_t ADDR = 40079;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PHVPHB
+ * @struct PHVPHB
  * @brief AC voltage phase B to neutral.
  * @unit Volts [V]
  */
-struct I10X_PHVPHB {
-  static constexpr uint16_t ADDR = 40081 - 1;
+struct PHVPHB {
+  static constexpr uint16_t ADDR = 40080;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PHVPHC
+ * @struct PHVPHC
  * @brief AC voltage phase C to neutral.
  * @unit Volts [V]
  */
-struct I10X_PHVPHC {
-  static constexpr uint16_t ADDR = 40082 - 1;
+struct PHVPHC {
+  static constexpr uint16_t ADDR = 40081;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_V_SF
+ * @struct V_SF
  * @brief AC voltage scale factor.
  */
-struct I10X_V_SF {
-  static constexpr uint16_t ADDR = 40083 - 1;
+struct V_SF {
+  static constexpr uint16_t ADDR = 40082;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_W
+ * @struct W
  * @brief AC active power.
  * @unit Watts [W]
  */
-struct I10X_W {
-  static constexpr uint16_t ADDR = 40084 - 1;
+struct W {
+  static constexpr uint16_t ADDR = 40083;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_W_SF
+ * @struct W_SF
  * @brief AC active power scale factor.
  */
-struct I10X_W_SF {
-  static constexpr uint16_t ADDR = 40085 - 1;
+struct W_SF {
+  static constexpr uint16_t ADDR = 40084;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_HZ
+ * @struct HZ
  * @brief AC frequency.
  * @unit Hertz [Hz]
  */
-struct I10X_HZ {
-  static constexpr uint16_t ADDR = 40086 - 1;
+struct HZ {
+  static constexpr uint16_t ADDR = 40085;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_HZ_SF
+ * @struct HZ_SF
  * @brief AC frequency scale factor.
  */
-struct I10X_HZ_SF {
-  static constexpr uint16_t ADDR = 40087 - 1;
+struct HZ_SF {
+  static constexpr uint16_t ADDR = 40086;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_VA
+ * @struct VA
  * @brief Apparent power.
  * @unit Volt-amperes [VA]
  */
-struct I10X_VA {
-  static constexpr uint16_t ADDR = 40088 - 1;
+struct VA {
+  static constexpr uint16_t ADDR = 40087;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_VA_SF
+ * @struct VA_SF
  * @brief Apparent power scale factor.
  */
-struct I10X_VA_SF {
-  static constexpr uint16_t ADDR = 40089 - 1;
+struct VA_SF {
+  static constexpr uint16_t ADDR = 40088;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_VAR
+ * @struct VAR
  * @brief Reactive power.
  * @unit Volt-ampere reactive [VAr]
  */
-struct I10X_VAR {
-  static constexpr uint16_t ADDR = 40090 - 1;
+struct VAR {
+  static constexpr uint16_t ADDR = 40089;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_VAR_SF
+ * @struct VAR_SF
  * @brief Reactive power scale factor.
  */
-struct I10X_VAR_SF {
-  static constexpr uint16_t ADDR = 40091 - 1;
+struct VAR_SF {
+  static constexpr uint16_t ADDR = 40090;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PF
+ * @struct PF
  * @brief Power factor.
  * @unit Percent [%]
  */
-struct I10X_PF {
-  static constexpr uint16_t ADDR = 40092 - 1;
+struct PF {
+  static constexpr uint16_t ADDR = 40091;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_PF_SF
+ * @struct PF_SF
  * @brief Power factor scale factor.
  */
-struct I10X_PF_SF {
-  static constexpr uint16_t ADDR = 40093 - 1;
+struct PF_SF {
+  static constexpr uint16_t ADDR = 40092;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_WH
+ * @struct WH
  * @brief AC lifetime energy production.
  * @unit Watt-hours [Wh]
  */
-struct I10X_WH {
-  static constexpr uint16_t ADDR = 40094 - 1;
+struct WH {
+  static constexpr uint16_t ADDR = 40093;
   static constexpr uint16_t NB = 2;
 };
 
 /**
- * @struct I10X_WH_SF
+ * @struct WH_SF
  * @brief AC lifetime energy scale factor.
  */
-struct I10X_WH_SF {
-  static constexpr uint16_t ADDR = 40096 - 1;
+struct WH_SF {
+  static constexpr uint16_t ADDR = 40095;
   static constexpr uint16_t NB = 1;
 };
 
-// DC measurements and scale factors
-
 /**
- * @struct I10X_DCA
+ * @struct DCA
  * @brief DC current.
  * @unit Amperes [A]
  */
-struct I10X_DCA {
-  static constexpr uint16_t ADDR = 40097 - 1;
+struct DCA {
+  static constexpr uint16_t ADDR = 40096;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_DCA_SF
+ * @struct DCA_SF
  * @brief DC current scale factor.
  */
-struct I10X_DCA_SF {
-  static constexpr uint16_t ADDR = 40098 - 1;
+struct DCA_SF {
+  static constexpr uint16_t ADDR = 40097;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_DCV
+ * @struct DCV
  * @brief DC voltage.
  * @unit Volts [V]
  */
-struct I10X_DCV {
-  static constexpr uint16_t ADDR = 40099 - 1;
+struct DCV {
+  static constexpr uint16_t ADDR = 40098;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_DCV_SF
+ * @struct DCV_SF
  * @brief DC voltage scale factor.
  */
-struct I10X_DCV_SF {
-  static constexpr uint16_t ADDR = 40100 - 1;
+struct DCV_SF {
+  static constexpr uint16_t ADDR = 40099;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_DCW
+ * @struct DCW
  * @brief DC power.
  * @unit Watts [W]
  */
-struct I10X_DCW {
-  static constexpr uint16_t ADDR = 40101 - 1;
+struct DCW {
+  static constexpr uint16_t ADDR = 40100;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_DCW_SF
+ * @struct DCW_SF
  * @brief DC power scale factor.
  */
-struct I10X_DCW_SF {
-  static constexpr uint16_t ADDR = 40102 - 1;
+struct DCW_SF {
+  static constexpr uint16_t ADDR = 40101;
   static constexpr uint16_t NB = 1;
 };
 
-// Temperatures and scale factor
-
 /**
- * @struct I10X_TMPCAB
+ * @struct TMPCAB
  * @brief Cabinet temperature.
  * @unit Celsius [°C]
  */
-struct I10X_TMPCAB {
-  static constexpr uint16_t ADDR = 40103 - 1;
+struct TMPCAB {
+  static constexpr uint16_t ADDR = 40102;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_TMPSNK
+ * @struct TMPSNK
  * @brief Heat sink/coolant temperature.
  * @unit Celsius [°C]
  */
-struct I10X_TMPSNK {
-  static constexpr uint16_t ADDR = 40104 - 1;
+struct TMPSNK {
+  static constexpr uint16_t ADDR = 40103;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_TMPTRNS
+ * @struct TMPTRNS
  * @brief Transformer temperature.
  * @unit Celsius [°C]
  */
-struct I10X_TMPTRNS {
-  static constexpr uint16_t ADDR = 40105 - 1;
+struct TMPTRNS {
+  static constexpr uint16_t ADDR = 40104;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_TMPOT
+ * @struct TMPOT
  * @brief Other temperature.
  * @unit Celsius [°C]
  */
-struct I10X_TMPOT {
-  static constexpr uint16_t ADDR = 40106 - 1;
+struct TMPOT {
+  static constexpr uint16_t ADDR = 40105;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_TMP_SF
+ * @struct TMP_SF
  * @brief Temperature scale factor.
  */
-struct I10X_TMP_SF {
-  static constexpr uint16_t ADDR = 40107 - 1;
+struct TMP_SF {
+  static constexpr uint16_t ADDR = 40106;
   static constexpr uint16_t NB = 1;
 };
 
-// Operating state and events
-
 /**
- * @struct I10X_ST
+ * @struct ST
  * @brief Inverter operating state.
  */
-struct I10X_ST {
-  static constexpr uint16_t ADDR = 40108 - 1;
+struct ST {
+  static constexpr uint16_t ADDR = 40107;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_STVND
+ * @struct STVND
  * @brief Vendor-defined operating state.
  */
-struct I10X_STVND {
-  static constexpr uint16_t ADDR = 40109 - 1;
+struct STVND {
+  static constexpr uint16_t ADDR = 40108;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct I10X_EVT1
+ * @struct EVT1
  * @brief Event flags bits 0–31.
  */
-struct I10X_EVT1 {
-  static constexpr uint16_t ADDR = 40110 - 1;
+struct EVT1 {
+  static constexpr uint16_t ADDR = 40109;
   static constexpr uint16_t NB = 2;
 };
 
 /**
- * @struct I10X_EVT2
+ * @struct EVT2
  * @brief Event flags bits 32–63.
  */
-struct I10X_EVT2 {
-  static constexpr uint16_t ADDR = 40112 - 1;
+struct EVT2 {
+  static constexpr uint16_t ADDR = 40111;
   static constexpr uint16_t NB = 2;
 };
 
 /**
- * @struct I10X_EVTVND1
+ * @struct EVTVND1
  * @brief Vendor-defined event flags bits 0–31.
  */
-struct I10X_EVTVND1 {
-  static constexpr uint16_t ADDR = 40114 - 1;
+struct EVTVND1 {
+  static constexpr uint16_t ADDR = 40113;
   static constexpr uint16_t NB = 2;
 };
 
 /**
- * @struct I10X_EVTVND2
+ * @struct EVTVND2
  * @brief Vendor-defined event flags bits 32–63.
  */
-struct I10X_EVTVND2 {
-  static constexpr uint16_t ADDR = 40116 - 1;
+struct EVTVND2 {
+  static constexpr uint16_t ADDR = 40115;
   static constexpr uint16_t NB = 2;
 };
 
 /**
- * @struct I10X_EVTVND3
+ * @struct EVTVND3
  * @brief Vendor-defined event flags bits 64–95.
  */
-struct I10X_EVTVND3 {
-  static constexpr uint16_t ADDR = 40118 - 1;
+struct EVTVND3 {
+  static constexpr uint16_t ADDR = 40117;
   static constexpr uint16_t NB = 2;
 };
 
 /**
- * @struct I10X_EVTVND4
+ * @struct EVTVND4
  * @brief Vendor-defined event flags bits 96–127.
  */
-struct I10X_EVTVND4 {
-  static constexpr uint16_t ADDR = 40120 - 1;
+struct EVTVND4 {
+  static constexpr uint16_t ADDR = 40119;
+  static constexpr uint16_t NB = 2;
+};
+
+} // namespace I10X_INT
+
+/**
+ * @namespace I160_INT
+ * @brief SunSpec Multi-MPPT Inverter (Integer) Model registers.
+ */
+namespace I160_INT {
+
+/**
+ * @struct ID
+ * @brief Uniquely identifies this as a SunSpec Multiple MPPT Inverter Extension
+ * Model.
+ * @returns 160
+ */
+struct ID {
+  static constexpr uint16_t ADDR = 40253;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct L
+ * @brief Length of Multiple MPPT Inverter Extension Model.
+ * @returns 48
+ */
+struct L {
+  static constexpr uint16_t ADDR = 40254;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct DCA_SF
+ * @brief DC current scale factor
+ */
+struct DCA_SF {
+  static constexpr uint16_t ADDR = 40255;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct DCV_SF
+ * @brief DC voltage scale factor
+ */
+struct DCV_SF {
+  static constexpr uint16_t ADDR = 40256;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct DCW_SF
+ * @brief DC power scale factor
+ */
+struct DCW_SF {
+  static constexpr uint16_t ADDR = 40257;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct DCWH_SF
+ * @brief DC energy scale factor
+ * @note Not supported for Fronius Hybrid inverters
+ */
+struct DCWH_SF {
+  static constexpr uint16_t ADDR = 40258;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct EVT
+ * @brief Global Events
+ */
+struct EVT {
+  static constexpr uint16_t ADDR = 40259;
   static constexpr uint16_t NB = 2;
 };
 
 /**
- * @struct E10X_ID
- * @brief End-of-block identifier.
- *
- * @return Always 0xFFFF.
+ * @struct N
+ * @brief Number of modules
+ * @returns 2
  */
-struct E10X_ID {
-  static constexpr uint16_t ADDR = 40330 - 1;
+struct N {
+  static constexpr uint16_t ADDR = 40261;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct E10X_L
- * @brief End-of-block length.
- *
- * @return Always 0.
+ * @struct TMS_PER
+ * @brief Timestamp Period
+ * @note Not supported
  */
-struct E10X_L {
-  static constexpr uint16_t ADDR = 40331 - 1;
+struct TMS_PER {
+  static constexpr uint16_t ADDR = 40262;
   static constexpr uint16_t NB = 1;
 };
+
+// --- Input 1 ---
+
+/**
+ * @struct INPUT1_ID
+ * @brief Input ID
+ * @returns 1
+ */
+struct INPUT1_ID {
+  static constexpr uint16_t ADDR = 40263;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT1_DCA
+ * @brief DC current
+ * @unit Amperes [A]
+ */
+struct INPUT1_DCA {
+  static constexpr uint16_t ADDR = 40272;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT1_DCV
+ * @brief DC voltage
+ * @unit Volts [V]
+ */
+struct INPUT1_DCV {
+  static constexpr uint16_t ADDR = 40273;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT1_DCW
+ * @brief DC power
+ * @unit Watts [W]
+ */
+struct INPUT1_DCW {
+  static constexpr uint16_t ADDR = 40274;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT1_DCWH
+ * @brief DC lifetime energy
+ * @unit Watt-hours [Wh]
+ * @note Not supported for Fronius Hybrid inverters
+ */
+struct INPUT1_DCWH {
+  static constexpr uint16_t ADDR = 40275;
+  static constexpr uint16_t NB = 2;
+};
+
+/**
+ * @struct INPUT1_TMS
+ * @brief Timestamp since 01-Jan-2000 00:00 UTC
+ */
+struct INPUT1_TMS {
+  static constexpr uint16_t ADDR = 40277;
+  static constexpr uint16_t NB = 2;
+};
+
+/**
+ * @struct INPUT1_TMP
+ * @brief Temperature
+ * @unit Celsius [°C]
+ */
+struct INPUT1_TMP {
+  static constexpr uint16_t ADDR = 40279;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT1_DCST
+ * @brief Operating state
+ */
+struct INPUT1_DCST {
+  static constexpr uint16_t ADDR = 40280;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT1_DCEVT
+ * @brief Module events
+ */
+struct INPUT1_DCEVT {
+  static constexpr uint16_t ADDR = 40281;
+  static constexpr uint16_t NB = 2;
+};
+
+// --- Input 2 ---
+
+/**
+ * @struct INPUT2_ID
+ * @brief Input ID
+ * @returns 2
+ */
+struct INPUT2_ID {
+  static constexpr uint16_t ADDR = 40283;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT2_DCA
+ * @brief DC current
+ * @unit Amperes [A]
+ * @note Not supported if only one DC input
+ */
+struct INPUT2_DCA {
+  static constexpr uint16_t ADDR = 40292;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT2_DCV
+ * @brief DC voltage
+ * @unit Volts [V]
+ * @note Not supported if only one DC input
+ */
+struct INPUT2_DCV {
+  static constexpr uint16_t ADDR = 40293;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT2_DCW
+ * @brief DC power
+ * @unit Watts [W]
+ * @note Not supported if only one DC input
+ */
+struct INPUT2_DCW {
+  static constexpr uint16_t ADDR = 40294;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT2_DCWH
+ * @brief DC lifetime energy
+ * @unit Watt-hours [Wh]
+ * @note Not supported for Fronius Hybrid inverters
+ */
+struct INPUT2_DCWH {
+  static constexpr uint16_t ADDR = 40295;
+  static constexpr uint16_t NB = 2;
+};
+
+/**
+ * @struct INPUT2_TMS
+ * @brief Timestamp since 01-Jan-2000 00:00 UTC
+ * @note Not supported if only one DC input
+ */
+struct INPUT2_TMS {
+  static constexpr uint16_t ADDR = 40297;
+  static constexpr uint16_t NB = 2;
+};
+
+/**
+ * @struct INPUT2_TMP
+ * @brief Temperature
+ * @unit Celsius [°C]
+ * @note Not supported if only one DC input
+ */
+struct INPUT2_TMP {
+  static constexpr uint16_t ADDR = 40299;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT2_DCST
+ * @brief Operating state
+ * @note Not supported if only one DC input
+ */
+struct INPUT2_DCST {
+  static constexpr uint16_t ADDR = 40300;
+  static constexpr uint16_t NB = 1;
+};
+
+/**
+ * @struct INPUT2_DCEVT
+ * @brief Module events
+ * @note Not supported if only one DC input
+ */
+struct INPUT2_DCEVT {
+  static constexpr uint16_t ADDR = 40301;
+  static constexpr uint16_t NB = 2;
+};
+
+} // namespace I160_INT
+
+/**
+ * @namespace END_INT
+ * @brief End-of-block registers for SunSpec inverter models (I10X).
+ *
+ * This namespace contains the symbolic definitions for the end-of-block
+ * registers that mark the end of the SunSpec inverter model block.
+ */
+namespace END_INT {
+
+/**
+ * @struct ID
+ * @brief End-of-block identifier.
+ * @details This register indicates the end of the SunSpec inverter model block.
+ * @returns Always returns 0xFFFF.
+ */
+struct ID {
+  static constexpr uint16_t ADDR = 40329; ///< Register start address.
+  static constexpr uint16_t NB = 1;       ///< Number of registers.
+};
+
+/**
+ * @struct L
+ * @brief End-of-block length field.
+ * @details This register contains the length of the end-of-block segment.
+ * @returns Always returns 0.
+ */
+struct L {
+  static constexpr uint16_t ADDR = 40330; ///< Register start address.
+  static constexpr uint16_t NB = 1;       ///< Number of registers.
+};
+
+} // namespace END_INT
 
 #endif /* INVERTER_INTSF_REGISTERS_H_ */
