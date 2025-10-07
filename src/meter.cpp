@@ -161,16 +161,16 @@ double Meter::getAcCurrent(const Phase ph) const {
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(regs_[M20X_A::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_A::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(regs_[M20X_APHA::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_APHA::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(regs_[M20X_APHB::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_APHB::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(regs_[M20X_APHC::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_APHC::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
     default:
       return 0.0;
@@ -195,16 +195,19 @@ double Meter::getAcVoltage(const Phase ph) const {
   } else {
     switch (ph) {
     case Phase::AVERAGE:
-      return static_cast<double>(regs_[M20X_PHV::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_PHV::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(regs_[M20X_PHVPHA::ADDR]) *
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X_PHVPHA::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(regs_[M20X_PHVPHB::ADDR]) *
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X_PHVPHB::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(regs_[M20X_PHVPHC::ADDR]) *
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X_PHVPHC::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
     default:
       return 0.0;
@@ -229,16 +232,16 @@ double Meter::getAcPowerActive(const Phase ph) const {
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(regs_[M20X_W::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_W::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(regs_[M20X_WPHA::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_WPHA::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(regs_[M20X_WPHB::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_WPHB::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(regs_[M20X_WPHC::ADDR]) *
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X_WPHC::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
     default:
       return 0.0;

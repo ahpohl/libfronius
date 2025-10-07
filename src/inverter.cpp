@@ -212,7 +212,7 @@ double Inverter::getAcPowerActive(void) const {
   if (useFloatRegisters_) {
     return modbus_get_float_abcd(regs_.data() + I11X_W::ADDR);
   } else {
-    return static_cast<double>(regs_[I10X_W::ADDR]) *
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X_W::ADDR])) *
            std::pow(10.0, static_cast<int16_t>(regs_[I10X_W_SF::ADDR]));
   }
 }
@@ -221,7 +221,7 @@ double Inverter::getAcPowerApparent(void) const {
   if (useFloatRegisters_) {
     return modbus_get_float_abcd(regs_.data() + I11X_VA::ADDR);
   } else {
-    return static_cast<double>(regs_[I10X_VA::ADDR]) *
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X_VA::ADDR])) *
            std::pow(10.0, static_cast<int16_t>(regs_[I10X_VA_SF::ADDR]));
   }
 }
@@ -230,7 +230,7 @@ double Inverter::getAcPowerReactive(void) const {
   if (useFloatRegisters_) {
     return modbus_get_float_abcd(regs_.data() + I11X_VAR::ADDR);
   } else {
-    return static_cast<double>(regs_[I10X_VAR::ADDR]) *
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X_VAR::ADDR])) *
            std::pow(10.0, static_cast<int16_t>(regs_[I10X_VAR_SF::ADDR]));
   }
 }
@@ -239,7 +239,7 @@ double Inverter::getAcPowerFactor(void) const {
   if (useFloatRegisters_) {
     return modbus_get_float_abcd(regs_.data() + I11X_PF::ADDR);
   } else {
-    return static_cast<double>(regs_[I10X_PF::ADDR]) *
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X_PF::ADDR])) *
            std::pow(10.0, static_cast<int16_t>(regs_[I10X_PF_SF::ADDR]));
   }
 }
@@ -258,8 +258,7 @@ double Inverter::getDcPower(void) const {
   if (useFloatRegisters_) {
     return modbus_get_float_abcd(regs_.data() + I11X_DCW::ADDR);
   } else {
-    return static_cast<double>(
-               modbus_utils::modbus_get_uint32(regs_.data() + I10X_DCW::ADDR)) *
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X_DCW::ADDR])) *
            std::pow(10.0, static_cast<int16_t>(regs_[I10X_DCW_SF::ADDR]));
   }
 }
