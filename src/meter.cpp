@@ -1,6 +1,5 @@
 #include "meter.h"
-#include "meter_float_registers.h"
-#include "meter_intsf_registers.h"
+#include "meter_registers.h"
 #include "modbus_utils.h"
 #include <array>
 #include <cerrno>
@@ -29,15 +28,15 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
   }
 
-  int rc = modbus_read_registers(ctx_, M20X_ID::ADDR, 2,
-                                 regs_.data() + M20X_ID::ADDR);
+  int rc = modbus_read_registers(ctx_, M20X::ID::ADDR, 2,
+                                 regs_.data() + M20X::ID::ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register " + std::to_string(M20X_ID::ADDR) + " failed")));
+        "Receive register " + std::to_string(M20X::ID::ADDR) + " failed")));
   }
 
   // Validate meter ID
-  uint16_t meterID = regs_[M20X_ID::ADDR];
+  uint16_t meterID = regs_[M20X::ID::ADDR];
   static constexpr std::array<uint16_t, 6> validMeterIDs = {201, 202, 203,
                                                             211, 212, 213};
 
@@ -66,13 +65,13 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
     useFloatRegisters_ = false;
 
   // Validate the register length
-  uint16_t regMapSize = regs_[M20X_L::ADDR];
-  if (regMapSize != M20X_SIZE && regMapSize != M21X_SIZE) {
+  uint16_t regMapSize = regs_[M20X::L::ADDR];
+  if (regMapSize != M20X::SIZE && regMapSize != M21X::SIZE) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL, "Invalid meter register map size: received " +
                     std::to_string(regMapSize) + ", expected [" +
-                    std::to_string(M20X_SIZE) + ", " +
-                    std::to_string(M21X_SIZE) + "]")));
+                    std::to_string(M20X::SIZE) + ", " +
+                    std::to_string(M21X::SIZE) + "]")));
   }
 
   return {};
@@ -84,7 +83,8 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
   }
 
-  uint16_t endBlockAddr = (useFloatRegisters_) ? E21X_ID::ADDR : E20X_ID::ADDR;
+  uint16_t endBlockAddr =
+      (useFloatRegisters_) ? M21X::END_ID::ADDR : M20X::END_ID::ADDR;
   int rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
@@ -94,7 +94,8 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   }
 
   // Validate the end block
-  uint16_t endBlockLength = (useFloatRegisters_) ? E21X_L::ADDR : E20X_L::ADDR;
+  uint16_t endBlockLength =
+      (useFloatRegisters_) ? M21X::END_L::ADDR : M20X::END_L::ADDR;
   if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL, "Invalid meter register end block: received [0x" +
@@ -104,8 +105,9 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   }
 
   // Get the meter registers
-  uint16_t meterBlockAddr = (useFloatRegisters_) ? M21X_A::ADDR : M20X_A::ADDR;
-  uint16_t meterBlockSize = (useFloatRegisters_) ? M21X_SIZE : M20X_SIZE;
+  uint16_t meterBlockAddr =
+      (useFloatRegisters_) ? M21X::A::ADDR : M20X::A::ADDR;
+  uint16_t meterBlockSize = (useFloatRegisters_) ? M21X::SIZE : M20X::SIZE;
 
   rc = modbus_read_registers(ctx_, meterBlockAddr, meterBlockSize,
                              regs_.data() + meterBlockAddr);
@@ -148,30 +150,33 @@ double Meter::getAcCurrent(const Phase ph) const {
   if (useFloatRegisters_) {
     switch (ph) {
     case Phase::TOTAL:
-      return modbus_get_float_abcd(regs_.data() + M21X_A::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::A::ADDR);
     case Phase::PHA:
-      return modbus_get_float_abcd(regs_.data() + M21X_APHA::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::APHA::ADDR);
     case Phase::PHB:
-      return modbus_get_float_abcd(regs_.data() + M21X_APHB::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::APHB::ADDR);
     case Phase::PHC:
-      return modbus_get_float_abcd(regs_.data() + M21X_APHC::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::APHC::ADDR);
     default:
       return 0.0;
     }
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_A::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X::A::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_APHA::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X::APHA::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_APHB::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X::APHB::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_APHC::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_A_SF::ADDR]));
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X::APHC::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
     default:
       return 0.0;
     }
@@ -182,36 +187,45 @@ double Meter::getAcVoltage(const Phase ph) const {
   if (useFloatRegisters_) {
     switch (ph) {
     case Phase::AVERAGE:
-      return modbus_get_float_abcd(regs_.data() + M21X_PHV::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::PHV::ADDR);
     case Phase::PHA:
-      return modbus_get_float_abcd(regs_.data() + M21X_PHVPHA::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::PHVPHA::ADDR);
     case Phase::PHB:
-      return modbus_get_float_abcd(regs_.data() + M21X_PHVPHB::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::PHVPHB::ADDR);
     case Phase::PHC:
-      return modbus_get_float_abcd(regs_.data() + M21X_PHVPHC::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::PHVPHC::ADDR);
     default:
       return 0.0;
     }
   } else {
     switch (ph) {
     case Phase::AVERAGE:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_PHV::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X::PHV::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
     case Phase::PHA:
       return static_cast<double>(
-                 static_cast<int16_t>(regs_[M20X_PHVPHA::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
+                 static_cast<int16_t>(regs_[M20X::PHVPHA::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
     case Phase::PHB:
       return static_cast<double>(
-                 static_cast<int16_t>(regs_[M20X_PHVPHB::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
+                 static_cast<int16_t>(regs_[M20X::PHVPHB::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
     case Phase::PHC:
       return static_cast<double>(
-                 static_cast<int16_t>(regs_[M20X_PHVPHC::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_V_SF::ADDR]));
+                 static_cast<int16_t>(regs_[M20X::PHVPHC::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
     default:
       return 0.0;
     }
+  }
+}
+
+double Meter::getAcFrequency(void) const {
+  if (useFloatRegisters_) {
+    return modbus_get_float_abcd(regs_.data() + M21X::FREQ::ADDR);
+  } else {
+    return static_cast<double>(static_cast<int16_t>(regs_[M20X::FREQ::ADDR])) *
+           std::pow(10.0, static_cast<int16_t>(regs_[M20X::FREQ_SF::ADDR]));
   }
 }
 
@@ -219,30 +233,33 @@ double Meter::getAcPowerActive(const Phase ph) const {
   if (useFloatRegisters_) {
     switch (ph) {
     case Phase::TOTAL:
-      return modbus_get_float_abcd(regs_.data() + M21X_W::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::W::ADDR);
     case Phase::PHA:
-      return modbus_get_float_abcd(regs_.data() + M21X_WPHA::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::WPHA::ADDR);
     case Phase::PHB:
-      return modbus_get_float_abcd(regs_.data() + M21X_WPHB::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::WPHB::ADDR);
     case Phase::PHC:
-      return modbus_get_float_abcd(regs_.data() + M21X_WPHC::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::WPHC::ADDR);
     default:
       return 0.0;
     }
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_W::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
+      return static_cast<double>(static_cast<int16_t>(regs_[M20X::W::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_WPHA::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X::WPHA::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_WPHB::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X::WPHB::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(static_cast<int16_t>(regs_[M20X_WPHC::ADDR])) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_W_SF::ADDR]));
+      return static_cast<double>(
+                 static_cast<int16_t>(regs_[M20X::WPHC::ADDR])) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
     default:
       return 0.0;
     }
@@ -253,13 +270,13 @@ double Meter::getAcEnergyActiveExport(const Phase ph) const {
   if (useFloatRegisters_) {
     switch (ph) {
     case Phase::TOTAL:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_EXP::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXP::ADDR);
     case Phase::PHA:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_EXPPHA::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXPPHA::ADDR);
     case Phase::PHB:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_EXPPHB::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXPPHB::ADDR);
     case Phase::PHC:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_EXPPHC::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXPPHC::ADDR);
     default:
       return 0.0;
     }
@@ -267,20 +284,20 @@ double Meter::getAcEnergyActiveExport(const Phase ph) const {
     switch (ph) {
     case Phase::TOTAL:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_EXP::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_EXP::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     case Phase::PHA:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_EXPPHA::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_EXPPHA::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     case Phase::PHB:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_EXPPHB::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_EXPPHB::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     case Phase::PHC:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_EXPPHC::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_EXPPHC::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     default:
       return 0.0;
     }
@@ -291,13 +308,13 @@ double Meter::getAcEnergyActiveImport(const Phase ph) const {
   if (useFloatRegisters_) {
     switch (ph) {
     case Phase::TOTAL:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_IMP::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMP::ADDR);
     case Phase::PHA:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_IMPPHA::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMPPHA::ADDR);
     case Phase::PHB:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_IMPPHB::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMPPHB::ADDR);
     case Phase::PHC:
-      return modbus_get_float_abcd(regs_.data() + M21X_TOTWH_IMPPHC::ADDR);
+      return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMPPHC::ADDR);
     default:
       return 0.0;
     }
@@ -305,20 +322,20 @@ double Meter::getAcEnergyActiveImport(const Phase ph) const {
     switch (ph) {
     case Phase::TOTAL:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_IMP::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_IMP::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     case Phase::PHA:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_IMPPHA::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_IMPPHA::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     case Phase::PHB:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_IMPPHB::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_IMPPHB::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     case Phase::PHC:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
-                 regs_.data() + M20X_TOTWH_IMPPHC::ADDR)) *
-             std::pow(10.0, static_cast<int16_t>(regs_[M20X_TOTWH_SF::ADDR]));
+                 regs_.data() + M20X::TOTWH_IMPPHC::ADDR)) *
+             std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
     default:
       return 0.0;
     }

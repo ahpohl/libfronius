@@ -1,6 +1,5 @@
 #include "inverter.h"
-#include "inverter_float_registers.h"
-#include "inverter_intsf_registers.h"
+#include "inverter_registers.h"
 #include "modbus_utils.h"
 #include <array>
 #include <cerrno>
@@ -29,15 +28,15 @@ std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
   }
 
-  int rc = modbus_read_registers(ctx_, I10X_ID::ADDR, 2,
-                                 regs_.data() + I10X_ID::ADDR);
+  int rc = modbus_read_registers(ctx_, I10X::ID::ADDR, 2,
+                                 regs_.data() + I10X::ID::ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register " + std::to_string(I10X_ID::ADDR) + " failed")));
+        "Receive register " + std::to_string(I10X::ID::ADDR) + " failed")));
   }
 
   // Validate inverter ID
-  uint16_t inverterID = regs_[I10X_ID::ADDR];
+  uint16_t inverterID = regs_[I10X::ID::ADDR];
   static constexpr std::array<uint16_t, 6> validInverterIDs = {101, 102, 103,
                                                                111, 112, 113};
 
@@ -66,13 +65,13 @@ std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
     useFloatRegisters_ = false;
 
   // Validate the register length
-  uint16_t regMapSize = regs_[I10X_L::ADDR];
-  if (regMapSize != I10X_SIZE && regMapSize != I11X_SIZE) {
+  uint16_t regMapSize = regs_[I10X::L::ADDR];
+  if (regMapSize != I10X::SIZE && regMapSize != I11X::SIZE) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL, "Invalid inverter register map size: received " +
                     std::to_string(regMapSize) + ", expected [" +
-                    std::to_string(I10X_SIZE) + ", " +
-                    std::to_string(I11X_SIZE) + "]")));
+                    std::to_string(I10X::SIZE) + ", " +
+                    std::to_string(I11X::SIZE) + "]")));
   }
 
   return {};
@@ -84,7 +83,8 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
   }
 
-  uint16_t endBlockAddr = (useFloatRegisters_) ? E11X_ID::ADDR : E10X_ID::ADDR;
+  uint16_t endBlockAddr =
+      (useFloatRegisters_) ? I11X::END_ID::ADDR : I10X::END_ID::ADDR;
   int rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
@@ -94,7 +94,8 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   }
 
   // Validate the end block
-  uint16_t endBlockLength = (useFloatRegisters_) ? E11X_L::ADDR : E10X_L::ADDR;
+  uint16_t endBlockLength =
+      (useFloatRegisters_) ? I11X::END_L::ADDR : I10X::END_L::ADDR;
   if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL, "Invalid inverter register end block: received [0x" +
@@ -105,8 +106,8 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
 
   // Get the inverter registers
   uint16_t inverterBlockAddr =
-      (useFloatRegisters_) ? I11X_A::ADDR : I10X_A::ADDR;
-  uint16_t inverterBlockSize = (useFloatRegisters_) ? I11X_SIZE : I10X_SIZE;
+      (useFloatRegisters_) ? I11X::A::ADDR : I10X::A::ADDR;
+  uint16_t inverterBlockSize = (useFloatRegisters_) ? I11X::SIZE : I10X::SIZE;
 
   rc = modbus_read_registers(ctx_, inverterBlockAddr, inverterBlockSize,
                              regs_.data() + inverterBlockAddr);
@@ -149,30 +150,30 @@ double Inverter::getAcCurrent(const Phase ph) const {
   if (useFloatRegisters_) {
     switch (ph) {
     case Phase::TOTAL:
-      return modbus_get_float_abcd(regs_.data() + I11X_A::ADDR);
+      return modbus_get_float_abcd(regs_.data() + I11X::A::ADDR);
     case Phase::PHA:
-      return modbus_get_float_abcd(regs_.data() + I11X_APHA::ADDR);
+      return modbus_get_float_abcd(regs_.data() + I11X::APHA::ADDR);
     case Phase::PHB:
-      return modbus_get_float_abcd(regs_.data() + I11X_APHB::ADDR);
+      return modbus_get_float_abcd(regs_.data() + I11X::APHB::ADDR);
     case Phase::PHC:
-      return modbus_get_float_abcd(regs_.data() + I11X_APHC::ADDR);
+      return modbus_get_float_abcd(regs_.data() + I11X::APHC::ADDR);
     default:
       return 0.0;
     }
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(regs_[I10X_A::ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X_A_SF::ADDR]));
+      return static_cast<double>(regs_[I10X::A::ADDR]) *
+             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF::ADDR]));
     case Phase::PHA:
-      return static_cast<double>(regs_[I10X_APHA::ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X_A_SF::ADDR]));
+      return static_cast<double>(regs_[I10X::APHA::ADDR]) *
+             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(regs_[I10X_APHB::ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X_A_SF::ADDR]));
+      return static_cast<double>(regs_[I10X::APHB::ADDR]) *
+             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(regs_[I10X_APHC::ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X_A_SF::ADDR]));
+      return static_cast<double>(regs_[I10X::APHC::ADDR]) *
+             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF::ADDR]));
     default:
       return 0.0;
     }
@@ -183,82 +184,91 @@ double Inverter::getAcVoltage(const Phase ph) const {
   if (useFloatRegisters_) {
     switch (ph) {
     case Phase::PHA:
-      return modbus_get_float_abcd(regs_.data() + I11X_PHVPHA::ADDR);
+      return modbus_get_float_abcd(regs_.data() + I11X::PHVPHA::ADDR);
     case Phase::PHB:
-      return modbus_get_float_abcd(regs_.data() + I11X_PHVPHB::ADDR);
+      return modbus_get_float_abcd(regs_.data() + I11X::PHVPHB::ADDR);
     case Phase::PHC:
-      return modbus_get_float_abcd(regs_.data() + I11X_PHVPHC::ADDR);
+      return modbus_get_float_abcd(regs_.data() + I11X::PHVPHC::ADDR);
     default:
       return 0.0;
     }
   } else {
     switch (ph) {
     case Phase::PHA:
-      return static_cast<double>(regs_[I10X_PHVPHA::ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X_V_SF::ADDR]));
+      return static_cast<double>(regs_[I10X::PHVPHA::ADDR]) *
+             std::pow(10.0, static_cast<int16_t>(regs_[I10X::V_SF::ADDR]));
     case Phase::PHB:
-      return static_cast<double>(regs_[I10X_PHVPHB::ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X_V_SF::ADDR]));
+      return static_cast<double>(regs_[I10X::PHVPHB::ADDR]) *
+             std::pow(10.0, static_cast<int16_t>(regs_[I10X::V_SF::ADDR]));
     case Phase::PHC:
-      return static_cast<double>(regs_[I10X_PHVPHC::ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X_V_SF::ADDR]));
+      return static_cast<double>(regs_[I10X::PHVPHC::ADDR]) *
+             std::pow(10.0, static_cast<int16_t>(regs_[I10X::V_SF::ADDR]));
     default:
       return 0.0;
     }
   }
 }
 
+double Inverter::getAcFrequency(void) const {
+  if (useFloatRegisters_) {
+    return modbus_get_float_abcd(regs_.data() + I11X::FREQ::ADDR);
+  } else {
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X::FREQ::ADDR])) *
+           std::pow(10.0, static_cast<int16_t>(regs_[I10X::FREQ_SF::ADDR]));
+  }
+}
+
 double Inverter::getAcPowerActive(void) const {
   if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X_W::ADDR);
+    return modbus_get_float_abcd(regs_.data() + I11X::W::ADDR);
   } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X_W::ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X_W_SF::ADDR]));
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X::W::ADDR])) *
+           std::pow(10.0, static_cast<int16_t>(regs_[I10X::W_SF::ADDR]));
   }
 }
 
 double Inverter::getAcPowerApparent(void) const {
   if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X_VA::ADDR);
+    return modbus_get_float_abcd(regs_.data() + I11X::VA::ADDR);
   } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X_VA::ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X_VA_SF::ADDR]));
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X::VA::ADDR])) *
+           std::pow(10.0, static_cast<int16_t>(regs_[I10X::VA_SF::ADDR]));
   }
 }
 
 double Inverter::getAcPowerReactive(void) const {
   if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X_VAR::ADDR);
+    return modbus_get_float_abcd(regs_.data() + I11X::VAR::ADDR);
   } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X_VAR::ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X_VAR_SF::ADDR]));
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X::VAR::ADDR])) *
+           std::pow(10.0, static_cast<int16_t>(regs_[I10X::VAR_SF::ADDR]));
   }
 }
 
 double Inverter::getAcPowerFactor(void) const {
   if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X_PF::ADDR);
+    return modbus_get_float_abcd(regs_.data() + I11X::PF::ADDR);
   } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X_PF::ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X_PF_SF::ADDR]));
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X::PF::ADDR])) *
+           std::pow(10.0, static_cast<int16_t>(regs_[I10X::PF_SF::ADDR]));
   }
 }
 
 double Inverter::getAcEnergy(void) const {
   if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X_WH::ADDR);
+    return modbus_get_float_abcd(regs_.data() + I11X::WH::ADDR);
   } else {
     return static_cast<double>(
-               modbus_utils::modbus_get_uint32(regs_.data() + I10X_WH::ADDR)) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X_WH_SF::ADDR]));
+               modbus_utils::modbus_get_uint32(regs_.data() + I10X::WH::ADDR)) *
+           std::pow(10.0, static_cast<int16_t>(regs_[I10X::WH_SF::ADDR]));
   }
 }
 
 double Inverter::getDcPower(void) const {
   if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X_DCW::ADDR);
+    return modbus_get_float_abcd(regs_.data() + I11X::DCW::ADDR);
   } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X_DCW::ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X_DCW_SF::ADDR]));
+    return static_cast<double>(static_cast<int16_t>(regs_[I10X::DCW::ADDR])) *
+           std::pow(10.0, static_cast<int16_t>(regs_[I10X::DCW_SF::ADDR]));
   }
 }

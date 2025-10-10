@@ -3,6 +3,7 @@
  * @brief Defines SunSpec Common Model (C001) register mappings for Fronius
  * devices.
  *
+ * @details
  * This header provides symbolic register definitions for the SunSpec Modbus
  * Common Model block (C001), which describes general device information such as
  * manufacturer, model, firmware versions, and serial number.
@@ -16,108 +17,133 @@
 
 #include <cstdint>
 
-/** @brief Total length of the Common Model block (in registers). */
-constexpr uint16_t C001_SIZE = 65;
+/**
+ * @namespace C001
+ * @brief SunSpec Common Model registers.
+ *
+ * @details
+ * This namespace defines the register addresses and sizes for the SunSpec
+ * Common Model (ID 1). The Common Model contains generic device information
+ * such as manufacturer, model identifier, firmware version, and serial number.
+ *
+ * It is implemented consistently across all SunSpec-compliant devices including
+ * Fronius inverters, meters, and batteries, serving as a standardized metadata
+ * block for identification and management.
+ */
+namespace C001 {
 
 /**
- * @struct C001_SID
+ * @brief Total length of the Common Model block (in registers).
+ */
+constexpr uint16_t SIZE = 65;
+
+/**
+ * @struct SID
  * @brief SunSpec identifier register.
  *
- * @details Uniquely identifies this Modbus map as a SunSpec device.
+ * @details
+ * Uniquely identifies this Modbus map as a SunSpec device.
  * The returned value corresponds to the ASCII string `"SunS"`.
  *
  * @return 0x53756e53 ('SunS')
  */
-struct C001_SID {
+struct SID {
   static constexpr uint16_t ADDR = 40001 - 1; ///< Starting register address.
   static constexpr uint16_t NB = 2;           ///< Number of registers.
 };
 
 /**
- * @struct C001_ID
+ * @struct ID
  * @brief Common Model ID register.
  *
- * @details Identifies this block as the SunSpec Common Model.
+ * @details
+ * Identifies this block as the SunSpec Common Model.
  *
  * @return Always returns 1.
  */
-struct C001_ID {
+struct ID {
   static constexpr uint16_t ADDR = 40003 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct C001_L
+ * @struct L
  * @brief Length of the Common Model block.
  *
- * @details Indicates the number of registers (65) used by this model.
+ * @details
+ * Indicates the number of registers (65) used by this model.
  *
  * @return Always returns 65.
  */
-struct C001_L {
+struct L {
   static constexpr uint16_t ADDR = 40004 - 1;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct C001_MN
+ * @struct MN
  * @brief Manufacturer name.
  *
- * @details Contains the manufacturer string, typically "Fronius".
+ * @details
+ * Contains the manufacturer string, typically "Fronius".
  *
  * @return Manufacturer name as a string (e.g. "Fronius").
  */
-struct C001_MN {
+struct MN {
   static constexpr uint16_t ADDR = 40005 - 1;
   static constexpr uint16_t NB = 16;
 };
 
 /**
- * @struct C001_MD
+ * @struct MD
  * @brief Device model.
  *
- * @details Specifies the model name of the device.
+ * @details
+ * Specifies the model name of the device.
  *
  * @return Model string (e.g. "IG+150V [3p]").
  */
-struct C001_MD {
+struct MD {
   static constexpr uint16_t ADDR = 40021 - 1;
   static constexpr uint16_t NB = 16;
 };
 
 /**
- * @struct C001_OPT
+ * @struct OPT
  * @brief Software version of installed option.
  *
- * @details Indicates firmware version of optional components,
+ * @details
+ * Indicates firmware version of optional components,
  * such as the Datamanager board.
  *
  * @return Firmware version string.
  */
-struct C001_OPT {
+struct OPT {
   static constexpr uint16_t ADDR = 40037 - 1;
   static constexpr uint16_t NB = 8;
 };
 
 /**
- * @struct C001_VR
+ * @struct VR
  * @brief Main device firmware version.
  *
- * @details Provides the firmware version of the primary device,
+ * @details
+ * Provides the firmware version of the primary device,
  * such as inverter, meter, or battery.
  *
  * @return Firmware version string.
  */
-struct C001_VR {
+struct VR {
   static constexpr uint16_t ADDR = 40045 - 1;
   static constexpr uint16_t NB = 8;
 };
 
 /**
- * @struct C001_SN
+ * @struct SN
  * @brief Device serial number.
  *
- * @details Contains the serial number of the device. Depending on
+ * @details
+ * Contains the serial number of the device. Depending on
  * device type and firmware, this field may not always represent the
  * printed serial number on the nameplate.
  *
@@ -130,22 +156,25 @@ struct C001_VR {
  *
  * @return Serial number or fallback unique identifier.
  */
-struct C001_SN {
+struct SN {
   static constexpr uint16_t ADDR = 40053 - 1;
   static constexpr uint16_t NB = 16;
 };
 
 /**
- * @struct C001_DA
+ * @struct DA
  * @brief Modbus device address register.
  *
- * @details Contains the current Modbus slave ID of the device.
+ * @details
+ * Contains the current Modbus slave ID of the device.
  *
  * @return Device address (1–247).
  */
-struct C001_DA {
+struct DA {
   static constexpr uint16_t ADDR = 40069 - 1;
   static constexpr uint16_t NB = 1;
 };
+
+} // namespace C001
 
 #endif /* COMMON_REGISTERS_H_ */
