@@ -64,17 +64,6 @@ public:
     return {c, msg, deduceSeverity(c)};
   }
 
-  /**
-   * @brief Produce a descriptive string combining message, libmodbus
-   * description, and code.
-   * @return Human-readable string (e.g., "Illegal data address (errno
-   * 112345680)").
-   */
-  std::string toString() const {
-    const char *libmsg = modbus_strerror(code);
-    return message + ": " + libmsg + " (errno " + std::to_string(code) + ")";
-  }
-
 private:
   /**
    * @brief Deduce severity based on the error code.
