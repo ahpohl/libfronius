@@ -83,9 +83,11 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
   }
 
+  int rc;
+
   uint16_t endBlockAddr =
       (useFloatRegisters_) ? I11X::END_ID::ADDR : I10X::END_ID::ADDR;
-  int rc =
+  rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
     return reportError<void>(std::unexpected(
