@@ -1,4 +1,5 @@
 #include "inverter.h"
+#include "inverter_mppt_registers.h"
 #include "inverter_registers.h"
 #include "modbus_utils.h"
 #include <array>
@@ -117,6 +118,20 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
     return reportError<void>(std::unexpected(
         ModbusError::fromErrno(std::string("Receive register ") +
                                std::to_string(inverterBlockAddr) + " failed")));
+  }
+
+  // Get the Multi MPPT inverter extension registers
+  uint16_t multiMpptBlockAddr = (useFloatRegisters_) ? I160::FLOAT::DCA_SF::ADDR
+                                                     : I160::INT::DCA_SF::ADDR;
+  uint16_t multiMpptBlockSize =
+      (useFloatRegisters_) ? I160::FLOAT::SIZE : I160::INT::SIZE;
+
+  rc = modbus_read_registers(ctx_, multiMpptBlockAddr, multiMpptBlockSize,
+                             regs_.data() + multiMpptBlockAddr);
+  if (rc == -1) {
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        std::string("Receive register ") + std::to_string(multiMpptBlockAddr) +
+        " failed")));
   }
 
   return {};
