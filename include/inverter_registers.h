@@ -377,9 +377,13 @@ struct EVTVND4 {
  * @brief End-of-block identifier.
  * @details This register indicates the end of the SunSpec inverter model block.
  * @returns Always returns 0xFFFF.
+ * @note For hybrid inverters that include a Basic Storage Control (BSC)
+ * register map, the end register address is offset by 26 registers. Take this
+ * into account when iterating over SunSpec blocks or calculating the next
+ * model's start address
  */
 struct END_ID {
-  static constexpr uint16_t ADDR = 40339; ///< Register start address.
+  static constexpr uint16_t ADDR = 40313; ///< Register start address.
   static constexpr uint16_t NB = 1;       ///< Number of registers.
 };
 
@@ -850,9 +854,13 @@ struct EVTVND4 {
  * @brief End-of-block identifier.
  * @details This register indicates the end of the SunSpec inverter model block.
  * @returns Always returns 0xFFFF.
+ * @note For hybrid inverters that include a Basic Storage Control (BSC)
+ * register map, the end register address is offset by 26 registers. Take this
+ * into account when iterating over SunSpec blocks or calculating the next
+ * model's start address
  */
 struct END_ID {
-  static constexpr uint16_t ADDR = 40329; ///< Register start address.
+  static constexpr uint16_t ADDR = 40303; ///< Register start address.
   static constexpr uint16_t NB = 1;       ///< Number of registers.
 };
 

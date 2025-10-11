@@ -58,11 +58,8 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
 
   // If we already have a context, check if the connection is still alive
   if (ctx_) {
-    uint16_t dummy;
-    int rc = modbus_read_registers(ctx_, C001::ID::ADDR, C001::ID::NB, &dummy);
-    if (rc > 0)
-      return {}; // Connection healthy, return
-
+    return {}; // Connection healthy, return
+  } else {
     // Connection lost → transient error
     modbus_close(ctx_);
     modbus_free(ctx_);
