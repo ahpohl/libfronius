@@ -56,10 +56,11 @@ void Fronius::setErrorCallback(std::function<void(const ModbusError &)> cb) {
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
 
-  // If we already have a context, check if the connection is still alive
-  if (ctx_) {
+  // If context already exists and connection is healthy, skip
+  if (ctx_ && connected_.load())
     return {}; // Connection healthy, return
-  } else {
+
+  if (ctx_) {
     // Connection lost → transient error
     modbus_close(ctx_);
     modbus_free(ctx_);
@@ -120,46 +121,70 @@ void Fronius::connectionLoop() {
 
   while (running_.load()) {
 
-    auto res = tryConnect();
-    if (res) {
-      // --- Successful connection
-      if (!connected_.load()) {
-        connected_.store(true);
+    // --- Try to connect if not already connected ---
+    if (!connected_.load()) {
+      auto res = tryConnect();
+      if (res) {
+        // --- Successful connection
         {
           std::lock_guard<std::mutex> lock(mtx_);
-          cv_.notify_all();
+          connected_.store(true);
+          cv_.notify_all(); // <--- notify waitForConnection
         }
+
         if (onConnect_)
           onConnect_();
-      }
-      if (cfg_.exponential)
-        reconnectDelay = cfg_.reconnectDelay;
 
-    } else {
-      auto &err = res.error();
+        if (cfg_.exponential)
+          reconnectDelay = cfg_.reconnectDelay;
 
-      // --- Update connected state if necessary
-      if (connected_.load()) {
+      } else {
+        auto &err = res.error();
+
+        // --- Update connected state if necessary
         connected_.store(false);
+
         if (onDisconnect_)
           onDisconnect_();
-      }
 
-      // --- Notify via onError (callback handles logging and severity)
-      if (onError_)
-        onError_(err);
+        // --- Notify via onError (callback handles logging and severity)
+        if (onError_)
+          onError_(err);
+
+        // --- Wait for next attempt or shutdown  ---
+        {
+          std::unique_lock<std::mutex> lock(mtx_);
+          cv_.wait_for(lock, std::chrono::seconds(reconnectDelay), [this] {
+            return !running_.load() || connected_.load();
+          });
+        }
+
+        // --- Exponential backoff for next retry ---
+        if (cfg_.exponential && !connected_.load())
+          reconnectDelay = std::min(reconnectDelay * 2, cfg_.reconnectDelayMax);
+
+        continue;
+      }
     }
-    // --- Wait for retryDelay seconds or until shutdown ---
+
+    // --- Already connected, wait until disconnected or shutdown ---
     {
       std::unique_lock<std::mutex> lock(mtx_);
-      cv_.wait_for(lock, std::chrono::seconds(reconnectDelay),
-                   [this] { return !running_.load(); });
+      cv_.wait(lock, [this] { return !running_.load() || !connected_.load(); });
     }
-
-    // --- Exponential backoff for next retry ---
-    if (cfg_.exponential)
-      reconnectDelay = std::min(reconnectDelay * 2, cfg_.reconnectDelayMax);
   }
+}
+
+void Fronius::triggerReconnect() {
+  std::lock_guard<std::mutex> lock(mtx_);
+
+  if (!connected_.load())
+    return; // already disconnected
+
+  connected_.store(false);
+
+  // Wake up connection loop to reconnect
+  cv_.notify_all();
 }
 
 std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {

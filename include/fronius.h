@@ -80,6 +80,24 @@ public:
   void waitForConnection(void);
 
   /**
+   * @brief Returns true if the device is currently connected.
+   *
+   * This reads the internal atomic `connected_` state.
+   */
+  bool isConnected() const { return connected_.load(); }
+
+  /**
+   * @brief Marks the Modbus device as disconnected and triggers a reconnection
+   * attempt.
+   *
+   * This function updates the internal connection state to "disconnected" and
+   * wakes the connection loop to attempt a new connection. It does not forcibly
+   * close the physical Modbus session; it is typically used after communication
+   * errors or to recover from transient connection issues.
+   */
+  void triggerReconnect(void);
+
+  /**
    * @brief Get the manufacturer name from the device.
    *
    * @return `std::expected<std::string, ModbusError>`

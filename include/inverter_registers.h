@@ -394,7 +394,7 @@ struct END_ID {
  * @returns Always returns 0.
  */
 struct END_L {
-  static constexpr uint16_t ADDR = 40340; ///< Register start address.
+  static constexpr uint16_t ADDR = 40314; ///< Register start address.
   static constexpr uint16_t NB = 1;       ///< Number of registers.
 };
 
@@ -871,7 +871,7 @@ struct END_ID {
  * @returns Always returns 0.
  */
 struct END_L {
-  static constexpr uint16_t ADDR = 40330; ///< Register start address.
+  static constexpr uint16_t ADDR = 40304; ///< Register start address.
   static constexpr uint16_t NB = 1;       ///< Number of registers.
 };
 
