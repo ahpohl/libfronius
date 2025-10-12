@@ -150,18 +150,28 @@ void Fronius::connectionLoop() {
         // --- Notify via onError (callback handles logging and severity)
         if (onError_)
           onError_(err);
+
+        // --- Wait for next attempt or shutdown  ---
+        {
+          std::unique_lock<std::mutex> lock(mtx_);
+          cv_.wait_for(lock, std::chrono::seconds(reconnectDelay), [this] {
+            return !running_.load() || connected_.load();
+          });
+        }
+
+        // --- Exponential backoff for next retry ---
+        if (cfg_.exponential && !connected_.load())
+          reconnectDelay = std::min(reconnectDelay * 2, cfg_.reconnectDelayMax);
+
+        continue;
       }
     }
 
-    // --- Wait for next attempt or shutdown/forceDisconnect ---
+    // --- Already connected, wait until disconnected or shutdown ---
     {
       std::unique_lock<std::mutex> lock(mtx_);
-      cv_.wait_for(lock, std::chrono::seconds(reconnectDelay),
-                   [this] { return !running_.load() || connected_.load(); });
+      cv_.wait(lock, [this] { return !running_.load() || !connected_.load(); });
     }
-    // --- Exponential backoff for next retry ---
-    if (cfg_.exponential)
-      reconnectDelay = std::min(reconnectDelay * 2, cfg_.reconnectDelayMax);
   }
 }
 
