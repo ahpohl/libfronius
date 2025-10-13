@@ -148,34 +148,18 @@ public:
 
   /**
    * @enum Phase
-   * @brief Identifiers for phase-related values.
+   * @brief Identifiers for phase and input related values.
    */
-  enum class Phase {
-    TOTAL,
-    AVERAGE,
-    PHA,
-    PHB,
-    PHC,
-    PHAB,
-    PHBC,
-    PHCA,
-    Q1,
-    Q1PHA,
-    Q1PHB,
-    Q1PHC,
-    Q2,
-    Q2PHA,
-    Q2PHB,
-    Q2PHC,
-    Q3,
-    Q3PHA,
-    Q3PHB,
-    Q3PHC,
-    Q4,
-    Q4PHA,
-    Q4PHB,
-    Q4PHC
-  };
+  enum class Phase { TOTAL, AVERAGE, A, B, C };
+
+  /**
+   * @enum Input
+   * @brief Identifiers for MPPT inputs or DC strings of the inverter.
+   *
+   * Represents the multiple independent DC input channels (or strings) of the
+   * inverter, typically used in multiple MPPT configurations.
+   */
+  enum class Input { TOTAL, A, B };
 
 protected:
   /**

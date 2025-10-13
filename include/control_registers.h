@@ -1,4 +1,0 @@
-#ifndef CONTROL_REGISTERS_H_
-#define CONTROL_REGISTERS_H_
-
-#endif /* CONTROL_REGISTERS_H_ */

@@ -151,11 +151,11 @@ double Meter::getAcCurrent(const Phase ph) const {
     switch (ph) {
     case Phase::TOTAL:
       return modbus_get_float_abcd(regs_.data() + M21X::A::ADDR);
-    case Phase::PHA:
+    case Phase::A:
       return modbus_get_float_abcd(regs_.data() + M21X::APHA::ADDR);
-    case Phase::PHB:
+    case Phase::B:
       return modbus_get_float_abcd(regs_.data() + M21X::APHB::ADDR);
-    case Phase::PHC:
+    case Phase::C:
       return modbus_get_float_abcd(regs_.data() + M21X::APHC::ADDR);
     default:
       return 0.0;
@@ -165,15 +165,15 @@ double Meter::getAcCurrent(const Phase ph) const {
     case Phase::TOTAL:
       return static_cast<double>(static_cast<int16_t>(regs_[M20X::A::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
-    case Phase::PHA:
+    case Phase::A:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::APHA::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
-    case Phase::PHB:
+    case Phase::B:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::APHB::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
-    case Phase::PHC:
+    case Phase::C:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::APHC::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::A_SF::ADDR]));
@@ -188,11 +188,11 @@ double Meter::getAcVoltage(const Phase ph) const {
     switch (ph) {
     case Phase::AVERAGE:
       return modbus_get_float_abcd(regs_.data() + M21X::PHV::ADDR);
-    case Phase::PHA:
+    case Phase::A:
       return modbus_get_float_abcd(regs_.data() + M21X::PHVPHA::ADDR);
-    case Phase::PHB:
+    case Phase::B:
       return modbus_get_float_abcd(regs_.data() + M21X::PHVPHB::ADDR);
-    case Phase::PHC:
+    case Phase::C:
       return modbus_get_float_abcd(regs_.data() + M21X::PHVPHC::ADDR);
     default:
       return 0.0;
@@ -202,15 +202,15 @@ double Meter::getAcVoltage(const Phase ph) const {
     case Phase::AVERAGE:
       return static_cast<double>(static_cast<int16_t>(regs_[M20X::PHV::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
-    case Phase::PHA:
+    case Phase::A:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::PHVPHA::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
-    case Phase::PHB:
+    case Phase::B:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::PHVPHB::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
-    case Phase::PHC:
+    case Phase::C:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::PHVPHC::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::V_SF::ADDR]));
@@ -234,11 +234,11 @@ double Meter::getAcPowerActive(const Phase ph) const {
     switch (ph) {
     case Phase::TOTAL:
       return modbus_get_float_abcd(regs_.data() + M21X::W::ADDR);
-    case Phase::PHA:
+    case Phase::A:
       return modbus_get_float_abcd(regs_.data() + M21X::WPHA::ADDR);
-    case Phase::PHB:
+    case Phase::B:
       return modbus_get_float_abcd(regs_.data() + M21X::WPHB::ADDR);
-    case Phase::PHC:
+    case Phase::C:
       return modbus_get_float_abcd(regs_.data() + M21X::WPHC::ADDR);
     default:
       return 0.0;
@@ -248,15 +248,15 @@ double Meter::getAcPowerActive(const Phase ph) const {
     case Phase::TOTAL:
       return static_cast<double>(static_cast<int16_t>(regs_[M20X::W::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
-    case Phase::PHA:
+    case Phase::A:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::WPHA::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
-    case Phase::PHB:
+    case Phase::B:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::WPHB::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
-    case Phase::PHC:
+    case Phase::C:
       return static_cast<double>(
                  static_cast<int16_t>(regs_[M20X::WPHC::ADDR])) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::W_SF::ADDR]));
@@ -271,11 +271,11 @@ double Meter::getAcEnergyActiveExport(const Phase ph) const {
     switch (ph) {
     case Phase::TOTAL:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXP::ADDR);
-    case Phase::PHA:
+    case Phase::A:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXPPHA::ADDR);
-    case Phase::PHB:
+    case Phase::B:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXPPHB::ADDR);
-    case Phase::PHC:
+    case Phase::C:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_EXPPHC::ADDR);
     default:
       return 0.0;
@@ -286,15 +286,15 @@ double Meter::getAcEnergyActiveExport(const Phase ph) const {
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXP::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
-    case Phase::PHA:
+    case Phase::A:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXPPHA::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
-    case Phase::PHB:
+    case Phase::B:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXPPHB::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
-    case Phase::PHC:
+    case Phase::C:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXPPHC::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
@@ -309,11 +309,11 @@ double Meter::getAcEnergyActiveImport(const Phase ph) const {
     switch (ph) {
     case Phase::TOTAL:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMP::ADDR);
-    case Phase::PHA:
+    case Phase::A:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMPPHA::ADDR);
-    case Phase::PHB:
+    case Phase::B:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMPPHB::ADDR);
-    case Phase::PHC:
+    case Phase::C:
       return modbus_get_float_abcd(regs_.data() + M21X::TOTWH_IMPPHC::ADDR);
     default:
       return 0.0;
@@ -324,15 +324,15 @@ double Meter::getAcEnergyActiveImport(const Phase ph) const {
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMP::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
-    case Phase::PHA:
+    case Phase::A:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMPPHA::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
-    case Phase::PHB:
+    case Phase::B:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMPPHB::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));
-    case Phase::PHC:
+    case Phase::C:
       return static_cast<double>(modbus_utils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMPPHC::ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF::ADDR]));

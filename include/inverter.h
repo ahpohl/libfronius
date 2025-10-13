@@ -88,7 +88,7 @@ public:
    * @param ph Phase to read (`PHA`, `PHB`, or `PHC`).
    * @return Voltage value in volts (V).
    */
-  double getAcVoltage(const Phase ph = Phase::PHA) const;
+  double getAcVoltage(const Phase ph = Phase::A) const;
 
   /**
    * @brief Get AC active power in watts.
@@ -127,10 +127,15 @@ public:
   double getAcEnergy(void) const;
 
   /**
-   * @brief Get DC power of all inputs in watts.
+   * @brief Get DC power of a specific input in watts.
+   *
+   * @param input The input for which to retrieve DC power. Valid options are:
+   *              - TOTAL : total DC power of all inputs
+   *              - A : DC power of input string A
+   *              - B : DC power of input string B
    * @return Power value in watts (W).
    */
-  double getDcPower(void) const;
+  double getDcPower(const Input input = Input::A) const;
 
 private:
   /**
