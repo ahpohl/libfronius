@@ -15,6 +15,7 @@
 #ifndef COMMON_REGISTERS_H_
 #define COMMON_REGISTERS_H_
 
+#include "register_base.h"
 #include <cstdint>
 
 /**
@@ -32,13 +33,10 @@
  */
 namespace C001 {
 
-/**
- * @brief Total length of the Common Model block (in registers).
- */
+/** @brief Total length of the Common Model block (in registers). */
 constexpr uint16_t SIZE = 65;
 
 /**
- * @struct SID
  * @brief SunSpec identifier register.
  *
  * @details
@@ -47,13 +45,9 @@ constexpr uint16_t SIZE = 65;
  *
  * @return 0x53756e53 ('SunS')
  */
-struct SID {
-  static constexpr uint16_t ADDR = 40001 - 1; ///< Starting register address.
-  static constexpr uint16_t NB = 2;           ///< Number of registers.
-};
+constexpr Register SID(40000, 2);
 
 /**
- * @struct ID
  * @brief Common Model ID register.
  *
  * @details
@@ -61,13 +55,9 @@ struct SID {
  *
  * @return Always returns 1.
  */
-struct ID {
-  static constexpr uint16_t ADDR = 40003 - 1;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register ID(40002, 1);
 
 /**
- * @struct L
  * @brief Length of the Common Model block.
  *
  * @details
@@ -75,13 +65,9 @@ struct ID {
  *
  * @return Always returns 65.
  */
-struct L {
-  static constexpr uint16_t ADDR = 40004 - 1;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register L(40003, 1);
 
 /**
- * @struct MN
  * @brief Manufacturer name.
  *
  * @details
@@ -89,13 +75,9 @@ struct L {
  *
  * @return Manufacturer name as a string (e.g. "Fronius").
  */
-struct MN {
-  static constexpr uint16_t ADDR = 40005 - 1;
-  static constexpr uint16_t NB = 16;
-};
+constexpr Register MN(40004, 16);
 
 /**
- * @struct MD
  * @brief Device model.
  *
  * @details
@@ -103,13 +85,9 @@ struct MN {
  *
  * @return Model string (e.g. "IG+150V [3p]").
  */
-struct MD {
-  static constexpr uint16_t ADDR = 40021 - 1;
-  static constexpr uint16_t NB = 16;
-};
+constexpr Register MD(40020, 16);
 
 /**
- * @struct OPT
  * @brief Software version of installed option.
  *
  * @details
@@ -118,13 +96,9 @@ struct MD {
  *
  * @return Firmware version string.
  */
-struct OPT {
-  static constexpr uint16_t ADDR = 40037 - 1;
-  static constexpr uint16_t NB = 8;
-};
+constexpr Register OPT(40036, 8);
 
 /**
- * @struct VR
  * @brief Main device firmware version.
  *
  * @details
@@ -133,13 +107,9 @@ struct OPT {
  *
  * @return Firmware version string.
  */
-struct VR {
-  static constexpr uint16_t ADDR = 40045 - 1;
-  static constexpr uint16_t NB = 8;
-};
+constexpr Register VR(40044, 8);
 
 /**
- * @struct SN
  * @brief Device serial number.
  *
  * @details
@@ -156,13 +126,9 @@ struct VR {
  *
  * @return Serial number or fallback unique identifier.
  */
-struct SN {
-  static constexpr uint16_t ADDR = 40053 - 1;
-  static constexpr uint16_t NB = 16;
-};
+constexpr Register SN(40052, 16);
 
 /**
- * @struct DA
  * @brief Modbus device address register.
  *
  * @details
@@ -170,10 +136,7 @@ struct SN {
  *
  * @return Device address (1–247).
  */
-struct DA {
-  static constexpr uint16_t ADDR = 40069 - 1;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register DA(40068, 1);
 
 } // namespace C001
 

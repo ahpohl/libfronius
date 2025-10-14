@@ -33,514 +33,8 @@
 #ifndef METER_REGISTERS_H_
 #define METER_REGISTERS_H_
 
+#include "register_base.h"
 #include <cstdint>
-
-/**
- * @namespace M21X
- * @brief Contains floating-point SunSpec Meter registers for Fronius inverters.
- *
- * All measurements in this namespace are represented as 32-bit IEEE
- * floating-point values. Register addresses follow the standard SunSpec float
- * model layout.
- */
-namespace M21X {
-
-/**
- * @brief Total number of registers in the meter model (float).
- */
-constexpr uint16_t SIZE = 124;
-
-/**
- * @struct ID
- * @brief SunSpec meter model identifier (float).
- *
- * @return
- *  - 211: Single-phase
- *  - 212: Split-phase
- *  - 213: Three-phase
- */
-struct ID {
-  static constexpr uint16_t ADDR = 40069;
-  static constexpr uint16_t NB = 1;
-};
-
-/**
- * @struct L
- * @brief Length of meter model block.
- * @return Always 124
- */
-struct L {
-  static constexpr uint16_t ADDR = 40070;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- AC current ---
-
-/**
- * @struct A
- * @brief AC total current
- * @unit Amperes [A]
- */
-struct A {
-  static constexpr uint16_t ADDR = 40071;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct APHA
- * @brief AC current phase A
- * @unit Amperes [A]
- */
-struct APHA {
-  static constexpr uint16_t ADDR = 40073;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct APHB
- * @brief AC current phase B
- * @unit Amperes [A]
- */
-struct APHB {
-  static constexpr uint16_t ADDR = 40075;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct APHC
- * @brief AC current phase C
- * @unit Amperes [A]
- */
-struct APHC {
-  static constexpr uint16_t ADDR = 40077;
-  static constexpr uint16_t NB = 2;
-};
-
-// --- AC voltage ---
-
-/**
- * @struct PHV
- * @brief Average AC voltage phase-to-neutral
- * @unit Volts [V]
- */
-struct PHV {
-  static constexpr uint16_t ADDR = 40079;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PHVPHA
- * @brief AC voltage phase A to neutral
- * @unit Volts [V]
- */
-struct PHVPHA {
-  static constexpr uint16_t ADDR = 40081;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PHVPHB
- * @brief AC voltage phase B to neutral
- * @unit Volts [V]
- */
-struct PHVPHB {
-  static constexpr uint16_t ADDR = 40083;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PHVPHC
- * @brief AC voltage phase C to neutral
- * @unit Volts [V]
- */
-struct PHVPHC {
-  static constexpr uint16_t ADDR = 40085;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PPV
- * @brief Average AC voltage phase-to-phase
- * @unit Volts [V]
- */
-struct PPV {
-  static constexpr uint16_t ADDR = 40087;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PPVPHAB
- * @brief AC voltage phase AB
- * @unit Volts [V]
- */
-struct PPVPHAB {
-  static constexpr uint16_t ADDR = 40089;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PPVPHBC
- * @brief AC voltage phase BC
- * @unit Volts [V]
- */
-struct PPVPHBC {
-  static constexpr uint16_t ADDR = 40091;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PPVPHCA
- * @brief AC voltage phase CA
- * @unit Volts [V]
- */
-struct PPVPHCA {
-  static constexpr uint16_t ADDR = 40093;
-  static constexpr uint16_t NB = 2;
-};
-
-// --- AC frequency ---
-
-/**
- * @struct FREQ
- * @brief AC frequency
- * @unit Hertz [Hz]
- */
-struct FREQ {
-  static constexpr uint16_t ADDR = 40095;
-  static constexpr uint16_t NB = 2;
-};
-
-// --- AC power ---
-
-/**
- * @struct W
- * @brief Total AC active power
- * @unit Watts [W]
- */
-struct W {
-  static constexpr uint16_t ADDR = 40097;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct WPHA
- * @brief AC active power phase A
- * @unit Watts [W]
- */
-struct WPHA {
-  static constexpr uint16_t ADDR = 40099;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct WPHB
- * @brief AC active power phase B
- * @unit Watts [W]
- */
-struct WPHB {
-  static constexpr uint16_t ADDR = 40101;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct WPHC
- * @brief AC active power phase C
- * @unit Watts [W]
- */
-struct WPHC {
-  static constexpr uint16_t ADDR = 40103;
-  static constexpr uint16_t NB = 2;
-};
-
-// --- AC apparent power ---
-
-/**
- * @struct VA
- * @brief Total AC apparent power
- * @unit Volt-amperes [VA]
- */
-struct VA {
-  static constexpr uint16_t ADDR = 40105;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct VAPHA
- * @brief AC apparent power phase A
- * @unit Volt-amperes [VA]
- */
-struct VAPHA {
-  static constexpr uint16_t ADDR = 40107;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct VAPHB
- * @brief AC apparent power phase B
- * @unit Volt-amperes [VA]
- */
-struct VAPHB {
-  static constexpr uint16_t ADDR = 40109;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct VAPHC
- * @brief AC apparent power phase C
- * @unit Volt-amperes [VA]
- */
-struct VAPHC {
-  static constexpr uint16_t ADDR = 40111;
-  static constexpr uint16_t NB = 2;
-};
-
-// --- AC reactive power ---
-
-/**
- * @struct VAR
- * @brief Total AC reactive power
- * @unit Volt-ampere reactive [VAr]
- */
-struct VAR {
-  static constexpr uint16_t ADDR = 40113;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct VARPHA
- * @brief AC reactive power phase A
- * @unit Volt-ampere reactive [VAr]
- */
-struct VARPHA {
-  static constexpr uint16_t ADDR = 40115;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct VARPHB
- * @brief AC reactive power phase B
- * @unit Volt-ampere reactive [VAr]
- */
-struct VARPHB {
-  static constexpr uint16_t ADDR = 40117;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct VARPHC
- * @brief AC reactive power phase C
- * @unit Volt-ampere reactive [VAr]
- */
-struct VARPHC {
-  static constexpr uint16_t ADDR = 40119;
-  static constexpr uint16_t NB = 2;
-};
-
-// --- Power factor ---
-
-/**
- * @struct PF
- * @brief Total power factor
- * @unit Percent [%]
- */
-struct PF {
-  static constexpr uint16_t ADDR = 40121;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PFPHA
- * @brief Power factor phase A
- * @unit Percent [%]
- */
-struct PFPHA {
-  static constexpr uint16_t ADDR = 40123;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PFPHB
- * @brief Power factor phase B
- * @unit Percent [%]
- */
-struct PFPHB {
-  static constexpr uint16_t ADDR = 40125;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct PFPHC
- * @brief Power factor phase C
- * @unit Percent [%]
- */
-struct PFPHC {
-  static constexpr uint16_t ADDR = 40127;
-  static constexpr uint16_t NB = 2;
-};
-
-// --- Energy registers ---
-
-/**
- * @struct TOTWH_EXP
- * @brief Total AC energy exported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_EXP {
-  static constexpr uint16_t ADDR = 40129;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTWH_EXPPHA
- * @brief Total AC energy phase A exported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_EXPPHA {
-  static constexpr uint16_t ADDR = 40131;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTWH_EXPPHB
- * @brief Total AC energy phase B exported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_EXPPHB {
-  static constexpr uint16_t ADDR = 40133;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTWH_EXPPHC
- * @brief Total AC energy phase C exported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_EXPPHC {
-  static constexpr uint16_t ADDR = 40135;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTWH_IMP
- * @brief Total AC energy imported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_IMP {
-  static constexpr uint16_t ADDR = 40137;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTWH_IMPPHA
- * @brief Total AC energy phase A imported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_IMPPHA {
-  static constexpr uint16_t ADDR = 40139;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTWH_IMPPHB
- * @brief Total AC energy phase B imported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_IMPPHB {
-  static constexpr uint16_t ADDR = 40141;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTWH_IMPPHC
- * @brief Total AC energy phase C imported
- * @unit Watt-hours [Wh]
- */
-struct TOTWH_IMPPHC {
-  static constexpr uint16_t ADDR = 40143;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_EXP
- * @brief Total AC apparent energy exported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_EXP {
-  static constexpr uint16_t ADDR = 40145;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_EXPPHA
- * @brief Total AC apparent energy phase A exported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_EXPPHA {
-  static constexpr uint16_t ADDR = 40147;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_EXPPHB
- * @brief Total AC apparent energy phase B exported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_EXPPHB {
-  static constexpr uint16_t ADDR = 40149;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_EXPPHC
- * @brief Total AC apparent energy phase C exported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_EXPPHC {
-  static constexpr uint16_t ADDR = 40151;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_IMP
- * @brief Total AC apparent energy imported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_IMP {
-  static constexpr uint16_t ADDR = 40153;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_IMPPHA
- * @brief Total AC apparent energy phase A imported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_IMPPHA {
-  static constexpr uint16_t ADDR = 40155;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_IMPPHB
- * @brief Total AC apparent energy phase B imported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_IMPPHB {
-  static constexpr uint16_t ADDR = 40157;
-  static constexpr uint16_t NB = 2;
-};
-
-/**
- * @struct TOTVAH_IMPPHC
- * @brief Total AC apparent energy phase C imported
- * @unit VA-hours [VA]
- */
-struct TOTVAH_IMPPHC {
-  static constexpr uint16_t ADDR = 40159;
-  static constexpr uint16_t NB = 2;
-};
-
-} // namespace M21X
 
 /**
  * @namespace M20X
@@ -554,504 +48,577 @@ struct TOTVAH_IMPPHC {
  */
 namespace M20X {
 
-/**
- * @brief Total number of registers in the meter model (integer + scale factor).
- */
+/** @brief Total number of registers in the meter model (integer + scale
+ * factor). */
 constexpr uint16_t SIZE = 105;
 
 /**
- * @struct ID
  * @brief SunSpec meter model identifier
  * @return
  * - 201 – Single-phase meter
  * - 202 – Split-phase meter
  * - 203 – Three-phase meter
  */
-struct ID {
-  static constexpr uint16_t ADDR = 40069;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register ID(40069, 1);
 
 /**
- * @struct L
  * @brief Length of meter model block
  * @return Always 105
  */
-struct L {
-  static constexpr uint16_t ADDR = 40070;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- AC current registers ---
+constexpr Register L(40070, 1);
 
 /**
- * @struct A
  * @brief Total AC current
  * @unit Amperes [A]
  */
-struct A {
-  static constexpr uint16_t ADDR = 40071;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register A(40071, 1);
 
 /**
- * @struct APHA
  * @brief AC current phase A
  * @unit Amperes [A]
  */
-struct APHA {
-  static constexpr uint16_t ADDR = 40072;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register APHA(40072, 1);
 
 /**
- * @struct APHB
  * @brief AC current phase B
  * @unit Amperes [A]
  */
-struct APHB {
-  static constexpr uint16_t ADDR = 40073;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register APHB(40073, 1);
 
 /**
- * @struct APHC
  * @brief AC current phase C
  * @unit Amperes [A]
  */
-struct APHC {
-  static constexpr uint16_t ADDR = 40074;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register APHC(40074, 1);
+
+/** @brief AC current scale factor */
+constexpr Register A_SF(40075, 1);
 
 /**
- * @struct A_SF
- * @brief AC current scale factor
- */
-struct A_SF {
-  static constexpr uint16_t ADDR = 40075;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- AC voltage registers ---
-
-/**
- * @struct PHV
  * @brief Average AC voltage phase-to-neutral
  * @unit Volts [V]
  */
-struct PHV {
-  static constexpr uint16_t ADDR = 40076;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PHV(40076, 1);
 
 /**
- * @struct PHVPHA
  * @brief AC voltage phase A to neutral
  * @unit Volts [V]
  */
-struct PHVPHA {
-  static constexpr uint16_t ADDR = 40077;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PHVPHA(40077, 1);
 
 /**
- * @struct PHVPHB
  * @brief AC voltage phase B to neutral
  * @unit Volts [V]
  */
-struct PHVPHB {
-  static constexpr uint16_t ADDR = 40078;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PHVPHB(40078, 1);
 
 /**
- * @struct PHVPHC
  * @brief AC voltage phase C to neutral
  * @unit Volts [V]
  */
-struct PHVPHC {
-  static constexpr uint16_t ADDR = 40079;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PHVPHC(40079, 1);
 
 /**
- * @struct PPV
  * @brief Average AC voltage phase-to-phase
  * @unit Volts [V]
  */
-struct PPV {
-  static constexpr uint16_t ADDR = 40080;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PPV(40080, 1);
 
 /**
- * @struct PPVPHAB
  * @brief AC voltage phase AB
  * @unit Volts [V]
  */
-struct PPVPHAB {
-  static constexpr uint16_t ADDR = 40081;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PPVPHAB(40081, 1);
 
 /**
- * @struct PPVPHBC
  * @brief AC voltage phase BC
  * @unit Volts [V]
  */
-struct PPVPHBC {
-  static constexpr uint16_t ADDR = 40082;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PPVPHBC(40082, 1);
 
 /**
- * @struct PPVPHCA
  * @brief AC voltage phase CA
  * @unit Volts [V]
  */
-struct PPVPHCA {
-  static constexpr uint16_t ADDR = 40083;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PPVPHCA(40083, 1);
+
+/** @brief Voltage scale factor */
+constexpr Register V_SF(40084, 1);
 
 /**
- * @struct V_SF
- * @brief Voltage scale factor
- */
-struct V_SF {
-  static constexpr uint16_t ADDR = 40084;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- AC frequency registers ---
-
-/**
- * @struct FREQ
  * @brief AC frequency
  * @unit Hertz [Hz]
  */
-struct FREQ {
-  static constexpr uint16_t ADDR = 40085;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register FREQ(40085, 1);
+
+/** @brief Frequency scale factor */
+constexpr Register FREQ_SF(40086, 1);
 
 /**
- * @struct FREQ_SF
- * @brief Frequency scale factor
- */
-struct FREQ_SF {
-  static constexpr uint16_t ADDR = 40086;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- AC active power registers ---
-
-/**
- * @struct W
  * @brief Total AC active power
  * @unit Watts [W]
  */
-struct W {
-  static constexpr uint16_t ADDR = 40087;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register W(40087, 1);
 
 /**
- * @struct WPHA
  * @brief AC active power phase A
  * @unit Watts [W]
  */
-struct WPHA {
-  static constexpr uint16_t ADDR = 40088;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register WPHA(40088, 1);
 
 /**
- * @struct WPHB
  * @brief AC active power phase B
  * @unit Watts [W]
  */
-struct WPHB {
-  static constexpr uint16_t ADDR = 40089;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register WPHB(40089, 1);
 
 /**
- * @struct WPHC
  * @brief AC active power phase C
  * @unit Watts [W]
  */
-struct WPHC {
-  static constexpr uint16_t ADDR = 40090;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register WPHC(40090, 1);
+
+/** @brief Power scale factor */
+constexpr Register W_SF(40091, 1);
 
 /**
- * @struct W_SF
- * @brief Power scale factor
- */
-struct W_SF {
-  static constexpr uint16_t ADDR = 40091;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- AC apparent power registers ---
-
-/**
- * @struct VA
  * @brief Total AC apparent power
  * @unit Volt-amperes [VA]
  */
-struct VA {
-  static constexpr uint16_t ADDR = 40092;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VA(40092, 1);
 
 /**
- * @struct VAPHA
  * @brief AC apparent power phase A
  * @unit Volt-amperes [VA]
  */
-struct VAPHA {
-  static constexpr uint16_t ADDR = 40093;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VAPHA(40093, 1);
 
 /**
- * @struct VAPHB
  * @brief AC apparent power phase B
  * @unit Volt-amperes [VA]
  */
-struct VAPHB {
-  static constexpr uint16_t ADDR = 40094;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VAPHB(40094, 1);
 
 /**
- * @struct VAPHC
  * @brief AC apparent power phase C
  * @unit Volt-amperes [VA]
  */
-struct VAPHC {
-  static constexpr uint16_t ADDR = 40095;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VAPHC(40095, 1);
+
+/** @brief Apparent power scale factor */
+constexpr Register VA_SF(40096, 1);
 
 /**
- * @struct VA_SF
- * @brief Apparent power scale factor
- */
-struct VA_SF {
-  static constexpr uint16_t ADDR = 40096;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- AC reactive power registers ---
-
-/**
- * @struct VAR
  * @brief Total AC reactive power
  * @unit Volt-ampere reactive [VAr]
  */
-struct VAR {
-  static constexpr uint16_t ADDR = 40097;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VAR(40097, 1);
 
 /**
- * @struct VARPHA
  * @brief AC reactive power phase A
  * @unit Volt-ampere reactive [VAr]
  */
-struct VARPHA {
-  static constexpr uint16_t ADDR = 40098;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VARPHA(40098, 1);
 
 /**
- * @struct VARPHB
  * @brief AC reactive power phase B
  * @unit Volt-ampere reactive [VAr]
  */
-struct VARPHB {
-  static constexpr uint16_t ADDR = 40099;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VARPHB(40099, 1);
 
 /**
- * @struct VARPHC
  * @brief AC reactive power phase C
  * @unit Volt-ampere reactive [VAr]
  */
-struct VARPHC {
-  static constexpr uint16_t ADDR = 40100;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register VARPHC(40100, 1);
+
+/** @brief Reactive power scale factor */
+constexpr Register VAR_SF(40101, 1);
 
 /**
- * @struct VAR_SF
- * @brief Reactive power scale factor
- */
-struct VAR_SF {
-  static constexpr uint16_t ADDR = 40101;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- Power factor registers ---
-
-/**
- * @struct PF
  * @brief Total power factor
  * @unit Percent [%]
  */
-struct PF {
-  static constexpr uint16_t ADDR = 40102;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PF(40102, 1);
 
 /**
- * @struct PFPHA
  * @brief Power factor phase A
  * @unit Percent [%]
  */
-struct PFPHA {
-  static constexpr uint16_t ADDR = 40103;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PFPHA(40103, 1);
 
 /**
- * @struct PFPHB
  * @brief Power factor phase B
  * @unit Percent [%]
  */
-struct PFPHB {
-  static constexpr uint16_t ADDR = 40104;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PFPHB(40104, 1);
 
 /**
- * @struct PFPHC
  * @brief Power factor phase C
  * @unit Percent [%]
  */
-struct PFPHC {
-  static constexpr uint16_t ADDR = 40105;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register PFPHC(40105, 1);
+
+/** @brief Power factor scale factor */
+constexpr Register PF_SF(40106, 1);
 
 /**
- * @struct PF_SF
- * @brief Power factor scale factor
- */
-struct PF_SF {
-  static constexpr uint16_t ADDR = 40106;
-  static constexpr uint16_t NB = 1;
-};
-
-// --- Energy registers ---
-
-/**
- * @struct TOTWH_EXP
  * @brief Total energy exported
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_EXP {
-  static constexpr uint16_t ADDR = 40107;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_EXP(40107, 2);
 
 /**
- * @struct TOTWH_EXPPHA
  * @brief Total energy exported phase A
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_EXPPHA {
-  static constexpr uint16_t ADDR = 40109;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_EXPPHA(40109, 2);
 
 /**
- * @struct TOTWH_EXPPHB
  * @brief Total energy exported phase B
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_EXPPHB {
-  static constexpr uint16_t ADDR = 40111;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_EXPPHB(40111, 2);
 
 /**
- * @struct TOTWH_EXPPHC
  * @brief Total energy exported phase C
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_EXPPHC {
-  static constexpr uint16_t ADDR = 40113;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_EXPPHC(40113, 2);
 
 /**
- * @struct TOTWH_IMP
  * @brief Total energy imported
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_IMP {
-  static constexpr uint16_t ADDR = 40115;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_IMP(40115, 2);
 
 /**
- * @struct TOTWH_IMPPHA
  * @brief Total energy imported phase A
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_IMPPHA {
-  static constexpr uint16_t ADDR = 40117;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_IMPPHA(40117, 2);
 
 /**
- * @struct TOTWH_IMPPHB
  * @brief Total energy imported phase B
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_IMPPHB {
-  static constexpr uint16_t ADDR = 40119;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_IMPPHB(40119, 2);
 
 /**
- * @struct TOTWH_IMPPHC
  * @brief Total energy imported phase C
  * @unit Watt-hours [Wh]
  */
-struct TOTWH_IMPPHC {
-  static constexpr uint16_t ADDR = 40121;
-  static constexpr uint16_t NB = 2;
-};
+constexpr Register TOTWH_IMPPHC(40121, 2);
 
-/**
- * @struct TOTWH_SF
- * @brief Energy scale factor
- */
-struct TOTWH_SF {
-  static constexpr uint16_t ADDR = 40123;
-  static constexpr uint16_t NB = 1;
-};
+/** @brief Energy scale factor */
+constexpr Register TOTWH_SF(40123, 1);
 
-// --- Event registers ---
-
-/**
- * @struct EVT
- * @brief Event flags
- */
-struct EVT {
-  static constexpr uint16_t ADDR = 40174;
-  static constexpr uint16_t NB = 2;
-};
+/** @brief Event flags */
+constexpr Register EVT(40174, 2);
 
 } // namespace M20X
+
+/**
+ * @namespace M21X
+ * @brief Contains floating-point SunSpec Meter registers for Fronius inverters.
+ *
+ * All measurements in this namespace are represented as 32-bit IEEE
+ * floating-point values. Register addresses follow the standard SunSpec float
+ * model layout.
+ */
+namespace M21X {
+
+/** @brief Total number of registers in the meter model (float). */
+constexpr uint16_t SIZE = 124;
+
+/**
+ * @brief
+ * SunSpec meter model identifier (float).
+ *
+ * @return
+ *  - 211: Single-phase
+ *  - 212: Split-phase
+ *  - 213: Three-phase
+ */
+constexpr Register ID(40069, 1);
+
+/**
+ * @brief Length of meter model block.
+ * @return Always 124
+ */
+constexpr Register L(40070, 1);
+
+/**
+ * @brief AC total current
+ * @unit Amperes [A]
+ */
+constexpr Register A(40071, 2);
+
+/**
+ * @brief AC current phase A
+ * @unit Amperes [A]
+ */
+constexpr Register APHA(40073, 2);
+
+/**
+ * @brief AC current phase B
+ * @unit Amperes [A]
+ */
+constexpr Register APHB(40075, 2);
+
+/**
+ * @brief AC current phase C
+ * @unit Amperes [A]
+ */
+constexpr Register APHC(40077, 2);
+
+/**
+ * @brief Average AC voltage phase-to-neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHV(40079, 2);
+
+/**
+ * @brief AC voltage phase A to neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHVPHA(40081, 2);
+
+/**
+ * @brief AC voltage phase B to neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHVPHB(40083, 2);
+
+/**
+ * @brief AC voltage phase C to neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHVPHC(40085, 2);
+
+/**
+ * @brief Average AC voltage phase-to-phase
+ * @unit Volts [V]
+ */
+constexpr Register PPV(40087, 2);
+
+/**
+ * @brief AC voltage phase AB
+ * @unit Volts [V]
+ */
+constexpr Register PPVPHAB(40089, 2);
+
+/**
+ * @brief AC voltage phase BC
+ * @unit Volts [V]
+ */
+constexpr Register PPVPHBC(40091, 2);
+
+/**
+ * @brief AC voltage phase CA
+ * @unit Volts [V]
+ */
+constexpr Register PPVPHCA(40093, 2);
+
+/**
+ * @brief AC frequency
+ * @unit Hertz [Hz]
+ */
+constexpr Register FREQ(40095, 2);
+
+/**
+ * @brief Total AC active power
+ * @unit Watts [W]
+ */
+constexpr Register W(40097, 2);
+
+/**
+ * @brief AC active power phase A
+ * @unit Watts [W]
+ */
+constexpr Register WPHA(40099, 2);
+
+/**
+ * @brief AC active power phase B
+ * @unit Watts [W]
+ */
+constexpr Register WPHB(40101, 2);
+
+/**
+ * @brief AC active power phase C
+ * @unit Watts [W]
+ */
+constexpr Register WPHC(40103, 2);
+
+/**
+ * @brief Total AC apparent power
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VA(40105, 2);
+
+/**
+ * @brief AC apparent power phase A
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VAPHA(40107, 2);
+
+/**
+ * @brief AC apparent power phase B
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VAPHB(40109, 2);
+
+/**
+ * @brief AC apparent power phase C
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VAPHC(40111, 2);
+
+/**
+ * @brief Total AC reactive power
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VAR(40113, 2);
+
+/**
+ * @brief AC reactive power phase A
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VARPHA(40115, 2);
+
+/**
+ * @brief AC reactive power phase B
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VARPHB(40117, 2);
+
+/**
+ * @brief AC reactive power phase C
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VARPHC(40119, 2);
+
+/**
+ * @brief Total power factor
+ * @unit Percent [%]
+ */
+constexpr Register PF(40121, 2);
+
+/**
+ * @brief Power factor phase A
+ * @unit Percent [%]
+ */
+constexpr Register PFPHA(40123, 2);
+
+/**
+ * @brief Power factor phase B
+ * @unit Percent [%]
+ */
+constexpr Register PFPHB(40125, 2);
+
+/**
+ * @brief Power factor phase C
+ * @unit Percent [%]
+ */
+constexpr Register PFPHC(40127, 2);
+
+/**
+ * @brief Total AC energy exported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_EXP(40129, 2);
+
+/**
+ * @brief Total AC energy phase A exported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_EXPPHA(40131, 2);
+
+/**
+ * @brief Total AC energy phase B exported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_EXPPHB(40133, 2);
+
+/**
+ * @brief Total AC energy phase C exported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_EXPPHC(40135, 2);
+
+/**
+ * @brief Total AC energy imported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_IMP(40137, 2);
+
+/**
+ * @brief Total AC energy phase A imported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_IMPPHA(40139, 2);
+
+/**
+ * @brief Total AC energy phase B imported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_IMPPHB(40141, 2);
+
+/**
+ * @brief Total AC energy phase C imported
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_IMPPHC(40143, 2);
+
+/**
+ * @brief Total AC apparent energy exported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_EXP(40145, 2);
+
+/**
+ * @brief Total AC apparent energy phase A exported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_EXPPHA(40147, 2);
+
+/**
+ * @brief Total AC apparent energy phase B exported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_EXPPHB(40149, 2);
+
+/**
+ * @brief Total AC apparent energy phase C exported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_EXPPHC(40151, 2);
+
+/**
+ * @brief Total AC apparent energy imported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_IMP(40153, 2);
+
+/**
+ * @brief Total AC apparent energy phase A imported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_IMPPHA(40155, 2);
+
+/**
+ * @brief Total AC apparent energy phase B imported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_IMPPHB(40157, 2);
+
+/**
+ * @brief Total AC apparent energy phase C imported
+ * @unit VA-hours [VA]
+ */
+constexpr Register TOTVAH_IMPPHC(40159, 2);
+
+} // namespace M21X
 
 /**
  * @namespace END
@@ -1065,36 +632,28 @@ struct EVT {
 namespace M_END {
 
 /**
- * @brief Offset to convert float register addresses to integer + scale factor
- * addresses.
+ * @brief Offset to convert integer and scale factor register addresses
+ * to float addresses.
  *
  * @details
  * In Fronius devices, certain SunSpec float registers are implemented as
  * integer registers with associated scale factors. To obtain the integer
  * register address corresponding to a float register, add this offset to
- * the float register address (`ADDR`).
+ * the integer register address (`ADDR`).
  */
-constexpr uint16_t INT_OFFSET = -19;
+constexpr uint16_t INT_OFFSET = 19;
 
 /**
- * @struct ID
  * @brief End block identifier
  * @return Always 0xFFFF
  */
-struct ID {
-  static constexpr uint16_t ADDR = 40195;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register ID(40176, 1);
 
 /**
- * @struct L
  * @brief End block length
  * @return Always 0
  */
-struct L {
-  static constexpr uint16_t ADDR = 40196;
-  static constexpr uint16_t NB = 1;
-};
+constexpr Register L(40177, 1);
 
 } // namespace M_END
 
