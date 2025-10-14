@@ -540,28 +540,6 @@ struct TOTVAH_IMPPHC {
   static constexpr uint16_t NB = 2;
 };
 
-/**
- * @struct END_ID
- * @brief End-of-block identifier.
- * @details This register indicates the end of the SunSpec inverter model block.
- * @returns Always returns 0xFFFF.
- */
-struct END_ID {
-  static constexpr uint16_t ADDR = 40195; ///< Register start address.
-  static constexpr uint16_t NB = 1;       ///< Number of registers.
-};
-
-/**
- * @struct END_L
- * @brief End-of-block length field.
- * @details This register contains the length of the end-of-block segment.
- * @returns Always returns 0.
- */
-struct END_L {
-  static constexpr uint16_t ADDR = 40196; ///< Register start address.
-  static constexpr uint16_t NB = 1;       ///< Number of registers.
-};
-
 } // namespace M21X
 
 /**
@@ -1073,26 +1051,51 @@ struct EVT {
   static constexpr uint16_t NB = 2;
 };
 
+} // namespace M20X
+
 /**
- * @struct END_ID
+ * @namespace END
+ * @brief SunSpec end-of-block registers.
+ * @details
+ * This namespace defines the SunSpec "end model" block that marks the end of a
+ * SunSpec register map within Fronius devices. It is typically composed of two
+ * registers — an identifier (`ID`) with a constant value of 0xFFFF and a length
+ * field (`L`) that is always 0.
+ */
+namespace M_END {
+
+/**
+ * @brief Offset to convert float register addresses to integer + scale factor
+ * addresses.
+ *
+ * @details
+ * In Fronius devices, certain SunSpec float registers are implemented as
+ * integer registers with associated scale factors. To obtain the integer
+ * register address corresponding to a float register, add this offset to
+ * the float register address (`ADDR`).
+ */
+constexpr uint16_t INT_OFFSET = -19;
+
+/**
+ * @struct ID
  * @brief End block identifier
  * @return Always 0xFFFF
  */
-struct END_ID {
-  static constexpr uint16_t ADDR = 40176;
+struct ID {
+  static constexpr uint16_t ADDR = 40195;
   static constexpr uint16_t NB = 1;
 };
 
 /**
- * @struct END_L
+ * @struct L
  * @brief End block length
  * @return Always 0
  */
-struct END_L {
-  static constexpr uint16_t ADDR = 40177;
+struct L {
+  static constexpr uint16_t ADDR = 40196;
   static constexpr uint16_t NB = 1;
 };
 
-} // namespace M20X
+} // namespace M_END
 
 #endif /* METER_REGISTERS_H_ */

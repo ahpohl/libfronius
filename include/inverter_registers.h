@@ -2480,8 +2480,33 @@ struct DCEVT_2 {
 
 } // namespace I160
 
-namespace END {
+/**
+ * @namespace END
+ * @brief SunSpec end-of-block registers.
+ * @details
+ * This namespace defines the SunSpec "end model" block that marks the end of a
+ * SunSpec register map within Fronius devices. It is typically composed of two
+ * registers — an identifier (`ID`) with a constant value of 0xFFFF and a length
+ * field (`L`) that is always 0.
+ *
+ * Fronius inverters, including hybrid models, follow this pattern at the end of
+ * each SunSpec model block. However, when a Basic Storage Control (BSC) model
+ * is present, the end-of-block position is shifted by 26 registers to account
+ * for the storage model length. When parsing or iterating over SunSpec model
+ * blocks, this offset must be considered to correctly locate the next model.
+ */
+namespace I_END {
 
+/**
+ * @brief Offset to convert float register addresses to integer + scale factor
+ * addresses.
+ *
+ * @details
+ * In Fronius devices, certain SunSpec float registers are implemented as
+ * integer registers with associated scale factors. To obtain the integer
+ * register address corresponding to a float register, add this offset to
+ * the float register address (`ADDR`).
+ */
 constexpr uint16_t INT_OFFSET = 10;
 
 /**
@@ -2500,7 +2525,7 @@ struct ID {
 };
 
 /**
- * @struct END_L
+ * @struct L
  * @brief End-of-block length field.
  * @details This register contains the length of the end-of-block segment.
  * @returns Always returns 0.
@@ -2510,6 +2535,6 @@ struct L {
   static constexpr uint16_t NB = 1;       ///< Number of registers.
 };
 
-} // namespace END
+} // namespace I_END
 
 #endif /* INVERTER_REGISTERS_H_ */
