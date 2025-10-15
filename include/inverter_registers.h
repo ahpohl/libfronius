@@ -1328,6 +1328,26 @@ namespace I_END {
 constexpr uint16_t FLOAT_OFFSET = 10;
 
 /**
+ * @brief Offset for storage-enabled (hybrid) inverter register maps.
+ *
+ * @details
+ * Some Fronius inverters, specifically hybrid models that include a
+ * Basic Storage Control (BSC) register map, have their END register
+ * block shifted by a fixed number of registers compared to
+ * non-hybrid models.
+ *
+ * This constant defines that address offset. For example:
+ * - On **non-hybrid** inverters (no storage map), the END::ID register starts
+ * at address **40303**.
+ * - On **hybrid** inverters (with storage map), the END::ID register starts at
+ * address **40329**.
+ *
+ * Thus, the address difference between hybrid and non-hybrid models is 26
+ * registers.
+ */
+constexpr uint16_t STORAGE_OFFSET = 26;
+
+/**
  * @brief End-of-block identifier.
  * @details This register indicates the end of the SunSpec inverter model block.
  * @return Always returns 0xFFFF.

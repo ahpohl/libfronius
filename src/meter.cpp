@@ -99,7 +99,7 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL, "Invalid meter register end block: received [0x" +
-                    modbus_utils::to_hex(regs_[endBlockAddr]) + ", " +
+                    ModbusUtils::toHex(regs_[endBlockAddr]) + ", " +
                     std::to_string(regs_[endBlockLength]) +
                     "], expected [0xFFFF, 0]")));
   }
@@ -276,19 +276,19 @@ double Meter::getAcEnergyActiveExport(const Phase ph) const {
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXP.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     case Phase::A:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXPPHA.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     case Phase::B:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXPPHB.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     case Phase::C:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_EXPPHC.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     default:
@@ -314,19 +314,19 @@ double Meter::getAcEnergyActiveImport(const Phase ph) const {
   } else {
     switch (ph) {
     case Phase::TOTAL:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMP.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     case Phase::A:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMPPHA.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     case Phase::B:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMPPHB.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     case Phase::C:
-      return static_cast<double>(modbus_utils::modbus_get_uint32(
+      return static_cast<double>(ModbusUtils::modbus_get_uint32(
                  regs_.data() + M20X::TOTWH_IMPPHC.ADDR)) *
              std::pow(10.0, static_cast<int16_t>(regs_[M20X::TOTWH_SF.ADDR]));
     default:

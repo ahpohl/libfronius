@@ -182,11 +182,11 @@ protected:
    */
   template <typename T>
   std::expected<T, ModbusError>
-  reportError(std::expected<T, ModbusError> &&res) {
+  reportError(std::expected<T, ModbusError> res) const {
     if (!res && onError_) {
       onError_(res.error());
     }
-    return std::move(res);
+    return res;
   }
 
   /**

@@ -135,7 +135,7 @@ public:
    *              - B : DC power of input string B
    * @return Power value in watts (W).
    */
-  double getDcPower(const Input input = Input::A) const;
+  std::expected<double, ModbusError> getDcPower(const Input input) const;
 
 private:
   /**

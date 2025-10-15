@@ -208,8 +208,8 @@ std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
     return reportError<bool>(std::unexpected(ModbusError::custom(
         EINVAL, "SunSpec signature mismatch: expected [0x5375, 0x6e53], "
                 "received [0x" +
-                    modbus_utils::to_hex(regs_[C001::SID.ADDR]) + ", 0x" +
-                    modbus_utils::to_hex(regs_[C001::SID.ADDR + 1]) + "]")));
+                    ModbusUtils::toHex(regs_[C001::SID.ADDR]) + ", 0x" +
+                    ModbusUtils::toHex(regs_[C001::SID.ADDR + 1]) + "]")));
   }
 
   // Test for Common Register ID
@@ -247,28 +247,23 @@ std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
 }
 
 std::expected<std::string, ModbusError> Fronius::getManufacturer() {
-  return reportError<std::string>(modbus_utils::modbus_get_string(
-      regs_.data() + C001::MN.ADDR, C001::MN.NB));
+  return reportError<std::string>(ModbusUtils::getString(regs_, C001::MN));
 }
 
 std::expected<std::string, ModbusError> Fronius::getDeviceModel() {
-  return reportError<std::string>(modbus_utils::modbus_get_string(
-      regs_.data() + C001::MD.ADDR, C001::MD.NB));
+  return reportError<std::string>(ModbusUtils::getString(regs_, C001::MD));
 }
 
 std::expected<std::string, ModbusError> Fronius::getOptions() {
-  return reportError<std::string>(modbus_utils::modbus_get_string(
-      regs_.data() + C001::OPT.ADDR, C001::OPT.NB));
+  return reportError<std::string>(ModbusUtils::getString(regs_, C001::OPT));
 }
 
 std::expected<std::string, ModbusError> Fronius::getFwVersion() {
-  return reportError<std::string>(modbus_utils::modbus_get_string(
-      regs_.data() + C001::VR.ADDR, C001::VR.NB));
+  return reportError<std::string>(ModbusUtils::getString(regs_, C001::VR));
 }
 
 std::expected<std::string, ModbusError> Fronius::getSerialNumber() {
-  return reportError<std::string>(modbus_utils::modbus_get_string(
-      regs_.data() + C001::SN.ADDR, C001::SN.NB));
+  return reportError<std::string>(ModbusUtils::getString(regs_, C001::SN));
 }
 
 std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {

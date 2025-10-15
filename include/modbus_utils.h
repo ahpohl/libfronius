@@ -21,20 +21,21 @@
 #include <cmath>
 #include <cstdint>
 #include <expected>
+#include <optional>
 #include <string>
 #include <vector>
 
-/** @namespace modbus_utils
+/** @namespace ModbusUtils
  *  @brief Contains helper functions for Modbus register manipulation.
  */
-namespace modbus_utils {
+namespace ModbusUtils {
 
 /**
  * @brief Swap the bytes of a 16-bit value.
  * @param v Input 16-bit value
  * @return 16-bit value with swapped bytes
  */
-inline uint16_t swap_bytes16(uint16_t v) { return (v >> 8) | (v << 8); }
+inline uint16_t swapBytes16(uint16_t v) { return (v >> 8) | (v << 8); }
 
 /**
  * @brief Combine two Modbus registers into a 32-bit unsigned integer.
@@ -47,8 +48,8 @@ inline uint32_t modbus_get_uint32(const uint16_t *regs, bool word_swap = false,
                                   bool byte_swap = false) {
   uint16_t hi = regs[0], lo = regs[1];
   if (byte_swap) {
-    hi = swap_bytes16(hi);
-    lo = swap_bytes16(lo);
+    hi = swapBytes16(hi);
+    lo = swapBytes16(lo);
   }
   uint32_t val = ((uint32_t)hi << 16) | lo;
   if (word_swap)
@@ -81,7 +82,7 @@ inline uint64_t modbus_get_uint64(const uint16_t *regs, bool word_swap = false,
   for (int i = 0; i < 4; i++) {
     uint16_t w = regs[i];
     if (byte_swap)
-      w = swap_bytes16(w);
+      w = swapBytes16(w);
     val |= (uint64_t)w << ((3 - i) * 16);
   }
   if (word_swap) {
@@ -104,20 +105,37 @@ inline int64_t modbus_get_int64(const uint16_t *regs, bool word_swap = false,
 }
 
 /**
- * @brief Convert Modbus registers to a printable ASCII string.
- * @param tab_reg Pointer to 16-bit Modbus registers
- * @param size Number of registers
- * @return std::expected containing the string on success, or a ModbusError
- *         if unprintable characters are found
+ * @brief Decode a Modbus register range into a printable ASCII string.
+ *
+ * This function interprets a sequence of 16-bit Modbus registers as pairs of
+ * ASCII characters (high byte first, then low byte). It verifies that the
+ * register type is @ref RegType::STRING and that all resulting characters are
+ * printable. Null bytes ('\0') are treated as string terminators and skipped.
+ *
+ * @param regs Vector containing the full Modbus register map.
+ * @param reg  Register descriptor defining address, length, and type.
+ * @return std::expected<std::string, ModbusError>
+ *         - On success: the decoded printable string.
+ *         - On error: a ModbusError if the register type is not STRING or if
+ *           unprintable characters are detected.
  */
-inline std::expected<std::string, ModbusError>
-modbus_get_string(const uint16_t *tab_reg, int size) {
-  std::string str;
-  str.reserve(size * 2); // avoid reallocations
 
-  for (int i = 0; i < size; i++) {
-    char hi = static_cast<char>((tab_reg[i] >> 8) & 0xFF);
-    char lo = static_cast<char>(tab_reg[i] & 0xFF);
+inline std::expected<std::string, ModbusError>
+getString(const std::vector<uint16_t> &regs, const Register &reg) {
+  if (reg.TYPE != RegType::STRING) {
+    return std::unexpected(
+        ModbusError::custom(EINVAL, "Invalid register type for getString()"));
+  }
+
+  if (regs.empty())
+    return std::string{};
+
+  std::string str;
+  str.reserve(regs.size() * 2); // avoid reallocations
+
+  for (uint16_t word : regs) {
+    char hi = static_cast<char>((word >> 8) & 0xFF);
+    char lo = static_cast<char>(word & 0xFF);
 
     if (hi != '\0')
       str.push_back(hi);
@@ -128,8 +146,9 @@ modbus_get_string(const uint16_t *tab_reg, int size) {
   if (str.empty())
     return std::string{};
 
+  // Validate that the string is printable (allow spaces)
   for (unsigned char c : str) {
-    if (!std::isprint(c) && c != ' ') { // allow space but not control chars
+    if (!std::isprint(c) && c != ' ') {
       return std::unexpected(ModbusError::custom(
           EINVAL, "String contains unprintable characters"));
     }
@@ -143,7 +162,7 @@ modbus_get_string(const uint16_t *tab_reg, int size) {
  * @param val 16-bit value
  * @return Hex string in uppercase (e.g., "1A2B")
  */
-inline std::string to_hex(uint16_t val) {
+inline std::string toHex(uint16_t val) {
   char buf[7];
   snprintf(buf, sizeof(buf), "%04X", val);
   return std::string(buf);
@@ -159,7 +178,7 @@ inline std::string to_hex(uint16_t val) {
  * of registers and their type (signed 16-bit, unsigned 16-bit, or unsigned
  * 32-bit) are indicated by the `Register` definition.
  *
- * @param regMap A vector containing the raw Modbus register values.
+ * @param regs A vector containing the raw Modbus register values.
  * @param reg The register representing the value to read.
  * @param sf The register representing the associated scale factor.
  *
@@ -169,24 +188,34 @@ inline std::string to_hex(uint16_t val) {
  * size.
  */
 inline std::expected<double, ModbusError>
-modbus_get_double(std::vector<uint16_t> &regMap, const Register &reg,
-                  const Register &sf) {
-  const auto scale = std::pow(10.0, static_cast<int16_t>(regMap[sf.ADDR]));
+getDouble(const std::vector<uint16_t> &regs, const Register &reg,
+          std::optional<Register> sf = std::nullopt) {
+  double scale = 1.0;
+
+  if (sf.has_value()) {
+    scale = std::pow(10.0, static_cast<int16_t>(regs[sf->ADDR]));
+  }
 
   switch (reg.TYPE) {
   case RegType::INT16:
-    return static_cast<double>(static_cast<int16_t>(regMap[reg.ADDR])) * scale;
+    return static_cast<double>(static_cast<int16_t>(regs[reg.ADDR])) * scale;
+
   case RegType::UINT16:
-    return static_cast<double>(regMap[reg.ADDR]) * scale;
+    return static_cast<double>(regs[reg.ADDR]) * scale;
+
   case RegType::UINT32:
-    return static_cast<double>(modbus_get_uint32(regMap.data() + reg.ADDR)) *
+    return static_cast<double>(modbus_get_uint32(regs.data() + reg.ADDR)) *
            scale;
+
+  case RegType::FLOAT:
+    return static_cast<double>(modbus_get_float_abcd(regs.data() + reg.ADDR));
+
   default:
     return std::unexpected(ModbusError::custom(
-        EINVAL, "Unsupported register type for double conversion"));
+        EINVAL, "Unsupported register type for getDouble()"));
   }
 }
 
-} // namespace modbus_utils
+} // namespace ModbusUtils
 
 #endif /* MODBUS_UTILS_H_ */

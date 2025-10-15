@@ -13,6 +13,7 @@
 #define MODBUS_ERROR_H_
 
 #include <cerrno>
+#include <functional>
 #include <modbus/modbus.h>
 #include <string>
 
@@ -28,6 +29,7 @@
  * Modbus-specific information in human-readable form.
  */
 struct ModbusError {
+public:
   /** @brief Error severity classification. */
   enum class Severity {
     TRANSIENT, /**< Temporary error — may succeed on retry. */
@@ -44,7 +46,6 @@ struct ModbusError {
   /** @brief Classified severity of the error. */
   Severity severity;
 
-public:
   /**
    * @brief Create a ModbusError from the current errno.
    * @param msg Context message for the error.

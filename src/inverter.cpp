@@ -103,7 +103,7 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL, "Invalid inverter register end block: received [0x" +
-                    modbus_utils::to_hex(regs_[endBlockAddr]) + ", " +
+                    ModbusUtils::toHex(regs_[endBlockAddr]) + ", " +
                     std::to_string(regs_[endBlockLength]) +
                     "], expected [0xFFFF, 0]")));
   }
@@ -276,36 +276,38 @@ double Inverter::getAcEnergy(void) const {
     return modbus_get_float_abcd(regs_.data() + I11X::WH.ADDR);
   } else {
     return static_cast<double>(
-               modbus_utils::modbus_get_uint32(regs_.data() + I10X::WH.ADDR)) *
+               ModbusUtils::modbus_get_uint32(regs_.data() + I10X::WH.ADDR)) *
            std::pow(10.0, static_cast<int16_t>(regs_[I10X::WH_SF.ADDR]));
   }
 }
 
-double Inverter::getDcPower(const Input input) const {
+std::expected<double, ModbusError>
+Inverter::getDcPower(const Input input) const {
   if (useFloatRegisters_) {
     switch (input) {
     case Input::TOTAL:
-      return modbus_get_float_abcd(regs_.data() + I11X::DCW.ADDR);
+      return reportError<double>(ModbusUtils::getDouble(regs_, I11X::DCW));
     case Input::A:
-      return modbus_get_float_abcd(regs_.data() + I160::DCW_1.ADDR);
+      return reportError<double>(ModbusUtils::getDouble(regs_, I160::DCW_1));
     case Input::B:
-      return modbus_get_float_abcd(regs_.data() + I160::DCW_2.ADDR);
+      return reportError<double>(ModbusUtils::getDouble(regs_, I160::DCW_2));
     default:
-      return 0.0;
+      return reportError<double>(std::unexpected(
+          ModbusError::custom(EINVAL, "Invalid input in getDcPower()")));
     }
   } else {
     switch (input) {
     case Input::TOTAL:
-      return static_cast<double>(regs_[I10X::DCW.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::DCW_SF.ADDR]));
+      return reportError<double>(ModbusUtils::getDouble(regs_, I10X::DCW));
     case Input::A:
-      return static_cast<double>(regs_[I160::DCW_1.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I160::DCW_SF.ADDR]));
+      return reportError<double>(
+          ModbusUtils::getDouble(regs_, I160::DCW_1, I160::DCW_SF));
     case Input::B:
-      return static_cast<double>(regs_[I160::DCW_2.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I160::DCW_SF.ADDR]));
+      return reportError<double>(
+          ModbusUtils::getDouble(regs_, I160::DCW_2, I160::DCW_SF));
     default:
-      return 0.0;
+      return reportError<double>(std::unexpected(
+          ModbusError::custom(EINVAL, "Invalid input in getDcPower()")));
     }
   }
 }
