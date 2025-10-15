@@ -15,11 +15,14 @@
 #define MODBUS_UTILS_H_
 
 #include "modbus_error.h"
+#include "register_base.h"
 #include <cctype>
 #include <cerrno>
+#include <cmath>
 #include <cstdint>
 #include <expected>
 #include <string>
+#include <vector>
 
 /** @namespace modbus_utils
  *  @brief Contains helper functions for Modbus register manipulation.
@@ -144,6 +147,44 @@ inline std::string to_hex(uint16_t val) {
   char buf[7];
   snprintf(buf, sizeof(buf), "%04X", val);
   return std::string(buf);
+}
+
+/**
+ * @brief Retrieve a scaled double value from Modbus registers.
+ *
+ * @details
+ * This function reads one or more Modbus registers and applies the
+ * corresponding scale factor to return a floating-point value. The scale factor
+ * register is assumed to contain a signed integer exponent (10^SF). The number
+ * of registers and their type (signed 16-bit, unsigned 16-bit, or unsigned
+ * 32-bit) are indicated by the `Register` definition.
+ *
+ * @param regMap A vector containing the raw Modbus register values.
+ * @param reg The register representing the value to read.
+ * @param sf The register representing the associated scale factor.
+ *
+ * @return On success, returns the scaled double value.
+ *         On failure, returns a ModbusError indicating why the value could not
+ *         be retrieved, e.g., unsupported register type or invalid register
+ * size.
+ */
+inline std::expected<double, ModbusError>
+modbus_get_double(std::vector<uint16_t> &regMap, const Register &reg,
+                  const Register &sf) {
+  const auto scale = std::pow(10.0, static_cast<int16_t>(regMap[sf.ADDR]));
+
+  switch (reg.TYPE) {
+  case RegType::INT16:
+    return static_cast<double>(static_cast<int16_t>(regMap[reg.ADDR])) * scale;
+  case RegType::UINT16:
+    return static_cast<double>(regMap[reg.ADDR]) * scale;
+  case RegType::UINT32:
+    return static_cast<double>(modbus_get_uint32(regMap.data() + reg.ADDR)) *
+           scale;
+  default:
+    return std::unexpected(ModbusError::custom(
+        EINVAL, "Unsupported register type for double conversion"));
+  }
 }
 
 } // namespace modbus_utils

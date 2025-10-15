@@ -59,262 +59,262 @@ constexpr uint16_t SIZE = 105;
  * - 202 – Split-phase meter
  * - 203 – Three-phase meter
  */
-constexpr Register ID(40069, 1);
+constexpr Register ID(40069, 1, RegType::UINT16);
 
 /**
  * @brief Length of meter model block
  * @return Always 105
  */
-constexpr Register L(40070, 1);
+constexpr Register L(40070, 1, RegType::UINT16);
 
 /**
  * @brief Total AC current
  * @unit Amperes [A]
  */
-constexpr Register A(40071, 1);
+constexpr Register A(40071, 1, RegType::INT16);
 
 /**
  * @brief AC current phase A
  * @unit Amperes [A]
  */
-constexpr Register APHA(40072, 1);
+constexpr Register APHA(40072, 1, RegType::INT16);
 
 /**
  * @brief AC current phase B
  * @unit Amperes [A]
  */
-constexpr Register APHB(40073, 1);
+constexpr Register APHB(40073, 1, RegType::INT16);
 
 /**
  * @brief AC current phase C
  * @unit Amperes [A]
  */
-constexpr Register APHC(40074, 1);
+constexpr Register APHC(40074, 1, RegType::INT16);
 
 /** @brief AC current scale factor */
-constexpr Register A_SF(40075, 1);
+constexpr Register A_SF(40075, 1, RegType::INT16);
 
 /**
  * @brief Average AC voltage phase-to-neutral
  * @unit Volts [V]
  */
-constexpr Register PHV(40076, 1);
+constexpr Register PHV(40076, 1, RegType::INT16);
 
 /**
  * @brief AC voltage phase A to neutral
  * @unit Volts [V]
  */
-constexpr Register PHVPHA(40077, 1);
+constexpr Register PHVPHA(40077, 1, RegType::INT16);
 
 /**
  * @brief AC voltage phase B to neutral
  * @unit Volts [V]
  */
-constexpr Register PHVPHB(40078, 1);
+constexpr Register PHVPHB(40078, 1, RegType::INT16);
 
 /**
  * @brief AC voltage phase C to neutral
  * @unit Volts [V]
  */
-constexpr Register PHVPHC(40079, 1);
+constexpr Register PHVPHC(40079, 1, RegType::INT16);
 
 /**
  * @brief Average AC voltage phase-to-phase
  * @unit Volts [V]
  */
-constexpr Register PPV(40080, 1);
+constexpr Register PPV(40080, 1, RegType::INT16);
 
 /**
  * @brief AC voltage phase AB
  * @unit Volts [V]
  */
-constexpr Register PPVPHAB(40081, 1);
+constexpr Register PPVPHAB(40081, 1, RegType::INT16);
 
 /**
  * @brief AC voltage phase BC
  * @unit Volts [V]
  */
-constexpr Register PPVPHBC(40082, 1);
+constexpr Register PPVPHBC(40082, 1, RegType::INT16);
 
 /**
  * @brief AC voltage phase CA
  * @unit Volts [V]
  */
-constexpr Register PPVPHCA(40083, 1);
+constexpr Register PPVPHCA(40083, 1, RegType::INT16);
 
 /** @brief Voltage scale factor */
-constexpr Register V_SF(40084, 1);
+constexpr Register V_SF(40084, 1, RegType::INT16);
 
 /**
  * @brief AC frequency
  * @unit Hertz [Hz]
  */
-constexpr Register FREQ(40085, 1);
+constexpr Register FREQ(40085, 1, RegType::INT16);
 
 /** @brief Frequency scale factor */
-constexpr Register FREQ_SF(40086, 1);
+constexpr Register FREQ_SF(40086, 1, RegType::INT16);
 
 /**
  * @brief Total AC active power
  * @unit Watts [W]
  */
-constexpr Register W(40087, 1);
+constexpr Register W(40087, 1, RegType::INT16);
 
 /**
  * @brief AC active power phase A
  * @unit Watts [W]
  */
-constexpr Register WPHA(40088, 1);
+constexpr Register WPHA(40088, 1, RegType::INT16);
 
 /**
  * @brief AC active power phase B
  * @unit Watts [W]
  */
-constexpr Register WPHB(40089, 1);
+constexpr Register WPHB(40089, 1, RegType::INT16);
 
 /**
  * @brief AC active power phase C
  * @unit Watts [W]
  */
-constexpr Register WPHC(40090, 1);
+constexpr Register WPHC(40090, 1, RegType::INT16);
 
 /** @brief Power scale factor */
-constexpr Register W_SF(40091, 1);
+constexpr Register W_SF(40091, 1, RegType::INT16);
 
 /**
  * @brief Total AC apparent power
  * @unit Volt-amperes [VA]
  */
-constexpr Register VA(40092, 1);
+constexpr Register VA(40092, 1, RegType::INT16);
 
 /**
  * @brief AC apparent power phase A
  * @unit Volt-amperes [VA]
  */
-constexpr Register VAPHA(40093, 1);
+constexpr Register VAPHA(40093, 1, RegType::INT16);
 
 /**
  * @brief AC apparent power phase B
  * @unit Volt-amperes [VA]
  */
-constexpr Register VAPHB(40094, 1);
+constexpr Register VAPHB(40094, 1, RegType::INT16);
 
 /**
  * @brief AC apparent power phase C
  * @unit Volt-amperes [VA]
  */
-constexpr Register VAPHC(40095, 1);
+constexpr Register VAPHC(40095, 1, RegType::INT16);
 
 /** @brief Apparent power scale factor */
-constexpr Register VA_SF(40096, 1);
+constexpr Register VA_SF(40096, 1, RegType::INT16);
 
 /**
  * @brief Total AC reactive power
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VAR(40097, 1);
+constexpr Register VAR(40097, 1, RegType::INT16);
 
 /**
  * @brief AC reactive power phase A
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VARPHA(40098, 1);
+constexpr Register VARPHA(40098, 1, RegType::INT16);
 
 /**
  * @brief AC reactive power phase B
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VARPHB(40099, 1);
+constexpr Register VARPHB(40099, 1, RegType::INT16);
 
 /**
  * @brief AC reactive power phase C
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VARPHC(40100, 1);
+constexpr Register VARPHC(40100, 1, RegType::INT16);
 
 /** @brief Reactive power scale factor */
-constexpr Register VAR_SF(40101, 1);
+constexpr Register VAR_SF(40101, 1, RegType::INT16);
 
 /**
  * @brief Total power factor
  * @unit Percent [%]
  */
-constexpr Register PF(40102, 1);
+constexpr Register PF(40102, 1, RegType::INT16);
 
 /**
  * @brief Power factor phase A
  * @unit Percent [%]
  */
-constexpr Register PFPHA(40103, 1);
+constexpr Register PFPHA(40103, 1, RegType::INT16);
 
 /**
  * @brief Power factor phase B
  * @unit Percent [%]
  */
-constexpr Register PFPHB(40104, 1);
+constexpr Register PFPHB(40104, 1, RegType::INT16);
 
 /**
  * @brief Power factor phase C
  * @unit Percent [%]
  */
-constexpr Register PFPHC(40105, 1);
+constexpr Register PFPHC(40105, 1, RegType::INT16);
 
 /** @brief Power factor scale factor */
-constexpr Register PF_SF(40106, 1);
+constexpr Register PF_SF(40106, 1, RegType::INT16);
 
 /**
  * @brief Total energy exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXP(40107, 2);
+constexpr Register TOTWH_EXP(40107, 2, RegType::UINT32);
 
 /**
  * @brief Total energy exported phase A
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHA(40109, 2);
+constexpr Register TOTWH_EXPPHA(40109, 2, RegType::UINT32);
 
 /**
  * @brief Total energy exported phase B
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHB(40111, 2);
+constexpr Register TOTWH_EXPPHB(40111, 2, RegType::UINT32);
 
 /**
  * @brief Total energy exported phase C
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHC(40113, 2);
+constexpr Register TOTWH_EXPPHC(40113, 2, RegType::UINT32);
 
 /**
  * @brief Total energy imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMP(40115, 2);
+constexpr Register TOTWH_IMP(40115, 2, RegType::UINT32);
 
 /**
  * @brief Total energy imported phase A
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHA(40117, 2);
+constexpr Register TOTWH_IMPPHA(40117, 2, RegType::UINT32);
 
 /**
  * @brief Total energy imported phase B
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHB(40119, 2);
+constexpr Register TOTWH_IMPPHB(40119, 2, RegType::UINT32);
 
 /**
  * @brief Total energy imported phase C
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHC(40121, 2);
+constexpr Register TOTWH_IMPPHC(40121, 2, RegType::UINT32);
 
 /** @brief Energy scale factor */
-constexpr Register TOTWH_SF(40123, 1);
+constexpr Register TOTWH_SF(40123, 1, RegType::INT16);
 
 /** @brief Event flags */
-constexpr Register EVT(40174, 2);
+constexpr Register EVT(40174, 2, RegType::UINT32);
 
 } // namespace M20X
 
@@ -340,283 +340,286 @@ constexpr uint16_t SIZE = 124;
  *  - 212: Split-phase
  *  - 213: Three-phase
  */
-constexpr Register ID(40069, 1);
+constexpr Register ID(40069, 1, RegType::UINT16);
 
 /**
  * @brief Length of meter model block.
  * @return Always 124
  */
-constexpr Register L(40070, 1);
+constexpr Register L(40070, 1, RegType::UINT16);
 
 /**
  * @brief AC total current
  * @unit Amperes [A]
  */
-constexpr Register A(40071, 2);
+constexpr Register A(40071, 2, RegType::FLOAT);
 
 /**
  * @brief AC current phase A
  * @unit Amperes [A]
  */
-constexpr Register APHA(40073, 2);
+constexpr Register APHA(40073, 2, RegType::FLOAT);
 
 /**
  * @brief AC current phase B
  * @unit Amperes [A]
  */
-constexpr Register APHB(40075, 2);
+constexpr Register APHB(40075, 2, RegType::FLOAT);
 
 /**
  * @brief AC current phase C
  * @unit Amperes [A]
  */
-constexpr Register APHC(40077, 2);
+constexpr Register APHC(40077, 2, RegType::FLOAT);
 
 /**
  * @brief Average AC voltage phase-to-neutral
  * @unit Volts [V]
  */
-constexpr Register PHV(40079, 2);
+constexpr Register PHV(40079, 2, RegType::FLOAT);
 
 /**
  * @brief AC voltage phase A to neutral
  * @unit Volts [V]
  */
-constexpr Register PHVPHA(40081, 2);
+constexpr Register PHVPHA(40081, 2, RegType::FLOAT);
 
 /**
  * @brief AC voltage phase B to neutral
  * @unit Volts [V]
  */
-constexpr Register PHVPHB(40083, 2);
+constexpr Register PHVPHB(40083, 2, RegType::FLOAT);
 
 /**
  * @brief AC voltage phase C to neutral
  * @unit Volts [V]
  */
-constexpr Register PHVPHC(40085, 2);
+constexpr Register PHVPHC(40085, 2, RegType::FLOAT);
 
 /**
  * @brief Average AC voltage phase-to-phase
  * @unit Volts [V]
  */
-constexpr Register PPV(40087, 2);
+constexpr Register PPV(40087, 2, RegType::FLOAT);
 
 /**
  * @brief AC voltage phase AB
  * @unit Volts [V]
  */
-constexpr Register PPVPHAB(40089, 2);
+constexpr Register PPVPHAB(40089, 2, RegType::FLOAT);
 
 /**
  * @brief AC voltage phase BC
  * @unit Volts [V]
  */
-constexpr Register PPVPHBC(40091, 2);
+constexpr Register PPVPHBC(40091, 2, RegType::FLOAT);
 
 /**
  * @brief AC voltage phase CA
  * @unit Volts [V]
  */
-constexpr Register PPVPHCA(40093, 2);
+constexpr Register PPVPHCA(40093, 2, RegType::FLOAT);
 
 /**
  * @brief AC frequency
  * @unit Hertz [Hz]
  */
-constexpr Register FREQ(40095, 2);
+constexpr Register FREQ(40095, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC active power
  * @unit Watts [W]
  */
-constexpr Register W(40097, 2);
+constexpr Register W(40097, 2, RegType::FLOAT);
 
 /**
  * @brief AC active power phase A
  * @unit Watts [W]
  */
-constexpr Register WPHA(40099, 2);
+constexpr Register WPHA(40099, 2, RegType::FLOAT);
 
 /**
  * @brief AC active power phase B
  * @unit Watts [W]
  */
-constexpr Register WPHB(40101, 2);
+constexpr Register WPHB(40101, 2, RegType::FLOAT);
 
 /**
  * @brief AC active power phase C
  * @unit Watts [W]
  */
-constexpr Register WPHC(40103, 2);
+constexpr Register WPHC(40103, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent power
  * @unit Volt-amperes [VA]
  */
-constexpr Register VA(40105, 2);
+constexpr Register VA(40105, 2, RegType::FLOAT);
 
 /**
  * @brief AC apparent power phase A
  * @unit Volt-amperes [VA]
  */
-constexpr Register VAPHA(40107, 2);
+constexpr Register VAPHA(40107, 2, RegType::FLOAT);
 
 /**
  * @brief AC apparent power phase B
  * @unit Volt-amperes [VA]
  */
-constexpr Register VAPHB(40109, 2);
+constexpr Register VAPHB(40109, 2, RegType::FLOAT);
 
 /**
  * @brief AC apparent power phase C
  * @unit Volt-amperes [VA]
  */
-constexpr Register VAPHC(40111, 2);
+constexpr Register VAPHC(40111, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC reactive power
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VAR(40113, 2);
+constexpr Register VAR(40113, 2, RegType::FLOAT);
 
 /**
  * @brief AC reactive power phase A
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VARPHA(40115, 2);
+constexpr Register VARPHA(40115, 2, RegType::FLOAT);
 
 /**
  * @brief AC reactive power phase B
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VARPHB(40117, 2);
+constexpr Register VARPHB(40117, 2, RegType::FLOAT);
 
 /**
  * @brief AC reactive power phase C
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VARPHC(40119, 2);
+constexpr Register VARPHC(40119, 2, RegType::FLOAT);
 
 /**
  * @brief Total power factor
  * @unit Percent [%]
  */
-constexpr Register PF(40121, 2);
+constexpr Register PF(40121, 2, RegType::FLOAT);
 
 /**
  * @brief Power factor phase A
  * @unit Percent [%]
  */
-constexpr Register PFPHA(40123, 2);
+constexpr Register PFPHA(40123, 2, RegType::FLOAT);
 
 /**
  * @brief Power factor phase B
  * @unit Percent [%]
  */
-constexpr Register PFPHB(40125, 2);
+constexpr Register PFPHB(40125, 2, RegType::FLOAT);
 
 /**
  * @brief Power factor phase C
  * @unit Percent [%]
  */
-constexpr Register PFPHC(40127, 2);
+constexpr Register PFPHC(40127, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXP(40129, 2);
+constexpr Register TOTWH_EXP(40129, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy phase A exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHA(40131, 2);
+constexpr Register TOTWH_EXPPHA(40131, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy phase B exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHB(40133, 2);
+constexpr Register TOTWH_EXPPHB(40133, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy phase C exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHC(40135, 2);
+constexpr Register TOTWH_EXPPHC(40135, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMP(40137, 2);
+constexpr Register TOTWH_IMP(40137, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy phase A imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHA(40139, 2);
+constexpr Register TOTWH_IMPPHA(40139, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy phase B imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHB(40141, 2);
+constexpr Register TOTWH_IMPPHB(40141, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC energy phase C imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHC(40143, 2);
+constexpr Register TOTWH_IMPPHC(40143, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXP(40145, 2);
+constexpr Register TOTVAH_EXP(40145, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase A exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXPPHA(40147, 2);
+constexpr Register TOTVAH_EXPPHA(40147, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase B exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXPPHB(40149, 2);
+constexpr Register TOTVAH_EXPPHB(40149, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase C exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXPPHC(40151, 2);
+constexpr Register TOTVAH_EXPPHC(40151, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMP(40153, 2);
+constexpr Register TOTVAH_IMP(40153, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase A imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMPPHA(40155, 2);
+constexpr Register TOTVAH_IMPPHA(40155, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase B imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMPPHB(40157, 2);
+constexpr Register TOTVAH_IMPPHB(40157, 2, RegType::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase C imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMPPHC(40159, 2);
+constexpr Register TOTVAH_IMPPHC(40159, 2, RegType::FLOAT);
+
+/** @brief Event flags */
+constexpr Register EVT(40193, 2, RegType::UINT32);
 
 } // namespace M21X
 
@@ -647,13 +650,13 @@ constexpr uint16_t INT_OFFSET = 19;
  * @brief End block identifier
  * @return Always 0xFFFF
  */
-constexpr Register ID(40176, 1);
+constexpr Register ID(40176, 1, RegType::UINT16);
 
 /**
  * @brief End block length
  * @return Always 0
  */
-constexpr Register L(40177, 1);
+constexpr Register L(40177, 1, RegType::UINT16);
 
 } // namespace M_END
 

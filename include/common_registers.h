@@ -45,7 +45,7 @@ constexpr uint16_t SIZE = 65;
  *
  * @return 0x53756e53 ('SunS')
  */
-constexpr Register SID(40000, 2);
+constexpr Register SID(40000, 2, RegType::UINT32);
 
 /**
  * @brief Common Model ID register.
@@ -55,7 +55,7 @@ constexpr Register SID(40000, 2);
  *
  * @return Always returns 1.
  */
-constexpr Register ID(40002, 1);
+constexpr Register ID(40002, 1, RegType::UINT16);
 
 /**
  * @brief Length of the Common Model block.
@@ -65,7 +65,7 @@ constexpr Register ID(40002, 1);
  *
  * @return Always returns 65.
  */
-constexpr Register L(40003, 1);
+constexpr Register L(40003, 1, RegType::UINT16);
 
 /**
  * @brief Manufacturer name.
@@ -75,7 +75,7 @@ constexpr Register L(40003, 1);
  *
  * @return Manufacturer name as a string (e.g. "Fronius").
  */
-constexpr Register MN(40004, 16);
+constexpr Register MN(40004, 16, RegType::STRING);
 
 /**
  * @brief Device model.
@@ -85,7 +85,7 @@ constexpr Register MN(40004, 16);
  *
  * @return Model string (e.g. "IG+150V [3p]").
  */
-constexpr Register MD(40020, 16);
+constexpr Register MD(40020, 16, RegType::STRING);
 
 /**
  * @brief Software version of installed option.
@@ -96,7 +96,7 @@ constexpr Register MD(40020, 16);
  *
  * @return Firmware version string.
  */
-constexpr Register OPT(40036, 8);
+constexpr Register OPT(40036, 8, RegType::STRING);
 
 /**
  * @brief Main device firmware version.
@@ -107,7 +107,7 @@ constexpr Register OPT(40036, 8);
  *
  * @return Firmware version string.
  */
-constexpr Register VR(40044, 8);
+constexpr Register VR(40044, 8, RegType::STRING);
 
 /**
  * @brief Device serial number.
@@ -126,7 +126,7 @@ constexpr Register VR(40044, 8);
  *
  * @return Serial number or fallback unique identifier.
  */
-constexpr Register SN(40052, 16);
+constexpr Register SN(40052, 16, RegType::STRING);
 
 /**
  * @brief Modbus device address register.
@@ -136,7 +136,7 @@ constexpr Register SN(40052, 16);
  *
  * @return Device address (1–247).
  */
-constexpr Register DA(40068, 1);
+constexpr Register DA(40068, 1, RegType::UINT16);
 
 } // namespace C001
 
