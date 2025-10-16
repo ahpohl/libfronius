@@ -14,16 +14,8 @@
 #ifndef MODBUS_UTILS_H_
 #define MODBUS_UTILS_H_
 
-#include "modbus_error.h"
-#include "register_base.h"
-#include <cctype>
-#include <cerrno>
-#include <cmath>
 #include <cstdint>
-#include <expected>
-#include <optional>
 #include <string>
-#include <vector>
 
 /** @namespace ModbusUtils
  *  @brief Contains helper functions for Modbus register manipulation.
@@ -105,59 +97,6 @@ inline int64_t modbus_get_int64(const uint16_t *regs, bool word_swap = false,
 }
 
 /**
- * @brief Decode a Modbus register range into a printable ASCII string.
- *
- * This function interprets a sequence of 16-bit Modbus registers as pairs of
- * ASCII characters (high byte first, then low byte). It verifies that the
- * register type is @ref RegType::STRING and that all resulting characters are
- * printable. Null bytes ('\0') are treated as string terminators and skipped.
- *
- * @param regs Vector containing the full Modbus register map.
- * @param reg  Register descriptor defining address, length, and type.
- * @return std::expected<std::string, ModbusError>
- *         - On success: the decoded printable string.
- *         - On error: a ModbusError if the register type is not STRING or if
- *           unprintable characters are detected.
- */
-
-inline std::expected<std::string, ModbusError>
-getString(const std::vector<uint16_t> &regs, const Register &reg) {
-  if (reg.TYPE != RegType::STRING) {
-    return std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid register type for getString()"));
-  }
-
-  if (regs.empty())
-    return std::string{};
-
-  std::string str;
-  str.reserve(regs.size() * 2); // avoid reallocations
-
-  for (uint16_t word : regs) {
-    char hi = static_cast<char>((word >> 8) & 0xFF);
-    char lo = static_cast<char>(word & 0xFF);
-
-    if (hi != '\0')
-      str.push_back(hi);
-    if (lo != '\0')
-      str.push_back(lo);
-  }
-
-  if (str.empty())
-    return std::string{};
-
-  // Validate that the string is printable (allow spaces)
-  for (unsigned char c : str) {
-    if (!std::isprint(c) && c != ' ') {
-      return std::unexpected(ModbusError::custom(
-          EINVAL, "String contains unprintable characters"));
-    }
-  }
-
-  return str;
-}
-
-/**
  * @brief Convert a 16-bit value to a hexadecimal string.
  * @param val 16-bit value
  * @return Hex string in uppercase (e.g., "1A2B")
@@ -166,54 +105,6 @@ inline std::string toHex(uint16_t val) {
   char buf[7];
   snprintf(buf, sizeof(buf), "%04X", val);
   return std::string(buf);
-}
-
-/**
- * @brief Retrieve a scaled double value from Modbus registers.
- *
- * @details
- * This function reads one or more Modbus registers and applies the
- * corresponding scale factor to return a floating-point value. The scale factor
- * register is assumed to contain a signed integer exponent (10^SF). The number
- * of registers and their type (signed 16-bit, unsigned 16-bit, or unsigned
- * 32-bit) are indicated by the `Register` definition.
- *
- * @param regs A vector containing the raw Modbus register values.
- * @param reg The register representing the value to read.
- * @param sf The register representing the associated scale factor.
- *
- * @return On success, returns the scaled double value.
- *         On failure, returns a ModbusError indicating why the value could not
- *         be retrieved, e.g., unsupported register type or invalid register
- * size.
- */
-inline std::expected<double, ModbusError>
-getDouble(const std::vector<uint16_t> &regs, const Register &reg,
-          std::optional<Register> sf = std::nullopt) {
-  double scale = 1.0;
-
-  if (sf.has_value()) {
-    scale = std::pow(10.0, static_cast<int16_t>(regs[sf->ADDR]));
-  }
-
-  switch (reg.TYPE) {
-  case RegType::INT16:
-    return static_cast<double>(static_cast<int16_t>(regs[reg.ADDR])) * scale;
-
-  case RegType::UINT16:
-    return static_cast<double>(regs[reg.ADDR]) * scale;
-
-  case RegType::UINT32:
-    return static_cast<double>(modbus_get_uint32(regs.data() + reg.ADDR)) *
-           scale;
-
-  case RegType::FLOAT:
-    return static_cast<double>(modbus_get_float_abcd(regs.data() + reg.ADDR));
-
-  default:
-    return std::unexpected(ModbusError::custom(
-        EINVAL, "Unsupported register type for getDouble()"));
-  }
 }
 
 } // namespace ModbusUtils

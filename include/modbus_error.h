@@ -13,7 +13,6 @@
 #define MODBUS_ERROR_H_
 
 #include <cerrno>
-#include <functional>
 #include <modbus/modbus.h>
 #include <string>
 

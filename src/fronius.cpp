@@ -3,12 +3,16 @@
 #include "modbus_error.h"
 #include "modbus_utils.h"
 #include <cerrno>
+#include <cmath>
 #include <expected>
 #include <modbus/modbus.h>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <thread>
 #include <vector>
+
+/* ------------------------------public API -------------------------------*/
 
 Fronius::Fronius(const ModbusConfig &cfg) : cfg_(cfg) {
   cfg.validate();
@@ -43,16 +47,188 @@ void Fronius::waitForConnection() {
   cv_.wait(lock, [this]() { return connected_.load(); });
 }
 
-void Fronius::setConnectCallback(std::function<void()> cb) {
-  onConnect_ = std::move(cb);
-}
-void Fronius::setDisconnectCallback(std::function<void()> cb) {
-  onDisconnect_ = std::move(cb);
+void Fronius::triggerReconnect() {
+  std::lock_guard<std::mutex> lock(mtx_);
+
+  if (!connected_.load())
+    return; // already disconnected
+
+  connected_.store(false);
+
+  // Wake up connection loop to reconnect
+  cv_.notify_all();
 }
 
-void Fronius::setErrorCallback(std::function<void(const ModbusError &)> cb) {
-  onError_ = std::move(cb);
+std::expected<std::string, ModbusError> Fronius::getManufacturer() {
+  return reportError<std::string>(getModbusString(regs_, C001::MN));
 }
+
+std::expected<std::string, ModbusError> Fronius::getDeviceModel() {
+  return reportError<std::string>(getModbusString(regs_, C001::MD));
+}
+
+std::expected<std::string, ModbusError> Fronius::getOptions() {
+  return reportError<std::string>(getModbusString(regs_, C001::OPT));
+}
+
+std::expected<std::string, ModbusError> Fronius::getFwVersion() {
+  return reportError<std::string>(getModbusString(regs_, C001::VR));
+}
+
+std::expected<std::string, ModbusError> Fronius::getSerialNumber() {
+  return reportError<std::string>(getModbusString(regs_, C001::SN));
+}
+
+std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {
+  uint16_t val = regs_[C001::DA.ADDR];
+
+  if ((val < 1) || (val > 247))
+    return reportError<uint16_t>(std::unexpected(ModbusError::custom(
+        EINVAL, "Invalid Modbus slave address: received " +
+                    std::to_string(val) + ", expected 1-247")));
+  return val;
+}
+
+/* ------------------------- protected methods ----------------------------*/
+
+std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
+  if (!ctx_) {
+    return reportError<bool>(std::unexpected(
+        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+  }
+
+  // Get registers
+  int rc = modbus_read_registers(ctx_, C001::SID.ADDR, 4,
+                                 regs_.data() + C001::SID.ADDR);
+  if (rc == -1) {
+    return reportError<bool>(std::unexpected(
+        ModbusError::fromErrno(std::string("Receive register ") +
+                               std::to_string(C001::SID.ADDR) + " failed")));
+  }
+
+  // Test for "SunS" string
+  if (!(regs_[C001::SID.ADDR] == 0x5375 &&
+        regs_[C001::SID.ADDR + 1] == 0x6e53)) {
+    return reportError<bool>(std::unexpected(ModbusError::custom(
+        EINVAL, "SunSpec signature mismatch: expected [0x5375, 0x6e53], "
+                "received [0x" +
+                    ModbusUtils::toHex(regs_[C001::SID.ADDR]) + ", 0x" +
+                    ModbusUtils::toHex(regs_[C001::SID.ADDR + 1]) + "]")));
+  }
+
+  // Test for Common Register ID
+  if (regs_[C001::ID.ADDR] != 0x1) {
+    return reportError<bool>(std::unexpected(ModbusError::custom(
+        EINVAL, "Invalid common register map ID: received " +
+                    std::to_string(regs_[C001::ID.ADDR]) + ", expected 1")));
+  }
+
+  // Test for Common Register Map Length
+  if (regs_[C001::L.ADDR] != C001::SIZE) {
+    return reportError<bool>(std::unexpected(ModbusError::custom(
+        EINVAL, "Invalid common register map size: received " +
+                    std::to_string(regs_[C001::L.ADDR]) + ", expected " +
+                    std::to_string(C001::SIZE))));
+  }
+
+  return {};
+}
+
+std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
+  if (!ctx_) {
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+  }
+
+  int rc = modbus_read_registers(ctx_, C001::MN.ADDR, C001::SIZE,
+                                 regs_.data() + C001::MN.ADDR);
+  if (rc == -1) {
+    return reportError<void>(std::unexpected(
+        ModbusError::fromErrno(std::string("Receive register ") +
+                               std::to_string(C001::MN.ADDR) + " failed")));
+  }
+  return {};
+}
+
+std::expected<std::string, ModbusError>
+Fronius::getModbusString(const std::vector<uint16_t> &regs,
+                         const Register &reg) const {
+  std::string str;
+
+  try {
+    if (reg.TYPE != RegType::STRING) {
+      throw ModbusError::custom(EINVAL,
+                                "Invalid register type for getString()");
+    }
+
+    str.reserve(reg.NB * 2); // avoid reallocations
+
+    for (uint16_t word : regs) {
+      char hi = static_cast<char>((word >> 8) & 0xFF);
+      char lo = static_cast<char>(word & 0xFF);
+
+      if (hi != '\0')
+        str.push_back(hi);
+      if (lo != '\0')
+        str.push_back(lo);
+    }
+
+    // Validate that the string is printable (allow spaces)
+    for (unsigned char c : str) {
+      if (!std::isprint(c) && c != ' ') {
+        throw ModbusError::custom(EINVAL,
+                                  "String contains unprintable characters");
+      }
+    }
+  } catch (const ModbusError &e) {
+    if (onError_)
+      onError_(e);
+    return std::unexpected(e);
+  }
+
+  return str;
+}
+
+std::expected<double, ModbusError>
+Fronius::getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
+                         std::optional<Register> sf) const {
+  double value = 0.0;
+
+  try {
+    double scale = 1.0;
+    if (sf.has_value()) {
+      scale = std::pow(10.0, static_cast<int16_t>(regs[sf->ADDR]));
+    }
+
+    switch (reg.TYPE) {
+    case RegType::INT16:
+      value = static_cast<double>(static_cast<int16_t>(regs[reg.ADDR])) * scale;
+      break;
+    case RegType::UINT16:
+      value = static_cast<double>(regs[reg.ADDR]) * scale;
+      break;
+    case RegType::UINT32:
+      value = static_cast<double>(
+                  ModbusUtils::modbus_get_uint32(regs.data() + reg.ADDR)) *
+              scale;
+      break;
+    case RegType::FLOAT:
+      value =
+          static_cast<double>(modbus_get_float_abcd(regs.data() + reg.ADDR));
+    default:
+      throw ModbusError::custom(EINVAL,
+                                "Unsupported register type for getDouble()");
+    }
+  } catch (const ModbusError &e) {
+    if (onError_)
+      onError_(e);
+    return std::unexpected(e);
+  }
+
+  return value;
+}
+
+/* --------------------------private methods ------------------------------*/
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
 
@@ -173,105 +349,4 @@ void Fronius::connectionLoop() {
       cv_.wait(lock, [this] { return !running_.load() || !connected_.load(); });
     }
   }
-}
-
-void Fronius::triggerReconnect() {
-  std::lock_guard<std::mutex> lock(mtx_);
-
-  if (!connected_.load())
-    return; // already disconnected
-
-  connected_.store(false);
-
-  // Wake up connection loop to reconnect
-  cv_.notify_all();
-}
-
-std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
-  if (!ctx_) {
-    return reportError<bool>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
-  }
-
-  // Get registers
-  int rc = modbus_read_registers(ctx_, C001::SID.ADDR, 4,
-                                 regs_.data() + C001::SID.ADDR);
-  if (rc == -1) {
-    return reportError<bool>(std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(C001::SID.ADDR) + " failed")));
-  }
-
-  // Test for "SunS" string
-  if (!(regs_[C001::SID.ADDR] == 0x5375 &&
-        regs_[C001::SID.ADDR + 1] == 0x6e53)) {
-    return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "SunSpec signature mismatch: expected [0x5375, 0x6e53], "
-                "received [0x" +
-                    ModbusUtils::toHex(regs_[C001::SID.ADDR]) + ", 0x" +
-                    ModbusUtils::toHex(regs_[C001::SID.ADDR + 1]) + "]")));
-  }
-
-  // Test for Common Register ID
-  if (regs_[C001::ID.ADDR] != 0x1) {
-    return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid common register map ID: received " +
-                    std::to_string(regs_[C001::ID.ADDR]) + ", expected 1")));
-  }
-
-  // Test for Common Register Map Length
-  if (regs_[C001::L.ADDR] != C001::SIZE) {
-    return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid common register map size: received " +
-                    std::to_string(regs_[C001::L.ADDR]) + ", expected " +
-                    std::to_string(C001::SIZE))));
-  }
-
-  return {};
-}
-
-std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
-  if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
-  }
-
-  int rc = modbus_read_registers(ctx_, C001::MN.ADDR, C001::SIZE,
-                                 regs_.data() + C001::MN.ADDR);
-  if (rc == -1) {
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(C001::MN.ADDR) + " failed")));
-  }
-  return {};
-}
-
-std::expected<std::string, ModbusError> Fronius::getManufacturer() {
-  return reportError<std::string>(ModbusUtils::getString(regs_, C001::MN));
-}
-
-std::expected<std::string, ModbusError> Fronius::getDeviceModel() {
-  return reportError<std::string>(ModbusUtils::getString(regs_, C001::MD));
-}
-
-std::expected<std::string, ModbusError> Fronius::getOptions() {
-  return reportError<std::string>(ModbusUtils::getString(regs_, C001::OPT));
-}
-
-std::expected<std::string, ModbusError> Fronius::getFwVersion() {
-  return reportError<std::string>(ModbusUtils::getString(regs_, C001::VR));
-}
-
-std::expected<std::string, ModbusError> Fronius::getSerialNumber() {
-  return reportError<std::string>(ModbusUtils::getString(regs_, C001::SN));
-}
-
-std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {
-  uint16_t val = regs_[C001::DA.ADDR];
-
-  if ((val < 1) || (val > 247))
-    return reportError<uint16_t>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid Modbus slave address: received " +
-                    std::to_string(val) + ", expected 1-247")));
-  return val;
 }

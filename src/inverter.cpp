@@ -283,31 +283,32 @@ double Inverter::getAcEnergy(void) const {
 
 std::expected<double, ModbusError>
 Inverter::getDcPower(const Input input) const {
+  auto invalidInput = [] {
+    return std::unexpected(
+        ModbusError::custom(EINVAL, "Invalid input in getDcPower()"));
+  };
+
   if (useFloatRegisters_) {
     switch (input) {
     case Input::TOTAL:
-      return reportError<double>(ModbusUtils::getDouble(regs_, I11X::DCW));
+      return getModbusDouble(regs_, I11X::DCW.withOffset(I160::FLOAT_OFFSET));
     case Input::A:
-      return reportError<double>(ModbusUtils::getDouble(regs_, I160::DCW_1));
+      return getModbusDouble(regs_, I160::DCW_1.withOffset(I160::FLOAT_OFFSET));
     case Input::B:
-      return reportError<double>(ModbusUtils::getDouble(regs_, I160::DCW_2));
+      return getModbusDouble(regs_, I160::DCW_2.withOffset(I160::FLOAT_OFFSET));
     default:
-      return reportError<double>(std::unexpected(
-          ModbusError::custom(EINVAL, "Invalid input in getDcPower()")));
+      return invalidInput();
     }
   } else {
     switch (input) {
     case Input::TOTAL:
-      return reportError<double>(ModbusUtils::getDouble(regs_, I10X::DCW));
+      return getModbusDouble(regs_, I10X::DCW);
     case Input::A:
-      return reportError<double>(
-          ModbusUtils::getDouble(regs_, I160::DCW_1, I160::DCW_SF));
+      return getModbusDouble(regs_, I160::DCW_1, I160::DCW_SF);
     case Input::B:
-      return reportError<double>(
-          ModbusUtils::getDouble(regs_, I160::DCW_2, I160::DCW_SF));
+      return getModbusDouble(regs_, I160::DCW_2, I160::DCW_SF);
     default:
-      return reportError<double>(std::unexpected(
-          ModbusError::custom(EINVAL, "Invalid input in getDcPower()")));
+      return invalidInput();
     }
   }
 }

@@ -49,6 +49,15 @@ struct Register {
    */
   constexpr Register(uint16_t addr, uint16_t nb, RegType type)
       : ADDR(addr), NB(nb), TYPE(type) {}
+
+  /**
+   * @brief Return a copy of this register with an address offset applied.
+   * @param offset Offset to add to the register address (can be negative).
+   * @return A new Register instance with adjusted address.
+   */
+  [[nodiscard]] constexpr Register withOffset(int16_t offset) const {
+    return Register{static_cast<uint16_t>(ADDR + offset), NB, TYPE};
+  }
 };
 
 #endif /* REGISTER_BASE_H_ */
