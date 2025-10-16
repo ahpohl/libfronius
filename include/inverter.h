@@ -2,6 +2,7 @@
 #define INVERTER_H_
 
 #include "fronius.h"
+#include "fronius_types.h"
 #include "modbus_config.h"
 #include "modbus_error.h"
 #include <expected>
@@ -58,21 +59,21 @@ public:
    * @return `true` if using float-based registers, `false` if using
    * integer/scaled registers.
    */
-  bool getUseFloatRegisters(void) const;
+  bool getUseFloatRegisters(void) const { return useFloatRegisters_; }
 
   /**
    * @brief Get the number of active phases.
    *
    * @return Number of phases (1, 2, or 3).
    */
-  int getPhases(void) const;
+  int getPhases(void) const { return id_ % 10; }
 
   /**
    * @brief Get the inverter's device ID.
    *
    * @return Integer representing the detected inverter ID.
    */
-  int getId(void) const;
+  int getId(void) const { return id_; }
 
   /**
    * @brief Get AC current in amperes.
@@ -80,7 +81,8 @@ public:
    * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
    * @return Current value in amperes (A).
    */
-  double getAcCurrent(const Phase ph = Phase::TOTAL) const;
+  std::expected<double, ModbusError>
+  getAcCurrent(const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC voltage in volts.
@@ -88,43 +90,44 @@ public:
    * @param ph Phase to read (`PHA`, `PHB`, or `PHC`).
    * @return Voltage value in volts (V).
    */
-  double getAcVoltage(const Phase ph = Phase::A) const;
+  std::expected<double, ModbusError>
+  getAcVoltage(const FroniusTypes::Phase ph = FroniusTypes::Phase::A) const;
 
   /**
    * @brief Get AC active power in watts.
    * @return Active power value in watts (W).
    */
-  double getAcPowerActive(void) const;
+  std::expected<double, ModbusError> getAcPowerActive(void) const;
 
   /**
    * @brief Get AC frequency in hertz.
    * @return Frequency value in hertz (Hz).
    */
-  double getAcFrequency(void) const;
+  std::expected<double, ModbusError> getAcFrequency(void) const;
 
   /**
    * @brief Get AC apparent power in volt-amperes.
    * @return Apparent power value in volt-amperes (VA).
    */
-  double getAcPowerApparent(void) const;
+  std::expected<double, ModbusError> getAcPowerApparent(void) const;
 
   /**
    * @brief Get AC reactive power in volt-ampere reactive.
    * @return Reactive power value in volt-ampere reactive (VAr).
    */
-  double getAcPowerReactive(void) const;
+  std::expected<double, ModbusError> getAcPowerReactive(void) const;
 
   /**
    * @brief Get AC power factor (dimensionless).
    * @return Power factor as a unitless ratio (typically between -1 and 1).
    */
-  double getAcPowerFactor(void) const;
+  std::expected<double, ModbusError> getAcPowerFactor(void) const;
 
   /**
    * @brief Get total lifetime energy production.
    * @return Exported energy in watt-hours (Wh).
    */
-  double getAcEnergy(void) const;
+  std::expected<double, ModbusError> getAcEnergy(void) const;
 
   /**
    * @brief Get DC power of a specific input in watts.
@@ -135,7 +138,32 @@ public:
    *              - B : DC power of input string B
    * @return Power value in watts (W).
    */
-  std::expected<double, ModbusError> getDcPower(const Input input) const;
+  std::expected<double, ModbusError>
+  getDcPower(const FroniusTypes::Input input) const;
+
+  /**
+   * @brief Get DC current of a specific input in amperes.
+   *
+   * @param input The input for which to retrieve DC current. Valid options are:
+   *              - TOTAL : total DC current of all inputs
+   *              - A : DC current of input string A
+   *              - B : DC current of input string B
+   * @return Current value in amperes (A).
+   */
+  std::expected<double, ModbusError>
+  getDcCurrent(const FroniusTypes::Input input) const;
+
+  /**
+   * @brief Get DC voltage of a specific input in volts.
+   *
+   * @param input The input for which to retrieve DC voltage. Valid options are:
+   *              - TOTAL : total DC voltage of all inputs
+   *              - A : DC voltage of input string A
+   *              - B : DC voltage of input string B
+   * @return Voltage value in volts (V).
+   */
+  std::expected<double, ModbusError>
+  getDcVoltage(const FroniusTypes::Input input) const;
 
 private:
   /**

@@ -154,21 +154,6 @@ public:
    */
   std::expected<uint16_t, ModbusError> getModbusDeviceAddress(void);
 
-  /**
-   * @enum Phase
-   * @brief Identifiers for phase and input related values.
-   */
-  enum class Phase { TOTAL, AVERAGE, A, B, C };
-
-  /**
-   * @enum Input
-   * @brief Identifiers for MPPT inputs or DC strings of the inverter.
-   *
-   * Represents the multiple independent DC input channels (or strings) of the
-   * inverter, typically used in multiple MPPT configurations.
-   */
-  enum class Input { TOTAL, A, B };
-
 protected:
   /**
    * @brief Handle for the libmodbus connection context.

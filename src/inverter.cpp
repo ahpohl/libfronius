@@ -3,8 +3,8 @@
 #include "modbus_utils.h"
 #include <array>
 #include <cerrno>
-#include <cmath>
 #include <expected>
+#include <fronius_types.h>
 #include <iostream>
 #include <modbus/modbus.h>
 #include <modbus_config.h>
@@ -12,70 +12,11 @@
 #include <sstream>
 #include <vector>
 
+/* ------------------------------ public API -------------------------------*/
+
 Inverter::Inverter(const ModbusConfig &cfg) : Fronius(cfg) {}
 
 Inverter::~Inverter() {};
-
-bool Inverter::getUseFloatRegisters(void) const { return useFloatRegisters_; }
-
-int Inverter::getPhases(void) const { return id_ % 10; };
-
-int Inverter::getId(void) const { return id_; };
-
-std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
-  if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
-  }
-
-  int rc = modbus_read_registers(ctx_, I10X::ID.ADDR, 2,
-                                 regs_.data() + I10X::ID.ADDR);
-  if (rc == -1) {
-    return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register " + std::to_string(I10X::ID.ADDR) + " failed")));
-  }
-
-  // Validate inverter ID
-  uint16_t inverterID = regs_[I10X::ID.ADDR];
-  static constexpr std::array<uint16_t, 6> validInverterIDs = {101, 102, 103,
-                                                               111, 112, 113};
-
-  if (std::find(validInverterIDs.begin(), validInverterIDs.end(), inverterID) ==
-      validInverterIDs.end()) {
-    std::ostringstream oss;
-    bool first = true;
-    for (auto id : validInverterIDs) {
-      if (!first)
-        oss << ", ";
-      oss << id;
-      first = false;
-    }
-    return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid inverter ID: received " + std::to_string(inverterID) +
-                    ", expected [" + oss.str() + "]")));
-  }
-
-  // Store inverter ID
-  id_ = inverterID;
-
-  // Set register model
-  if (inverterID / 10 % 10)
-    useFloatRegisters_ = true;
-  else
-    useFloatRegisters_ = false;
-
-  // Validate the register length
-  uint16_t regMapSize = regs_[I10X::L.ADDR];
-  if (regMapSize != I10X::SIZE && regMapSize != I11X::SIZE) {
-    return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid inverter register map size: received " +
-                    std::to_string(regMapSize) + ", expected [" +
-                    std::to_string(I10X::SIZE) + ", " +
-                    std::to_string(I11X::SIZE) + "]")));
-  }
-
-  return {};
-}
 
 std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   if (!ctx_) {
@@ -163,152 +104,266 @@ std::expected<void, ModbusError> Inverter::validateDevice() {
 
 /* --------------------- get values -------------------------- */
 
-double Inverter::getAcCurrent(const Phase ph) const {
+std::expected<double, ModbusError>
+Inverter::getAcCurrent(const FroniusTypes::Phase ph) const {
+  auto invalidPhase = std::unexpected(
+      ModbusError::custom(EINVAL, "Invalid phase in getAcCurrent(): " +
+                                      std::string(FroniusTypes::toString(ph))));
+
   if (useFloatRegisters_) {
     switch (ph) {
-    case Phase::TOTAL:
-      return modbus_get_float_abcd(regs_.data() + I11X::A.ADDR);
-    case Phase::A:
-      return modbus_get_float_abcd(regs_.data() + I11X::APHA.ADDR);
-    case Phase::B:
-      return modbus_get_float_abcd(regs_.data() + I11X::APHB.ADDR);
-    case Phase::C:
-      return modbus_get_float_abcd(regs_.data() + I11X::APHC.ADDR);
+    case FroniusTypes::FroniusTypes::Phase::TOTAL:
+      return getModbusDouble(regs_, I11X::A);
+    case FroniusTypes::FroniusTypes::Phase::A:
+      return getModbusDouble(regs_, I11X::APHA);
+    case FroniusTypes::FroniusTypes::Phase::B:
+      return getModbusDouble(regs_, I11X::APHB);
+    case FroniusTypes::FroniusTypes::Phase::C:
+      return getModbusDouble(regs_, I11X::APHC);
     default:
-      return 0.0;
+      return invalidPhase;
     }
   } else {
     switch (ph) {
-    case Phase::TOTAL:
-      return static_cast<double>(regs_[I10X::A.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF.ADDR]));
-    case Phase::A:
-      return static_cast<double>(regs_[I10X::APHA.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF.ADDR]));
-    case Phase::B:
-      return static_cast<double>(regs_[I10X::APHB.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF.ADDR]));
-    case Phase::C:
-      return static_cast<double>(regs_[I10X::APHC.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::A_SF.ADDR]));
+    case FroniusTypes::Phase::TOTAL:
+      return getModbusDouble(regs_, I10X::A, I10X::A_SF);
+    case FroniusTypes::Phase::A:
+      return getModbusDouble(regs_, I10X::APHA, I10X::A_SF);
+    case FroniusTypes::Phase::B:
+      return getModbusDouble(regs_, I10X::APHB, I10X::A_SF);
+    case FroniusTypes::Phase::C:
+      return getModbusDouble(regs_, I10X::APHC, I10X::A_SF);
     default:
-      return 0.0;
+      return invalidPhase;
     }
-  }
-}
-
-double Inverter::getAcVoltage(const Phase ph) const {
-  if (useFloatRegisters_) {
-    switch (ph) {
-    case Phase::A:
-      return modbus_get_float_abcd(regs_.data() + I11X::PHVPHA.ADDR);
-    case Phase::B:
-      return modbus_get_float_abcd(regs_.data() + I11X::PHVPHB.ADDR);
-    case Phase::C:
-      return modbus_get_float_abcd(regs_.data() + I11X::PHVPHC.ADDR);
-    default:
-      return 0.0;
-    }
-  } else {
-    switch (ph) {
-    case Phase::A:
-      return static_cast<double>(regs_[I10X::PHVPHA.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::V_SF.ADDR]));
-    case Phase::B:
-      return static_cast<double>(regs_[I10X::PHVPHB.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::V_SF.ADDR]));
-    case Phase::C:
-      return static_cast<double>(regs_[I10X::PHVPHC.ADDR]) *
-             std::pow(10.0, static_cast<int16_t>(regs_[I10X::V_SF.ADDR]));
-    default:
-      return 0.0;
-    }
-  }
-}
-
-double Inverter::getAcFrequency(void) const {
-  if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X::FREQ.ADDR);
-  } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X::FREQ.ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X::FREQ_SF.ADDR]));
-  }
-}
-
-double Inverter::getAcPowerActive(void) const {
-  if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X::W.ADDR);
-  } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X::W.ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X::W_SF.ADDR]));
-  }
-}
-
-double Inverter::getAcPowerApparent(void) const {
-  if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X::VA.ADDR);
-  } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X::VA.ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X::VA_SF.ADDR]));
-  }
-}
-
-double Inverter::getAcPowerReactive(void) const {
-  if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X::VAR.ADDR);
-  } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X::VAR.ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X::VAR_SF.ADDR]));
-  }
-}
-
-double Inverter::getAcPowerFactor(void) const {
-  if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X::PF.ADDR);
-  } else {
-    return static_cast<double>(static_cast<int16_t>(regs_[I10X::PF.ADDR])) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X::PF_SF.ADDR]));
-  }
-}
-
-double Inverter::getAcEnergy(void) const {
-  if (useFloatRegisters_) {
-    return modbus_get_float_abcd(regs_.data() + I11X::WH.ADDR);
-  } else {
-    return static_cast<double>(
-               ModbusUtils::modbus_get_uint32(regs_.data() + I10X::WH.ADDR)) *
-           std::pow(10.0, static_cast<int16_t>(regs_[I10X::WH_SF.ADDR]));
   }
 }
 
 std::expected<double, ModbusError>
-Inverter::getDcPower(const Input input) const {
-  auto invalidInput = [] {
-    return std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid input in getDcPower()"));
-  };
+Inverter::getAcVoltage(const FroniusTypes::Phase ph) const {
+  auto invalidPhase = std::unexpected(
+      ModbusError::custom(EINVAL, "Invalid phase in getAcVoltage(): " +
+                                      std::string(FroniusTypes::toString(ph))));
+
+  if (useFloatRegisters_) {
+    switch (ph) {
+    case FroniusTypes::Phase::A:
+      return getModbusDouble(regs_, I11X::PHVPHA);
+    case FroniusTypes::Phase::B:
+      return getModbusDouble(regs_, I11X::PHVPHB);
+    case FroniusTypes::Phase::C:
+      return getModbusDouble(regs_, I11X::PHVPHC);
+    default:
+      return invalidPhase;
+    }
+  } else {
+    switch (ph) {
+    case FroniusTypes::Phase::A:
+      return getModbusDouble(regs_, I10X::PHVPHA, I10X::V_SF);
+    case FroniusTypes::Phase::B:
+      return getModbusDouble(regs_, I10X::PHVPHB, I10X::V_SF);
+    case FroniusTypes::Phase::C:
+      return getModbusDouble(regs_, I10X::PHVPHC, I10X::V_SF);
+    default:
+      return invalidPhase;
+    }
+  }
+}
+
+std::expected<double, ModbusError> Inverter::getAcFrequency(void) const {
+  if (useFloatRegisters_) {
+    return getModbusDouble(regs_, I11X::FREQ);
+  } else {
+    return getModbusDouble(regs_, I10X::FREQ, I10X::FREQ_SF);
+  }
+}
+
+std::expected<double, ModbusError> Inverter::getAcPowerActive(void) const {
+  if (useFloatRegisters_) {
+    return getModbusDouble(regs_, I11X::W);
+  } else {
+    return getModbusDouble(regs_, I10X::W, I10X::W_SF);
+  }
+}
+
+std::expected<double, ModbusError> Inverter::getAcPowerApparent(void) const {
+  if (useFloatRegisters_) {
+    return getModbusDouble(regs_, I11X::VA);
+  } else {
+    return getModbusDouble(regs_, I10X::VA, I10X::VA_SF);
+  }
+}
+
+std::expected<double, ModbusError> Inverter::getAcPowerReactive(void) const {
+  if (useFloatRegisters_) {
+    return getModbusDouble(regs_, I11X::VAR);
+  } else {
+    return getModbusDouble(regs_, I10X::VAR, I10X::VAR_SF);
+  }
+}
+
+std::expected<double, ModbusError> Inverter::getAcPowerFactor(void) const {
+  if (useFloatRegisters_) {
+    return getModbusDouble(regs_, I11X::PF);
+  } else {
+    return getModbusDouble(regs_, I10X::PF, I10X::PF_SF);
+  }
+}
+
+std::expected<double, ModbusError> Inverter::getAcEnergy(void) const {
+  if (useFloatRegisters_) {
+    return getModbusDouble(regs_, I11X::WH);
+  } else {
+    return getModbusDouble(regs_, I10X::WH, I10X::WH_SF);
+  }
+}
+
+std::expected<double, ModbusError>
+Inverter::getDcPower(const FroniusTypes::Input input) const {
+  auto invalidInput = std::unexpected(ModbusError::custom(
+      EINVAL, "Invalid input in getDcPower(): " +
+                  std::string(FroniusTypes::toString(input))));
 
   if (useFloatRegisters_) {
     switch (input) {
-    case Input::TOTAL:
-      return getModbusDouble(regs_, I11X::DCW.withOffset(I160::FLOAT_OFFSET));
-    case Input::A:
+    case FroniusTypes::Input::TOTAL:
+      return getModbusDouble(regs_, I11X::DCW);
+    case FroniusTypes::Input::A:
       return getModbusDouble(regs_, I160::DCW_1.withOffset(I160::FLOAT_OFFSET));
-    case Input::B:
+    case FroniusTypes::Input::B:
       return getModbusDouble(regs_, I160::DCW_2.withOffset(I160::FLOAT_OFFSET));
     default:
-      return invalidInput();
+      return invalidInput;
     }
   } else {
     switch (input) {
-    case Input::TOTAL:
-      return getModbusDouble(regs_, I10X::DCW);
-    case Input::A:
+    case FroniusTypes::Input::TOTAL:
+      return getModbusDouble(regs_, I10X::DCW, I10X::DCW_SF);
+    case FroniusTypes::Input::A:
       return getModbusDouble(regs_, I160::DCW_1, I160::DCW_SF);
-    case Input::B:
+    case FroniusTypes::Input::B:
       return getModbusDouble(regs_, I160::DCW_2, I160::DCW_SF);
     default:
-      return invalidInput();
+      return invalidInput;
     }
   }
+}
+
+std::expected<double, ModbusError>
+Inverter::getDcCurrent(const FroniusTypes::Input input) const {
+  auto invalidInput = std::unexpected(ModbusError::custom(
+      EINVAL, "Invalid input in getDcCurrent(): " +
+                  std::string(FroniusTypes::toString(input))));
+
+  if (useFloatRegisters_) {
+    switch (input) {
+    case FroniusTypes::Input::TOTAL:
+      return getModbusDouble(regs_, I11X::DCA);
+    case FroniusTypes::Input::A:
+      return getModbusDouble(regs_, I160::DCA_1.withOffset(I160::FLOAT_OFFSET));
+    case FroniusTypes::Input::B:
+      return getModbusDouble(regs_, I160::DCA_2.withOffset(I160::FLOAT_OFFSET));
+    default:
+      return invalidInput;
+    }
+  } else {
+    switch (input) {
+    case FroniusTypes::Input::TOTAL:
+      return getModbusDouble(regs_, I10X::DCA, I10X::DCA_SF);
+    case FroniusTypes::Input::A:
+      return getModbusDouble(regs_, I160::DCA_1, I160::DCA_SF);
+    case FroniusTypes::Input::B:
+      return getModbusDouble(regs_, I160::DCA_2, I160::DCA_SF);
+    default:
+      return invalidInput;
+    }
+  }
+}
+
+std::expected<double, ModbusError>
+Inverter::getDcVoltage(const FroniusTypes::Input input) const {
+  auto invalidInput = std::unexpected(ModbusError::custom(
+      EINVAL, "Invalid input in getDcVoltage(): " +
+                  std::string(FroniusTypes::toString(input))));
+
+  if (useFloatRegisters_) {
+    switch (input) {
+    case FroniusTypes::Input::TOTAL:
+      return getModbusDouble(regs_, I11X::DCV);
+    case FroniusTypes::Input::A:
+      return getModbusDouble(regs_, I160::DCV_1.withOffset(I160::FLOAT_OFFSET));
+    case FroniusTypes::Input::B:
+      return getModbusDouble(regs_, I160::DCV_2.withOffset(I160::FLOAT_OFFSET));
+    default:
+      return invalidInput;
+    }
+  } else {
+    switch (input) {
+    case FroniusTypes::Input::TOTAL:
+      return getModbusDouble(regs_, I10X::DCV, I10X::DCV_SF);
+    case FroniusTypes::Input::A:
+      return getModbusDouble(regs_, I160::DCV_1, I160::DCV_SF);
+    case FroniusTypes::Input::B:
+      return getModbusDouble(regs_, I160::DCV_2, I160::DCV_SF);
+    default:
+      return invalidInput;
+    }
+  }
+}
+
+/* -------------------------- private methods ------------------------------*/
+
+std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
+  if (!ctx_) {
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+  }
+
+  int rc = modbus_read_registers(ctx_, I10X::ID.ADDR, 2,
+                                 regs_.data() + I10X::ID.ADDR);
+  if (rc == -1) {
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "Receive register " + std::to_string(I10X::ID.ADDR) + " failed")));
+  }
+
+  // Validate inverter ID
+  uint16_t inverterID = regs_[I10X::ID.ADDR];
+  static constexpr std::array<uint16_t, 6> validInverterIDs = {101, 102, 103,
+                                                               111, 112, 113};
+
+  if (std::find(validInverterIDs.begin(), validInverterIDs.end(), inverterID) ==
+      validInverterIDs.end()) {
+    std::ostringstream oss;
+    bool first = true;
+    for (auto id : validInverterIDs) {
+      if (!first)
+        oss << ", ";
+      oss << id;
+      first = false;
+    }
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        EINVAL, "Invalid inverter ID: received " + std::to_string(inverterID) +
+                    ", expected [" + oss.str() + "]")));
+  }
+
+  // Store inverter ID
+  id_ = inverterID;
+
+  // Set register model
+  if (inverterID / 10 % 10)
+    useFloatRegisters_ = true;
+  else
+    useFloatRegisters_ = false;
+
+  // Validate the register length
+  uint16_t regMapSize = regs_[I10X::L.ADDR];
+  if (regMapSize != I10X::SIZE && regMapSize != I11X::SIZE) {
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        EINVAL, "Invalid inverter register map size: received " +
+                    std::to_string(regMapSize) + ", expected [" +
+                    std::to_string(I10X::SIZE) + ", " +
+                    std::to_string(I11X::SIZE) + "]")));
+  }
+
+  return {};
 }

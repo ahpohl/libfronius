@@ -12,7 +12,7 @@
 #include <thread>
 #include <vector>
 
-/* ------------------------------public API -------------------------------*/
+/* ------------------------------ public API -------------------------------*/
 
 Fronius::Fronius(const ModbusConfig &cfg) : cfg_(cfg) {
   cfg.validate();
@@ -60,23 +60,23 @@ void Fronius::triggerReconnect() {
 }
 
 std::expected<std::string, ModbusError> Fronius::getManufacturer() {
-  return reportError<std::string>(getModbusString(regs_, C001::MN));
+  return getModbusString(regs_, C001::MN);
 }
 
 std::expected<std::string, ModbusError> Fronius::getDeviceModel() {
-  return reportError<std::string>(getModbusString(regs_, C001::MD));
+  return getModbusString(regs_, C001::MD);
 }
 
 std::expected<std::string, ModbusError> Fronius::getOptions() {
-  return reportError<std::string>(getModbusString(regs_, C001::OPT));
+  return getModbusString(regs_, C001::OPT);
 }
 
 std::expected<std::string, ModbusError> Fronius::getFwVersion() {
-  return reportError<std::string>(getModbusString(regs_, C001::VR));
+  return getModbusString(regs_, C001::VR);
 }
 
 std::expected<std::string, ModbusError> Fronius::getSerialNumber() {
-  return reportError<std::string>(getModbusString(regs_, C001::SN));
+  return getModbusString(regs_, C001::SN);
 }
 
 std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {
@@ -228,7 +228,7 @@ Fronius::getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
   return value;
 }
 
-/* --------------------------private methods ------------------------------*/
+/* -------------------------- private methods ------------------------------*/
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
 

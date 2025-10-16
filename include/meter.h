@@ -2,6 +2,7 @@
 #define METER_H_
 
 #include "fronius.h"
+#include "fronius_types.h"
 #include "modbus_config.h"
 #include "modbus_error.h"
 #include <expected>
@@ -58,92 +59,100 @@ public:
    * @return `true` if using float-based registers, `false` if using
    * integer/scaled registers.
    */
-  bool getUseFloatRegisters(void) const;
+  bool getUseFloatRegisters(void) const { return useFloatRegisters_; };
 
   /**
    * @brief Get the number of active phases.
    *
    * @return Number of phases (1, 2, or 3).
    */
-  int getPhases(void) const;
+  int getPhases(void) const { return id_ % 10; };
 
   /**
    * @brief Get the meter's device ID.
    *
    * @return Integer representing the detected meter ID.
    */
-  int getId(void) const;
+  int getId(void) const { return id_; };
 
   /**
    * @brief Get AC current in amperes.
    *
-   * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
    * @return Current value in amperes (A).
    */
-  double getAcCurrent(const Phase ph = Phase::TOTAL) const;
+  std::expected<double, ModbusError>
+  getAcCurrent(const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC voltage in volts.
    *
-   * @param ph Phase to read (`AVERAGE`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`AVERAGE`, `PHA`, `PHB`, or `PHC`).
    * @return Voltage value in volts (V).
    */
-  double getAcVoltage(const Phase ph = Phase::AVERAGE) const;
+  std::expected<double, ModbusError> getAcVoltage(
+      const FroniusTypes::Phase ph = FroniusTypes::Phase::AVERAGE) const;
 
   /**
    * @brief Get AC active power in watts.
    *
-   * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
    * @return Active power value in watts (W).
    */
-  double getAcPowerActive(const Phase ph = Phase::TOTAL) const;
+  std::expected<double, ModbusError> getAcPowerActive(
+      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC frequency in hertz.
    *
    * @return Frequency value in hertz (Hz).
    */
-  double getAcFrequency(void) const;
+  std::expected<double, ModbusError> getAcFrequency(void) const;
 
   /**
    * @brief Get AC apparent power in volt-amperes.
    *
-   * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
    * @return Apparent power value in volt-amperes (VA).
    */
-  double getAcPowerApparent(const Phase ph = Phase::TOTAL) const;
+  std::expected<double, ModbusError> getAcPowerApparent(
+      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC reactive power in volt-ampere reactive.
    *
-   * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
    * @return Reactive power value in volt-ampere reactive (VAr).
    */
-  double getAcPowerReactive(const Phase ph = Phase::TOTAL) const;
+  std::expected<double, ModbusError> getAcPowerReactive(
+      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC power factor (dimensionless).
    *
-   * @param ph Phase to read (`AVERAGE`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`AVERAGE`, `PHA`, `PHB`, or `PHC`).
    * @return Power factor as a unitless ratio (typically between -1 and 1).
    */
-  double getAcPowerFactor(const Phase ph = Phase::AVERAGE) const;
+  std::expected<double, ModbusError> getAcPowerFactor(
+      const FroniusTypes::Phase ph = FroniusTypes::Phase::AVERAGE) const;
 
   /**
    * @brief Get total exported active energy.
    *
-   * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
    * @return Exported energy in watt-hours (Wh).
    */
-  double getAcEnergyActiveExport(const Phase ph = Phase::TOTAL) const;
+  std::expected<double, ModbusError> getAcEnergyActiveExport(
+      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get total imported active energy.
    *
-   * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
+   * @param ph FroniusTypes::Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
    * @return Imported energy in watt-hours (Wh).
    */
-  double getAcEnergyActiveImport(const Phase ph = Phase::TOTAL) const;
+  std::expected<double, ModbusError> getAcEnergyActiveImport(
+      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
 private:
   /**
