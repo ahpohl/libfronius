@@ -84,8 +84,8 @@ std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {
 
   if ((val < 1) || (val > 247))
     return reportError<uint16_t>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid Modbus slave address: received " +
-                    std::to_string(val) + ", expected 1-247")));
+        EINVAL, "Invalid Modbus slave address: received {}, expected 1-247",
+        val)));
   return val;
 }
 
@@ -102,33 +102,32 @@ std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
                                  regs_.data() + C001::SID.ADDR);
   if (rc == -1) {
     return reportError<bool>(std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(C001::SID.ADDR) + " failed")));
+        ModbusError::fromErrno("Receive register {} failed", C001::SID.ADDR)));
   }
 
   // Test for "SunS" string
   if (!(regs_[C001::SID.ADDR] == 0x5375 &&
         regs_[C001::SID.ADDR + 1] == 0x6e53)) {
-    return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "SunSpec signature mismatch: expected [0x5375, 0x6e53], "
-                "received [0x" +
-                    ModbusUtils::toHex(regs_[C001::SID.ADDR]) + ", 0x" +
-                    ModbusUtils::toHex(regs_[C001::SID.ADDR + 1]) + "]")));
+    return reportError<bool>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "SunSpec signature mismatch: expected [0x5375, "
+                            "0x6e53], received [0x{}, 0x{}]",
+                            ModbusUtils::toHex(regs_[C001::SID.ADDR]),
+                            ModbusUtils::toHex(regs_[C001::SID.ADDR + 1]))));
   }
 
   // Test for Common Register ID
   if (regs_[C001::ID.ADDR] != 0x1) {
     return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid common register map ID: received " +
-                    std::to_string(regs_[C001::ID.ADDR]) + ", expected 1")));
+        EINVAL, "Invalid common register map ID: received {}, expected 1",
+        regs_[C001::ID.ADDR])));
   }
 
   // Test for Common Register Map Length
   if (regs_[C001::L.ADDR] != C001::SIZE) {
     return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid common register map size: received " +
-                    std::to_string(regs_[C001::L.ADDR]) + ", expected " +
-                    std::to_string(C001::SIZE))));
+        EINVAL, "Invalid common register map size: received {}, expected {}",
+        regs_[C001::L.ADDR], C001::SIZE)));
   }
 
   return {};
@@ -144,8 +143,7 @@ std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
                                  regs_.data() + C001::MN.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(C001::MN.ADDR) + " failed")));
+        ModbusError::fromErrno("Receive register {} failed", C001::MN.ADDR)));
   }
   return {};
 }
@@ -163,7 +161,9 @@ Fronius::getModbusString(const std::vector<uint16_t> &regs,
 
     str.reserve(reg.NB * 2); // avoid reallocations
 
-    for (uint16_t word : regs) {
+    for (size_t i = 0; i < reg.NB; ++i) {
+      uint16_t word = regs[reg.ADDR + i];
+
       char hi = static_cast<char>((word >> 8) & 0xFF);
       char lo = static_cast<char>(word & 0xFF);
 
@@ -176,8 +176,9 @@ Fronius::getModbusString(const std::vector<uint16_t> &regs,
     // Validate that the string is printable (allow spaces)
     for (unsigned char c : str) {
       if (!std::isprint(c) && c != ' ') {
-        throw ModbusError::custom(EINVAL,
-                                  "String contains unprintable characters");
+        throw ModbusError::custom(
+            EINVAL, "String at address {} contains unprintable characters",
+            reg.ADDR);
       }
     }
   } catch (const ModbusError &e) {
@@ -254,9 +255,9 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, 'N', 8, 1);
   }
   if (!ctx_) {
-    return reportError<void>(std::unexpected(ModbusError::custom(
-        ENOMEM, std::string("Unable to create the libmodbus ") +
-                    (cfg_.useTcp ? "TCP" : "RTU") + " context")));
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(ENOMEM, "Unable to create the libmodbus {} context",
+                            (cfg_.useTcp ? "TCP" : "RTU"))));
   }
 
   // Set libmodbus debug
@@ -276,8 +277,8 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   if (modbus_set_slave(ctx_, cfg_.slaveId) == -1) {
     modbus_free(ctx_);
     ctx_ = nullptr;
-    return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Setting slave id '" + std::to_string(cfg_.slaveId) + "' failed")));
+    return reportError<void>(std::unexpected(
+        ModbusError::fromErrno("Setting slave id '{}' failed", cfg_.slaveId)));
   }
 
   // Attempt connection
@@ -285,8 +286,7 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     modbus_free(ctx_);
     ctx_ = nullptr;
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Connection to '" + (cfg_.useTcp ? cfg_.host : cfg_.device) +
-        "' failed")));
+        "Connection to '{}' failed", (cfg_.useTcp ? cfg_.host : cfg_.device))));
   }
 
   return {};

@@ -13,6 +13,7 @@
 #define MODBUS_ERROR_H_
 
 #include <cerrno>
+#include <format>
 #include <modbus/modbus.h>
 #include <string>
 
@@ -46,22 +47,104 @@ public:
   Severity severity;
 
   /**
-   * @brief Create a ModbusError from the current errno.
-   * @param msg Context message for the error.
-   * @return A ModbusError instance with code = errno and deduced severity.
+   * @brief Create a ModbusError from the current system @c errno using a plain
+   * message.
+   *
+   * This overload should be used when no formatting is required.
+   * The message is stored as-is in the resulting ModbusError.
+   *
+   * @param msg Context message describing the error.
+   * @return A ModbusError instance with @c code = errno and a severity deduced
+   * via @c deduceSeverity().
+   *
+   * @see fromErrno(std::format_string<Args...>, Args&&...)
+   * @see custom(int, const std::string&)
+   *
+   * @code
+   * auto err = ModbusError::fromErrno("Failed to connect to Modbus device");
+   * @endcode
    */
   static ModbusError fromErrno(const std::string &msg) {
     return {errno, msg, deduceSeverity(errno)};
   }
 
   /**
-   * @brief Create a ModbusError with a custom error code.
-   * @param c Error code.
-   * @param msg Context message.
-   * @return A ModbusError instance with deduced severity.
+   * @brief Create a ModbusError from the current system @c errno using a
+   * formatted message.
+   *
+   * This overload supports C++23-style @c std::format syntax for type-safe,
+   * compile-time-checked formatting. The resulting message is formatted
+   * according to the provided format string and arguments.
+   *
+   * @tparam Args Argument types deduced from the format string.
+   * @param fmt Format string with {} placeholders (validated at compile time).
+   * @param args Arguments to substitute into the format string.
+   * @return A ModbusError instance with @c code = errno and a severity deduced
+   * via @c deduceSeverity().
+   *
+   * @see fromErrno(const std::string&)
+   * @see custom(int, std::format_string<Args...>, Args&&...)
+   *
+   * @code
+   * auto err = ModbusError::fromErrno("Failed to read register {} from {}",
+   * 40261, "inverter-1");
+   * @endcode
+   */
+  template <typename... Args>
+  static ModbusError fromErrno(std::format_string<Args...> fmt,
+                               Args &&...args) {
+    return {errno, std::format(fmt, std::forward<Args>(args)...),
+            deduceSeverity(errno)};
+  }
+
+  /**
+   * @brief Create a ModbusError with a custom error code and a plain message.
+   *
+   * This overload is used when the error code is not derived from @c errno,
+   * but is manually provided by the caller. The message is stored as-is.
+   *
+   * @param c Custom error code.
+   * @param msg Context message describing the error.
+   * @return A ModbusError instance with the given code and deduced severity.
+   *
+   * @see custom(int, std::format_string<Args...>, Args&&...)
+   * @see fromErrno(const std::string&)
+   *
+   * @code
+   * auto err = ModbusError::custom(1234, "Invalid Modbus address");
+   * @endcode
    */
   static ModbusError custom(int c, const std::string &msg) {
     return {c, msg, deduceSeverity(c)};
+  }
+
+  /**
+   * @brief Create a ModbusError with a custom error code and a formatted
+   * message.
+   *
+   * This overload supports C++23-style @c std::format syntax for compile-time
+   * checked formatting. The formatted message is constructed with the provided
+   * format string and arguments.
+   *
+   * @tparam Args Argument types deduced from the format string.
+   * @param code Custom error code.
+   * @param fmt Format string with {} placeholders (validated at compile time).
+   * @param args Arguments to substitute into the format string.
+   * @return A ModbusError instance with the given code and deduced severity.
+   *
+   * @see custom(int, const std::string&)
+   * @see fromErrno(std::format_string<Args...>, Args&&...)
+   *
+   * @code
+   * auto err = ModbusError::custom(1002, "Register {} invalid for {}", 40001,
+   * "hybrid inverter");
+   * @endcode
+   */
+  template <typename... Args>
+  static ModbusError custom(int code, std::format_string<Args...> fmt,
+                            Args &&...args) {
+    return {code, std::format(fmt, std::forward<Args>(args)...),
+            deduceSeverity(code)};
   }
 
 private:
