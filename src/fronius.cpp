@@ -159,6 +159,11 @@ Fronius::getModbusString(const std::vector<uint16_t> &regs,
                                 "Invalid register type for getString()");
     }
 
+    if (reg.ADDR + reg.NB > regs.size()) {
+      return std::unexpected(
+          ModbusError::custom(EINVAL, "Register range out of bounds"));
+    }
+
     str.reserve(reg.NB * 2); // avoid reallocations
 
     for (size_t i = 0; i < reg.NB; ++i) {
