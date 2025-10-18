@@ -54,7 +54,7 @@ public:
    * @param cb Function to call when disconnected.
    * @note Thread-safe.
    */
-  void setDisconnectCallback(std::function<void()> cb) {
+  void setDisconnectCallback(std::function<void(int)> cb) {
     onDisconnect_ = std::move(cb);
   }
 
@@ -260,7 +260,7 @@ private:
   std::function<void()> onConnect_;
 
   /** @brief Optional callback invoked when disconnected. */
-  std::function<void()> onDisconnect_;
+  std::function<void(int)> onDisconnect_;
 
   /** @brief Optional callback invoked on Modbus communication error. */
   std::function<void(const ModbusError &)> onError_;

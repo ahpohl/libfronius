@@ -61,7 +61,7 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
                              regs_.data() + meterBaseReg.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "fetchMeterRegisters(): Receive meter registers failed {}",
+        "fetchMeterRegisters(): Receive registers failed {}",
         meterBaseReg.describe())));
   }
 

@@ -341,7 +341,7 @@ void Fronius::connectionLoop() {
         connected_.store(false);
 
         if (onDisconnect_)
-          onDisconnect_();
+          onDisconnect_(reconnectDelay);
 
         // --- Notify via onError (callback handles logging and severity)
         if (onError_)

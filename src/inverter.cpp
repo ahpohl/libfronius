@@ -101,6 +101,8 @@ std::expected<void, ModbusError> Inverter::validateDevice() {
   if (!init)
     return std::unexpected(init.error());
 
+  // Todo: --- Step 4: Detect number of inputs
+
   // If we got here, device is fully valid
   connectedAndValid_ = true;
   return {};
