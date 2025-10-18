@@ -20,8 +20,8 @@ Inverter::~Inverter() {};
 
 std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "fetchInverterRegisters(): Modbus context is null")));
   }
 
   int rc;
@@ -32,8 +32,9 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno("Receive register {} failed", endBlockAddr)));
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "fetchInverterRegisters(): Receive register failed [{}]",
+        endBlockAddr)));
   }
 
   // Validate the end block
@@ -57,19 +58,19 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
                              regs_.data() + inverterBlockAddr);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register {} failed", inverterBlockAddr)));
+        "Receive register failed [{}]", inverterBlockAddr)));
   }
 
   // Get the Multi MPPT inverter extension registers
   uint16_t multiMpptBlockAddr = (useFloatRegisters_)
-                                    ? I160::DCA_SF.ADDR + +I160::FLOAT_OFFSET
+                                    ? I160::DCA_SF.ADDR + I160::FLOAT_OFFSET
                                     : I160::DCA_SF.ADDR;
 
   rc = modbus_read_registers(ctx_, multiMpptBlockAddr, I160::SIZE,
                              regs_.data() + multiMpptBlockAddr);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register {} failed", multiMpptBlockAddr)));
+        "Receive register failed [{}]", multiMpptBlockAddr)));
   }
 
   return {};
@@ -118,7 +119,7 @@ Inverter::getAcCurrent(const FroniusTypes::Phase ph) const {
                               : getModbusDouble(regs_, I10X::APHC, I10X::A_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid phase in getAcCurrent(): {}",
+        ModbusError::custom(EINVAL, "getAcCurrent(): Invalid phase {}",
                             FroniusTypes::toString(ph))));
   }
 }
@@ -140,7 +141,7 @@ Inverter::getAcVoltage(const FroniusTypes::Phase ph) const {
                : getModbusDouble(regs_, I10X::PHVPHC, I10X::V_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid phase in getAcVoltage(): {}",
+        ModbusError::custom(EINVAL, "getAcVoltage(): Invalid phase {}",
                             FroniusTypes::toString(ph))));
   }
 }
@@ -193,7 +194,7 @@ Inverter::getDcPower(const FroniusTypes::Input input) const {
                : getModbusDouble(regs_, I160::DCW_2, I160::DCW_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid input in getDcPower(): {}",
+        ModbusError::custom(EINVAL, "getDcPower(): Invalid input {}",
                             FroniusTypes::toString(input))));
   }
 }
@@ -216,7 +217,7 @@ Inverter::getDcCurrent(const FroniusTypes::Input input) const {
                : getModbusDouble(regs_, I160::DCA_2, I160::DCA_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid input in getDcCurrent(): {}",
+        ModbusError::custom(EINVAL, "getDcCurrent(): Invalid input {}",
                             FroniusTypes::toString(input))));
   }
 }
@@ -239,7 +240,7 @@ Inverter::getDcVoltage(const FroniusTypes::Input input) const {
                : getModbusDouble(regs_, I160::DCV_2, I160::DCV_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid input in getDcVoltage(): {}",
+        ModbusError::custom(EINVAL, "getDcVoltage(): Invalid input {}",
                             FroniusTypes::toString(input))));
   }
 }
@@ -248,15 +249,16 @@ Inverter::getDcVoltage(const FroniusTypes::Input input) const {
 
 std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
   if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "detectFloatOrIntRegisters(): Modbus context is null")));
   }
 
   int rc = modbus_read_registers(ctx_, I10X::ID.ADDR, 2,
                                  regs_.data() + I10X::ID.ADDR);
   if (rc == -1) {
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno("Receive register {} failed", I10X::ID.ADDR)));
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "detectFloatOrIntRegisters(): Receive register failed {}",
+        I10X::ID.describe())));
   }
 
   // Validate inverter ID
@@ -274,9 +276,11 @@ std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
       oss << id;
       first = false;
     }
-    return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter ID: received {}, expected [{}]", inverterID,
-        oss.str())));
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "detectFloatOrIntRegisters(): Invalid meter ID: "
+                            "received {}, expected [{}]",
+                            inverterID, oss.str())));
   }
 
   // Store inverter ID
@@ -291,10 +295,11 @@ std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
   // Validate the register length
   uint16_t regMapSize = regs_[I10X::L.ADDR];
   if (regMapSize != I10X::SIZE && regMapSize != I11X::SIZE) {
-    return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL,
-        "Invalid meter register map size: received {}, expected [{}, {}]",
-        regMapSize, I10X::SIZE, I11X::SIZE)));
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "detectFloatOrIntRegisters(): Invalid meter "
+                            "register map size: received {}, expected [{}, {}]",
+                            regMapSize, I10X::SIZE, I11X::SIZE)));
   }
 
   return {};

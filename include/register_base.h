@@ -61,25 +61,11 @@ struct Register {
   }
 
   /**
-   * @brief Return a human-readable string representation of the register.
-   *
-   * @details
-   * The returned string includes the register address, number of consecutive
-   * registers, and the type as a string. Useful for logging and error messages.
-   *
-   * @return std::string in the format: "[ADDR=..., NB=..., TYPE=...]"
-   */
-  std::string describe() const {
-    return fmt::format("[ADDR={}, NB={}, TYPE={}]", ADDR, NB, toString(TYPE));
-  }
-
-private:
-  /**
-   * @brief Convert a register RegType enum value to a human-readable string.
-   * @param type The RegType value to convert.
+   * @brief Convert a register Type enum value to a human-readable string.
+   * @param type The Type value to convert.
    * @return A C-string representing the enum name.
    */
-  static constexpr const char *toString(Type type) {
+  static constexpr const char *typeToString(Type type) {
     switch (type) {
     case Type::UINT16:
       return "UINT16";
@@ -98,6 +84,20 @@ private:
     default:
       return "INVALID";
     }
+  }
+
+  /**
+   * @brief Return a human-readable string representation of the register.
+   *
+   * @details
+   * The returned string includes the register address, number of consecutive
+   * registers, and the type as a string. Useful for logging and error messages.
+   *
+   * @return std::string in the format: "[ADDR=..., NB=..., TYPE=...]"
+   */
+  std::string describe() const {
+    return fmt::format("[ADDR={}, NB={}, TYPE={}]", ADDR, NB,
+                       typeToString(TYPE));
   }
 };
 

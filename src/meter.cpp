@@ -20,8 +20,8 @@ Meter::~Meter() {};
 
 std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "fetchMeterRegisters(): Modbus context is null")));
   }
 
   // Validate the end block
@@ -35,13 +35,15 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   int rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno("Receive register {} failed", endBlockAddr)));
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "fetchMeterRegisters(): Receive end block register failed {}",
+        endBlockAddr)));
   }
   if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL,
-        "Invalid meter register end block: received [0x{}, {}], expected "
+        "fetchMeterRegisters(): Invalid register end block: received "
+        "[0x{}, {}], expected "
         "[0xFFFF, 0]",
         ModbusUtils::toHex(regs_[endBlockAddr]), regs_[endBlockLength])));
   }
@@ -53,8 +55,9 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
   rc = modbus_read_registers(ctx_, meterBlockAddr, meterBlockSize,
                              regs_.data() + meterBlockAddr);
   if (rc == -1) {
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno("Receive register {} failed", meterBlockAddr)));
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "fetchMeterRegisters(): Receive meter registers failed {}",
+        meterBlockAddr)));
   }
 
   return {};
@@ -103,7 +106,7 @@ Meter::getAcCurrent(const FroniusTypes::Phase ph) const {
                               : getModbusDouble(regs_, M20X::APHC, M20X::A_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid phase in getAcCurrent(): {}",
+        ModbusError::custom(EINVAL, "getAcCurrent(): Invalid phase {}",
                             FroniusTypes::toString(ph))));
   }
 }
@@ -128,7 +131,7 @@ Meter::getAcVoltage(const FroniusTypes::Phase ph) const {
                : getModbusDouble(regs_, M20X::PHVPHC, M20X::V_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid phase in getAcVoltage(): {}",
+        ModbusError::custom(EINVAL, "getAcVoltage(): Invalid phase {}",
                             FroniusTypes::toString(ph))));
   }
 }
@@ -155,7 +158,7 @@ Meter::getAcPowerActive(const FroniusTypes::Phase ph) const {
                               : getModbusDouble(regs_, M20X::WPHC, M20X::W_SF);
   default:
     return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "Invalid phase in getAcPowerActive(): {}",
+        ModbusError::custom(EINVAL, "getAcPowerActive(): Invalid phase {}",
                             FroniusTypes::toString(ph))));
   }
 }
@@ -181,7 +184,7 @@ Meter::getAcEnergyActiveExport(const FroniusTypes::Phase ph) const {
                : getModbusDouble(regs_, M20X::TOTWH_EXPPHC, M20X::TOTWH_SF);
   default:
     return reportError<double>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid phase in getAcEnergyActiveExport(): {}",
+        EINVAL, "getAcEnergyActiveExport(): Invalid phase {}",
         FroniusTypes::toString(ph))));
   }
 }
@@ -207,7 +210,7 @@ Meter::getAcEnergyActiveImport(const FroniusTypes::Phase ph) const {
                : getModbusDouble(regs_, M20X::TOTWH_IMPPHC, M20X::TOTWH_SF);
   default:
     return reportError<double>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid phase in getAcEnergyActiveImport(): {}",
+        EINVAL, "getAcEnergyActiveImport(): Invalid phase {}",
         FroniusTypes::toString(ph))));
   }
 }
@@ -216,15 +219,16 @@ Meter::getAcEnergyActiveImport(const FroniusTypes::Phase ph) const {
 
 std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
   if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "detectFloatOrIntRegisters(): Modbus context is null")));
   }
 
   int rc = modbus_read_registers(ctx_, M20X::ID.ADDR, 2,
                                  regs_.data() + M20X::ID.ADDR);
   if (rc == -1) {
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno("Receive register {} failed", M20X::ID.ADDR)));
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "detectFloatOrIntRegisters(): Receive register failed {}",
+        M20X::ID.describe())));
   }
 
   // Validate meter ID
@@ -242,9 +246,11 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
       oss << id;
       first = false;
     }
-    return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter ID: received {}, expected [{}]", meterID,
-        oss.str())));
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "detectFloatOrIntRegisters(): Invalid meter ID: "
+                            "received {}, expected [{}]",
+                            meterID, oss.str())));
   }
 
   // Store meter ID
@@ -259,10 +265,11 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
   // Validate the register length
   uint16_t regMapSize = regs_[M20X::L.ADDR];
   if (regMapSize != M20X::SIZE && regMapSize != M21X::SIZE) {
-    return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL,
-        "Invalid meter register map size: received {}, expected [{}, {}]",
-        regMapSize, M20X::SIZE, M21X::SIZE)));
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "detectFloatOrIntRegisters(): Invalid meter "
+                            "register map size: received {}, expected [{}, {}]",
+                            regMapSize, M20X::SIZE, M21X::SIZE)));
   }
 
   return {};

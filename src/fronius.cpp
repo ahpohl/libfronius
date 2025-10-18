@@ -84,9 +84,11 @@ std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {
   uint16_t val = regs_[C001::DA.ADDR];
 
   if ((val < 1) || (val > 247))
-    return reportError<uint16_t>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid Modbus slave address: received {}, expected 1-247",
-        val)));
+    return reportError<uint16_t>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "getModbusDeviceAddress(): Invalid Modbus slave "
+                            "address: received {}, expected 1-247",
+                            val)));
   return val;
 }
 
@@ -94,16 +96,17 @@ std::expected<uint16_t, ModbusError> Fronius::getModbusDeviceAddress() {
 
 std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
   if (!ctx_) {
-    return reportError<bool>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+    return reportError<bool>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "validateSunSpecRegisters(): Modbus context is null")));
   }
 
   // Get registers
   int rc = modbus_read_registers(ctx_, C001::SID.ADDR, 4,
                                  regs_.data() + C001::SID.ADDR);
   if (rc == -1) {
-    return reportError<bool>(std::unexpected(
-        ModbusError::fromErrno("Receive register {} failed", C001::SID.ADDR)));
+    return reportError<bool>(std::unexpected(ModbusError::fromErrno(
+        "validateSunSpecRegisters(): Receive register failed [{}]",
+        C001::SID.describe())));
   }
 
   // Test for "SunS" string
@@ -111,7 +114,8 @@ std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
         regs_[C001::SID.ADDR + 1] == 0x6e53)) {
     return reportError<bool>(std::unexpected(
         ModbusError::custom(EINVAL,
-                            "SunSpec signature mismatch: expected [0x5375, "
+                            "validateSunSpecRegisters(): SunSpec signature "
+                            "mismatch: expected [0x5375, "
                             "0x6e53], received [0x{}, 0x{}]",
                             ModbusUtils::toHex(regs_[C001::SID.ADDR]),
                             ModbusUtils::toHex(regs_[C001::SID.ADDR + 1]))));
@@ -119,16 +123,20 @@ std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
 
   // Test for Common Register ID
   if (regs_[C001::ID.ADDR] != 0x1) {
-    return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid common register map ID: received {}, expected 1",
-        regs_[C001::ID.ADDR])));
+    return reportError<bool>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "validateSunSpecRegisters(): Invalid common "
+                            "register map ID: received {}, expected 1",
+                            regs_[C001::ID.ADDR])));
   }
 
   // Test for Common Register Map Length
   if (regs_[C001::L.ADDR] != C001::SIZE) {
-    return reportError<bool>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid common register map size: received {}, expected {}",
-        regs_[C001::L.ADDR], C001::SIZE)));
+    return reportError<bool>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "validateSunSpecRegisters(): Invalid common "
+                            "register map size: received {}, expected {}",
+                            regs_[C001::L.ADDR], C001::SIZE)));
   }
 
   return {};
@@ -136,15 +144,16 @@ std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
 
 std::expected<void, ModbusError> Fronius::fetchCommonRegisters(void) {
   if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOTCONN, "Modbus context is null")));
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "fetchCommonRegisters(): Modbus context is null")));
   }
 
   int rc = modbus_read_registers(ctx_, C001::MN.ADDR, C001::SIZE,
                                  regs_.data() + C001::MN.ADDR);
   if (rc == -1) {
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno("Receive register {} failed", C001::MN.ADDR)));
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "fetchCommonRegisters(): Receive register failed [{}]",
+        C001::MN.describe())));
   }
   return {};
 }
@@ -224,6 +233,7 @@ Fronius::getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
     case Register::Type::FLOAT:
       value =
           static_cast<double>(modbus_get_float_abcd(regs.data() + reg.ADDR));
+      break;
     default:
       throw ModbusError::custom(EINVAL,
                                 "getModbusDouble(): Unsupported register {} ",
@@ -264,9 +274,9 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, 'N', 8, 1);
   }
   if (!ctx_) {
-    return reportError<void>(std::unexpected(
-        ModbusError::custom(ENOMEM, "Unable to create the libmodbus {} context",
-                            (cfg_.useTcp ? "TCP" : "RTU"))));
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOMEM, "tryConnect(): Unable to create the libmodbus {} context",
+        (cfg_.useTcp ? "TCP" : "RTU"))));
   }
 
   // Set libmodbus debug
@@ -274,8 +284,8 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     if (modbus_set_debug(ctx_, true) == -1) {
       modbus_free(ctx_);
       ctx_ = nullptr;
-      return reportError<void>(std::unexpected(
-          ModbusError::fromErrno("Unable to set the libmodbus debug flag")));
+      return reportError<void>(std::unexpected(ModbusError::fromErrno(
+          "tryConnect(): Unable to set the libmodbus debug flag")));
     }
 
     // --- Extend timeout for debugging ---
@@ -286,16 +296,17 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   if (modbus_set_slave(ctx_, cfg_.slaveId) == -1) {
     modbus_free(ctx_);
     ctx_ = nullptr;
-    return reportError<void>(std::unexpected(
-        ModbusError::fromErrno("Setting slave id '{}' failed", cfg_.slaveId)));
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "tryConnect(): Setting slave id '{}' failed", cfg_.slaveId)));
   }
 
   // Attempt connection
   if (modbus_connect(ctx_) == -1) {
     modbus_free(ctx_);
     ctx_ = nullptr;
-    return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Connection to '{}' failed", (cfg_.useTcp ? cfg_.host : cfg_.device))));
+    return reportError<void>(std::unexpected(
+        ModbusError::fromErrno("tryConnect(): Connection to '{}' failed",
+                               (cfg_.useTcp ? cfg_.host : cfg_.device))));
   }
 
   return {};
