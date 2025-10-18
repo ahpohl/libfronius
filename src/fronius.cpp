@@ -274,9 +274,9 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, 'N', 8, 1);
   }
   if (!ctx_) {
-    return reportError<void>(std::unexpected(ModbusError::custom(
+    return std::unexpected(ModbusError::custom(
         ENOMEM, "tryConnect(): Unable to create the libmodbus {} context",
-        (cfg_.useTcp ? "TCP" : "RTU"))));
+        (cfg_.useTcp ? "TCP" : "RTU")));
   }
 
   // Set libmodbus debug
@@ -284,8 +284,8 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     if (modbus_set_debug(ctx_, true) == -1) {
       modbus_free(ctx_);
       ctx_ = nullptr;
-      return reportError<void>(std::unexpected(ModbusError::fromErrno(
-          "tryConnect(): Unable to set the libmodbus debug flag")));
+      return std::unexpected(ModbusError::fromErrno(
+          "tryConnect(): Unable to set the libmodbus debug flag"));
     }
 
     // --- Extend timeout for debugging ---
@@ -296,17 +296,17 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   if (modbus_set_slave(ctx_, cfg_.slaveId) == -1) {
     modbus_free(ctx_);
     ctx_ = nullptr;
-    return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "tryConnect(): Setting slave id '{}' failed", cfg_.slaveId)));
+    return std::unexpected(ModbusError::fromErrno(
+        "tryConnect(): Setting slave id '{}' failed", cfg_.slaveId));
   }
 
   // Attempt connection
   if (modbus_connect(ctx_) == -1) {
     modbus_free(ctx_);
     ctx_ = nullptr;
-    return reportError<void>(std::unexpected(
+    return std::unexpected(
         ModbusError::fromErrno("tryConnect(): Connection to '{}' failed",
-                               (cfg_.useTcp ? cfg_.host : cfg_.device))));
+                               (cfg_.useTcp ? cfg_.host : cfg_.device)));
   }
 
   return {};
