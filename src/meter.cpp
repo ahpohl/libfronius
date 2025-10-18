@@ -4,7 +4,6 @@
 #include "modbus_utils.h"
 #include <array>
 #include <cerrno>
-#include <cmath>
 #include <expected>
 #include <iostream>
 #include <modbus/modbus.h>
@@ -89,184 +88,127 @@ std::expected<void, ModbusError> Meter::validateDevice() {
 
 std::expected<double, ModbusError>
 Meter::getAcCurrent(const FroniusTypes::Phase ph) const {
-  auto invalidPhase = std::unexpected(
-      ModbusError::custom(EINVAL, "Invalid phase in getAcCurrent(): " +
-                                      std::string(FroniusTypes::toString(ph))));
-
-  if (useFloatRegisters_) {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M21X::A);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M21X::APHA);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M21X::APHB);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M21X::APHC);
-    default:
-      return invalidPhase;
-    }
-  } else {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M20X::A, M20X::A_SF);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M20X::APHA, M20X::A_SF);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M20X::APHB, M20X::A_SF);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M20X::APHC, M20X::A_SF);
-    default:
-      return invalidPhase;
-    }
+  switch (ph) {
+  case FroniusTypes::Phase::TOTAL:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::A)
+                              : getModbusDouble(regs_, M20X::A, M20X::A_SF);
+  case FroniusTypes::Phase::A:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::APHA)
+                              : getModbusDouble(regs_, M20X::APHA, M20X::A_SF);
+  case FroniusTypes::Phase::B:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::APHB)
+                              : getModbusDouble(regs_, M20X::APHB, M20X::A_SF);
+  case FroniusTypes::Phase::C:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::APHC)
+                              : getModbusDouble(regs_, M20X::APHC, M20X::A_SF);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "Invalid phase in getAcCurrent(): {}",
+                            FroniusTypes::toString(ph))));
   }
 }
 
 std::expected<double, ModbusError>
 Meter::getAcVoltage(const FroniusTypes::Phase ph) const {
-  auto invalidPhase = std::unexpected(
-      ModbusError::custom(EINVAL, "Invalid phase in getAcVoltage(): " +
-                                      std::string(FroniusTypes::toString(ph))));
-
-  if (useFloatRegisters_) {
-    switch (ph) {
-    case FroniusTypes::Phase::AVERAGE:
-      return getModbusDouble(regs_, M21X::PHV);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M21X::PHVPHA);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M21X::PHVPHB);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M21X::PHVPHC);
-    default:
-      return invalidPhase;
-    }
-  } else {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M20X::PHV, M20X::V_SF);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M20X::PHVPHA, M20X::V_SF);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M20X::PHVPHB, M20X::V_SF);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M20X::PHVPHC, M20X::V_SF);
-    default:
-      return invalidPhase;
-    }
+  switch (ph) {
+  case FroniusTypes::Phase::TOTAL:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::PHV)
+                              : getModbusDouble(regs_, M20X::PHV, M20X::V_SF);
+  case FroniusTypes::Phase::A:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::PHVPHA)
+               : getModbusDouble(regs_, M20X::PHVPHA, M20X::V_SF);
+  case FroniusTypes::Phase::B:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::PHVPHB)
+               : getModbusDouble(regs_, M20X::PHVPHB, M20X::V_SF);
+  case FroniusTypes::Phase::C:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::PHVPHC)
+               : getModbusDouble(regs_, M20X::PHVPHC, M20X::V_SF);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "Invalid phase in getAcVoltage(): {}",
+                            FroniusTypes::toString(ph))));
   }
 }
 
 std::expected<double, ModbusError> Meter::getAcFrequency(void) const {
-  if (useFloatRegisters_) {
-    return getModbusDouble(regs_, M21X::FREQ);
-  } else {
-    return getModbusDouble(regs_, M20X::FREQ, M20X::FREQ_SF);
-  }
+  return useFloatRegisters_ ? getModbusDouble(regs_, M21X::FREQ)
+                            : getModbusDouble(regs_, M20X::FREQ, M20X::FREQ_SF);
 }
 
 std::expected<double, ModbusError>
 Meter::getAcPowerActive(const FroniusTypes::Phase ph) const {
-  auto invalidPhase = std::unexpected(
-      ModbusError::custom(EINVAL, "Invalid phase in getAcPowerActive(): " +
-                                      std::string(FroniusTypes::toString(ph))));
-
-  if (useFloatRegisters_) {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M21X::W);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M21X::WPHA);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M21X::WPHB);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M21X::WPHC);
-    default:
-      return invalidPhase;
-    }
-  } else {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M20X::W, M20X::W_SF);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M20X::WPHA, M20X::W_SF);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M20X::WPHB, M20X::W_SF);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M20X::WPHC, M20X::W_SF);
-    default:
-      return invalidPhase;
-    }
+  switch (ph) {
+  case FroniusTypes::Phase::TOTAL:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::W)
+                              : getModbusDouble(regs_, M20X::W, M20X::W_SF);
+  case FroniusTypes::Phase::A:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::WPHA)
+                              : getModbusDouble(regs_, M20X::WPHA, M20X::W_SF);
+  case FroniusTypes::Phase::B:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::WPHB)
+                              : getModbusDouble(regs_, M20X::WPHB, M20X::W_SF);
+  case FroniusTypes::Phase::C:
+    return useFloatRegisters_ ? getModbusDouble(regs_, M21X::WPHC)
+                              : getModbusDouble(regs_, M20X::WPHC, M20X::W_SF);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "Invalid phase in getAcPowerActive(): {}",
+                            FroniusTypes::toString(ph))));
   }
 }
 
 std::expected<double, ModbusError>
 Meter::getAcEnergyActiveExport(const FroniusTypes::Phase ph) const {
-  auto invalidPhase = std::unexpected(ModbusError::custom(
-      EINVAL, "Invalid phase in getAcEnergyActiveExport(): " +
-                  std::string(FroniusTypes::toString(ph))));
-
-  if (useFloatRegisters_) {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M21X::TOTWH_EXP);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M21X::TOTWH_EXPPHA);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M21X::TOTWH_EXPPHB);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M21X::TOTWH_EXPPHC);
-    default:
-      return invalidPhase;
-    }
-  } else {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M20X::TOTWH_EXP, M20X::TOTWH_SF);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M20X::TOTWH_EXPPHA, M20X::TOTWH_SF);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M20X::TOTWH_EXPPHB, M20X::TOTWH_SF);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M20X::TOTWH_EXPPHC, M20X::TOTWH_SF);
-    default:
-      return invalidPhase;
-    }
+  switch (ph) {
+  case FroniusTypes::Phase::TOTAL:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_EXP)
+               : getModbusDouble(regs_, M20X::TOTWH_EXP, M20X::TOTWH_SF);
+  case FroniusTypes::Phase::A:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_EXPPHA)
+               : getModbusDouble(regs_, M20X::TOTWH_EXPPHA, M20X::TOTWH_SF);
+  case FroniusTypes::Phase::B:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_EXPPHB)
+               : getModbusDouble(regs_, M20X::TOTWH_EXPPHB, M20X::TOTWH_SF);
+  case FroniusTypes::Phase::C:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_EXPPHC)
+               : getModbusDouble(regs_, M20X::TOTWH_EXPPHC, M20X::TOTWH_SF);
+  default:
+    return reportError<double>(std::unexpected(ModbusError::custom(
+        EINVAL, "Invalid phase in getAcEnergyActiveExport(): {}",
+        FroniusTypes::toString(ph))));
   }
 }
 
 std::expected<double, ModbusError>
 Meter::getAcEnergyActiveImport(const FroniusTypes::Phase ph) const {
-  auto invalidPhase = std::unexpected(ModbusError::custom(
-      EINVAL, "Invalid phase in getAcEnergyActiveImport(): " +
-                  std::string(FroniusTypes::toString(ph))));
-
-  if (useFloatRegisters_) {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M21X::TOTWH_IMP);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M21X::TOTWH_IMPPHA);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M21X::TOTWH_IMPPHB);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M21X::TOTWH_IMPPHC);
-    default:
-      return invalidPhase;
-    }
-  } else {
-    switch (ph) {
-    case FroniusTypes::Phase::TOTAL:
-      return getModbusDouble(regs_, M20X::TOTWH_IMP, M20X::TOTWH_SF);
-    case FroniusTypes::Phase::A:
-      return getModbusDouble(regs_, M20X::TOTWH_IMPPHA, M20X::TOTWH_SF);
-    case FroniusTypes::Phase::B:
-      return getModbusDouble(regs_, M20X::TOTWH_IMPPHB, M20X::TOTWH_SF);
-    case FroniusTypes::Phase::C:
-      return getModbusDouble(regs_, M20X::TOTWH_IMPPHC, M20X::TOTWH_SF);
-    default:
-      return invalidPhase;
-    }
+  switch (ph) {
+  case FroniusTypes::Phase::TOTAL:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_IMP)
+               : getModbusDouble(regs_, M20X::TOTWH_IMP, M20X::TOTWH_SF);
+  case FroniusTypes::Phase::A:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_IMPPHA)
+               : getModbusDouble(regs_, M20X::TOTWH_IMPPHA, M20X::TOTWH_SF);
+  case FroniusTypes::Phase::B:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_IMPPHB)
+               : getModbusDouble(regs_, M20X::TOTWH_IMPPHB, M20X::TOTWH_SF);
+  case FroniusTypes::Phase::C:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, M21X::TOTWH_IMPPHC)
+               : getModbusDouble(regs_, M20X::TOTWH_IMPPHC, M20X::TOTWH_SF);
+  default:
+    return reportError<double>(std::unexpected(ModbusError::custom(
+        EINVAL, "Invalid phase in getAcEnergyActiveImport(): {}",
+        FroniusTypes::toString(ph))));
   }
 }
 
@@ -281,8 +223,8 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
   int rc = modbus_read_registers(ctx_, M20X::ID.ADDR, 2,
                                  regs_.data() + M20X::ID.ADDR);
   if (rc == -1) {
-    return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register " + std::to_string(M20X::ID.ADDR) + " failed")));
+    return reportError<void>(std::unexpected(
+        ModbusError::fromErrno("Receive register {} failed", M20X::ID.ADDR)));
   }
 
   // Validate meter ID
@@ -301,8 +243,8 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
       first = false;
     }
     return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter ID: received " + std::to_string(meterID) +
-                    ", expected [" + oss.str() + "]")));
+        EINVAL, "Invalid meter ID: received {}, expected [{}]", meterID,
+        oss.str())));
   }
 
   // Store meter ID
@@ -318,10 +260,9 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
   uint16_t regMapSize = regs_[M20X::L.ADDR];
   if (regMapSize != M20X::SIZE && regMapSize != M21X::SIZE) {
     return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter register map size: received " +
-                    std::to_string(regMapSize) + ", expected [" +
-                    std::to_string(M20X::SIZE) + ", " +
-                    std::to_string(M21X::SIZE) + "]")));
+        EINVAL,
+        "Invalid meter register map size: received {}, expected [{}, {}]",
+        regMapSize, M20X::SIZE, M21X::SIZE)));
   }
 
   return {};
