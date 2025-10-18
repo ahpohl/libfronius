@@ -24,53 +24,59 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
         ENOTCONN, "fetchInverterRegisters(): Modbus context is null")));
   }
 
-  int rc;
+  // Validate the end block
+  const auto endBlockBaseReg = useFloatRegisters_
+                                   ? I_END::ID.withOffset(I_END::FLOAT_OFFSET)
+                                   : I_END::ID;
 
-  uint16_t endBlockAddr = (useFloatRegisters_)
-                              ? I_END::ID.ADDR + I_END::FLOAT_OFFSET
-                              : I_END::ID.ADDR;
-  rc =
-      modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
+  int rc = modbus_read_registers(ctx_, endBlockBaseReg.ADDR, 2,
+                                 regs_.data() + endBlockBaseReg.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "fetchInverterRegisters(): Receive register failed [{}]",
-        endBlockAddr)));
+        "fetchInverterRegisters(): Receive end block register failed {}",
+        endBlockBaseReg.describe())));
   }
 
-  // Validate the end block
-  uint16_t endBlockLength = (useFloatRegisters_)
-                                ? I_END::L.ADDR + I_END::FLOAT_OFFSET
-                                : I_END::L.ADDR;
-  if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
+  const auto &endBlockLengthReg = (useFloatRegisters_)
+                                      ? I_END::L.withOffset(I_END::FLOAT_OFFSET)
+                                      : I_END::L;
+
+  if (!(regs_[endBlockBaseReg.ADDR] == 0xFFFF &&
+        regs_[endBlockLengthReg.ADDR] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(
         EINVAL,
-        "Invalid inverter register end block: received [0x{}, {}], expected "
+        "fetchInverterRegisters(): Invalid end block register: "
+        "received [0x{}, {}], expected "
         "[0xFFFF, 0]",
-        ModbusUtils::toHex(regs_[endBlockAddr]), endBlockLength)));
+        ModbusUtils::toHex(regs_[endBlockBaseReg.ADDR]),
+        endBlockLengthReg.ADDR)));
   }
 
   // Get the inverter registers
-  uint16_t inverterBlockAddr =
-      (useFloatRegisters_) ? I11X::A.ADDR : I10X::A.ADDR;
-  uint16_t inverterBlockSize = (useFloatRegisters_) ? I11X::SIZE : I10X::SIZE;
+  const auto &inverterBaseReg = useFloatRegisters_ ? I11X::A : I10X::A;
+  const uint16_t inverterBlockSize =
+      (useFloatRegisters_) ? I11X::SIZE : I10X::SIZE;
 
-  rc = modbus_read_registers(ctx_, inverterBlockAddr, inverterBlockSize,
-                             regs_.data() + inverterBlockAddr);
+  rc = modbus_read_registers(ctx_, inverterBaseReg.ADDR, inverterBlockSize,
+                             regs_.data() + inverterBaseReg.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register failed [{}]", inverterBlockAddr)));
+        "fetchInverterRegisters(): Receive inverter registers failed {}",
+        inverterBaseReg.describe())));
   }
 
   // Get the Multi MPPT inverter extension registers
-  uint16_t multiMpptBlockAddr = (useFloatRegisters_)
-                                    ? I160::DCA_SF.ADDR + I160::FLOAT_OFFSET
-                                    : I160::DCA_SF.ADDR;
+  // Todo: apply storage offset if hybrid inverter
+  const auto &multiMpptBaseReg =
+      useFloatRegisters_ ? I160::DCA_SF.withOffset(I160::FLOAT_OFFSET)
+                         : I160::DCA_SF;
 
-  rc = modbus_read_registers(ctx_, multiMpptBlockAddr, I160::SIZE,
-                             regs_.data() + multiMpptBlockAddr);
+  rc = modbus_read_registers(ctx_, multiMpptBaseReg.ADDR, I160::SIZE,
+                             regs_.data() + multiMpptBaseReg.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "Receive register failed [{}]", multiMpptBlockAddr)));
+        "fetchInverterRegisters(): Receive MPPT registers failed {}",
+        multiMpptBaseReg.describe())));
   }
 
   return {};
