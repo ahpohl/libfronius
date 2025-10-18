@@ -24,25 +24,26 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
         ModbusError::custom(ENOTCONN, "Modbus context is null")));
   }
 
-  uint16_t endBlockAddr =
-      (useFloatRegisters_) ? M_END::ID.ADDR : M_END::ID.ADDR;
+  // Validate the end block
+  uint16_t endBlockAddr = (useFloatRegisters_)
+                              ? M_END::ID.ADDR + M_END::FLOAT_OFFSET
+                              : M_END::ID.ADDR;
+  uint16_t endBlockLength = (useFloatRegisters_)
+                                ? M_END::L.ADDR + M_END::FLOAT_OFFSET
+                                : M_END::L.ADDR;
+
   int rc =
       modbus_read_registers(ctx_, endBlockAddr, 2, regs_.data() + endBlockAddr);
   if (rc == -1) {
     return reportError<void>(std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(endBlockAddr) + " failed")));
+        ModbusError::fromErrno("Receive register {} failed", endBlockAddr)));
   }
-
-  // Validate the end block
-  uint16_t endBlockLength =
-      (useFloatRegisters_) ? M_END::L.ADDR : M_END::L.ADDR;
   if (!(regs_[endBlockAddr] == 0xFFFF && regs_[endBlockLength] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(
-        EINVAL, "Invalid meter register end block: received [0x" +
-                    ModbusUtils::toHex(regs_[endBlockAddr]) + ", " +
-                    std::to_string(regs_[endBlockLength]) +
-                    "], expected [0xFFFF, 0]")));
+        EINVAL,
+        "Invalid meter register end block: received [0x{}, {}], expected "
+        "[0xFFFF, 0]",
+        ModbusUtils::toHex(regs_[endBlockAddr]), regs_[endBlockLength])));
   }
 
   // Get the meter registers
@@ -53,8 +54,7 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
                              regs_.data() + meterBlockAddr);
   if (rc == -1) {
     return reportError<void>(std::unexpected(
-        ModbusError::fromErrno(std::string("Receive register ") +
-                               std::to_string(meterBlockAddr) + " failed")));
+        ModbusError::fromErrno("Receive register {} failed", meterBlockAddr)));
   }
 
   return {};

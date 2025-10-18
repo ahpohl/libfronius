@@ -2,6 +2,7 @@
 #include "common_registers.h"
 #include "modbus_error.h"
 #include "modbus_utils.h"
+#include "register_base.h"
 #include <cerrno>
 #include <cmath>
 #include <expected>
@@ -154,14 +155,15 @@ Fronius::getModbusString(const std::vector<uint16_t> &regs,
   std::string str;
 
   try {
-    if (reg.TYPE != RegType::STRING) {
-      throw ModbusError::custom(EINVAL,
-                                "Invalid register type for getString()");
+    if (reg.TYPE != Register::Type::STRING) {
+      throw ModbusError::custom(
+          EINVAL, "getModbusString(): Unsupported register {}", reg.describe());
     }
 
     if (reg.ADDR + reg.NB > regs.size()) {
-      return std::unexpected(
-          ModbusError::custom(EINVAL, "Register range out of bounds"));
+      return std::unexpected(ModbusError::custom(
+          EINVAL, "getModbusString(): Register range out of bounds {}.",
+          reg.describe()));
     }
 
     str.reserve(reg.NB * 2); // avoid reallocations
@@ -182,8 +184,9 @@ Fronius::getModbusString(const std::vector<uint16_t> &regs,
     for (unsigned char c : str) {
       if (!std::isprint(c) && c != ' ') {
         throw ModbusError::custom(
-            EINVAL, "String at address {} contains unprintable characters",
-            reg.ADDR);
+            EINVAL,
+            "getModbusString(): String contains unprintable characters {}",
+            reg.describe());
       }
     }
   } catch (const ModbusError &e) {
@@ -207,23 +210,24 @@ Fronius::getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
     }
 
     switch (reg.TYPE) {
-    case RegType::INT16:
+    case Register::Type::INT16:
       value = static_cast<double>(static_cast<int16_t>(regs[reg.ADDR])) * scale;
       break;
-    case RegType::UINT16:
+    case Register::Type::UINT16:
       value = static_cast<double>(regs[reg.ADDR]) * scale;
       break;
-    case RegType::UINT32:
+    case Register::Type::UINT32:
       value = static_cast<double>(
                   ModbusUtils::modbus_get_uint32(regs.data() + reg.ADDR)) *
               scale;
       break;
-    case RegType::FLOAT:
+    case Register::Type::FLOAT:
       value =
           static_cast<double>(modbus_get_float_abcd(regs.data() + reg.ADDR));
     default:
       throw ModbusError::custom(EINVAL,
-                                "Unsupported register type for getDouble()");
+                                "getModbusDouble(): Unsupported register {} ",
+                                reg.describe());
     }
   } catch (const ModbusError &e) {
     if (onError_)

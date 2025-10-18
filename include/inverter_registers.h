@@ -48,7 +48,7 @@ namespace F {
  * Writing the value `0xFFFF` deletes stored rating data for the
  * currently addressed inverter.
  */
-constexpr Register DELETE_DATA(211, 1, RegType::UINT16);
+constexpr Register DELETE_DATA(211, 1, Register::Type::UINT16);
 
 /**
  * @brief Store rating data persistently.
@@ -57,7 +57,7 @@ constexpr Register DELETE_DATA(211, 1, RegType::UINT16);
  * Writing `0xFFFF` stores the rating data of all inverters connected to the
  * Fronius Datamanager persistently.
  */
-constexpr Register STORE_DATA(212, 1, RegType::UINT16);
+constexpr Register STORE_DATA(212, 1, Register::Type::UINT16);
 
 /**
  * @brief Current active inverter state code.
@@ -69,7 +69,7 @@ constexpr Register STORE_DATA(212, 1, RegType::UINT16);
  * @note Not supported for Fronius Hybrid inverters. Status may differ during
  * night-time operation compared to other inverter models.
  */
-constexpr Register ACTIVE_STATE_CODE(213, 1, RegType::UINT16);
+constexpr Register ACTIVE_STATE_CODE(213, 1, Register::Type::UINT16);
 
 /**
  * @brief Reset all event flags and active state code.
@@ -78,7 +78,7 @@ constexpr Register ACTIVE_STATE_CODE(213, 1, RegType::UINT16);
  * Writing the value `0xFFFF` resets all event flags and clears
  * the active state code register.
  */
-constexpr Register RESET_ALL_EVENT_FLAGS(214, 1, RegType::UINT16);
+constexpr Register RESET_ALL_EVENT_FLAGS(214, 1, Register::Type::UINT16);
 
 /**
  * @brief Select SunSpec model type used for inverter and meter data.
@@ -91,7 +91,7 @@ constexpr Register RESET_ALL_EVENT_FLAGS(214, 1, RegType::UINT16);
  * - `1`: Floating point model
  * - `2`: Integer & scale factor model
  */
-constexpr Register MODEL_TYPE(215, 1, RegType::UINT16);
+constexpr Register MODEL_TYPE(215, 1, Register::Type::UINT16);
 
 /**
  * @brief Defines scope of storage restriction reporting.
@@ -103,7 +103,8 @@ constexpr Register MODEL_TYPE(215, 1, RegType::UINT16);
  * - `0`: Local restrictions (default, set by Modbus interface)
  * - `1`: Global restrictions (system-wide)
  */
-constexpr Register STORAGE_RESTRICTIONS_VIEW_MODE(216, 1, RegType::UINT16);
+constexpr Register STORAGE_RESTRICTIONS_VIEW_MODE(216, 1,
+                                                  Register::Type::UINT16);
 
 /**
  * @brief Total site power of all connected inverters.
@@ -113,7 +114,7 @@ constexpr Register STORAGE_RESTRICTIONS_VIEW_MODE(216, 1, RegType::UINT16);
  * Reports the instantaneous total active power output across all
  * connected inverters in the system.
  */
-constexpr Register SITE_POWER(499, 2, RegType::UINT32);
+constexpr Register SITE_POWER(499, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy produced today by all connected inverters.
@@ -123,7 +124,7 @@ constexpr Register SITE_POWER(499, 2, RegType::UINT32);
  * Accumulates the total daily energy production across all connected
  * inverters since midnight.
  */
-constexpr Register SITE_ENERGY_DAY(501, 4, RegType::UINT64);
+constexpr Register SITE_ENERGY_DAY(501, 4, Register::Type::UINT64);
 
 /**
  * @brief Total energy produced during the current year.
@@ -133,7 +134,7 @@ constexpr Register SITE_ENERGY_DAY(501, 4, RegType::UINT64);
  * Represents the cumulative energy produced by all connected inverters
  * since January 1st of the current year.
  */
-constexpr Register SITE_ENERGY_YEAR(505, 4, RegType::UINT64);
+constexpr Register SITE_ENERGY_YEAR(505, 4, Register::Type::UINT64);
 
 /**
  * @brief Lifetime total energy produced by all connected inverters.
@@ -143,7 +144,7 @@ constexpr Register SITE_ENERGY_YEAR(505, 4, RegType::UINT64);
  * Indicates the total lifetime energy yield of all connected
  * inverters in the system.
  */
-constexpr Register SITE_ENERGY_TOTAL(509, 4, RegType::UINT64);
+constexpr Register SITE_ENERGY_TOTAL(509, 4, Register::Type::UINT64);
 
 } // namespace F
 
@@ -173,184 +174,184 @@ constexpr uint16_t SIZE = 50;
  *  - 102: Split-phase
  *  - 103: Three-phase
  */
-constexpr Register ID(40069, 1, RegType::UINT16);
+constexpr Register ID(40069, 1, Register::Type::UINT16);
 
 /**
  * @brief Length of inverter model block.
  * @returns Always returns 50.
  */
-constexpr Register L(40070, 1, RegType::UINT16);
+constexpr Register L(40070, 1, Register::Type::UINT16);
 
 /**
  * @brief AC total current.
  * @unit Amperes [A]
  */
-constexpr Register A(40071, 1, RegType::UINT16);
+constexpr Register A(40071, 1, Register::Type::UINT16);
 
 /**
  * @brief AC current in phase A.
  * @unit Amperes [A]
  */
-constexpr Register APHA(40072, 1, RegType::UINT16);
+constexpr Register APHA(40072, 1, Register::Type::UINT16);
 
 /**
  * @brief AC current in phase B.
  * @unit Amperes [A]
  */
-constexpr Register APHB(40073, 1, RegType::UINT16);
+constexpr Register APHB(40073, 1, Register::Type::UINT16);
 
 /**
  * @brief AC current in phase C.
  * @unit Amperes [A]
  */
-constexpr Register APHC(40074, 1, RegType::UINT16);
+constexpr Register APHC(40074, 1, Register::Type::UINT16);
 
 /** @brief AC current scale factor. */
-constexpr Register A_SF(40075, 1, RegType::INT16);
+constexpr Register A_SF(40075, 1, Register::Type::INT16);
 
 /**
  * @brief AC voltage phase-to-phase AB.
  * @unit Volts [V]
  */
-constexpr Register PPVPHAB(40076, 1, RegType::UINT16);
+constexpr Register PPVPHAB(40076, 1, Register::Type::UINT16);
 
 /**
  * @brief AC voltage phase-to-phase BC.
  * @unit Volts [V]
  */
-constexpr Register PPVPHBC(40077, 1, RegType::UINT16);
+constexpr Register PPVPHBC(40077, 1, Register::Type::UINT16);
 
 /**
  * @brief AC voltage phase-to-phase CA.
  * @unit Volts [V]
  */
-constexpr Register PPVPHCA(40078, 1, RegType::UINT16);
+constexpr Register PPVPHCA(40078, 1, Register::Type::UINT16);
 
 /**
  * @brief AC voltage phase A to neutral.
  * @unit Volts [V]
  */
-constexpr Register PHVPHA(40079, 1, RegType::UINT16);
+constexpr Register PHVPHA(40079, 1, Register::Type::UINT16);
 
 /**
  * @brief AC voltage phase B to neutral.
  * @unit Volts [V]
  */
-constexpr Register PHVPHB(40080, 1, RegType::UINT16);
+constexpr Register PHVPHB(40080, 1, Register::Type::UINT16);
 
 /**
  * @brief AC voltage phase C to neutral.
  * @unit Volts [V]
  */
-constexpr Register PHVPHC(40081, 1, RegType::UINT16);
+constexpr Register PHVPHC(40081, 1, Register::Type::UINT16);
 
 /** @brief AC voltage scale factor. */
-constexpr Register V_SF(40082, 1, RegType::INT16);
+constexpr Register V_SF(40082, 1, Register::Type::INT16);
 
 /**
  * @brief AC active power.
  * @unit Watts [W]
  */
-constexpr Register W(40083, 1, RegType::INT16);
+constexpr Register W(40083, 1, Register::Type::INT16);
 
 /** @brief AC active power scale factor. */
-constexpr Register W_SF(40084, 1, RegType::INT16);
+constexpr Register W_SF(40084, 1, Register::Type::INT16);
 
 /**
  * @brief AC frequency.
  * @unit Hertz [Hz]
  */
-constexpr Register FREQ(40085, 1, RegType::UINT16);
+constexpr Register FREQ(40085, 1, Register::Type::UINT16);
 
 /** @brief AC frequency scale factor. */
-constexpr Register FREQ_SF(40086, 1, RegType::INT16);
+constexpr Register FREQ_SF(40086, 1, Register::Type::INT16);
 
 /**
  * @brief Apparent power.
  * @unit Volt-amperes [VA]
  */
-constexpr Register VA(40087, 1, RegType::INT16);
+constexpr Register VA(40087, 1, Register::Type::INT16);
 
 /** @brief Apparent power scale factor. */
-constexpr Register VA_SF(40088, 1, RegType::INT16);
+constexpr Register VA_SF(40088, 1, Register::Type::INT16);
 
 /**
  * @brief Reactive power.
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VAR(40089, 1, RegType::INT16);
+constexpr Register VAR(40089, 1, Register::Type::INT16);
 
 /** @brief Reactive power scale factor. */
-constexpr Register VAR_SF(40090, 1, RegType::INT16);
+constexpr Register VAR_SF(40090, 1, Register::Type::INT16);
 
 /**
  * @brief Power factor.
  * @unit Percent [%]
  */
-constexpr Register PF(40091, 1, RegType::INT16);
+constexpr Register PF(40091, 1, Register::Type::INT16);
 
 /** @brief Power factor scale factor. */
-constexpr Register PF_SF(40092, 1, RegType::INT16);
+constexpr Register PF_SF(40092, 1, Register::Type::INT16);
 
 /**
  * @brief AC lifetime energy production.
  * @unit Watt-hours [Wh]
  */
-constexpr Register WH(40093, 2, RegType::UINT32);
+constexpr Register WH(40093, 2, Register::Type::UINT32);
 
 /** @brief AC lifetime energy scale factor. */
-constexpr Register WH_SF(40095, 1, RegType::INT16);
+constexpr Register WH_SF(40095, 1, Register::Type::INT16);
 
 /**
  * @brief DC current.
  * @unit Amperes [A]
  */
-constexpr Register DCA(40096, 1, RegType::UINT16);
+constexpr Register DCA(40096, 1, Register::Type::UINT16);
 
 /** @brief DC current scale factor. */
-constexpr Register DCA_SF(40097, 1, RegType::INT16);
+constexpr Register DCA_SF(40097, 1, Register::Type::INT16);
 
 /**
  * @brief DC voltage.
  * @unit Volts [V]
  */
-constexpr Register DCV(40098, 1, RegType::UINT16);
+constexpr Register DCV(40098, 1, Register::Type::UINT16);
 
 /** @brief DC voltage scale factor. */
-constexpr Register DCV_SF(40099, 1, RegType::INT16);
+constexpr Register DCV_SF(40099, 1, Register::Type::INT16);
 
 /**
  * @brief DC power.
  * @unit Watts [W]
  */
-constexpr Register DCW(40100, 1, RegType::INT16);
+constexpr Register DCW(40100, 1, Register::Type::INT16);
 
 /** @brief DC power scale factor. */
-constexpr Register DCW_SF(40101, 1, RegType::INT16);
+constexpr Register DCW_SF(40101, 1, Register::Type::INT16);
 
 /** @brief Inverter operating state. */
-constexpr Register ST(40107, 1, RegType::UINT16);
+constexpr Register ST(40107, 1, Register::Type::UINT16);
 
 /** @brief Vendor-defined operating state. */
-constexpr Register STVND(40108, 1, RegType::UINT16);
+constexpr Register STVND(40108, 1, Register::Type::UINT16);
 
 /** @brief Event flags bits 0–31. */
-constexpr Register EVT1(40109, 2, RegType::UINT32);
+constexpr Register EVT1(40109, 2, Register::Type::UINT32);
 
 /** @brief Event flags bits 32–63. */
-constexpr Register EVT2(40111, 2, RegType::UINT32);
+constexpr Register EVT2(40111, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags bits 0–31. */
-constexpr Register EVTVND1(40113, 2, RegType::UINT32);
+constexpr Register EVTVND1(40113, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags bits 32–63. */
-constexpr Register EVTVND2(40115, 2, RegType::UINT32);
+constexpr Register EVTVND2(40115, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags bits 64–95. */
-constexpr Register EVTVND3(40117, 2, RegType::UINT32);
+constexpr Register EVTVND3(40117, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags bits 96–127. */
-constexpr Register EVTVND4(40119, 2, RegType::UINT32);
+constexpr Register EVTVND4(40119, 2, Register::Type::UINT32);
 
 } // namespace I10X
 
@@ -382,151 +383,151 @@ constexpr uint16_t SIZE = 60;
  *  - 112: Split-phase
  *  - 113: Three-phase
  */
-constexpr Register ID(40069, 1, RegType::UINT16);
+constexpr Register ID(40069, 1, Register::Type::UINT16);
 
 /**
  * @brief Length of inverter model block.
  * @returns Always returns 60.
  */
-constexpr Register L(40070, 1, RegType::UINT16);
+constexpr Register L(40070, 1, Register::Type::UINT16);
 
 /**
  * @brief AC total current.
  * @unit Ampere [A]
  */
-constexpr Register A(40071, 2, RegType::FLOAT);
+constexpr Register A(40071, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC current in phase A.
  * @unit Ampere [A]
  */
-constexpr Register APHA(40073, 2, RegType::FLOAT);
+constexpr Register APHA(40073, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC current in phase B.
  * @unit Ampere [A]
  */
-constexpr Register APHB(40075, 2, RegType::FLOAT);
+constexpr Register APHB(40075, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC current in phase C.
  * @unit Ampere [A]
  */
-constexpr Register APHC(40077, 2, RegType::FLOAT);
+constexpr Register APHC(40077, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC voltage phase-to-phase AB.
  * @unit Volt [V]
  */
-constexpr Register PPVPHAB(40079, 2, RegType::FLOAT);
+constexpr Register PPVPHAB(40079, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC voltage phase-to-phase BC.
  * @unit Volt [V]
  */
-constexpr Register PPVPHBC(40081, 2, RegType::FLOAT);
+constexpr Register PPVPHBC(40081, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC voltage phase-to-phase CA.
  * @unit Volt [V]
  */
-constexpr Register PPVPHCA(40083, 2, RegType::FLOAT);
+constexpr Register PPVPHCA(40083, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC voltage phase-A to neutral.
  * @unit Volt [V]
  */
-constexpr Register PHVPHA(40085, 2, RegType::FLOAT);
+constexpr Register PHVPHA(40085, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC voltage phase-B to neutral.
  * @unit Volt [V]
  */
-constexpr Register PHVPHB(40087, 2, RegType::FLOAT);
+constexpr Register PHVPHB(40087, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC voltage phase-C to neutral.
  * @unit Volt [V]
  */
-constexpr Register PHVPHC(40089, 2, RegType::FLOAT);
+constexpr Register PHVPHC(40089, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC total power.
  * @unit Watt [W]
  */
-constexpr Register W(40091, 2, RegType::FLOAT);
+constexpr Register W(40091, 2, Register::Type::FLOAT);
 
 /**
  * @brief AC frequency.
  * @unit Hertz [Hz]
  */
-constexpr Register FREQ(40093, 2, RegType::FLOAT);
+constexpr Register FREQ(40093, 2, Register::Type::FLOAT);
 
 /**
  * @brief Apparent power.
  * @unit Volt-ampere [VA]
  */
-constexpr Register VA(40095, 2, RegType::FLOAT);
+constexpr Register VA(40095, 2, Register::Type::FLOAT);
 
 /**
  * @brief Reactive power.
  * @unit Volt-ampere reactive [VAr]
  */
-constexpr Register VAR(40097, 2, RegType::FLOAT);
+constexpr Register VAR(40097, 2, Register::Type::FLOAT);
 
 /**
  * @brief Power factor.
  * @unit Percent [%]
  */
-constexpr Register PF(40099, 2, RegType::FLOAT);
+constexpr Register PF(40099, 2, Register::Type::FLOAT);
 
 /**
  * @brief Lifetime energy production.
  * @unit Watt-hour [Wh]
  */
-constexpr Register WH(40101, 2, RegType::FLOAT);
+constexpr Register WH(40101, 2, Register::Type::FLOAT);
 
 /**
  * @brief DC current.
  * @unit Ampere [A]
  */
-constexpr Register DCA(40103, 2, RegType::FLOAT);
+constexpr Register DCA(40103, 2, Register::Type::FLOAT);
 
 /**
  * @brief DC voltage.
  * @unit Volt [V]
  */
-constexpr Register DCV(40105, 2, RegType::FLOAT);
+constexpr Register DCV(40105, 2, Register::Type::FLOAT);
 
 /**
  * @brief DC power.
  * @unit Watt [W]
  */
-constexpr Register DCW(40107, 2, RegType::FLOAT);
+constexpr Register DCW(40107, 2, Register::Type::FLOAT);
 
 /** @brief Inverter operating state. */
-constexpr Register ST(40117, 1, RegType::UINT16);
+constexpr Register ST(40117, 1, Register::Type::UINT16);
 
 /** @brief Vendor-defined operating state. */
-constexpr Register STVND(40118, 1, RegType::UINT16);
+constexpr Register STVND(40118, 1, Register::Type::UINT16);
 
 /** @brief Event flags (bits 0–31). */
-constexpr Register EVT1(40119, 2, RegType::UINT32);
+constexpr Register EVT1(40119, 2, Register::Type::UINT32);
 
 /** @brief Event flags (bits 32–63). */
-constexpr Register EVT2(40121, 2, RegType::UINT32);
+constexpr Register EVT2(40121, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags (bits 0–31). */
-constexpr Register EVTVND1(40123, 2, RegType::UINT32);
+constexpr Register EVTVND1(40123, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags (bits 32–63). */
-constexpr Register EVTVND2(40125, 2, RegType::UINT32);
+constexpr Register EVTVND2(40125, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags (bits 64–95). */
-constexpr Register EVTVND3(40127, 2, RegType::UINT32);
+constexpr Register EVTVND3(40127, 2, Register::Type::UINT32);
 
 /** @brief Vendor-defined event flags (bits 96–127). */
-constexpr Register EVTVND4(40129, 2, RegType::UINT32);
+constexpr Register EVTVND4(40129, 2, Register::Type::UINT32);
 
 } // namespace I11X
 
@@ -564,100 +565,100 @@ constexpr uint16_t FLOAT_OFFSET = 10;
  * @brief Uniquely identifies this as a SunSpec Nameplate Model.
  * @return 120
  */
-constexpr Register ID(40121, 1, RegType::UINT16);
+constexpr Register ID(40121, 1, Register::Type::UINT16);
 
 /**
  * @brief Length of Nameplate Model block.
  * @return Always 26
  */
-constexpr Register L(40122, 1, RegType::UINT16);
+constexpr Register L(40122, 1, Register::Type::UINT16);
 
 /** @brief Type of DER device. Default value is 4 to indicate a PV device. */
-constexpr Register DERTYP(40123, 1, RegType::UINT16);
+constexpr Register DERTYP(40123, 1, Register::Type::UINT16);
 
 /**
  * @brief Continuous power output capability of the inverter.
  * @return Power output [W]
  */
-constexpr Register WRTG(40124, 1, RegType::UINT16);
+constexpr Register WRTG(40124, 1, Register::Type::UINT16);
 
 /** @brief Continuous power output scale factor. */
-constexpr Register WRTG_SF(40125, 1, RegType::INT16);
+constexpr Register WRTG_SF(40125, 1, Register::Type::INT16);
 
 /**
  * @brief Continuous Volt-Ampere capability of the inverter.
  * @return Apparent power [VA]
  */
-constexpr Register VARTG(40126, 1, RegType::UINT16);
+constexpr Register VARTG(40126, 1, Register::Type::UINT16);
 
 /** @brief Continuous Volt-Ampere capability scale factor. */
-constexpr Register VARTG_SF(40127, 1, RegType::INT16);
+constexpr Register VARTG_SF(40127, 1, Register::Type::INT16);
 
 /**
  * @brief Continuous VAR capability of the inverter in quadrant 1.
  * @return Reactive power Q1 [VAr]
  */
-constexpr Register VARRTGQ1(40128, 1, RegType::INT16);
+constexpr Register VARRTGQ1(40128, 1, Register::Type::INT16);
 
 /**
  * @brief Continuous VAR capability of the inverter in quadrant 4.
  * @return Reactive power Q4 [VAr]
  */
-constexpr Register VARRTGQ4(40131, 1, RegType::INT16);
+constexpr Register VARRTGQ4(40131, 1, Register::Type::INT16);
 
 /** @brief Continuous VAR capability scale factor. */
-constexpr Register VARRTG_SF(40132, 1, RegType::INT16);
+constexpr Register VARRTG_SF(40132, 1, Register::Type::INT16);
 
 /**
  * @brief Maximum RMS AC current level capability of the inverter.
  * @return AC current [A]
  */
-constexpr Register ARTG(40133, 1, RegType::UINT16);
+constexpr Register ARTG(40133, 1, Register::Type::UINT16);
 
 /** @brief Maximum RMS AC current level scale factor. */
-constexpr Register ARTG_SF(40134, 1, RegType::INT16);
+constexpr Register ARTG_SF(40134, 1, Register::Type::INT16);
 
 /**
  * @brief Minimum power factor capability of the inverter in quadrant 1.
  * @return Power factor Q1 [cos(phi)]
  */
-constexpr Register PFRTGQ1(40135, 1, RegType::INT16);
+constexpr Register PFRTGQ1(40135, 1, Register::Type::INT16);
 
 /**
  * @brief Minimum power factor capability of the inverter in quadrant 4.
  * @return Power factor Q4 [cos(phi)]
  */
-constexpr Register PFRTGQ4(40138, 1, RegType::INT16);
+constexpr Register PFRTGQ4(40138, 1, Register::Type::INT16);
 
 /** @brief Minimum power factor capability scale factor. */
-constexpr Register PFRTG_SF(40139, 1, RegType::INT16);
+constexpr Register PFRTG_SF(40139, 1, Register::Type::INT16);
 
 /**
  * @brief Nominal energy rating of storage device.
  * @return Energy rating [Wh]
  */
-constexpr Register WHRTG(40140, 1, RegType::UINT16);
+constexpr Register WHRTG(40140, 1, Register::Type::UINT16);
 
 /** @brief Nominal energy rating scale factor. */
-constexpr Register WHRTG_SF(40141, 1, RegType::INT16);
+constexpr Register WHRTG_SF(40141, 1, Register::Type::INT16);
 
 /**
  * @brief Maximum rate of energy transfer into the storage device.
  * @return Transfer power [W]
  */
-constexpr Register MAXCHARTE(40144, 1, RegType::UINT16);
+constexpr Register MAXCHARTE(40144, 1, Register::Type::UINT16);
 
 /** @brief Charge rate scale factor. */
-constexpr Register MAXCHARTE_SF(40145, 1, RegType::INT16);
+constexpr Register MAXCHARTE_SF(40145, 1, Register::Type::INT16);
 
 /**
  * @brief Maximum rate of energy transfer out of the storage device.
  * @return Transfer power [W]
  */
-constexpr Register MAXDISCHARTE(40146, 1, RegType::UINT16);
+constexpr Register MAXDISCHARTE(40146, 1, Register::Type::UINT16);
 
 /** @brief Discharge rate scale factor. */
-constexpr Register MAXDISCHARTE_SF(40147, 1, RegType::INT16);
+constexpr Register MAXDISCHARTE_SF(40147, 1, Register::Type::INT16);
 
 } // namespace I120
 
@@ -697,14 +698,14 @@ constexpr uint16_t FLOAT_OFFSET = 10;
  * Uniquely identifies this as a SunSpec Extended (Measurements_Status) Model.
  * @return 122
  */
-constexpr Register ID(40181, 1, RegType::UINT16);
+constexpr Register ID(40181, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Length of Extended Model block.
  * @return Always 44
  */
-constexpr Register L(40182, 1, RegType::UINT16);
+constexpr Register L(40182, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -714,7 +715,7 @@ constexpr Register L(40182, 1, RegType::UINT16);
  * Bit 2: Operating
  * Bit 3: Test
  */
-constexpr Register PVCONN(40183, 1, RegType::UINT16);
+constexpr Register PVCONN(40183, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -724,7 +725,7 @@ constexpr Register PVCONN(40183, 1, RegType::UINT16);
  * Bit 2: Operating
  * Bit 3: Test
  */
-constexpr Register STORCONN(40184, 1, RegType::UINT16);
+constexpr Register STORCONN(40184, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -732,10 +733,10 @@ constexpr Register STORCONN(40184, 1, RegType::UINT16);
  * 0: Disconnected
  * 1: Connected
  */
-constexpr Register ECPCONN(40185, 1, RegType::UINT16);
+constexpr Register ECPCONN(40185, 1, Register::Type::UINT16);
 
 /** @brief AC lifetime active (real) energy output [Wh]. */
-constexpr Register ACTWH(40186, 4, RegType::UINT64);
+constexpr Register ACTWH(40186, 4, Register::Type::UINT64);
 
 /**
  * @brief
@@ -744,17 +745,17 @@ constexpr Register ACTWH(40186, 4, RegType::UINT64);
  * Bit 1: FixedVAR
  * Bit 2: FixedPF
  */
-constexpr Register STACTCTL(40216, 2, RegType::UINT32);
+constexpr Register STACTCTL(40216, 2, Register::Type::UINT32);
 
 /**
  * @brief
  * Source of time synchronization
  * @return RTC
  */
-constexpr Register TMSSRC(40218, 4, RegType::STRING);
+constexpr Register TMSSRC(40218, 4, Register::Type::STRING);
 
 /** @brief Timestamp seconds since 01-01-2000 00:00 UTC */
-constexpr Register TMS(40222, 2, RegType::UINT32);
+constexpr Register TMS(40222, 2, Register::Type::UINT32);
 
 } // namespace I122
 
@@ -790,28 +791,28 @@ constexpr uint16_t FLOAT_OFFSET = 10;
  * Uniquely identifies this as a SunSpec Immediate Controls model.
  * @return 123
  */
-constexpr Register ID(40227, 1, RegType::UINT16);
+constexpr Register ID(40227, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Length of the SunSpec Immediate Controls model.
  * @return 24
  */
-constexpr Register L(40228, 1, RegType::UINT16);
+constexpr Register L(40228, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Time window for connect/disconnect.
  * @unit s
  */
-constexpr Register CONN_WINTMS(40229, 1, RegType::UINT16);
+constexpr Register CONN_WINTMS(40229, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Timeout period for connect/disconnect.
  * @unit s
  */
-constexpr Register CONN_RVRTTMS(40230, 1, RegType::UINT16);
+constexpr Register CONN_RVRTTMS(40230, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -819,14 +820,14 @@ constexpr Register CONN_RVRTTMS(40230, 1, RegType::UINT16);
  * 0: Disconnected
  * 1: Connected
  */
-constexpr Register CONN(40231, 1, RegType::UINT16);
+constexpr Register CONN(40231, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Set power output to specified level.
  * @unit % WMax
  */
-constexpr Register WMAXLIMPCT(40232, 1, RegType::UINT16);
+constexpr Register WMAXLIMPCT(40232, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -834,7 +835,7 @@ constexpr Register WMAXLIMPCT(40232, 1, RegType::UINT16);
  * @return 0-300
  * @unit seconds [s]
  */
-constexpr Register WMAXLIMPCT_WINTMS(40233, 1, RegType::UINT16);
+constexpr Register WMAXLIMPCT_WINTMS(40233, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -842,7 +843,7 @@ constexpr Register WMAXLIMPCT_WINTMS(40233, 1, RegType::UINT16);
  * @return 0-28800
  * @unit seconds [s]
  */
-constexpr Register WMAXLIMPCT_RVRTTMS(40234, 1, RegType::UINT16);
+constexpr Register WMAXLIMPCT_RVRTTMS(40234, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -850,7 +851,7 @@ constexpr Register WMAXLIMPCT_RVRTTMS(40234, 1, RegType::UINT16);
  * @return 0-65534 (0xFFFF has the same effect as 0x0000)
  * @unit seconds [s]
  */
-constexpr Register WMAXLIMPCT_RMPTMS(40235, 1, RegType::UINT16);
+constexpr Register WMAXLIMPCT_RMPTMS(40235, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -858,14 +859,14 @@ constexpr Register WMAXLIMPCT_RMPTMS(40235, 1, RegType::UINT16);
  * 0: Disabled
  * 1: Enabled
  */
-constexpr Register WMAXLIM_ENA(40236, 1, RegType::UINT16);
+constexpr Register WMAXLIM_ENA(40236, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Set power factor to specific value.
  * @return 0.8 to 1.0 and -0.8 to -0.999 [cos phi]
  */
-constexpr Register OUTPFSET(40237, 1, RegType::INT16);
+constexpr Register OUTPFSET(40237, 1, Register::Type::INT16);
 
 /**
  * @brief
@@ -873,7 +874,7 @@ constexpr Register OUTPFSET(40237, 1, RegType::INT16);
  * @return 0-300
  * @unit seconds [s]
  */
-constexpr Register OUTPFSET_WINTMS(40238, 1, RegType::UINT16);
+constexpr Register OUTPFSET_WINTMS(40238, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -881,7 +882,7 @@ constexpr Register OUTPFSET_WINTMS(40238, 1, RegType::UINT16);
  * @return 0-28800
  * @unit seconds [s]
  */
-constexpr Register OUTPFSET_RVRTTMS(40239, 1, RegType::UINT16);
+constexpr Register OUTPFSET_RVRTTMS(40239, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -889,7 +890,7 @@ constexpr Register OUTPFSET_RVRTTMS(40239, 1, RegType::UINT16);
  * @return 0-65534 (0xFFFF has the same effect as 0x0000)
  * @unit seconds [s]
  */
-constexpr Register OUTPFSET_RMPTMS(40240, 1, RegType::UINT16);
+constexpr Register OUTPFSET_RMPTMS(40240, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -897,13 +898,13 @@ constexpr Register OUTPFSET_RMPTMS(40240, 1, RegType::UINT16);
  * 0: Disabled
  * 1: Enabled
  */
-constexpr Register OUTPFSET_ENA(40241, 1, RegType::UINT16);
+constexpr Register OUTPFSET_ENA(40241, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Reactive power in percent of I_VArMax.
  */
-constexpr Register VARMAXPCT(40243, 1, RegType::INT16);
+constexpr Register VARMAXPCT(40243, 1, Register::Type::INT16);
 
 /**
  * @brief
@@ -911,7 +912,7 @@ constexpr Register VARMAXPCT(40243, 1, RegType::INT16);
  * @return 0-300
  * @unit seconds [s]
  */
-constexpr Register VARPCT_WINTMS(40245, 1, RegType::UINT16);
+constexpr Register VARPCT_WINTMS(40245, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -919,7 +920,7 @@ constexpr Register VARPCT_WINTMS(40245, 1, RegType::UINT16);
  * @return 0-28800
  * @unit seconds [s]
  */
-constexpr Register VARPCT_RVRTTMS(40246, 1, RegType::UINT16);
+constexpr Register VARPCT_RVRTTMS(40246, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -927,14 +928,14 @@ constexpr Register VARPCT_RVRTTMS(40246, 1, RegType::UINT16);
  * @return 0-65534 (0xFFFF has the same effect as 0x0000)
  * @unit seconds [s]
  */
-constexpr Register VARPCT_RMPTMS(40247, 1, RegType::UINT16);
+constexpr Register VARPCT_RMPTMS(40247, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * VAR limit mode.
  * 2: VAR limit as a % of VArMax
  */
-constexpr Register VARPCT_MOD(40248, 1, RegType::UINT16);
+constexpr Register VARPCT_MOD(40248, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -942,16 +943,16 @@ constexpr Register VARPCT_MOD(40248, 1, RegType::UINT16);
  * 0: Disabled
  * 1: Enabled
  */
-constexpr Register VARPCT_ENA(40249, 1, RegType::UINT16);
+constexpr Register VARPCT_ENA(40249, 1, Register::Type::UINT16);
 
 /** @brief Scale factor for power output percent. */
-constexpr Register WMAXLIMPCT_SF(40250, 1, RegType::INT16);
+constexpr Register WMAXLIMPCT_SF(40250, 1, Register::Type::INT16);
 
 /** @brief Scale factor for power factor. */
-constexpr Register OUTPFSET_SF(40251, 1, RegType::INT16);
+constexpr Register OUTPFSET_SF(40251, 1, Register::Type::INT16);
 
 /** @brief Scale factor for reactive power. */
-constexpr Register VARPCT_SF(40252, 1, RegType::INT16);
+constexpr Register VARPCT_SF(40252, 1, Register::Type::INT16);
 
 } // namespace I123
 
@@ -991,14 +992,14 @@ constexpr uint16_t FLOAT_OFFSET = 10;
  * Model identifier
  * @return 124
  */
-constexpr Register ID(40303, 1, RegType::UINT16);
+constexpr Register ID(40303, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Length of Basic Storage Controls block
  * @return 24
  */
-constexpr Register L(40304, 1, RegType::UINT16);
+constexpr Register L(40304, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -1006,42 +1007,42 @@ constexpr Register L(40304, 1, RegType::UINT16);
  * @unit Watt [W]
  * @note Multiply by InWRte and OutWRte to define charge/discharge limits.
  */
-constexpr Register WCHAMAX(40305, 1, RegType::UINT16);
+constexpr Register WCHAMAX(40305, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Setpoint for maximum charging rate
  * @unit Percent of WChaMax per second [% WChaMax/s]
  */
-constexpr Register WCHAGRA(40306, 1, RegType::UINT16);
+constexpr Register WCHAGRA(40306, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Setpoint for maximum discharging rate
  * @unit Percent of WChaMax per second [% WChaMax/s]
  */
-constexpr Register WDISCHAGRA(40307, 1, RegType::UINT16);
+constexpr Register WDISCHAGRA(40307, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Activate hold/discharge/charge storage control mode
  * @note Bitfield: bit 0 = CHARGE, bit 1 = DISCHARGE
  */
-constexpr Register STORCTL_MOD(40308, 1, RegType::UINT16);
+constexpr Register STORCTL_MOD(40308, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Setpoint for minimum storage reserve
  * @unit Percent of nominal maximum storage [%]
  */
-constexpr Register MINRSVPCT(40310, 1, RegType::UINT16);
+constexpr Register MINRSVPCT(40310, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Available energy as a percent of capacity rating
  * @unit Percent [%]
  */
-constexpr Register CHASTATE(40311, 1, RegType::UINT16);
+constexpr Register CHASTATE(40311, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -1049,7 +1050,7 @@ constexpr Register CHASTATE(40311, 1, RegType::UINT16);
  * @note Enumerated values: 1=OFF, 2=EMPTY, 3=DISCHARGING, 4=CHARGING, 5=FULL,
  * 6=HOLDING, 7=TESTING
  */
-constexpr Register CHAST(40314, 1, RegType::UINT16);
+constexpr Register CHAST(40314, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -1057,7 +1058,7 @@ constexpr Register CHAST(40314, 1, RegType::UINT16);
  * @unit Percent of WChaMax [%]
  * @note Valid range -100.00% to +100.00%; uses scale factor InOutWRte_SF.
  */
-constexpr Register OUTWRTE(40315, 1, RegType::INT16);
+constexpr Register OUTWRTE(40315, 1, Register::Type::INT16);
 
 /**
  * @brief
@@ -1065,7 +1066,7 @@ constexpr Register OUTWRTE(40315, 1, RegType::INT16);
  * @unit Percent of WChaMax [%]
  * @note Valid range -100.00% to +100.00%; uses scale factor InOutWRte_SF.
  */
-constexpr Register INWRTE(40316, 1, RegType::INT16);
+constexpr Register INWRTE(40316, 1, Register::Type::INT16);
 
 /**
  * @brief
@@ -1073,22 +1074,22 @@ constexpr Register INWRTE(40316, 1, RegType::INT16);
  * @note Enumerated values: 0=PV (grid charging disabled), 1=GRID (grid charging
  * enabled)
  */
-constexpr Register CHAGRISET(40320, 1, RegType::UINT16);
+constexpr Register CHAGRISET(40320, 1, Register::Type::UINT16);
 
 /** @brief Scale factor for maximum charge */
-constexpr Register WCHAMAX_SF(40321, 1, RegType::INT16);
+constexpr Register WCHAMAX_SF(40321, 1, Register::Type::INT16);
 
 /** @brief Scale factor for maximum charge and discharge rate */
-constexpr Register WCHADISCHAGRA_SF(40322, 1, RegType::INT16);
+constexpr Register WCHADISCHAGRA_SF(40322, 1, Register::Type::INT16);
 
 /** @brief Scale factor for minimum reserve percentage */
-constexpr Register MINRSVPCT_SF(40324, 1, RegType::INT16);
+constexpr Register MINRSVPCT_SF(40324, 1, Register::Type::INT16);
 
 /** @brief Scale factor for available energy percent */
-constexpr Register CHASTATE_SF(40325, 1, RegType::INT16);
+constexpr Register CHASTATE_SF(40325, 1, Register::Type::INT16);
 
 /** @brief Scale factor for percent charge/discharge rate */
-constexpr Register INOUTWRTE_SF(40328, 1, RegType::INT16);
+constexpr Register INOUTWRTE_SF(40328, 1, Register::Type::INT16);
 
 } // namespace I124
 
@@ -1128,73 +1129,73 @@ constexpr uint16_t FLOAT_OFFSET = 10;
  * Extension Model.
  * @return 160
  */
-constexpr Register ID(40253, 1, RegType::UINT16);
+constexpr Register ID(40253, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Length of Multiple MPPT Inverter Extension Model.
  * @return 48
  */
-constexpr Register L(40254, 1, RegType::UINT16);
+constexpr Register L(40254, 1, Register::Type::UINT16);
 
 /** @brief DC current scale factor */
-constexpr Register DCA_SF(40255, 1, RegType::INT16);
+constexpr Register DCA_SF(40255, 1, Register::Type::INT16);
 
 /** @brief DC voltage scale factor */
-constexpr Register DCV_SF(40256, 1, RegType::INT16);
+constexpr Register DCV_SF(40256, 1, Register::Type::INT16);
 
 /** @brief DC power scale factor */
-constexpr Register DCW_SF(40257, 1, RegType::INT16);
+constexpr Register DCW_SF(40257, 1, Register::Type::INT16);
 
 /** @brief DC energy scale factor
  * @note Not supported for Fronius Hybrid inverters
  */
-constexpr Register DCWH_SF(40258, 1, RegType::INT16);
+constexpr Register DCWH_SF(40258, 1, Register::Type::INT16);
 
 /** @brief Global events register. */
-constexpr Register EVT(40259, 2, RegType::UINT32);
+constexpr Register EVT(40259, 2, Register::Type::UINT32);
 
 /**
  * @brief
  * Number of DC modules.
  * @return 2
  */
-constexpr Register N(40261, 1, RegType::UINT16);
+constexpr Register N(40261, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Input ID of first DC input.
  * @return 1
  */
-constexpr Register ID_1(40263, 1, RegType::UINT16);
+constexpr Register ID_1(40263, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Input ID string of first DC input.
  * @return "String 1"
  */
-constexpr Register IDSTR_1(40264, 8, RegType::STRING);
+constexpr Register IDSTR_1(40264, 8, Register::Type::STRING);
 
 /**
  * @brief
  * DC current of first input.
  * @unit Ampere [A]
  */
-constexpr Register DCA_1(40272, 1, RegType::UINT16);
+constexpr Register DCA_1(40272, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * DC voltage of first input.
  * @unit Volt [V]
  */
-constexpr Register DCV_1(40273, 1, RegType::UINT16);
+constexpr Register DCV_1(40273, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * DC power of first input.
  * @unit Watt [W]
  */
-constexpr Register DCW_1(40274, 1, RegType::UINT16);
+constexpr Register DCW_1(40274, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -1202,37 +1203,37 @@ constexpr Register DCW_1(40274, 1, RegType::UINT16);
  * @note Not supported for Fronius Hybrid inverters
  * @unit Watt-hour [Wh]
  */
-constexpr Register DCWH_1(40275, 2, RegType::UINT32);
+constexpr Register DCWH_1(40275, 2, Register::Type::UINT32);
 
 /** @brief Timestamp of first DC input since 01-Jan-2000 00:00 UTC. */
-constexpr Register TMS_1(40277, 2, RegType::UINT32);
+constexpr Register TMS_1(40277, 2, Register::Type::UINT32);
 
 /**
  * @brief
  * Temperature of first DC input.
  * @unit Celsius [°C]
  */
-constexpr Register TMP_1(40279, 1, RegType::INT16);
+constexpr Register TMP_1(40279, 1, Register::Type::INT16);
 
 /** @brief Operating state of first DC input. */
-constexpr Register DCST_1(40280, 1, RegType::UINT16);
+constexpr Register DCST_1(40280, 1, Register::Type::UINT16);
 
 /** @brief Module events of first DC input. */
-constexpr Register DCEVT_1(40281, 2, RegType::UINT32);
+constexpr Register DCEVT_1(40281, 2, Register::Type::UINT32);
 
 /**
  * @brief
  * Input ID of second DC input.
  * @return 2
  */
-constexpr Register ID_2(40283, 1, RegType::UINT16);
+constexpr Register ID_2(40283, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Input ID string of second DC input.
  * @return "String 2" or "not supported"
  */
-constexpr Register IDSTR_2(40284, 8, RegType::STRING);
+constexpr Register IDSTR_2(40284, 8, Register::Type::STRING);
 
 /**
  * @brief
@@ -1240,7 +1241,7 @@ constexpr Register IDSTR_2(40284, 8, RegType::STRING);
  * @unit Ampere [A]
  * @note Not supported if only one DC input
  */
-constexpr Register DCA_2(40292, 1, RegType::UINT16);
+constexpr Register DCA_2(40292, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -1248,7 +1249,7 @@ constexpr Register DCA_2(40292, 1, RegType::UINT16);
  * @unit Volt [V]
  * @note Not supported if only one DC input
  */
-constexpr Register DCV_2(40293, 1, RegType::UINT16);
+constexpr Register DCV_2(40293, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -1256,7 +1257,7 @@ constexpr Register DCV_2(40293, 1, RegType::UINT16);
  * @unit Watt [W]
  * @note Not supported if only one DC input
  */
-constexpr Register DCW_2(40294, 1, RegType::UINT16);
+constexpr Register DCW_2(40294, 1, Register::Type::UINT16);
 
 /**
  * @brief
@@ -1264,14 +1265,14 @@ constexpr Register DCW_2(40294, 1, RegType::UINT16);
  * @note Not supported for Fronius Hybrid inverters
  * @unit Watt-hour [Wh]
  */
-constexpr Register DCWH_2(40295, 2, RegType::UINT16);
+constexpr Register DCWH_2(40295, 2, Register::Type::UINT16);
 
 /**
  * @brief
  * Timestamp of second DC input since 01-Jan-2000 00:00 UTC.
  * @note Not supported if only one DC input
  */
-constexpr Register TMS_2(40297, 2, RegType::UINT32);
+constexpr Register TMS_2(40297, 2, Register::Type::UINT32);
 
 /**
  * @brief
@@ -1279,21 +1280,21 @@ constexpr Register TMS_2(40297, 2, RegType::UINT32);
  * @unit Celsius [°C]
  * @note Not supported if only one DC input
  */
-constexpr Register TMP_2(40299, 1, RegType::INT16);
+constexpr Register TMP_2(40299, 1, Register::Type::INT16);
 
 /**
  * @brief
  * Operating state of second DC input.
  * @note Not supported if only one DC input
  */
-constexpr Register DCST_2(40300, 1, RegType::UINT16);
+constexpr Register DCST_2(40300, 1, Register::Type::UINT16);
 
 /**
  * @brief
  * Module events of second DC input.
  * @note Not supported if only one DC input
  */
-constexpr Register DCEVT_2(40301, 2, RegType::UINT32);
+constexpr Register DCEVT_2(40301, 2, Register::Type::UINT32);
 
 } // namespace I160
 
@@ -1357,14 +1358,14 @@ constexpr uint16_t STORAGE_OFFSET = 26;
  * into account when iterating over SunSpec blocks or calculating the next
  * model's start address.
  */
-constexpr Register ID(40303, 1, RegType::UINT16);
+constexpr Register ID(40303, 1, Register::Type::UINT16);
 
 /**
  * @brief End-of-block length field.
  * @details This register contains the length of the end-of-block segment.
  * @return Always returns 0.
  */
-constexpr Register L(40304, 1, RegType::UINT16);
+constexpr Register L(40304, 1, Register::Type::UINT16);
 
 } // namespace I_END
 
