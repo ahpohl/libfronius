@@ -74,18 +74,8 @@ public:
    * This function attempts to establish a connection based on the
    * configuration (TCP or RTU). It returns immediately after launching
    * the thread.
-   *
-   * @return `std::expected<void, ModbusError>` indicating success or failure.
    */
-  std::expected<void, ModbusError> connect();
-
-  /**
-   * @brief Block until a connection to the device has been established.
-   *
-   * This function waits indefinitely until the connection thread
-   * reports a successful connection.
-   */
-  void waitForConnection(void);
+  void connect(void);
 
   /**
    * @brief Returns true if the device is currently connected.

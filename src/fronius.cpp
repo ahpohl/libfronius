@@ -26,7 +26,6 @@ Fronius::~Fronius() {
     running_.store(false);
     cv_.notify_all();
   }
-
   if (connectionThread_.joinable())
     connectionThread_.join();
 
@@ -37,15 +36,9 @@ Fronius::~Fronius() {
   }
 }
 
-std::expected<void, ModbusError> Fronius::connect() {
+void Fronius::connect() {
   running_.store(true);
   connectionThread_ = std::thread(&Fronius::connectionLoop, this);
-  return {};
-}
-
-void Fronius::waitForConnection() {
-  std::unique_lock<std::mutex> lock(mtx_);
-  cv_.wait(lock, [this]() { return connected_.load(); });
 }
 
 void Fronius::triggerReconnect() {

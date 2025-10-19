@@ -157,6 +157,7 @@ private:
     switch (c) {
     case EINVAL:    // Invalid argument
     case ENOMEM:    // Out of memory
+    case ENOENT:    // No such file or directory
     case EMBMDATA:  // Too many registers requested
     case EMBXILFUN: // Illegal function
     case EMBXILADD: // Illegal data address
