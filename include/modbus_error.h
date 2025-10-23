@@ -13,6 +13,7 @@
 #define MODBUS_ERROR_H_
 
 #include <cerrno>
+#include <expected>
 #include <format>
 #include <modbus/modbus.h>
 #include <string>
@@ -145,6 +146,37 @@ public:
                             Args &&...args) {
     return {code, std::format(fmt, std::forward<Args>(args)...),
             deduceSeverity(code)};
+  }
+
+  /**
+   * @brief Unwraps a std::expected<T, ModbusError> or throws the contained
+   * ModbusError.
+   *
+   * This helper function simplifies error handling by allowing direct
+   * extraction of the expected value, while automatically throwing the error if
+   * the operation failed. It is particularly useful for simplifying code that
+   * would otherwise need to manually check `res.has_value()` and handle the
+   * error path separately.
+   *
+   * @tparam T  The value type contained in the std::expected.
+   * @param res The std::expected<T, ModbusError> result to unwrap.
+   *
+   * @return The unwrapped value of type T, if the operation succeeded.
+   *
+   * @throws ModbusError if the expected contains an error instead of a value.
+   *
+   * @note This function should be used in contexts where throwing a ModbusError
+   *       is acceptable (e.g. within a try/catch block). For non-throwing code
+   *       paths, handle the std::expected manually instead.
+   *
+   * @see std::expected
+   * @see ModbusError
+   */
+  template <typename T> static T getOrThrow(std::expected<T, ModbusError> res) {
+    if (res)
+      return *res;
+    else
+      throw res.error();
   }
 
 private:
