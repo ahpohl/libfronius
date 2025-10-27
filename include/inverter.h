@@ -69,6 +69,25 @@ public:
   int getPhases(void) const { return id_ % 10; }
 
   /**
+   * @brief Get the number of DC input strings (MPPT inputs).
+   *
+   * This function returns the number of DC inputs detected on the inverter.
+   * The value is determined by reading and validating the Multi MPPT register
+   * block using validateMultiMpptRegisters().
+   *
+   * @return Number of DC inputs (1 or 2).
+   */
+  int getInputs(void) const { return inputs_; }
+
+  /**
+   * @brief Check whether the inverter is a hybrid system.
+   *
+   * @return true if the inverter has valid hybrid storage registers (as
+   * determined by `validateStorageRegisters()`), false otherwise.
+   */
+  bool isHybrid(void) const { return hybrid_; }
+
+  /**
    * @brief Get the inverter's device ID.
    *
    * @return Integer representing the detected inverter ID.
@@ -165,6 +184,31 @@ public:
   std::expected<double, ModbusError>
   getDcVoltage(const FroniusTypes::Input input) const;
 
+  /**
+   * @brief Get the DC energy for a specific input string of the inverter.
+   *
+   * This function reads the cumulative DC energy (in watt-hours) from the
+   * inverter for the selected input string (A or B). The function handles both
+   * float-based and scaled integer Modbus registers, depending on the
+   * `useFloatRegisters_` flag.
+   *
+   * @param input The input string for which to read DC energy. Valid values
+   * are:
+   *              - `FroniusTypes::Input::A`
+   *              - `FroniusTypes::Input::B`
+   *
+   * @return std::expected<double, ModbusError>
+   *         - On success: the DC energy in watt-hours (Wh) as a `double`.
+   *         - On failure: a `ModbusError` indicating the cause of the failure,
+   *           for example if an invalid input is provided or a Modbus read
+   * fails.
+   *
+   * @note If an invalid input is provided, the function returns a `ModbusError`
+   *       with code `EINVAL` and a descriptive message.
+   */
+  std::expected<double, ModbusError>
+  getDcEnergy(const FroniusTypes::Input input) const;
+
 private:
   /**
    * @brief Indicates whether the inverter connection and register data are
@@ -203,6 +247,76 @@ private:
    * response.
    */
   std::expected<void, ModbusError> detectFloatOrIntRegisters(void);
+
+  /**
+   * @brief Number of DC input strings (MPPT inputs) supported by the inverter.
+   *
+   * This member is determined dynamically from the inverter’s Multi MPPT
+   * register map. Possible values are:
+   * - 1: Single string input or Multi MPPT not supported.
+   * - 2: Dual string (Multi MPPT) input supported.
+   *
+   * Initialized to 0 until validated by validateMultiMpptRegisters().
+   */
+  int inputs_{0};
+
+  /**
+   * @brief Validate and identify the Multi MPPT (Multiple Maximum Power Point
+   * Tracker) register map.
+   *
+   * This function verifies that the inverter’s Modbus register map supports
+   * multiple DC input strings (MPPTs). It performs the following checks:
+   *  - Validates that the Modbus context is available.
+   *  - Reads and verifies the Multi MPPT register map ID and size.
+   *  - Reads the second input string identifier (IDSTR_2) to determine whether
+   *    a second MPPT input is present.
+   *
+   * Depending on the Modbus response, the internal member @ref inputs_ is set:
+   *  - `inputs_ = 2` if the inverter reports `"String 2"`.
+   *  - `inputs_ = 1` otherwise (e.g., `"Not supported"` or missing entry).
+   *
+   * @return
+   *  - `std::expected<void, ModbusError>` containing no value on success.
+   *  - `std::unexpected(ModbusError)` if a Modbus communication or validation
+   * error occurs.
+   *
+   * @note This function must be called after establishing a valid Modbus
+   *       connection. If the context is null, an ENOTCONN error is returned.
+   *
+   * @see getInputs()
+   */
+  std::expected<void, ModbusError> validateMultiMpptRegisters(void);
+
+  /**
+   * @brief Indicates whether the inverter has hybrid storage capability.
+   *
+   * This member is set to `true` by `validateStorageRegisters()` if the
+   * inverter contains valid hybrid storage registers, otherwise it remains
+   * `false`.
+   */
+  bool hybrid_{false};
+
+  /**
+   * @brief Validate the storage-related Modbus registers on the inverter.
+   *
+   * This function reads and checks the storage control registers of the
+   * inverter to ensure they match the expected register map ID and size for a
+   * basic storage system. It sets the `hybrid_` member to `true` if the storage
+   * registers are valid and indicate a hybrid system, or `false` otherwise.
+   *
+   * The function handles both float-based and standard Modbus registers
+   * depending on the `useFloatRegisters_` flag. It returns an error if:
+   * - The Modbus context (`ctx_`) is null.
+   * - Reading the registers fails.
+   * - The registers contain an unexpected ID or size.
+   *
+   * @return std::expected<void, ModbusError>
+   *         - On success: an empty `std::expected` indicating the storage
+   * registers are valid.
+   *         - On failure: a `ModbusError` describing the specific validation
+   * failure.
+   */
+  std::expected<void, ModbusError> validateStorageRegisters(void);
 };
 
 #endif /* INVERTER_H_ */

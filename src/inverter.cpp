@@ -25,9 +25,11 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   }
 
   // Validate the end block
-  const auto endBlockBaseReg = useFloatRegisters_
-                                   ? I_END::ID.withOffset(I_END::FLOAT_OFFSET)
-                                   : I_END::ID;
+  auto endBlockBaseReg = I_END::ID;
+  if (useFloatRegisters_)
+    endBlockBaseReg = endBlockBaseReg.withOffset(I_END::FLOAT_OFFSET);
+  if (hybrid_)
+    endBlockBaseReg = endBlockBaseReg.withOffset(I_END::STORAGE_OFFSET);
 
   int rc = modbus_read_registers(ctx_, endBlockBaseReg.ADDR, 2,
                                  regs_.data() + endBlockBaseReg.ADDR);
@@ -37,9 +39,11 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
         endBlockBaseReg.describe())));
   }
 
-  const auto &endBlockLengthReg = (useFloatRegisters_)
-                                      ? I_END::L.withOffset(I_END::FLOAT_OFFSET)
-                                      : I_END::L;
+  auto endBlockLengthReg = I_END::L;
+  if (useFloatRegisters_)
+    endBlockLengthReg = endBlockLengthReg.withOffset(I_END::FLOAT_OFFSET);
+  if (hybrid_)
+    endBlockLengthReg = endBlockLengthReg.withOffset(I_END::STORAGE_OFFSET);
 
   if (!(regs_[endBlockBaseReg.ADDR] == 0xFFFF &&
         regs_[endBlockLengthReg.ADDR] == 0)) {
@@ -66,7 +70,6 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   }
 
   // Get the Multi MPPT inverter extension registers
-  // Todo: apply storage offset if hybrid inverter
   const auto &multiMpptBaseReg =
       useFloatRegisters_ ? I160::DCA_SF.withOffset(I160::FLOAT_OFFSET)
                          : I160::DCA_SF;
@@ -101,7 +104,15 @@ std::expected<void, ModbusError> Inverter::validateDevice() {
   if (!init)
     return std::unexpected(init.error());
 
-  // Todo: --- Step 4: Detect number of inputs
+  // --- Step 4: Validate multi MPPT map and detect number of inputs
+  auto mppt = validateMultiMpptRegisters();
+  if (!mppt)
+    return std::unexpected(mppt.error());
+
+  // --- Step 5: Detect if hybrid and validate storage control registers
+  auto storage = validateStorageRegisters();
+  if (!storage)
+    return std::unexpected(storage.error());
 
   // If we got here, device is fully valid
   connectedAndValid_ = true;
@@ -253,6 +264,26 @@ Inverter::getDcVoltage(const FroniusTypes::Input input) const {
   }
 }
 
+std::expected<double, ModbusError>
+Inverter::getDcEnergy(const FroniusTypes::Input input) const {
+  switch (input) {
+  case FroniusTypes::Input::A:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I160::DCWH_1.withOffset(I160::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I160::DCWH_1, I160::DCWH_SF);
+  case FroniusTypes::Input::B:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I160::DCWH_2.withOffset(I160::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I160::DCWH_2, I160::DCWH_SF);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "getDcEnergy(): Invalid input {}",
+                            FroniusTypes::toString(input))));
+  }
+}
+
 /* -------------------------- private methods ------------------------------*/
 
 std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
@@ -309,6 +340,102 @@ std::expected<void, ModbusError> Inverter::detectFloatOrIntRegisters() {
                             "register map size: received {}, expected [{}, {}]",
                             regMapSize, I10X::SIZE, I11X::SIZE)));
   }
+
+  return {};
+}
+
+std::expected<void, ModbusError> Inverter::validateMultiMpptRegisters() {
+  if (!ctx_) {
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "validateMultiMpptRegisters(): Modbus context is null")));
+  }
+
+  // Get registers
+  const auto &idReg =
+      useFloatRegisters_ ? I160::ID.withOffset(I160::FLOAT_OFFSET) : I160::ID;
+  int rc =
+      modbus_read_registers(ctx_, idReg.ADDR, 39, regs_.data() + idReg.ADDR);
+  if (rc == -1) {
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "validateSunSpecRegisters(): Receive register failed {}",
+        idReg.describe())));
+  }
+
+  // --- Test for MPPT Register ID
+  if (regs_[idReg.ADDR] != 160) {
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "validateMultiMpptRegisters(): Invalid multi MPPT "
+                            "register map ID: received {}, expected 160",
+                            regs_[idReg.ADDR])));
+  }
+
+  // --- Test for MPPT Register Map Length
+  if (regs_[idReg.ADDR + idReg.NB] != I160::SIZE) {
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "validateMultiMpptRegisters(): Invalid multi MPPT "
+                            "register map size: received {}, expected {}",
+                            regs_[idReg.ADDR + idReg.NB], I160::SIZE)));
+  }
+
+  /* ---- Get number of inputs ---- */
+  const auto &inputReg = useFloatRegisters_
+                             ? I160::IDSTR_2.withOffset(I160::FLOAT_OFFSET)
+                             : I160::IDSTR_2;
+
+  auto inputStr = getModbusString(regs_, inputReg);
+  if (!inputStr)
+    return reportError<void>(std::unexpected(inputStr.error()));
+  if (*inputStr == "String 2")
+    inputs_ = 2;
+  else
+    inputs_ = 1;
+
+  return {};
+}
+
+std::expected<void, ModbusError> Inverter::validateStorageRegisters() {
+  if (!ctx_) {
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "validateStorageRegisters(): Modbus context is null")));
+  }
+
+  hybrid_ = false;
+
+  // Get registers
+  const auto &idReg =
+      useFloatRegisters_ ? I124::ID.withOffset(I124::FLOAT_OFFSET) : I124::ID;
+  int rc =
+      modbus_read_registers(ctx_, idReg.ADDR, 2, regs_.data() + idReg.ADDR);
+  if (rc == -1) {
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "validateStorageRegisters(): Receive register failed {}",
+        idReg.describe())));
+  }
+
+  // --- Test for Basic Storage Control Register ID
+  if (regs_[idReg.ADDR] == 0xFFFF)
+    return {}; // not a hybrid inverter
+
+  if (regs_[idReg.ADDR] != 124) {
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        EINVAL,
+        "validateStorageRegisters()(): Invalid basic storage control "
+        "register map ID: received {}, expected 124",
+        regs_[idReg.ADDR])));
+  }
+
+  // --- Test for Basic Storage Control Register Map Length
+  if (regs_[idReg.ADDR + idReg.NB] != I124::SIZE) {
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        EINVAL,
+        "validateStorageRegisters()(): Invalid basic storage control "
+        "register map size: received {}, expected {}",
+        regs_[idReg.ADDR + idReg.NB], I124::SIZE)));
+  }
+
+  hybrid_ = true;
 
   return {};
 }

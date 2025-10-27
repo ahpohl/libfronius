@@ -98,7 +98,7 @@ std::expected<bool, ModbusError> Fronius::validateSunSpecRegisters(void) {
                                  regs_.data() + C001::SID.ADDR);
   if (rc == -1) {
     return reportError<bool>(std::unexpected(ModbusError::fromErrno(
-        "validateSunSpecRegisters(): Receive register failed [{}]",
+        "validateSunSpecRegisters(): Receive register failed {}",
         C001::SID.describe())));
   }
 
@@ -331,12 +331,13 @@ void Fronius::connectionLoop() {
         {
           std::lock_guard<std::mutex> lock(mtx_);
           connected_.store(true);
-          cv_.notify_all(); // <--- notify waitForConnection
+          cv_.notify_all();
         }
 
         if (onConnect_)
           onConnect_();
 
+        // Reset delay after success
         if (cfg_.exponential)
           reconnectDelay = cfg_.reconnectDelay;
 
