@@ -2,6 +2,7 @@
 #define FRONIUS_TYPES_H_
 
 #include <cstdint>
+#include <optional>
 
 /**
  * @brief Container for project enums and their string conversion helpers.
@@ -75,13 +76,13 @@ struct FroniusTypes {
   }
 
   /**
-   * @brief Operating status codes of the inverter.
+   * @brief Operating state codes of the inverter.
    *
    * This enumeration defines the possible runtime states of a Fronius inverter.
    * The values correspond to Modbus status codes reported by the device and
    * represent various operational, standby, and fault conditions.
    */
-  enum class Status {
+  enum class State : uint16_t {
     /** Inverter is turned off and not producing power. */
     POWER_OFF = 1,
 
@@ -132,33 +133,33 @@ struct FroniusTypes {
    * @param status The inverter status code.
    * @return A constant string corresponding to the provided status
    */
-  static constexpr const char *toString(Status status) {
-    switch (status) {
-    case Status::POWER_OFF:
+  static constexpr std::optional<const char *> toString(State state) {
+    switch (state) {
+    case State::POWER_OFF:
       return "Off";
-    case Status::SLEEPING:
+    case State::SLEEPING:
       return "Sleeping (auto-shutdown)";
-    case Status::STARTING:
+    case State::STARTING:
       return "Starting up";
-    case Status::MPPT:
+    case State::MPPT:
       return "Tracking power point";
-    case Status::THROTTLED:
+    case State::THROTTLED:
       return "Forced power reduction";
-    case Status::SHUTTING_DOWN:
+    case State::SHUTTING_DOWN:
       return "Shutting down";
-    case Status::FAULT:
+    case State::FAULT:
       return "One or more faults exist";
-    case Status::STANDBY:
+    case State::STANDBY:
       return "Standby";
-    case Status::NO_BUSINIT:
+    case State::NO_BUSINIT:
       return "No SolarNet communication";
-    case Status::NO_COMM_INV:
+    case State::NO_COMM_INV:
       return "No communication with inverter";
-    case Status::SN_OVERCURRENT:
+    case State::SN_OVERCURRENT:
       return "Overcurrent on SolarNet plug detected";
-    case Status::BOOTLOAD:
+    case State::BOOTLOAD:
       return "Inverter is being updated";
-    case Status::AFCI:
+    case State::AFCI:
       return "AFCI Event";
     default:
       return "Invalid inverter operating state";
@@ -176,7 +177,7 @@ struct FroniusTypes {
    * The values are typically read from a Modbus event register and can
    * be used to interpret the inverter's fault or warning conditions.
    */
-  enum class Event {
+  enum class Event : uint32_t {
     /** Ground fault detected on the DC side. */
     GROUND_FAULT = 0x0001,
 
@@ -240,7 +241,7 @@ struct FroniusTypes {
    *       converts only a single flag value. When handling bitfields,
    *       each bit should be tested individually before calling this function.
    */
-  static constexpr const char *toString(Event event) {
+  static constexpr std::optional<const char *> toString(Event event) {
     switch (event) {
     case Event::GROUND_FAULT:
       return "Ground fault";
@@ -275,7 +276,7 @@ struct FroniusTypes {
     case Event::HW_TEST_FAILURE:
       return "Hardware test failure";
     default:
-      return "Invalid inverter event flag";
+      return std::nullopt;
     }
   }
 
@@ -396,7 +397,7 @@ struct FroniusTypes {
    * @note Only a single flag should be passed at a time. Multiple flags should
    *       be tested individually using bitwise operations.
    */
-  static constexpr const char *toString(Vendor_1 vendor1) {
+  static constexpr std::optional<const char *> toString(Vendor_1 vendor1) {
     switch (vendor1) {
     case Vendor_1::INSULATION_FAULT:
       return "DC Insulation fault";
@@ -463,7 +464,7 @@ struct FroniusTypes {
     case Vendor_1::CONVERTER_RELAY_FAULT:
       return "The buck converter relay does not open at high DC voltage";
     default:
-      return "Invalid inverter vendor 1 event";
+      return std::nullopt;
     }
   }
 
@@ -586,7 +587,7 @@ struct FroniusTypes {
    *       flags are combined, test each one individually using bitwise logic
    *       before calling this function.
    */
-  static constexpr const char *toString(Vendor_2 vendor2) {
+  static constexpr std::optional<const char *> toString(Vendor_2 vendor2) {
     switch (vendor2) {
     case Vendor_2::NO_SOLARNET_COMM:
       return "No SolarNet communication";
@@ -653,7 +654,7 @@ struct FroniusTypes {
     case Vendor_2::SUPPLY_VOLTAGE_FAULT:
       return "Supply voltage fault";
     default:
-      return "Invalid inverter vendor 2 event";
+      return std::nullopt;
     }
   }
 
@@ -691,7 +692,7 @@ struct FroniusTypes {
    *       flags are combined, test each individually before calling this
    * function.
    */
-  static constexpr const char *toString(Vendor_3 vendor3) {
+  static constexpr std::optional<const char *> toString(Vendor_3 vendor3) {
     switch (vendor3) {
     case Vendor_3::TIME_FAULT:
       return "Time error";
@@ -702,7 +703,7 @@ struct FroniusTypes {
     case Vendor_3::INIT_ERROR:
       return "Init error";
     default:
-      return "Invalid inverter vendor 3 event";
+      return std::nullopt;
     }
   }
 };

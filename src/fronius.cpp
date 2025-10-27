@@ -280,6 +280,9 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
         "tryConnect(): Setting slave id '{}' failed", cfg_.slaveId));
   }
 
+  // set response timeout
+  modbus_set_response_timeout(ctx_, 5, 0);
+
   // Set libmodbus debug
   if (cfg_.debug) {
     if (modbus_set_debug(ctx_, true) == -1) {
@@ -288,9 +291,6 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
       return std::unexpected(ModbusError::fromErrno(
           "tryConnect(): Unable to set the libmodbus debug flag"));
     }
-
-    // --- Extend timeout for debugging ---
-    // modbus_set_response_timeout(ctx_, 60, 0);
   }
 
   // Attempt connection

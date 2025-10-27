@@ -7,6 +7,7 @@
 #include "modbus_error.h"
 #include <expected>
 #include <modbus/modbus.h>
+#include <vector>
 
 /**
  * @class Inverter
@@ -208,6 +209,10 @@ public:
    */
   std::expected<double, ModbusError>
   getDcEnergy(const FroniusTypes::Input input) const;
+
+  std::expected<std::string, ModbusError> getState(void) const;
+
+  std::expected<std::vector<std::string>, ModbusError> getEvents() const;
 
 private:
   /**

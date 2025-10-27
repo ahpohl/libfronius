@@ -9,6 +9,7 @@
 #include <modbus/modbus.h>
 #include <modbus_config.h>
 #include <modbus_error.h>
+#include <optional>
 #include <sstream>
 #include <vector>
 
@@ -282,6 +283,51 @@ Inverter::getDcEnergy(const FroniusTypes::Input input) const {
         ModbusError::custom(EINVAL, "getDcEnergy(): Invalid input {}",
                             FroniusTypes::toString(input))));
   }
+}
+
+std::expected<std::string, ModbusError> Inverter::getState() const {
+  auto reg = useFloatRegisters_ ? I11X::STVND : I10X::STVND;
+  uint16_t statusRaw = regs_[reg.ADDR];
+
+  FroniusTypes::State state = static_cast<FroniusTypes::State>(statusRaw);
+  auto strOpt = FroniusTypes::toString(state);
+
+  if (!strOpt) {
+    return reportError<std::string>(std::unexpected(ModbusError::custom(
+        EINVAL, "Unknown inverter status (code {})", statusRaw)));
+  }
+
+  return *strOpt;
+}
+
+std::expected<std::vector<std::string>, ModbusError>
+Inverter::getEvents() const {
+  auto reg = useFloatRegisters_ ? I11X::EVT1 : I10X::EVT1;
+  uint32_t eventRaw = ModbusUtils::modbus_get_uint32(regs_.data() + reg.ADDR);
+
+  std::vector<std::string> events;
+  uint32_t unknownBits = eventRaw;
+
+  for (uint32_t bit = 0; bit < 32; ++bit) {
+    uint32_t mask = 1u << bit;
+    if (eventRaw & mask) {
+      FroniusTypes::Event e = static_cast<FroniusTypes::Event>(mask);
+      auto strOpt = FroniusTypes::toString(e);
+
+      if (strOpt) {
+        events.push_back(*strOpt);
+        unknownBits &= ~mask;
+      }
+    }
+  }
+
+  if (unknownBits != 0) {
+    return reportError<std::vector<std::string>>(std::unexpected(
+        ModbusError::custom(EINVAL, "Unknown inverter event bits: 0x" +
+                                        std::to_string(unknownBits))));
+  }
+
+  return events;
 }
 
 /* -------------------------- private methods ------------------------------*/
