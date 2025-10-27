@@ -281,7 +281,7 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   }
 
   // set response timeout
-  modbus_set_response_timeout(ctx_, 5, 0);
+  modbus_set_response_timeout(ctx_, cfg_.secTimeout, cfg_.usecTimeout);
 
   // Set libmodbus debug
   if (cfg_.debug) {

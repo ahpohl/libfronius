@@ -50,6 +50,12 @@ struct ModbusConfig {
   /** @brief Serial baud rate (used if `useTcp` is false) */
   int baud{9600};
 
+  /** @brief Timeout for response in seconds */
+  int secTimeout{0};
+
+  /** @brief Timeout for response in micro seconds */
+  int usecTimeout{200000};
+
   // --- Reconnect parameters ---
 
   /** @brief Initial reconnect delay in seconds */
@@ -91,6 +97,13 @@ struct ModbusConfig {
     if (reconnectDelay >= reconnectDelayMax) {
       throw std::invalid_argument(
           "reconnectDelay must be smaller than reconnectDelayMax");
+    }
+    if (secTimeout == 0 && usecTimeout == 0) {
+      throw std::invalid_argument(
+          "Both secTimeout and usecTimeout cannot be 0");
+    }
+    if (usecTimeout < 0 || usecTimeout > 999999) {
+      throw std::invalid_argument("usecTimeout must be in range 0-999999");
     }
   }
 };

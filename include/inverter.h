@@ -210,8 +210,46 @@ public:
   std::expected<double, ModbusError>
   getDcEnergy(const FroniusTypes::Input input) const;
 
+  /**
+   * @brief Retrieves the current operational state of the inverter.
+   *
+   * This function reads the inverter status register (`STVND`) and converts
+   * the raw status code into a human-readable string representation using
+   * `FroniusTypes::toString(FroniusTypes::State)`.
+   *
+   * The register address depends on whether floating-point register mapping
+   * is used (`useFloatRegisters_`).
+   *
+   * @return
+   * A `std::expected<std::string, ModbusError>` containing:
+   * - **value**: the string representation of the inverter state, if
+   * recognized.
+   * - **error**: a `ModbusError` with code `EINVAL` if the state code is
+   * unknown or cannot be converted to a string.
+   */
   std::expected<std::string, ModbusError> getState(void) const;
 
+  /**
+   * @brief Retrieves the current active event flags from the inverter.
+   *
+   * This function reads the inverter's event register (`EVT1`) and decodes
+   * the active event bits into a list of human-readable event names using
+   * `FroniusTypes::toString(FroniusTypes::Event)`.
+   *
+   * Each bit in the 32-bit event register represents a possible inverter event.
+   * Bits that correspond to known events are converted to strings and returned.
+   * Unknown bits (not mapped to known events) will trigger an error.
+   *
+   * The register address depends on whether floating-point register mapping
+   * is used (`useFloatRegisters_`).
+   *
+   * @return
+   * A `std::expected<std::vector<std::string>, ModbusError>` containing:
+   * - **value**: a vector of strings representing all active known inverter
+   * events.
+   * - **error**: a `ModbusError` with code `EINVAL` if unknown bits are
+   * detected in the event register.
+   */
   std::expected<std::vector<std::string>, ModbusError> getEvents() const;
 
 private:
