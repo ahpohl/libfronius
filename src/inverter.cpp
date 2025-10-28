@@ -25,6 +25,18 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
         ENOTCONN, "fetchInverterRegisters(): Modbus context is null")));
   }
 
+  int rc = 0;
+
+  // Get active state code
+  rc = modbus_read_registers(ctx_, F::ACTIVE_STATE_CODE.ADDR,
+                             F::ACTIVE_STATE_CODE.NB,
+                             regs_.data() + F::ACTIVE_STATE_CODE.ADDR);
+  if (rc == -1) {
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "fetchInverterRegisters(): Receive register failed {}",
+        F::ACTIVE_STATE_CODE.describe())));
+  }
+
   // Validate the end block
   auto endBlockBaseReg = I_END::ID;
   if (useFloatRegisters_)
@@ -32,11 +44,11 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
   if (hybrid_)
     endBlockBaseReg = endBlockBaseReg.withOffset(I_END::STORAGE_OFFSET);
 
-  int rc = modbus_read_registers(ctx_, endBlockBaseReg.ADDR, 2,
-                                 regs_.data() + endBlockBaseReg.ADDR);
+  rc = modbus_read_registers(ctx_, endBlockBaseReg.ADDR, 2,
+                             regs_.data() + endBlockBaseReg.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "fetchInverterRegisters(): Receive end block register failed {}",
+        "fetchInverterRegisters(): Receive register failed {}",
         endBlockBaseReg.describe())));
   }
 
@@ -66,7 +78,7 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
                              regs_.data() + inverterBaseReg.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "fetchInverterRegisters(): Receive inverter registers failed {}",
+        "fetchInverterRegisters(): Receive register failed {}",
         inverterBaseReg.describe())));
   }
 
@@ -79,7 +91,7 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters(void) {
                              regs_.data() + multiMpptBaseReg.ADDR);
   if (rc == -1) {
     return reportError<void>(std::unexpected(ModbusError::fromErrno(
-        "fetchInverterRegisters(): Receive MPPT registers failed {}",
+        "fetchInverterRegisters(): Receive register failed {}",
         multiMpptBaseReg.describe())));
   }
 
@@ -285,6 +297,10 @@ Inverter::getDcEnergy(const FroniusTypes::Input input) const {
   }
 }
 
+int Inverter::getActiveStateCode(void) const {
+  return static_cast<int>(regs_[F::ACTIVE_STATE_CODE.ADDR]);
+}
+
 std::expected<std::string, ModbusError> Inverter::getState() const {
   auto reg = useFloatRegisters_ ? I11X::STVND : I10X::STVND;
   uint16_t statusRaw = regs_[reg.ADDR];
@@ -302,29 +318,49 @@ std::expected<std::string, ModbusError> Inverter::getState() const {
 
 std::expected<std::vector<std::string>, ModbusError>
 Inverter::getEvents() const {
-  auto reg = useFloatRegisters_ ? I11X::EVT1 : I10X::EVT1;
-  uint32_t eventRaw = ModbusUtils::modbus_get_uint32(regs_.data() + reg.ADDR);
-
   std::vector<std::string> events;
-  uint32_t unknownBits = eventRaw;
 
-  for (uint32_t bit = 0; bit < 32; ++bit) {
-    uint32_t mask = 1u << bit;
-    if (eventRaw & mask) {
-      FroniusTypes::Event e = static_cast<FroniusTypes::Event>(mask);
-      auto strOpt = FroniusTypes::toString(e);
+  const uint16_t regs[] = {
+      useFloatRegisters_ ? I11X::EVTVND1.ADDR : I10X::EVTVND1.ADDR,
+      useFloatRegisters_ ? I11X::EVTVND2.ADDR : I10X::EVTVND2.ADDR,
+      useFloatRegisters_ ? I11X::EVTVND3.ADDR : I10X::EVTVND3.ADDR};
 
-      if (strOpt) {
-        events.push_back(*strOpt);
-        unknownBits &= ~mask;
+  for (int group = 0; group < 3; ++group) {
+    uint32_t raw = ModbusUtils::modbus_get_uint32(regs_.data() + regs[group]);
+    uint32_t unknownBits = raw;
+
+    for (uint32_t bit = 0; bit < 32; ++bit) {
+      uint32_t mask = 1u << bit;
+      if (raw & mask) {
+        std::optional<std::string> strOpt;
+        switch (group) {
+        case 0:
+          strOpt =
+              FroniusTypes::toString(static_cast<FroniusTypes::Event_1>(mask));
+          break;
+        case 1:
+          strOpt =
+              FroniusTypes::toString(static_cast<FroniusTypes::Event_2>(mask));
+          break;
+        case 2:
+          strOpt =
+              FroniusTypes::toString(static_cast<FroniusTypes::Event_3>(mask));
+          break;
+        }
+
+        if (strOpt) {
+          events.push_back(*strOpt);
+          unknownBits &= ~mask;
+        }
       }
     }
-  }
 
-  if (unknownBits != 0) {
-    return reportError<std::vector<std::string>>(std::unexpected(
-        ModbusError::custom(EINVAL, "Unknown inverter event bits: 0x" +
-                                        std::to_string(unknownBits))));
+    if (unknownBits != 0) {
+      return reportError<std::vector<std::string>>(
+          std::unexpected(ModbusError::custom(
+              EINVAL, "Unknown event group " + std::to_string(group + 1) +
+                          " bits: 0x" + std::to_string(unknownBits))));
+    }
   }
 
   return events;

@@ -211,6 +211,22 @@ public:
   getDcEnergy(const FroniusTypes::Input input) const;
 
   /**
+   * @brief Reads the active state code of the inverter.
+   *
+   * This function returns the current active state code from the inverter's
+   * Modbus registers. The active state code represents the inverter's
+   * operational state, such as running, standby, or fault conditions. The raw
+   * register value is cast to an `int` for convenience.
+   *
+   * @return Contains the active state code if the register
+   *
+   * @note The returned integer corresponds directly to the inverter's internal
+   * state codes. Users should refer to the Fronius inverter documentation for
+   * the mapping of codes to human-readable states.
+   */
+  int getActiveStateCode(void) const;
+
+  /**
    * @brief Retrieves the current operational state of the inverter.
    *
    * This function reads the inverter status register (`STVND`) and converts
@@ -230,25 +246,27 @@ public:
   std::expected<std::string, ModbusError> getState(void) const;
 
   /**
-   * @brief Retrieves the current active event flags from the inverter.
+   * @brief Retrieves all active inverter events as human-readable strings.
    *
-   * This function reads the inverter's event register (`EVT1`) and decodes
-   * the active event bits into a list of human-readable event names using
-   * `FroniusTypes::toString(FroniusTypes::Event)`.
+   * This function reads the raw event registers from the inverter and converts
+   * the set bits into descriptive event names. The inverter has three event
+   * groups, each represented by a 32-bit Modbus register:
+   *   - Event group 1: FroniusTypes::Event_1
+   *   - Event group 2: FroniusTypes::Event_2
+   *   - Event group 3: FroniusTypes::Event_3
    *
-   * Each bit in the 32-bit event register represents a possible inverter event.
-   * Bits that correspond to known events are converted to strings and returned.
-   * Unknown bits (not mapped to known events) will trigger an error.
+   * Each bit in these registers indicates a specific event. Only bits that map
+   * to known events are converted; unknown bits result in a `ModbusError`.
    *
-   * The register address depends on whether floating-point register mapping
-   * is used (`useFloatRegisters_`).
+   * @return std::expected<std::vector<std::string>, ModbusError>
+   *         - On success: a vector of strings describing the active events.
+   *         - On failure: a `ModbusError` describing unknown bits or Modbus
+   * read issues.
    *
-   * @return
-   * A `std::expected<std::vector<std::string>, ModbusError>` containing:
-   * - **value**: a vector of strings representing all active known inverter
-   * events.
-   * - **error**: a `ModbusError` with code `EINVAL` if unknown bits are
-   * detected in the event register.
+   * @note The function reads the event registers directly from `regs_`. If
+   * `useFloatRegisters_` is true, it reads the corresponding float register
+   * addresses.
+   * @note Event group numbers in the error message are 1-based.
    */
   std::expected<std::vector<std::string>, ModbusError> getEvents() const;
 

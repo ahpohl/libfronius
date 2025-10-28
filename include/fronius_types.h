@@ -167,120 +167,6 @@ struct FroniusTypes {
   }
 
   /**
-   * @brief Inverter event and fault flags.
-   *
-   * This enumeration defines bitmask flags that represent various inverter
-   * events, warnings, and fault conditions as reported by the device.
-   * Each flag corresponds to a specific hardware or operational state,
-   * and multiple flags may be set simultaneously in a single status word.
-   *
-   * The values are typically read from a Modbus event register and can
-   * be used to interpret the inverter's fault or warning conditions.
-   */
-  enum class Event : uint32_t {
-    /** Ground fault detected on the DC side. */
-    GROUND_FAULT = 0x0001,
-
-    /** DC over-voltage condition detected. */
-    DC_OVER_VOLT = 0x0002,
-
-    /** AC disconnect switch is open. */
-    AC_DISCONNECT = 0x0004,
-
-    /** DC disconnect switch is open. */
-    DC_DISCONNECT = 0x0008,
-
-    /** Grid connection has been lost or intentionally disconnected. */
-    GRID_DISCONNECT = 0x0010,
-
-    /** Inverter cabinet door is open. */
-    CABINET_OPEN = 0x0020,
-
-    /** Manual shutdown initiated. */
-    MANUAL_SHUTDOWN = 0x0040,
-
-    /** Inverter over-temperature condition. */
-    OVER_TEMP = 0x0080,
-
-    /** AC frequency above permitted limit. */
-    OVER_FREQUENCY = 0x0100,
-
-    /** AC frequency below permitted limit. */
-    UNDER_FREQUENCY = 0x0200,
-
-    /** AC voltage above permitted limit. */
-    AC_OVER_VOLT = 0x0400,
-
-    /** AC voltage below permitted limit. */
-    AC_UNDER_VOLT = 0x0800,
-
-    /** Blown fuse detected in one of the DC strings. */
-    BLOWN_STRING_FUSE = 0x1000,
-
-    /** Inverter under-temperature condition. */
-    UNDER_TEMP = 0x2000,
-
-    /** Internal memory or communication error. */
-    MEMORY_LOSS = 0x4000,
-
-    /** Hardware self-test failure detected. */
-    HW_TEST_FAILURE = 0x8000
-  };
-
-  /**
-   * @brief Convert an inverter event flag to a human-readable string.
-   *
-   * This helper function translates a given `Event` flag into a descriptive
-   * string, suitable for logging, debugging, or user display.
-   *
-   * @param event The inverter event flag to convert.
-   * @return A constant character string describing the event, or
-   *         `"Invalid inverter event flag"` if the flag is not recognized.
-   *
-   * @note Multiple event flags can be active simultaneously; this function
-   *       converts only a single flag value. When handling bitfields,
-   *       each bit should be tested individually before calling this function.
-   */
-  static constexpr std::optional<const char *> toString(Event event) {
-    switch (event) {
-    case Event::GROUND_FAULT:
-      return "Ground fault";
-    case Event::DC_OVER_VOLT:
-      return "DC over voltage";
-    case Event::AC_DISCONNECT:
-      return "AC disconnect open";
-    case Event::DC_DISCONNECT:
-      return "DC disconnect open";
-    case Event::GRID_DISCONNECT:
-      return "Grid shutdown";
-    case Event::CABINET_OPEN:
-      return "Cabinet open";
-    case Event::MANUAL_SHUTDOWN:
-      return "Manual shutdown";
-    case Event::OVER_TEMP:
-      return "Over temperature";
-    case Event::OVER_FREQUENCY:
-      return "Frequency above limit";
-    case Event::UNDER_FREQUENCY:
-      return "Frequency under limit";
-    case Event::AC_OVER_VOLT:
-      return "AC voltage above limit";
-    case Event::AC_UNDER_VOLT:
-      return "AC voltage under limit";
-    case Event::BLOWN_STRING_FUSE:
-      return "Blown string fuse";
-    case Event::UNDER_TEMP:
-      return "Under temperature";
-    case Event::MEMORY_LOSS:
-      return "Generic Memory or Communication error (internal)";
-    case Event::HW_TEST_FAILURE:
-      return "Hardware test failure";
-    default:
-      return std::nullopt;
-    }
-  }
-
-  /**
    * @brief Vendor-specific inverter fault and event flags.
    *
    * This enumeration represents 32-bit bitmask flags for various fault
@@ -289,7 +175,7 @@ struct FroniusTypes {
    * condition. Multiple flags can be active simultaneously, allowing them to be
    * combined using bitwise operations.
    */
-  enum class Vendor_1 : uint32_t {
+  enum class Event_1 : uint32_t {
     /** Insulation fault detected on the DC side. */
     INSULATION_FAULT = 0x00000001,
 
@@ -388,80 +274,80 @@ struct FroniusTypes {
   };
 
   /**
-   * @brief Convert a Vendor_1 event flag to a human-readable string.
+   * @brief Convert a Event_1 event flag to a human-readable string.
    *
-   * @param event The Vendor_1 flag to convert.
+   * @param event The Event_1 flag to convert.
    * @return A constant string describing the event, suitable for logging or
    * debugging.
    *
    * @note Only a single flag should be passed at a time. Multiple flags should
    *       be tested individually using bitwise operations.
    */
-  static constexpr std::optional<const char *> toString(Vendor_1 vendor1) {
-    switch (vendor1) {
-    case Vendor_1::INSULATION_FAULT:
+  static constexpr std::optional<const char *> toString(Event_1 event1) {
+    switch (event1) {
+    case Event_1::INSULATION_FAULT:
       return "DC Insulation fault";
-    case Vendor_1::GRID_ERROR:
+    case Event_1::GRID_ERROR:
       return "Grid error";
-    case Vendor_1::AC_OVERCURRENT:
+    case Event_1::AC_OVERCURRENT:
       return "Overcurrent AC";
-    case Vendor_1::DC_OVERCURRENT:
+    case Event_1::DC_OVERCURRENT:
       return "Overcurrent DC";
-    case Vendor_1::OVER_TEMP:
+    case Event_1::OVER_TEMP:
       return "Over-temperature";
-    case Vendor_1::POWER_LOW:
+    case Event_1::POWER_LOW:
       return "Power low";
-    case Vendor_1::DC_LOW:
+    case Event_1::DC_LOW:
       return "DC low";
-    case Vendor_1::INTERMEDIATE_FAULT:
+    case Event_1::INTERMEDIATE_FAULT:
       return "Intermediate circuit error";
-    case Vendor_1::FREQUENCY_HIGH:
+    case Event_1::FREQUENCY_HIGH:
       return "AC frequency too high";
-    case Vendor_1::FREQUENCY_LOW:
+    case Event_1::FREQUENCY_LOW:
       return "AC frequency too low";
-    case Vendor_1::AC_VOLTAGE_HIGH:
+    case Event_1::AC_VOLTAGE_HIGH:
       return "AC voltage too high";
-    case Vendor_1::AC_VOLTAGE_LOW:
+    case Event_1::AC_VOLTAGE_LOW:
       return "AC voltage too low";
-    case Vendor_1::DIRECT_CURRENT:
+    case Event_1::DIRECT_CURRENT:
       return "Direct current feed in";
-    case Vendor_1::RELAY_FAULT:
+    case Event_1::RELAY_FAULT:
       return "Relay problem";
-    case Vendor_1::POWER_STAGE_FAULT:
+    case Event_1::POWER_STAGE_FAULT:
       return "Internal power stage error";
-    case Vendor_1::CONTROL_FAULT:
+    case Event_1::CONTROL_FAULT:
       return "Control problems";
-    case Vendor_1::GC_GRID_VOLT_ERR:
+    case Event_1::GC_GRID_VOLT_ERR:
       return "Guard Controller - AC voltage error";
-    case Vendor_1::GC_GRID_FREQU_ERR:
+    case Event_1::GC_GRID_FREQU_ERR:
       return "Guard Controller - AC Frequency Error";
-    case Vendor_1::ENERGY_TRANSFER_FAULT:
+    case Event_1::ENERGY_TRANSFER_FAULT:
       return "Energy transfer not possible";
-    case Vendor_1::REF_POWER_SOURCE_AC:
+    case Event_1::REF_POWER_SOURCE_AC:
       return "Reference power source AC outside tolerances";
-    case Vendor_1::ANTI_ISLANDING_FAULT:
+    case Event_1::ANTI_ISLANDING_FAULT:
       return "Error during anti islanding test";
-    case Vendor_1::FIXED_VOLTAGE_FAULT:
+    case Event_1::FIXED_VOLTAGE_FAULT:
       return "Fixed voltage lower than current MPP voltage";
-    case Vendor_1::MEMORY_FAULT:
+    case Event_1::MEMORY_FAULT:
       return "Memory fault";
-    case Vendor_1::DISPLAY_FAULT:
+    case Event_1::DISPLAY_FAULT:
       return "Display";
-    case Vendor_1::COMMUNICATION_FAULT:
+    case Event_1::COMMUNICATION_FAULT:
       return "Internal communication error";
-    case Vendor_1::TEMP_SENSORS_FAULT:
+    case Event_1::TEMP_SENSORS_FAULT:
       return "Temperature sensors defective";
-    case Vendor_1::DC_AC_BOARD_FAULT:
+    case Event_1::DC_AC_BOARD_FAULT:
       return "DC or AC board fault";
-    case Vendor_1::ENS_FAULT:
+    case Event_1::ENS_FAULT:
       return "ENS error";
-    case Vendor_1::FAN_FAULT:
+    case Event_1::FAN_FAULT:
       return "Fan error";
-    case Vendor_1::DEFECTIVE_FUSE:
+    case Event_1::DEFECTIVE_FUSE:
       return "Defective fuse";
-    case Vendor_1::OUTPUT_CHOKE_FAULT:
+    case Event_1::OUTPUT_CHOKE_FAULT:
       return "Output choke connected to wrong poles";
-    case Vendor_1::CONVERTER_RELAY_FAULT:
+    case Event_1::CONVERTER_RELAY_FAULT:
       return "The buck converter relay does not open at high DC voltage";
     default:
       return std::nullopt;
@@ -479,7 +365,7 @@ struct FroniusTypes {
    * concurrent issues. Use helper functions such as `hasFlag()` or bitwise
    * tests to check individual flags.
    */
-  enum class Vendor_2 : uint32_t {
+  enum class Event_2 : uint32_t {
     /** No communication with SolarNet or datalogger. */
     NO_SOLARNET_COMM = 0x00000001,
 
@@ -578,80 +464,80 @@ struct FroniusTypes {
   };
 
   /**
-   * @brief Convert a Vendor_2 event flag to a human-readable string.
+   * @brief Convert a Event_2 event flag to a human-readable string.
    *
-   * @param event The Vendor_2 event flag to convert.
+   * @param event The Event_2 event flag to convert.
    * @return A string representing the given event flag.
    *
    * @note This function is intended for single flag values only. If multiple
    *       flags are combined, test each one individually using bitwise logic
    *       before calling this function.
    */
-  static constexpr std::optional<const char *> toString(Vendor_2 vendor2) {
-    switch (vendor2) {
-    case Vendor_2::NO_SOLARNET_COMM:
+  static constexpr std::optional<const char *> toString(Event_2 event2) {
+    switch (event2) {
+    case Event_2::NO_SOLARNET_COMM:
       return "No SolarNet communication";
-    case Vendor_2::INV_ADDRESS_FAULT:
+    case Event_2::INV_ADDRESS_FAULT:
       return "Inverter address incorrect";
-    case Vendor_2::NO_FEED_IN_24H:
+    case Event_2::NO_FEED_IN_24H:
       return "24h no feed in";
-    case Vendor_2::PLUG_FAULT:
+    case Event_2::PLUG_FAULT:
       return "Faulty plug connections";
-    case Vendor_2::PHASE_ALLOC_FAULT:
+    case Event_2::PHASE_ALLOC_FAULT:
       return "Incorrect phase allocation";
-    case Vendor_2::GRID_CONDUCTOR_OPEN:
+    case Event_2::GRID_CONDUCTOR_OPEN:
       return "Grid conductor open or supply phase has failed";
-    case Vendor_2::SOFTWARE_ISSUE:
+    case Event_2::SOFTWARE_ISSUE:
       return "Incompatible or old software";
-    case Vendor_2::POWER_DERATING:
+    case Event_2::POWER_DERATING:
       return "Power Derating Due To Overtemperature";
-    case Vendor_2::JUMPER_INCORRECT:
+    case Event_2::JUMPER_INCORRECT:
       return "Jumper set incorrectly";
-    case Vendor_2::INCOMPATIBLE_FEATURE:
+    case Event_2::INCOMPATIBLE_FEATURE:
       return "Incompatible feature";
-    case Vendor_2::VENTS_BLOCKED:
+    case Event_2::VENTS_BLOCKED:
       return "Defective ventilator/air vents blocked";
-    case Vendor_2::POWER_REDUCTION_ERROR:
+    case Event_2::POWER_REDUCTION_ERROR:
       return "Power reduction on error";
-    case Vendor_2::ARC_DETECTED:
+    case Event_2::ARC_DETECTED:
       return "Arc Detected";
-    case Vendor_2::AFCI_SELF_TEST_FAILED:
+    case Event_2::AFCI_SELF_TEST_FAILED:
       return "AFCI Self Test Failed";
-    case Vendor_2::CURRENT_SENSOR_ERROR:
+    case Event_2::CURRENT_SENSOR_ERROR:
       return "Current Sensor Error";
-    case Vendor_2::DC_SWITCH_FAULT:
+    case Event_2::DC_SWITCH_FAULT:
       return "DC switch fault";
-    case Vendor_2::AFCI_DEFECTIVE:
+    case Event_2::AFCI_DEFECTIVE:
       return "AFCI Defective";
-    case Vendor_2::AFCI_MANUAL_TEST_OK:
+    case Event_2::AFCI_MANUAL_TEST_OK:
       return "AFCI Manual Test Successful";
-    case Vendor_2::PS_PWR_SUPPLY_ISSUE:
+    case Event_2::PS_PWR_SUPPLY_ISSUE:
       return "Power Stack Supply Missing";
-    case Vendor_2::AFCI_NO_COMM:
+    case Event_2::AFCI_NO_COMM:
       return "AFCI Communication Stopped";
-    case Vendor_2::AFCI_MANUAL_TEST_FAILED:
+    case Event_2::AFCI_MANUAL_TEST_FAILED:
       return "AFCI Manual Test Failed";
-    case Vendor_2::AC_POLARITY_REVERSED:
+    case Event_2::AC_POLARITY_REVERSED:
       return "AC polarity reversed";
-    case Vendor_2::FAULTY_AC_DEVICE:
+    case Event_2::FAULTY_AC_DEVICE:
       return "AC measurement device fault";
-    case Vendor_2::FLASH_FAULT:
+    case Event_2::FLASH_FAULT:
       return "Flash fault";
-    case Vendor_2::GENERAL_ERROR:
+    case Event_2::GENERAL_ERROR:
       return "General error";
-    case Vendor_2::GROUNDING_ISSUE:
+    case Event_2::GROUNDING_ISSUE:
       return "Grounding fault";
-    case Vendor_2::LIMITATION_FAULT:
+    case Event_2::LIMITATION_FAULT:
       return "Power limitation fault";
-    case Vendor_2::OPEN_CONTACT:
+    case Event_2::OPEN_CONTACT:
       return "External NO contact open";
-    case Vendor_2::OVERVOLTAGE_PROTECTION:
+    case Event_2::OVERVOLTAGE_PROTECTION:
       return "External overvoltage protection has tripped";
-    case Vendor_2::PROGRAM_STATUS:
+    case Event_2::PROGRAM_STATUS:
       return "Internal processor program status";
-    case Vendor_2::SOLARNET_ISSUE:
+    case Event_2::SOLARNET_ISSUE:
       return "SolarNet issue";
-    case Vendor_2::SUPPLY_VOLTAGE_FAULT:
+    case Event_2::SUPPLY_VOLTAGE_FAULT:
       return "Supply voltage fault";
     default:
       return std::nullopt;
@@ -662,13 +548,13 @@ struct FroniusTypes {
    * @brief Vendor-specific inverter diagnostic flags (Set 3).
    *
    * This enumeration defines an additional set of vendor-specific fault and
-   * diagnostic flags reported by the inverter. Unlike `Vendor_1` and
-   * `Vendor_2`, this set typically represents less common or auxiliary faults.
+   * diagnostic flags reported by the inverter. Unlike `Event_1` and
+   * `Event_2`, this set typically represents less common or auxiliary faults.
    *
    * Each bit corresponds to an independent fault condition and may be combined
    * as a bitfield. Use bitwise operations to check for specific flags.
    */
-  enum class Vendor_3 {
+  enum class Event_3 {
     /** Real-time clock or system time synchronization fault. */
     TIME_FAULT = 1,
 
@@ -683,24 +569,24 @@ struct FroniusTypes {
   };
 
   /**
-   * @brief Convert a Vendor_3 event flag to a human-readable string.
+   * @brief Convert a Event_3 event flag to a human-readable string.
    *
-   * @param event The Vendor_3 event flag to convert.
+   * @param event The Event_3 event flag to convert.
    * @return A descriptive string corresponding to the given event flag.
    *
    * @note This function is intended for single flag values only. If multiple
    *       flags are combined, test each individually before calling this
    * function.
    */
-  static constexpr std::optional<const char *> toString(Vendor_3 vendor3) {
-    switch (vendor3) {
-    case Vendor_3::TIME_FAULT:
+  static constexpr std::optional<const char *> toString(Event_3 event3) {
+    switch (event3) {
+    case Event_3::TIME_FAULT:
       return "Time error";
-    case Vendor_3::USB_FAULT:
+    case Event_3::USB_FAULT:
       return "USB error";
-    case Vendor_3::DC_HIGH:
+    case Event_3::DC_HIGH:
       return "DC high";
-    case Vendor_3::INIT_ERROR:
+    case Event_3::INIT_ERROR:
       return "Init error";
     default:
       return std::nullopt;
