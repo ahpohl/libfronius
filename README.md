@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/libfronius/cmake.yml?branch=main)](https://github.com/yourusername/libfronius/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![Doxygen](https://img.shields.io/badge/docs-Doxygen-brightgreen)](https://yourusername.github.io/libfronius/)
+[![Doxygen](https://img.shields.io/badge/docs-Doxygen-brightgreen)](https://ahpohl.github.io/libfronius/)
 
 **libfronius** is a modern C++ library for communicating with Fronius inverters and smart meters.  
 It provides type-safe, high-level access to inverter and meter data via Modbus, handling device detection and connection management automatically.
@@ -28,7 +28,7 @@ It provides type-safe, high-level access to inverter and meter data via Modbus, 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/libfronius.git
+git clone https://github.com/ahpohl/libfronius.git
 cd libfronius
 ```
 

@@ -1,0 +1,81 @@
+name: Build, Package, and Docs
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v0.1.0
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake \
+            libmodbus-dev libyaml-cpp-dev libspdlog-dev libmosquitto-dev \
+            doxygen graphviz dpkg-dev rpm
+
+    - name: Configure
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Package
+      run: cmake --build build --target package
+
+    - name: Generate Doxygen docs
+      run: |
+        doxygen Doxyfile
+      working-directory: .
+
+    - name: Deploy documentation to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/html
+        publish_branch: gh-pages
+        user_name: 'github-actions'
+        user_email: 'github-actions@github.com'
+        commit_message: "Update documentation for ${{ github.ref_name }}"
+
+    - name: Create GitHub Release
+      id: release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload built packages
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: build/*.tar.gz
+        asset_name: libfronius-${{ github.ref_name }}-Linux.tar.gz
+        asset_content_type: application/gzip
+
+    - name: Upload DEB packages
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: build/*.deb
+        asset_name: libfronius-${{ github.ref_name }}.deb
+        asset_content_type: application/vnd.debian.binary-package
+
+    - name: Upload RPM packages
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: build/*.rpm
+        asset_name: libfronius-${{ github.ref_name }}.rpm
+        asset_content_type: application/x-rpm
+
