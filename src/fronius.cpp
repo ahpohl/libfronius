@@ -302,17 +302,15 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
                                (cfg_.useTcp ? cfg_.host : cfg_.device)));
   }
 
-  // Validate the RTU connection
-  if (!cfg_.useTcp) {
-    uint16_t reg;
-    int rc = modbus_read_registers(ctx_, C001::ID.ADDR, C001::ID.NB, &reg);
-    if (rc == -1) {
-      modbus_close(ctx_);
-      modbus_free(ctx_);
-      ctx_ = nullptr;
-      return std::unexpected(
-          ModbusError::fromErrno("tryConnect(): RTU slave not responding"));
-    }
+  // Validate the connection
+  uint16_t reg;
+  int rc = modbus_read_registers(ctx_, C001::ID.ADDR, C001::ID.NB, &reg);
+  if (rc == -1) {
+    modbus_close(ctx_);
+    modbus_free(ctx_);
+    ctx_ = nullptr;
+    return std::unexpected(
+        ModbusError::fromErrno("tryConnect(): slave not responding"));
   }
 
   return {};

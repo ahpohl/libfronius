@@ -96,6 +96,23 @@ public:
   int getId(void) const { return id_; }
 
   /**
+   * @brief Returns the current AC power output for the specified output type.
+   *
+   * Reads and scales the corresponding Modbus registers from the inverter’s
+   * nameplate register map to compute the requested power value.
+   * The function supports both integer and float-based register mappings.
+   *
+   * @param output The AC power output type to read
+   *               (see @ref FroniusTypes::Output).
+   *
+   * @return std::expected<double, ModbusError>
+   *   - The measured AC power value on success.
+   *   - A `ModbusError` if register access or scaling fails.
+   */
+  std::expected<double, ModbusError>
+  getAcOutput(FroniusTypes::Output output) const;
+
+  /**
    * @brief Get AC current in amperes.
    *
    * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
@@ -378,6 +395,27 @@ private:
    * failure.
    */
   std::expected<void, ModbusError> validateStorageRegisters(void);
+
+  /**
+   * @brief Validates the inverter's nameplate register map.
+   *
+   * This function performs a Modbus read operation on the inverter’s
+   * nameplate registers to verify that the register map ID and map size
+   * match the expected I120 register definition.
+   *
+   * The function checks:
+   *  - That the Modbus context (`ctx_`) is valid.
+   *  - That the nameplate register map ID matches the expected value (120).
+   *  - That the map size corresponds to `I120::SIZE`.
+   *
+   * If any of these checks fail, a descriptive `ModbusError` is returned
+   * via `std::unexpected`.
+   *
+   * @return std::expected<void, ModbusError>
+   *   - An empty expected value on success.
+   *   - A `ModbusError` describing the failure if validation fails.
+   */
+  std::expected<void, ModbusError> validateNameplateRegisters(void);
 };
 
 #endif /* INVERTER_H_ */

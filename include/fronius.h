@@ -177,8 +177,9 @@ protected:
    *
    * This function interprets a sequence of 16-bit Modbus registers as pairs of
    * ASCII characters (high byte first, then low byte). It verifies that the
-   * register type is @ref RegType::STRING and that all resulting characters are
-   * printable. Null bytes ('\0') are treated as string terminators and skipped.
+   * register type is @ref Register::Type::STRING and that all resulting
+   * characters are printable. Null bytes ('\0') are treated as string
+   * terminators and skipped.
    *
    * @param regs Vector containing the full Modbus register map.
    * @param reg  Register descriptor defining address, length, and type.

@@ -1,5 +1,5 @@
 /**
- * @file mb_config.h
+ * @file modbus_config.h
  * @brief Configuration structure for Modbus connections (TCP/RTU) and
  * reconnection behavior.
  *

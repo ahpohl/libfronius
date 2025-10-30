@@ -1,5 +1,9 @@
 build/
-logs/
-html/
-.~lock*
-.bak
+docs/html/
+docs/latex/
+*.o
+*.obj
+*.so
+*.a
+*.exe
+

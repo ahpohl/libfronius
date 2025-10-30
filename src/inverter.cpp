@@ -110,7 +110,7 @@ std::expected<void, ModbusError> Inverter::validateDevice() {
   // --- Step 2: Fetch common registers ---
   auto common = fetchCommonRegisters();
   if (!common)
-    return common;
+    return std::unexpected(common.error());
 
   // --- Step 3: Detect register map type & initialize inverter ---
   auto init = detectFloatOrIntRegisters();
@@ -127,12 +127,51 @@ std::expected<void, ModbusError> Inverter::validateDevice() {
   if (!storage)
     return std::unexpected(storage.error());
 
+  // --- Step 6: Fetch and validate nameplate registers
+  auto nameplate = validateNameplateRegisters();
+  if (!nameplate)
+    return std::unexpected(nameplate.error());
+
   // If we got here, device is fully valid
   connectedAndValid_ = true;
   return {};
 }
 
 /* --------------------- get values -------------------------- */
+
+std::expected<double, ModbusError>
+Inverter::getAcOutput(FroniusTypes::Output output) const {
+  switch (output) {
+  case FroniusTypes::Output::ACTIVE:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I120::WRTG.withOffset(I120::FLOAT_OFFSET),
+                                 I120::WRTG_SF.withOffset(I120::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I120::WRTG, I120::WRTG_SF);
+  case FroniusTypes::Output::APPARENT:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I120::VARTG.withOffset(I120::FLOAT_OFFSET),
+                                 I120::VARTG_SF.withOffset(I120::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I120::VARTG, I120::VARTG_SF);
+  case FroniusTypes::Output::Q1_REACTIVE:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I120::VARRTGQ1.withOffset(I120::FLOAT_OFFSET),
+                                 I120::VARRTG_SF.withOffset(I120::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I120::VARRTGQ1, I120::VARRTG_SF);
+  case FroniusTypes::Output::Q4_REACTIVE:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I120::VARRTGQ4.withOffset(I120::FLOAT_OFFSET),
+                                 I120::VARRTG_SF.withOffset(I120::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I120::VARRTGQ4, I120::VARRTG_SF);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "getAcOutput(): Invalid output {}",
+                            FroniusTypes::toString(output))));
+  }
+}
 
 std::expected<double, ModbusError>
 Inverter::getAcCurrent(const FroniusTypes::Phase ph) const {
@@ -209,29 +248,6 @@ std::expected<double, ModbusError> Inverter::getAcEnergy(void) const {
 }
 
 std::expected<double, ModbusError>
-Inverter::getDcPower(const FroniusTypes::Input input) const {
-  switch (input) {
-  case FroniusTypes::Input::TOTAL:
-    return useFloatRegisters_ ? getModbusDouble(regs_, I11X::DCW)
-                              : getModbusDouble(regs_, I10X::DCW, I10X::DCW_SF);
-  case FroniusTypes::Input::A:
-    return useFloatRegisters_
-               ? getModbusDouble(regs_,
-                                 I160::DCW_1.withOffset(I160::FLOAT_OFFSET))
-               : getModbusDouble(regs_, I160::DCW_1, I160::DCW_SF);
-  case FroniusTypes::Input::B:
-    return useFloatRegisters_
-               ? getModbusDouble(regs_,
-                                 I160::DCW_2.withOffset(I160::FLOAT_OFFSET))
-               : getModbusDouble(regs_, I160::DCW_2, I160::DCW_SF);
-  default:
-    return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "getDcPower(): Invalid input {}",
-                            FroniusTypes::toString(input))));
-  }
-}
-
-std::expected<double, ModbusError>
 Inverter::getDcCurrent(const FroniusTypes::Input input) const {
   switch (input) {
   case FroniusTypes::Input::TOTAL:
@@ -240,12 +256,14 @@ Inverter::getDcCurrent(const FroniusTypes::Input input) const {
   case FroniusTypes::Input::A:
     return useFloatRegisters_
                ? getModbusDouble(regs_,
-                                 I160::DCA_1.withOffset(I160::FLOAT_OFFSET))
+                                 I160::DCA_1.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCA_SF.withOffset(I160::FLOAT_OFFSET))
                : getModbusDouble(regs_, I160::DCA_1, I160::DCA_SF);
   case FroniusTypes::Input::B:
     return useFloatRegisters_
                ? getModbusDouble(regs_,
-                                 I160::DCA_2.withOffset(I160::FLOAT_OFFSET))
+                                 I160::DCA_2.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCA_SF.withOffset(I160::FLOAT_OFFSET))
                : getModbusDouble(regs_, I160::DCA_2, I160::DCA_SF);
   default:
     return reportError<double>(std::unexpected(
@@ -263,16 +281,43 @@ Inverter::getDcVoltage(const FroniusTypes::Input input) const {
   case FroniusTypes::Input::A:
     return useFloatRegisters_
                ? getModbusDouble(regs_,
-                                 I160::DCV_1.withOffset(I160::FLOAT_OFFSET))
+                                 I160::DCV_1.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCV_SF.withOffset(I160::FLOAT_OFFSET))
                : getModbusDouble(regs_, I160::DCV_1, I160::DCV_SF);
   case FroniusTypes::Input::B:
     return useFloatRegisters_
                ? getModbusDouble(regs_,
-                                 I160::DCV_2.withOffset(I160::FLOAT_OFFSET))
+                                 I160::DCV_2.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCV_SF.withOffset(I160::FLOAT_OFFSET))
                : getModbusDouble(regs_, I160::DCV_2, I160::DCV_SF);
   default:
     return reportError<double>(std::unexpected(
         ModbusError::custom(EINVAL, "getDcVoltage(): Invalid input {}",
+                            FroniusTypes::toString(input))));
+  }
+}
+
+std::expected<double, ModbusError>
+Inverter::getDcPower(const FroniusTypes::Input input) const {
+  switch (input) {
+  case FroniusTypes::Input::TOTAL:
+    return useFloatRegisters_ ? getModbusDouble(regs_, I11X::DCW)
+                              : getModbusDouble(regs_, I10X::DCW, I10X::DCW_SF);
+  case FroniusTypes::Input::A:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I160::DCW_1.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCW_SF.withOffset(I160::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I160::DCW_1, I160::DCW_SF);
+  case FroniusTypes::Input::B:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_,
+                                 I160::DCW_2.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCW_SF.withOffset(I160::FLOAT_OFFSET))
+               : getModbusDouble(regs_, I160::DCW_2, I160::DCW_SF);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "getDcPower(): Invalid input {}",
                             FroniusTypes::toString(input))));
   }
 }
@@ -283,12 +328,14 @@ Inverter::getDcEnergy(const FroniusTypes::Input input) const {
   case FroniusTypes::Input::A:
     return useFloatRegisters_
                ? getModbusDouble(regs_,
-                                 I160::DCWH_1.withOffset(I160::FLOAT_OFFSET))
+                                 I160::DCWH_1.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCWH_SF.withOffset(I160::FLOAT_OFFSET))
                : getModbusDouble(regs_, I160::DCWH_1, I160::DCWH_SF);
   case FroniusTypes::Input::B:
     return useFloatRegisters_
                ? getModbusDouble(regs_,
-                                 I160::DCWH_2.withOffset(I160::FLOAT_OFFSET))
+                                 I160::DCWH_2.withOffset(I160::FLOAT_OFFSET),
+                                 I160::DCWH_SF.withOffset(I160::FLOAT_OFFSET))
                : getModbusDouble(regs_, I160::DCWH_2, I160::DCWH_SF);
   default:
     return reportError<double>(std::unexpected(
@@ -518,6 +565,43 @@ std::expected<void, ModbusError> Inverter::validateStorageRegisters() {
   }
 
   hybrid_ = true;
+
+  return {};
+}
+
+std::expected<void, ModbusError> Inverter::validateNameplateRegisters() {
+  if (!ctx_) {
+    return reportError<void>(std::unexpected(ModbusError::custom(
+        ENOTCONN, "validateNameplateRegisters(): Modbus context is null")));
+  }
+
+  // Get registers
+  const auto &idReg =
+      useFloatRegisters_ ? I120::ID.withOffset(I120::FLOAT_OFFSET) : I120::ID;
+  int rc = modbus_read_registers(ctx_, idReg.ADDR, I120::SIZE,
+                                 regs_.data() + idReg.ADDR);
+  if (rc == -1) {
+    return reportError<void>(std::unexpected(ModbusError::fromErrno(
+        "validateNameplateRegisters(): Receive register failed {}",
+        idReg.describe())));
+  }
+
+  if (regs_[idReg.ADDR] != 120) {
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "validateNameplateRegisters()(): Invalid nameplate "
+                            "register map ID: received {}, expected 120",
+                            regs_[idReg.ADDR])));
+  }
+
+  // --- Test for Nameplate Register Map Length
+  if (regs_[idReg.ADDR + idReg.NB] != I120::SIZE) {
+    return reportError<void>(std::unexpected(
+        ModbusError::custom(EINVAL,
+                            "validateNameplateRegisters()(): Invalid nameplate "
+                            "register map size: received {}, expected {}",
+                            regs_[idReg.ADDR + idReg.NB], I120::SIZE)));
+  }
 
   return {};
 }

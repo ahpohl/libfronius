@@ -76,6 +76,36 @@ struct FroniusTypes {
   }
 
   /**
+   * @brief Types of power output reported by the inverter.
+   */
+  enum class Output {
+    ACTIVE,      ///< Active (real) power in watts (W)
+    APPARENT,    ///< Apparent power in volt-amperes (VA)
+    Q1_REACTIVE, ///< Reactive power (Q1, inductive) in vars (VAr)
+    Q4_REACTIVE  ///< Reactive power (Q4, capacitive) in vars (VAr)
+  };
+
+  /**
+   * @brief Converts an Output enum value to a string representation.
+   *
+   * @param output The Output enum value.
+   * @return const char* A string literal representing the enum value.
+   */
+  static constexpr const char *toString(Output output) {
+    switch (output) {
+    case Output::ACTIVE:
+      return "ACTIVE";
+    case Output::APPARENT:
+      return "APPARENT";
+    case Output::Q1_REACTIVE:
+      return "Q1_REACTIVE";
+    case Output::Q4_REACTIVE:
+      return "Q4_REACTIVE";
+    }
+    return "UNKNOWN";
+  }
+
+  /**
    * @brief Operating state codes of the inverter.
    *
    * This enumeration defines the possible runtime states of a Fronius inverter.
@@ -130,7 +160,7 @@ struct FroniusTypes {
    * `InverterStatus` value, allowing convenient logging or debugging
    * of inverter operating states.
    *
-   * @param status The inverter status code.
+   * @param state The inverter status code.
    * @return A constant string corresponding to the provided status
    */
   static constexpr std::optional<const char *> toString(State state) {
@@ -276,7 +306,7 @@ struct FroniusTypes {
   /**
    * @brief Convert a Event_1 event flag to a human-readable string.
    *
-   * @param event The Event_1 flag to convert.
+   * @param event1 The Event_1 flag to convert.
    * @return A constant string describing the event, suitable for logging or
    * debugging.
    *
@@ -466,7 +496,7 @@ struct FroniusTypes {
   /**
    * @brief Convert a Event_2 event flag to a human-readable string.
    *
-   * @param event The Event_2 event flag to convert.
+   * @param event2 The Event_2 event flag to convert.
    * @return A string representing the given event flag.
    *
    * @note This function is intended for single flag values only. If multiple
@@ -571,7 +601,7 @@ struct FroniusTypes {
   /**
    * @brief Convert a Event_3 event flag to a human-readable string.
    *
-   * @param event The Event_3 event flag to convert.
+   * @param event3 The Event_3 event flag to convert.
    * @return A descriptive string corresponding to the given event flag.
    *
    * @note This function is intended for single flag values only. If multiple
