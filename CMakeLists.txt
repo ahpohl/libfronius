@@ -1,178 +1,71 @@
 cmake_minimum_required(VERSION 3.15)
-
-project(libfronius
-    VERSION 0.0.0 # fallback if no git tag found
-    DESCRIPTION "A modern C++ library for accessing Fronius inverter and meter devices"
+project(
+    libfronius
     LANGUAGES CXX
+    DESCRIPTION "A C++ library to access Fronius devices"
+    VERSION 0.1
 )
 
-# ==========================================================
-#  Version from Git tag (if available)
-# ==========================================================
-find_package(Git QUIET)
-if(GIT_FOUND)
-    execute_process(
-        COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=0
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE GIT_TAG
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
-    )
-    if(GIT_TAG)
-        message(STATUS "Using version from git tag: ${GIT_TAG}")
-        string(REGEX REPLACE "^v" "" PROJECT_VERSION ${GIT_TAG})
-        set(PROJECT_VERSION ${PROJECT_VERSION} CACHE STRING "Version from Git" FORCE)
-    endif()
-else()
-    message(WARNING "Git not found, using fallback project version ${PROJECT_VERSION}")
-endif()
-
-# ==========================================================
-#  Global settings
-# ==========================================================
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+# Ensure position independent code for shared libraries
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Set default build type if not specified
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type (Debug, Release, RelWithDebInfo, MinSizeRel)" FORCE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
+
+# Optional: show the build type
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-# ==========================================================
-#  Options
-# ==========================================================
-option(BUILD_SHARED_LIBS "Build shared library" ON)
-option(BUILD_STATIC_LIBS "Build static library" ON)
+# Options to control which libraries are built
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_STATIC_LIBS "Build static libraries" ON)
 
-# Output directories
+# Output directories for built binaries
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# ==========================================================
-#  Sources
-# ==========================================================
-set(LIBFRONIUS_SOURCES
-    src/fronius.cpp
-    src/meter.cpp
-    src/inverter.cpp
-)
-
-# Optionally collect headers automatically (for IDEs)
-file(GLOB_RECURSE LIBFRONIUS_HEADERS CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/fronius/*.h"
-)
-
-# ==========================================================
-#  Shared library target
-# ==========================================================
+# Common sources
+set(MYLIB_SOURCES src/fronius.cpp src/meter.cpp src/inverter.cpp)
 if(BUILD_SHARED_LIBS)
-    add_library(fronius_shared SHARED ${LIBFRONIUS_SOURCES} ${LIBFRONIUS_HEADERS})
-
-    target_include_directories(fronius_shared
-        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-               $<INSTALL_INTERFACE:include>
+    add_library(mylib_shared SHARED ${MYLIB_SOURCES})
+    target_include_directories(
+        mylib_shared
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
-
-    set_target_properties(fronius_shared PROPERTIES
-        OUTPUT_NAME fronius
-        VERSION ${PROJECT_VERSION}
-        SOVERSION 1
+    # Set library versioning
+    set_target_properties(
+        mylib_shared
+        PROPERTIES
+            OUTPUT_NAME "fronius"
+            VERSION ${PROJECT_VERSION}
+            SOVERSION 1
+            CXX_STANDARD 23
     )
-    message(STATUS "Configured shared library target: fronius_shared")
+    message(STATUS "Building shared library: mylib_shared")
 endif()
 
-# ==========================================================
-#  Static library target
-# ==========================================================
+# --- Static library
 if(BUILD_STATIC_LIBS)
-    add_library(fronius_static STATIC ${LIBFRONIUS_SOURCES} ${LIBFRONIUS_HEADERS})
-
-    target_include_directories(fronius_static
-        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-               $<INSTALL_INTERFACE:include>
+    add_library(mylib_static STATIC ${MYLIB_SOURCES} ${MYLIB_HEADERS})
+    target_include_directories(
+        mylib_static
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
-
-    set_target_properties(fronius_static PROPERTIES
-        OUTPUT_NAME fronius
+    # Give the static lib a nice name
+    set_target_properties(
+        mylib_static
+        PROPERTIES OUTPUT_NAME "fronius" CXX_STANDARD 23
     )
-    message(STATUS "Configured static library target: fronius_static")
+    message(STATUS "Building static library: mylib_static")
 endif()
 
-# ==========================================================
-#  Installation
-# ==========================================================
-include(GNUInstallDirs)
-
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-if(TARGET fronius_shared)
-    install(TARGETS fronius_shared
-        EXPORT froniusTargets
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
+# --- Install rules
+install(DIRECTORY include/ DESTINATION include)
+if(BUILD_SHARED_LIBS)
+    install(TARGETS mylib_shared DESTINATION lib)
 endif()
-
-if(TARGET fronius_static)
-    install(TARGETS fronius_static
-        EXPORT froniusTargets
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
+if(BUILD_STATIC_LIBS)
+    install(TARGETS mylib_static DESTINATION lib)
 endif()
-
-# Export targets
-install(EXPORT froniusTargets
-    FILE froniusTargets.cmake
-    NAMESPACE fronius::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
-)
-
-# ==========================================================
-#  Package configuration for find_package()
-# ==========================================================
-include(CMakePackageConfigHelpers)
-
-configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/froniusConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/froniusConfig.cmake"
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
-)
-
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/froniusConfigVersion.cmake"
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
-
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/froniusConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/froniusConfigVersion.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
-)
-
-# ==========================================================
-#  CPack - Packaging configuration
-# ==========================================================
-include(CPack)
-
-set(CPACK_PACKAGE_NAME "libfronius")
-set(CPACK_PACKAGE_VENDOR "Alexander Pohl")
-set(CPACK_PACKAGE_CONTACT "alex@ahpohl.com")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A C++ library to communicate with Fronius inverter and smart meter devices")
-set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
-set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME}")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-
-# Supported generators
-set(CPACK_GENERATOR "TGZ;DEB;RPM")
-
-# Debian-specific
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Alexander Pohl")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libmodbus")
-
-# RPM-specific
-set(CPACK_RPM_PACKAGE_LICENSE "MIT")
-
-message(STATUS "CPack packaging enabled: will produce .tar.gz, .deb, and .rpm packages")
