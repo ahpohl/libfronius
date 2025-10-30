@@ -1,0 +1,13 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Load the exported targets
+include("${CMAKE_CURRENT_LIST_DIR}/froniusTargets.cmake")
+
+# Define an alias target for convenience
+if(TARGET fronius_shared)
+    add_library(fronius::fronius ALIAS fronius_shared)
+elseif(TARGET fronius_static)
+    add_library(fronius::fronius ALIAS fronius_static)
+endif()
