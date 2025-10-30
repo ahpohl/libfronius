@@ -49,11 +49,6 @@ See [Doxygen documentation](https://ahpohl.github.io/libfronius/) for detailed A
 - Battery state reading is not supported yet (awaiting hybrid device testing).
 - Requires [libmodbus](https://libmodbus.org/) installed on your system.
 
-## Documentation
-
-Full API documentation is generated with Doxygen.  
-[View the documentation here](https://ahpohl.github.io/libfronius/) <!-- Update this link if needed -->
-
 ## License
 
 [MIT](LICENSE)
