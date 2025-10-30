@@ -46,6 +46,9 @@ if(BUILD_SHARED_LIBS)
     message(STATUS "Building shared library: mylib_shared")
 endif()
 
+# --- find packages ---
+find_package(fmt REQUIRED)
+
 # --- Static library
 if(BUILD_STATIC_LIBS)
     add_library(mylib_static STATIC ${MYLIB_SOURCES} ${MYLIB_HEADERS})
