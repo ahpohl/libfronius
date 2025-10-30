@@ -18,9 +18,7 @@ jobs:
       - name: Build Doxygen documentation
         run: doxygen Doxyfile
 
-      # Optional: Deploy to GitHub Pages
       - name: Deploy documentation to GitHub Pages
-        if: success()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
