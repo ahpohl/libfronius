@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue)](https://ahpohl.github.io/libfronius/) <!-- Update this link if your docs are elsewhere -->
 [![License: MIT](https://img.shields.io/github/license/ahpohl/libfronius)](LICENSE)
 
-**libfronius** is a modern C++ library designed to communicate with Fronius inverters and smart meters using Modbus. It automatically detects register types, device inputs (MPPT trackers, phases), and supports robust reconnection strategies. The library is structured around a base Fronius class, with specialized `Inverter` and `Meter` subclasses for device representation.
+**libfronius** is a modern C++ library designed to communicate with Fronius inverters and smart meters using Modbus. It automatically detects register types, device inputs (MPPT trackers, phases), and supports robust reconnection strategies. The library is structured around a base `Fronius` class, with specialized `Inverter` and `Meter` subclasses for device representation.
 
 ## Features
 
@@ -24,7 +24,7 @@
 ## Installation
 
 1. **Install libmodbus**  
-   See [libmodbus installation guide](https://libmodbus.org/documentation/).
+   See [libmodbus installation guide](https://libmodbus.org/getting_started/).
 
 2. **Clone libfronius**
    ```sh
