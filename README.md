@@ -95,6 +95,8 @@ int main() {
   }
 
   if (!inverter.isConnected()) {
+    std::cerr << "Connection timed out after " << timeout.count()
+              << " seconds" << "\n";
     return EXIT_FAILURE;
   }
 
