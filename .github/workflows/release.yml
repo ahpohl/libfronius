@@ -49,23 +49,17 @@ jobs:
           cd build
           cpack
 
-      - name: Collect and rename artifacts
+      - name: Collect artifacts
         shell: bash
         run: |
           set -euo pipefail
           shopt -s nullglob
           mkdir -p dist
 
-          # TGZ: produced as libfronius-<version>.tar.gz -> append linux-arch once
-          for f in build/*.tar.gz; do
-            base=$(basename "$f")
-            new="${base%.tar.gz}-linux-${{ matrix.arch }}.tar.gz"
-            cp "$f" "dist/$new"
-          done
-
-          # DEB: already Debian-style (libfronius_<version>_<arch>.deb) -> copy as-is
-          for f in build/*.deb; do
-            cp "$f" "dist/$(basename "$f")"
+          # Copy CPack outputs as-is
+          for f in build/*.tar.gz build/*.deb; do
+            [ -e "$f" ] || continue
+            cp "$f" dist/
           done
 
           echo "Packaged files:"
