@@ -1,12 +1,29 @@
 cmake_minimum_required(VERSION 3.15)
 
+# Optional: user/CI override when building from source tarballs
+set(VERSION_OVERRIDE "0.0.0" CACHE STRING "Force version when git describe is unavailable")
+
 # --- Version from git tag ---
-execute_process(
-    COMMAND git describe --tags --abbrev=0
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_TAG
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+find_package(Git QUIET)
+if(Git_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
+    execute_process(
+        COMMAND "${GIT_EXECUTABLE}" describe --tags --abbrev=0
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_VARIABLE GIT_TAG
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        RESULT_VARIABLE _git_rc
+        ERROR_QUIET
+    )
+    if(NOT _git_rc EQUAL 0)
+        set(GIT_TAG "")
+    endif()
+endif()
+
+if(NOT GIT_TAG)
+    set(GIT_TAG "${VERSION_OVERRIDE}")
+    message(STATUS "No git version tag, using ${VERSION_OVERRIDE}")
+endif()
+
 string(REGEX REPLACE "^v" "" GIT_TAG_STRIPPED "${GIT_TAG}")
 
 project(

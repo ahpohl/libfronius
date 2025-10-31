@@ -24,21 +24,24 @@
 
 ## Installation
 
-1. **Install libmodbus**  
-   See [libmodbus installation guide](https://libmodbus.org/getting_started/).
+**1. Install libmodbus**  
 
-2. **Clone libfronius**
-   ```sh
-   git clone https://github.com/ahpohl/libfronius.git
-   cd libfronius
-   ```
+See [libmodbus installation guide](https://libmodbus.org/getting_started/).
 
-3. **Build**
-   ```sh
-   mkdir build && cd build
-   cmake ..
-   make
-   ```
+**2. Clone libfronius**
+
+```sh
+git clone https://github.com/ahpohl/libfronius.git
+cd libfronius
+```
+
+**3. Build**
+
+```sh
+mkdir build && cd build
+cmake ..
+make
+```
 
 ## Usage
 
