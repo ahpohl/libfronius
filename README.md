@@ -52,37 +52,63 @@ The example below shows how to configure a TCP connection and read the current a
 ```cpp
 #include <iostream>
 #include <cstdlib>
+#include <thread>
+#include <chrono>
 #include "modbus_config.h"
 #include "modbus_error.h"
 #include "inverter.h"
+#include "fronius_types.h"
 
 int main() {
   ModbusConfig cfg;
 
   // Modbus TCP (IPv4/IPv6)
-  cfg.useTcp = true;
   cfg.host = "192.168.6.78";
+  cfg.secTimeout = 5;
+
+  // Optionally enable libmodus debug output
+  // cfg.debug = true;
 
   // Validate configuration before use
   cfg.validate();
 
   // Create inverter client
   Inverter inverter(cfg);
+  
+  // Register error callback function
+  inverter.setErrorCallback([](const ModbusError &err) {
+    std::cerr << "FATAL Modbus error: " <<  err.message << ": "
+              <<  modbus_strerror(err.code) << "\n";
+  });
 
-  // Create modbus context and connect
+  // Start connect (async)
   inverter.connect();
+
+  // Wait until connected or timeout
+  const auto timeout = std::chrono::seconds(5);
+  const auto pollInterval = std::chrono::milliseconds(100);
+  const auto start = std::chrono::steady_clock::now();
+
+  while (!inverter.isConnected() &&
+         (std::chrono::steady_clock::now() - start) < timeout) {
+    std::this_thread::sleep_for(pollInterval);
+  }
+
+  if (!inverter.isConnected()) {
+    return EXIT_FAILURE;
+  }
 
   try {
     // Validate inverter registers before use
     ModbusError::getOrThrow(inverter.validateDevice());
 
-    // Fetch inveter registers
+    // Fetch inverter registers
     ModbusError::getOrThrow(inverter.fetchInverterRegisters());
 
     // Read the current active power in watts (W).
-    // getAcPowerActive() returns std::expected<double, ModbusError>.
+    // getAcPower() returns std::expected<double, ModbusError>.
     const double watts =
-        ModbusError::getOrThrow(inverter.getAcPowerActive());
+        ModbusError::getOrThrow(inverter.getAcPower(FroniusTypes::Output::ACTIVE));
 
     std::cout << "Active power: " << watts << " W\n";
 
