@@ -33,7 +33,7 @@
   <td id="projectalign">
    <div id="projectname">LIBFRONIUS
    </div>
-   <div id="projectbrief">A C++ library to access Fronius devices</div>
+   <div id="projectbrief">Library to access Fronius inverters and smart meters</div>
   </td>
     <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -128,10 +128,15 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a5318e1afe8a8b5a72977df4deb9bee0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents inverter input channels.  <a href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">More...</a><br /></td></tr>
 <tr class="separator:a5318e1afe8a8b5a72977df4deb9bee0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa00ef3ece9924874f05a61f843a208a7" id="r_aa00ef3ece9924874f05a61f843a208a7"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">Output</a> { <a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a18ff74f43da410c5529f7d6fca84f115">ACTIVE</a>
+<tr class="memitem:aa00ef3ece9924874f05a61f843a208a7" id="r_aa00ef3ece9924874f05a61f843a208a7"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">Output</a> { <br />
+&#160;&#160;<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a18ff74f43da410c5529f7d6fca84f115">ACTIVE</a>
 , <a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a7270a8c3299d1e0dd046b38b95a51773">APPARENT</a>
+, <a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aedb093b511ddda91e008aacf5db8fd48">REACTIVE</a>
 , <a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a09359b703510ed6bf919b1ca5c4c87fe">Q1_REACTIVE</a>
-, <a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a4aa2dc9f4f67032369ad06167bcc227e">Q4_REACTIVE</a>
+, <br />
+&#160;&#160;<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a4aa2dc9f4f67032369ad06167bcc227e">Q4_REACTIVE</a>
+, <a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aec66d48bdd7a5171d7eb5d60840db165">FACTOR</a>
+<br />
  }</td></tr>
 <tr class="memdesc:aa00ef3ece9924874f05a61f843a208a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of power output reported by the inverter.  <a href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">More...</a><br /></td></tr>
 <tr class="separator:aa00ef3ece9924874f05a61f843a208a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -557,9 +562,13 @@ Static Public Member Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="aa00ef3ece9924874f05a61f843a208a7a7270a8c3299d1e0dd046b38b95a51773" name="aa00ef3ece9924874f05a61f843a208a7a7270a8c3299d1e0dd046b38b95a51773"></a>APPARENT&#160;</td><td class="fielddoc"><p>Apparent power in volt-amperes (VA) </p>
 </td></tr>
+<tr><td class="fieldname"><a id="aa00ef3ece9924874f05a61f843a208a7aedb093b511ddda91e008aacf5db8fd48" name="aa00ef3ece9924874f05a61f843a208a7aedb093b511ddda91e008aacf5db8fd48"></a>REACTIVE&#160;</td><td class="fielddoc"><p>Reactive power in vars (VAr) </p>
+</td></tr>
 <tr><td class="fieldname"><a id="aa00ef3ece9924874f05a61f843a208a7a09359b703510ed6bf919b1ca5c4c87fe" name="aa00ef3ece9924874f05a61f843a208a7a09359b703510ed6bf919b1ca5c4c87fe"></a>Q1_REACTIVE&#160;</td><td class="fielddoc"><p>Reactive power (Q1, inductive) in vars (VAr) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa00ef3ece9924874f05a61f843a208a7a4aa2dc9f4f67032369ad06167bcc227e" name="aa00ef3ece9924874f05a61f843a208a7a4aa2dc9f4f67032369ad06167bcc227e"></a>Q4_REACTIVE&#160;</td><td class="fielddoc"><p>Reactive power (Q4, capacitive) in vars (VAr) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa00ef3ece9924874f05a61f843a208a7aec66d48bdd7a5171d7eb5d60840db165" name="aa00ef3ece9924874f05a61f843a208a7aec66d48bdd7a5171d7eb5d60840db165"></a>FACTOR&#160;</td><td class="fielddoc"><p>Power factor in (%) </p>
 </td></tr>
 </table>
 

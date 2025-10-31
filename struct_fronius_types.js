@@ -82,8 +82,10 @@ var struct_fronius_types =
     [ "Output", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7", [
       [ "ACTIVE", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a18ff74f43da410c5529f7d6fca84f115", null ],
       [ "APPARENT", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a7270a8c3299d1e0dd046b38b95a51773", null ],
+      [ "REACTIVE", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aedb093b511ddda91e008aacf5db8fd48", null ],
       [ "Q1_REACTIVE", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a09359b703510ed6bf919b1ca5c4c87fe", null ],
-      [ "Q4_REACTIVE", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a4aa2dc9f4f67032369ad06167bcc227e", null ]
+      [ "Q4_REACTIVE", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a4aa2dc9f4f67032369ad06167bcc227e", null ],
+      [ "FACTOR", "struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aec66d48bdd7a5171d7eb5d60840db165", null ]
     ] ],
     [ "Phase", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4", [
       [ "TOTAL", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d", null ],

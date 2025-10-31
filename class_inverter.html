@@ -33,7 +33,7 @@
   <td id="projectalign">
    <div id="projectname">LIBFRONIUS
    </div>
-   <div id="projectbrief">A C++ library to access Fronius devices</div>
+   <div id="projectbrief">Library to access Fronius inverters and smart meters</div>
   </td>
     <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -149,30 +149,21 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Inverter</b> ()</
 <tr class="memitem:a84100e283ee6db25bf208e3fdec32a4a" id="r_a84100e283ee6db25bf208e3fdec32a4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a84100e283ee6db25bf208e3fdec32a4a">getId</a> (void) const</td></tr>
 <tr class="memdesc:a84100e283ee6db25bf208e3fdec32a4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the inverter's device ID.  <br /></td></tr>
 <tr class="separator:a84100e283ee6db25bf208e3fdec32a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d9a48b7410b1f02ff2fcc42ddcd86ce" id="r_a7d9a48b7410b1f02ff2fcc42ddcd86ce"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a7d9a48b7410b1f02ff2fcc42ddcd86ce">getAcOutput</a> (<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a> output) const</td></tr>
-<tr class="memdesc:a7d9a48b7410b1f02ff2fcc42ddcd86ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current AC power output for the specified output type.  <br /></td></tr>
-<tr class="separator:a7d9a48b7410b1f02ff2fcc42ddcd86ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8da32cad600a016e82e6718ced48c6d4" id="r_a8da32cad600a016e82e6718ced48c6d4"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a8da32cad600a016e82e6718ced48c6d4">getAcPowerRating</a> (<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a> output) const</td></tr>
+<tr class="memdesc:a8da32cad600a016e82e6718ced48c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the AC power rating for the specified output type.  <br /></td></tr>
+<tr class="separator:a8da32cad600a016e82e6718ced48c6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a015eb48b2e24ab1aaaaba6846a9abb84" id="r_a015eb48b2e24ab1aaaaba6846a9abb84"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a015eb48b2e24ab1aaaaba6846a9abb84">getAcCurrent</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
 <tr class="memdesc:a015eb48b2e24ab1aaaaba6846a9abb84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC current in amperes.  <br /></td></tr>
 <tr class="separator:a015eb48b2e24ab1aaaaba6846a9abb84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e82d2be55f92a32a02d4eeff1110b05" id="r_a4e82d2be55f92a32a02d4eeff1110b05"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a4e82d2be55f92a32a02d4eeff1110b05">getAcVoltage</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a7fc56270e7a70fa81a5935b72eacbe29">FroniusTypes::Phase::A</a>) const</td></tr>
 <tr class="memdesc:a4e82d2be55f92a32a02d4eeff1110b05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC voltage in volts.  <br /></td></tr>
 <tr class="separator:a4e82d2be55f92a32a02d4eeff1110b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e33900aaf6f08e993f06b0191c627fc" id="r_a6e33900aaf6f08e993f06b0191c627fc"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a6e33900aaf6f08e993f06b0191c627fc">getAcPowerActive</a> (void) const</td></tr>
-<tr class="memdesc:a6e33900aaf6f08e993f06b0191c627fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC active power in watts.  <br /></td></tr>
-<tr class="separator:a6e33900aaf6f08e993f06b0191c627fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af35cc8642f1fb0e9294c8cf8e563d8e6" id="r_af35cc8642f1fb0e9294c8cf8e563d8e6"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#af35cc8642f1fb0e9294c8cf8e563d8e6">getAcPower</a> (<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a> output) const</td></tr>
+<tr class="memdesc:af35cc8642f1fb0e9294c8cf8e563d8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the AC power value from the inverter.  <br /></td></tr>
+<tr class="separator:af35cc8642f1fb0e9294c8cf8e563d8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90ef50f108f8cc748ed0fd8db1abb6d0" id="r_a90ef50f108f8cc748ed0fd8db1abb6d0"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a90ef50f108f8cc748ed0fd8db1abb6d0">getAcFrequency</a> (void) const</td></tr>
 <tr class="memdesc:a90ef50f108f8cc748ed0fd8db1abb6d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC frequency in hertz.  <br /></td></tr>
 <tr class="separator:a90ef50f108f8cc748ed0fd8db1abb6d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a030d509c7b9108e22d75f893b26bf3d3" id="r_a030d509c7b9108e22d75f893b26bf3d3"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a030d509c7b9108e22d75f893b26bf3d3">getAcPowerApparent</a> (void) const</td></tr>
-<tr class="memdesc:a030d509c7b9108e22d75f893b26bf3d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC apparent power in volt-amperes.  <br /></td></tr>
-<tr class="separator:a030d509c7b9108e22d75f893b26bf3d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36ea333464848951320239a3566f21ac" id="r_a36ea333464848951320239a3566f21ac"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a36ea333464848951320239a3566f21ac">getAcPowerReactive</a> (void) const</td></tr>
-<tr class="memdesc:a36ea333464848951320239a3566f21ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC reactive power in volt-ampere reactive.  <br /></td></tr>
-<tr class="separator:a36ea333464848951320239a3566f21ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac573e1fb0e30e3362897674d155aa370" id="r_ac573e1fb0e30e3362897674d155aa370"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#ac573e1fb0e30e3362897674d155aa370">getAcPowerFactor</a> (void) const</td></tr>
-<tr class="memdesc:ac573e1fb0e30e3362897674d155aa370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC power factor (dimensionless).  <br /></td></tr>
-<tr class="separator:ac573e1fb0e30e3362897674d155aa370"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2ff86c22b9597b8e20c8cce926e8645" id="r_ac2ff86c22b9597b8e20c8cce926e8645"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#ac2ff86c22b9597b8e20c8cce926e8645">getAcEnergy</a> (void) const</td></tr>
 <tr class="memdesc:ac2ff86c22b9597b8e20c8cce926e8645"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total lifetime energy production.  <br /></td></tr>
 <tr class="separator:ac2ff86c22b9597b8e20c8cce926e8645"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -482,14 +473,14 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
-<a id="a7d9a48b7410b1f02ff2fcc42ddcd86ce" name="a7d9a48b7410b1f02ff2fcc42ddcd86ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d9a48b7410b1f02ff2fcc42ddcd86ce">&#9670;&#160;</a></span>getAcOutput()</h2>
+<a id="af35cc8642f1fb0e9294c8cf8e563d8e6" name="af35cc8642f1fb0e9294c8cf8e563d8e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af35cc8642f1fb0e9294c8cf8e563d8e6">&#9670;&#160;</a></span>getAcPower()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcOutput </td>
+          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcPower </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a>&#160;</td>
           <td class="paramname"><em>output</em></td><td>)</td>
@@ -498,7 +489,47 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
       </table>
 </div><div class="memdoc">
 
-<p>Returns the current AC power output for the specified output type. </p>
+<p>Retrieve the AC power value from the inverter. </p>
+<p>This function reads the AC power of the inverter for a specified output type. It supports both floating-point and scaled integer Modbus registers depending on the <code>useFloatRegisters_</code> flag.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>The type of AC power to retrieve. Possible values are:<ul>
+<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a18ff74f43da410c5529f7d6fca84f115" title="Active (real) power in watts (W)">FroniusTypes::Output::ACTIVE</a></code> – Active power (W)</li>
+<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a7270a8c3299d1e0dd046b38b95a51773" title="Apparent power in volt-amperes (VA)">FroniusTypes::Output::APPARENT</a></code> – Apparent power (VA)</li>
+<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aedb093b511ddda91e008aacf5db8fd48" title="Reactive power in vars (VAr)">FroniusTypes::Output::REACTIVE</a></code> – Reactive power (VAR)</li>
+<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aec66d48bdd7a5171d7eb5d60840db165" title="Power factor in (%)">FroniusTypes::Output::FACTOR</a></code> – Power factor (unitless, 0..1)</li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::expected&lt;double, ModbusError&gt;<ul>
+<li>On success: The AC power value corresponding to the requested output type.</li>
+<li>On failure: A <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> describing why the value could not be read, e.g., invalid output type or communication error.</li>
+</ul>
+</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If <code>useFloatRegisters_</code> is true, the function reads floating-point Modbus registers (<a class="el" href="namespace_i11_x.html" title="SunSpec Inverter (Float) Model registers.">I11X</a>). Otherwise, it reads scaled integer registers (<a class="el" href="namespace_i10_x.html" title="SunSpec Inverter (Integer + Scale Factor) Model registers.">I10X</a>) and applies the corresponding scale factor.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Passing an invalid <code>output</code> value will result in a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code>. </dd></dl>
+
+</div>
+</div>
+<a id="a8da32cad600a016e82e6718ced48c6d4" name="a8da32cad600a016e82e6718ced48c6d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8da32cad600a016e82e6718ced48c6d4">&#9670;&#160;</a></span>getAcPowerRating()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcPowerRating </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a>&#160;</td>
+          <td class="paramname"><em>output</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the AC power rating for the specified output type. </p>
 <p>Reads and scales the corresponding Modbus registers from the inverter’s nameplate register map to compute the requested power value. The function supports both integer and float-based register mappings.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -511,90 +542,6 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <li>A <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> if register access or scaling fails. </li>
 </ul>
 </dd></dl>
-
-</div>
-</div>
-<a id="a6e33900aaf6f08e993f06b0191c627fc" name="a6e33900aaf6f08e993f06b0191c627fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e33900aaf6f08e993f06b0191c627fc">&#9670;&#160;</a></span>getAcPowerActive()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcPowerActive </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get AC active power in watts. </p>
-<dl class="section return"><dt>Returns</dt><dd>Active power value in watts (W). </dd></dl>
-
-</div>
-</div>
-<a id="a030d509c7b9108e22d75f893b26bf3d3" name="a030d509c7b9108e22d75f893b26bf3d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a030d509c7b9108e22d75f893b26bf3d3">&#9670;&#160;</a></span>getAcPowerApparent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcPowerApparent </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get AC apparent power in volt-amperes. </p>
-<dl class="section return"><dt>Returns</dt><dd>Apparent power value in volt-amperes (VA). </dd></dl>
-
-</div>
-</div>
-<a id="ac573e1fb0e30e3362897674d155aa370" name="ac573e1fb0e30e3362897674d155aa370"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac573e1fb0e30e3362897674d155aa370">&#9670;&#160;</a></span>getAcPowerFactor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcPowerFactor </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get AC power factor (dimensionless). </p>
-<dl class="section return"><dt>Returns</dt><dd>Power factor as a unitless ratio (typically between -1 and 1). </dd></dl>
-
-</div>
-</div>
-<a id="a36ea333464848951320239a3566f21ac" name="a36ea333464848951320239a3566f21ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36ea333464848951320239a3566f21ac">&#9670;&#160;</a></span>getAcPowerReactive()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcPowerReactive </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get AC reactive power in volt-ampere reactive. </p>
-<dl class="section return"><dt>Returns</dt><dd>Reactive power value in volt-ampere reactive (VAr). </dd></dl>
 
 </div>
 </div>

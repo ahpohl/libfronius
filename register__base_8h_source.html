@@ -33,7 +33,7 @@
   <td id="projectalign">
    <div id="projectname">LIBFRONIUS
    </div>
-   <div id="projectbrief">A C++ library to access Fronius devices</div>
+   <div id="projectbrief">Library to access Fronius inverters and smart meters</div>
   </td>
     <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('register__base_8h_source.html',''); in
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;fmt/format.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;format&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('register__base_8h_source.html',''); in
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
 <div class="foldopen" id="foldopen00098" data-start="{" data-end="}">
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9">   98</a></span>  std::string <a class="code hl_function" href="struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9">describe</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> fmt::format(<span class="stringliteral">&quot;[ADDR={}, NB={}, TYPE={}]&quot;</span>, <a class="code hl_variable" href="struct_register.html#ae33a681b62d32fa27d2ddacbafa031d5">ADDR</a>, <a class="code hl_variable" href="struct_register.html#a84c674d23ca2979ccde3bcb3edb6810d">NB</a>,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> std::format(<span class="stringliteral">&quot;[ADDR={}, NB={}, TYPE={}]&quot;</span>, <a class="code hl_variable" href="struct_register.html#ae33a681b62d32fa27d2ddacbafa031d5">ADDR</a>, <a class="code hl_variable" href="struct_register.html#a84c674d23ca2979ccde3bcb3edb6810d">NB</a>,</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                       <a class="code hl_function" href="struct_register.html#a32c62912e004d2e03893de681adaa2d4">typeToString</a>(<a class="code hl_variable" href="struct_register.html#a6dbf7cb765d7f022d4337420d693b7ea">TYPE</a>));</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  }</div>
 </div>
