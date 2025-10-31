@@ -3,7 +3,7 @@ name: Doxygen Docs
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   docs:
