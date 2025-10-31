@@ -12,7 +12,7 @@ string(REGEX REPLACE "^v" "" GIT_TAG_STRIPPED "${GIT_TAG}")
 project(
     libfronius
     LANGUAGES CXX
-    DESCRIPTION "A C++ library to access Fronius devices"
+    DESCRIPTION "Library to access Fronius inverters and smart meters"
     VERSION ${GIT_TAG_STRIPPED}
 )
 
@@ -36,8 +36,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # --- Sources ---
 set(MYLIB_SOURCES src/fronius.cpp src/meter.cpp src/inverter.cpp)
-
-find_package(fmt REQUIRED)
 
 # --- Shared library ---
 if(BUILD_SHARED_LIBS)
@@ -80,7 +78,7 @@ if(BUILD_STATIC_LIBS)
 endif()
 
 # --- Install library and headers ---
-install(DIRECTORY include/ DESTINATION include)
+install(DIRECTORY include/ DESTINATION include/fronius)
 if(BUILD_SHARED_LIBS)
     install(TARGETS fronius_shared
         EXPORT froniusTargets
@@ -121,3 +119,14 @@ install(
     NAMESPACE fronius::
     DESTINATION lib/cmake/fronius
 )
+
+# --- CPack ---
+include(InstallRequiredSystemLibraries)
+set(CPACK_GENERATOR "TGZ;DEB")
+set(CPACK_PACKAGE_NAME "libfronius")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Alexander Pohl <alex@ahpohl.com>")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+include(CPack)

@@ -2,8 +2,8 @@ name: Doxygen Docs
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 
 jobs:
   docs:

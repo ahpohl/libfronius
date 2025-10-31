@@ -140,7 +140,7 @@ std::expected<void, ModbusError> Inverter::validateDevice() {
 /* --------------------- get values -------------------------- */
 
 std::expected<double, ModbusError>
-Inverter::getAcOutput(FroniusTypes::Output output) const {
+Inverter::getAcPowerRating(FroniusTypes::Output output) const {
   switch (output) {
   case FroniusTypes::Output::ACTIVE:
     return useFloatRegisters_
@@ -222,24 +222,26 @@ std::expected<double, ModbusError> Inverter::getAcFrequency(void) const {
                             : getModbusDouble(regs_, I10X::FREQ, I10X::FREQ_SF);
 }
 
-std::expected<double, ModbusError> Inverter::getAcPowerActive(void) const {
-  return useFloatRegisters_ ? getModbusDouble(regs_, I11X::W)
-                            : getModbusDouble(regs_, I10X::W, I10X::W_SF);
-}
-
-std::expected<double, ModbusError> Inverter::getAcPowerApparent(void) const {
-  return useFloatRegisters_ ? getModbusDouble(regs_, I11X::VA)
-                            : getModbusDouble(regs_, I10X::VA, I10X::VA_SF);
-}
-
-std::expected<double, ModbusError> Inverter::getAcPowerReactive(void) const {
-  return useFloatRegisters_ ? getModbusDouble(regs_, I11X::VAR)
-                            : getModbusDouble(regs_, I10X::VAR, I10X::VAR_SF);
-}
-
-std::expected<double, ModbusError> Inverter::getAcPowerFactor(void) const {
-  return useFloatRegisters_ ? getModbusDouble(regs_, I11X::PF)
-                            : getModbusDouble(regs_, I10X::PF, I10X::PF_SF);
+std::expected<double, ModbusError>
+Inverter::getAcPower(FroniusTypes::Output output) const {
+  switch (output) {
+  case FroniusTypes::Output::ACTIVE:
+    return useFloatRegisters_ ? getModbusDouble(regs_, I11X::W)
+                              : getModbusDouble(regs_, I10X::W, I10X::W_SF);
+  case FroniusTypes::Output::APPARENT:
+    return useFloatRegisters_ ? getModbusDouble(regs_, I11X::VA)
+                              : getModbusDouble(regs_, I10X::VA, I10X::VA_SF);
+  case FroniusTypes::Output::REACTIVE:
+    return useFloatRegisters_ ? getModbusDouble(regs_, I11X::VAR)
+                              : getModbusDouble(regs_, I10X::VAR, I10X::VAR_SF);
+  case FroniusTypes::Output::FACTOR:
+    return useFloatRegisters_ ? getModbusDouble(regs_, I11X::PF)
+                              : getModbusDouble(regs_, I10X::PF, I10X::PF_SF);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "getAcPower(): Invalid output {}",
+                            FroniusTypes::toString(output))));
+  }
 }
 
 std::expected<double, ModbusError> Inverter::getAcEnergy(void) const {

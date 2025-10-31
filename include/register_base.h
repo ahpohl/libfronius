@@ -4,7 +4,7 @@
 #include <cstdint>
 
 #include <cstdint>
-#include <fmt/format.h>
+#include <format>
 #include <string>
 
 /**
@@ -96,7 +96,7 @@ struct Register {
    * @return std::string in the format: "[ADDR=..., NB=..., TYPE=...]"
    */
   std::string describe() const {
-    return fmt::format("[ADDR={}, NB={}, TYPE={}]", ADDR, NB,
+    return std::format("[ADDR={}, NB={}, TYPE={}]", ADDR, NB,
                        typeToString(TYPE));
   }
 };

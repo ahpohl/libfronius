@@ -81,8 +81,10 @@ struct FroniusTypes {
   enum class Output {
     ACTIVE,      ///< Active (real) power in watts (W)
     APPARENT,    ///< Apparent power in volt-amperes (VA)
+    REACTIVE,    ///< Reactive power in vars (VAr)
     Q1_REACTIVE, ///< Reactive power (Q1, inductive) in vars (VAr)
-    Q4_REACTIVE  ///< Reactive power (Q4, capacitive) in vars (VAr)
+    Q4_REACTIVE, ///< Reactive power (Q4, capacitive) in vars (VAr)
+    FACTOR       ///< Power factor in (%)
   };
 
   /**
@@ -101,6 +103,8 @@ struct FroniusTypes {
       return "Q1_REACTIVE";
     case Output::Q4_REACTIVE:
       return "Q4_REACTIVE";
+    case Output::FACTOR:
+      return "FACTOR";
     }
     return "UNKNOWN";
   }

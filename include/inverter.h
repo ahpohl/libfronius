@@ -96,7 +96,7 @@ public:
   int getId(void) const { return id_; }
 
   /**
-   * @brief Returns the current AC power output for the specified output type.
+   * @brief Returns the AC power rating for the specified output type.
    *
    * Reads and scales the corresponding Modbus registers from the inverter’s
    * nameplate register map to compute the requested power value.
@@ -110,7 +110,7 @@ public:
    *   - A `ModbusError` if register access or scaling fails.
    */
   std::expected<double, ModbusError>
-  getAcOutput(FroniusTypes::Output output) const;
+  getAcPowerRating(FroniusTypes::Output output) const;
 
   /**
    * @brief Get AC current in amperes.
@@ -131,34 +131,38 @@ public:
   getAcVoltage(const FroniusTypes::Phase ph = FroniusTypes::Phase::A) const;
 
   /**
-   * @brief Get AC active power in watts.
-   * @return Active power value in watts (W).
+   * @brief Retrieve the AC power value from the inverter.
+   *
+   * This function reads the AC power of the inverter for a specified output
+   * type. It supports both floating-point and scaled integer Modbus registers
+   * depending on the `useFloatRegisters_` flag.
+   *
+   * @param output The type of AC power to retrieve. Possible values are:
+   * - `FroniusTypes::Output::ACTIVE` – Active power (W)
+   * - `FroniusTypes::Output::APPARENT` – Apparent power (VA)
+   * - `FroniusTypes::Output::REACTIVE` – Reactive power (VAR)
+   * - `FroniusTypes::Output::FACTOR` – Power factor (unitless, 0..1)
+   *
+   * @return std::expected<double, ModbusError>
+   * - On success: The AC power value corresponding to the requested output
+   * type.
+   * - On failure: A `ModbusError` describing why the value could not be read,
+   *   e.g., invalid output type or communication error.
+   *
+   * @note If `useFloatRegisters_` is true, the function reads floating-point
+   * Modbus registers (I11X). Otherwise, it reads scaled integer registers
+   * (I10X) and applies the corresponding scale factor.
+   *
+   * @warning Passing an invalid `output` value will result in a `ModbusError`.
    */
-  std::expected<double, ModbusError> getAcPowerActive(void) const;
+  std::expected<double, ModbusError>
+  getAcPower(FroniusTypes::Output output) const;
 
   /**
    * @brief Get AC frequency in hertz.
    * @return Frequency value in hertz (Hz).
    */
   std::expected<double, ModbusError> getAcFrequency(void) const;
-
-  /**
-   * @brief Get AC apparent power in volt-amperes.
-   * @return Apparent power value in volt-amperes (VA).
-   */
-  std::expected<double, ModbusError> getAcPowerApparent(void) const;
-
-  /**
-   * @brief Get AC reactive power in volt-ampere reactive.
-   * @return Reactive power value in volt-ampere reactive (VAr).
-   */
-  std::expected<double, ModbusError> getAcPowerReactive(void) const;
-
-  /**
-   * @brief Get AC power factor (dimensionless).
-   * @return Power factor as a unitless ratio (typically between -1 and 1).
-   */
-  std::expected<double, ModbusError> getAcPowerFactor(void) const;
 
   /**
    * @brief Get total lifetime energy production.
