@@ -12,9 +12,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+            fetch-depth: 0       # full history so the tag is reachable
+            fetch-tags: true     # ensure tags are fetched
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake git libmodbus-dev
+        run: sudo apt-get update && sudo apt-get install -y cmake libmodbus-dev
 
       - name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
