@@ -20,7 +20,7 @@ jobs:
             fetch-tags: true     # ensure tags are fetched
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake libmodbus-dev
+        run: sudo apt-get update && sudo apt-get install -y cmake pkg-config libmodbus-dev
 
       - name: Configure CMake
         run: cmake -S . -B build

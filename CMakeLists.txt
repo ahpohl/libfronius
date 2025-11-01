@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
 
-# Optional: user/CI override when building from source tarballs
-set(VERSION_OVERRIDE "0.0.0" CACHE STRING "Force version when git describe is unavailable")
-
 # --- Version from git tag ---
 find_package(Git QUIET)
 if(Git_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
@@ -14,20 +11,16 @@ if(Git_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
         RESULT_VARIABLE _git_rc
         ERROR_QUIET
     )
-    if(NOT _git_rc EQUAL 0)
-        set(GIT_TAG "")
-    endif()
 endif()
 
-if(NOT GIT_TAG)
-    set(GIT_TAG "${VERSION_OVERRIDE}")
-    message(STATUS "No git version tag, using ${VERSION_OVERRIDE}")
+if(NOT _git_rc EQUAL 0 OR GIT_TAG STREQUAL "")
+    set(GIT_TAG "0.0.0")
 endif()
 
 string(REGEX REPLACE "^v" "" GIT_TAG_STRIPPED "${GIT_TAG}")
 
 project(
-    libfronius
+    fronius
     LANGUAGES CXX
     DESCRIPTION "Library to access Fronius inverters and smart meters"
     VERSION ${GIT_TAG_STRIPPED}
