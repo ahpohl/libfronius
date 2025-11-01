@@ -54,6 +54,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # --- Sources ---
 set(MYLIB_SOURCES src/fronius.cpp src/meter.cpp src/inverter.cpp)
 
+# --- Link libmodbus via pkg-config ---
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBMODBUS REQUIRED IMPORTED_TARGET libmodbus)
+
 # --- Shared library ---
 if(BUILD_SHARED_LIBS)
     add_library(fronius_shared SHARED ${MYLIB_SOURCES})
@@ -63,6 +67,7 @@ if(BUILD_SHARED_LIBS)
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>
     )
+    target_link_libraries(fronius_shared PRIVATE PkgConfig::LIBMODBUS)
     set_target_properties(
         fronius_shared
         PROPERTIES
@@ -84,6 +89,7 @@ if(BUILD_STATIC_LIBS)
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>
     )
+    target_link_libraries(fronius_static PRIVATE PkgConfig::LIBMODBUS)
     set_target_properties(
         fronius_static
         PROPERTIES

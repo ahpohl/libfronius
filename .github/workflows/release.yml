@@ -37,7 +37,7 @@ jobs:
       - name: Configure CMake
         run: |
           cmake -S . -B build \
-            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=${{ matrix.deb_arch }}
 
       - name: Build
