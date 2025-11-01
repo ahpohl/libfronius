@@ -26,6 +26,8 @@ project(
     VERSION ${GIT_TAG_STRIPPED}
 )
 
+include(GNUInstallDirs)
+
 # Ensure position independent code for shared libraries
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -54,21 +56,19 @@ pkg_check_modules(LIBMODBUS REQUIRED IMPORTED_TARGET libmodbus)
 # --- Shared library ---
 if(BUILD_SHARED_LIBS)
     add_library(fronius_shared SHARED ${MYLIB_SOURCES})
-    target_include_directories(
-        fronius_shared
+    add_library(fronius::shared ALIAS fronius_shared)
+    target_include_directories(fronius_shared 
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-            $<INSTALL_INTERFACE:include>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
     target_link_libraries(fronius_shared PRIVATE PkgConfig::LIBMODBUS)
-    set_target_properties(
-        fronius_shared
-        PROPERTIES
-            OUTPUT_NAME "fronius"
-            VERSION ${PROJECT_VERSION}
-            SOVERSION ${PROJECT_VERSION_MAJOR}
-            CXX_STANDARD 23
-            EXPORT_NAME shared
+    set_target_properties(fronius_shared PROPERTIES
+        OUTPUT_NAME "fronius"
+        VERSION ${PROJECT_VERSION}
+        SOVERSION ${PROJECT_VERSION_MAJOR}
+        CXX_STANDARD 23
+        EXPORT_NAME shared
     )
     message(STATUS "Building shared library: fronius_shared")
 endif()
@@ -76,35 +76,40 @@ endif()
 # --- Static library ---
 if(BUILD_STATIC_LIBS)
     add_library(fronius_static STATIC ${MYLIB_SOURCES})
-    target_include_directories(
-        fronius_static
+    add_library(fronius::static ALIAS fronius_static)
+    target_include_directories(fronius_static
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-            $<INSTALL_INTERFACE:include>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
     target_link_libraries(fronius_static PRIVATE PkgConfig::LIBMODBUS)
-    set_target_properties(
-        fronius_static
-        PROPERTIES
-            OUTPUT_NAME "fronius"
-            CXX_STANDARD 23
-            EXPORT_NAME static
+    set_target_properties(fronius_static PROPERTIES
+        OUTPUT_NAME "fronius"
+        CXX_STANDARD 23
+        EXPORT_NAME static
     )
     message(STATUS "Building static library: fronius_static")
 endif()
 
 # --- Install library and headers ---
-install(DIRECTORY include/ DESTINATION include/fronius)
+# Install headers under include/fronius so consumers can #include <fronius/...>
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fronius)
+
 if(BUILD_SHARED_LIBS)
     install(TARGETS fronius_shared
         EXPORT froniusTargets
-        DESTINATION lib
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 endif()
+
 if(BUILD_STATIC_LIBS)
     install(TARGETS fronius_static
         EXPORT froniusTargets
-        DESTINATION lib
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 endif()
 
@@ -114,7 +119,7 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/froniusConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/froniusConfig.cmake"
-    INSTALL_DESTINATION lib/cmake/fronius
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
 )
 
 write_basic_package_version_file(
@@ -127,30 +132,66 @@ install(
     FILES
         "${CMAKE_CURRENT_BINARY_DIR}/froniusConfig.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/froniusConfigVersion.cmake"
-    DESTINATION lib/cmake/fronius
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
 )
 
 install(
     EXPORT froniusTargets
     NAMESPACE fronius::
-    DESTINATION lib/cmake/fronius
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
 )
 
-# --- CPack ---
+# --- pkg-config (.pc) generation ---
+set(FRONIUS_PC_REQUIRES_PRIVATE "libmodbus")
+set(FRONIUS_PC_LIBS_PRIVATE "")
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/fronius.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/fronius.pc
+    @ONLY
+)
+
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/fronius.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+)
+
+# --- CPack (components) ---
 include(InstallRequiredSystemLibraries)
+
+# Generate component packages for DEB
+set(CPACK_DEB_COMPONENT_INSTALL ON)
+set(CPACK_COMPONENTS_ALL runtime devel)
+
+# Global metadata
 set(CPACK_GENERATOR "TGZ;DEB")
 set(CPACK_PACKAGE_NAME "libfronius")
+set(CPACK_PACKAGE_CONTACT "Alexander Pohl <alex@ahpohl.com>")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Alexander Pohl <alex@ahpohl.com>")
-set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
-# Tell CPack how to name files
+# Per-component Debian package names and metadata
+get_target_property(FRONIUS_ABI fronius_shared SOVERSION)
+set(CPACK_DEBIAN_RUNTIME_PACKAGE_NAME "libfronius${FRONIUS_ABI}")
+set(CPACK_DEBIAN_RUNTIME_PACKAGE_SECTION "libs")
+set(CPACK_DEBIAN_RUNTIME_PACKAGE_SHLIBDEPS ON)
+
+set(CPACK_DEBIAN_DEVEL_PACKAGE_NAME "libfronius-dev")
+set(CPACK_DEBIAN_DEVEL_PACKAGE_SECTION "libdevel")
+# Make -dev depend on the exact same runtime version
+set(CPACK_DEBIAN_DEVEL_PACKAGE_DEPENDS "${CPACK_DEBIAN_RUNTIME_PACKAGE_NAME} (= ${PROJECT_VERSION})")
+
+# Optional descriptions
+set(CPACK_COMPONENT_RUNTIME_DESCRIPTION "Library to access Fronius inverters and smart meters")
+set(CPACK_COMPONENT_DEVEL_DESCRIPTION   "Library to access Fronius inverters and smart meters (development files)")
+
+# DEB naming: canonical names per Debian policy
+set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+
+# TGZ custom archive name
 string(TOLOWER "${CMAKE_SYSTEM_NAME}" OS_NAME)
 string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" ARCH)
-set(CPACK_PACKAGE_FILE_NAME 
-    "${PROJECT_NAME}_v${PROJECT_VERSION}_${OS_NAME}_${ARCH}")
-set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_v${PROJECT_VERSION}_${OS_NAME}_${ARCH}")
 
 include(CPack)

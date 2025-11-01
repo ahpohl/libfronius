@@ -1,0 +1,13 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+
+Name: fronius
+Description: Library to access Fronius inverters and smart meters
+URL: https://github.com/ahpohl/libfronius
+Version: @PROJECT_VERSION@
+Requires.private: @FRONIUS_PC_REQUIRES_PRIVATE@
+Cflags: -I${includedir}/fronius
+Libs: -L${libdir} -lfronius
+Libs.private: @FRONIUS_PC_LIBS_PRIVATE@
