@@ -93,14 +93,23 @@ endif()
 
 # --- Install library and headers ---
 # Install headers under include/fronius so consumers can #include <fronius/...>
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fronius)
+install(
+    DIRECTORY include/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fronius
+    COMPONENT devel
+)
 
 if(BUILD_SHARED_LIBS)
+    # Put the real .so in runtime and the symlink (namelink) in -dev
     install(TARGETS fronius_shared
         EXPORT froniusTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                COMPONENT runtime
+                NAMELINK_COMPONENT devel
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                COMPONENT devel
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+                COMPONENT runtime
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 endif()
@@ -109,6 +118,7 @@ if(BUILD_STATIC_LIBS)
     install(TARGETS fronius_static
         EXPORT froniusTargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                COMPONENT devel
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 endif()
@@ -133,12 +143,14 @@ install(
         "${CMAKE_CURRENT_BINARY_DIR}/froniusConfig.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/froniusConfigVersion.cmake"
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
+    COMPONENT devel
 )
 
 install(
     EXPORT froniusTargets
     NAMESPACE fronius::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fronius
+    COMPONENT devel
 )
 
 # --- pkg-config (.pc) generation ---
@@ -154,6 +166,7 @@ configure_file(
 install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/fronius.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+    COMPONENT devel
 )
 
 # --- CPack (components) ---
@@ -181,10 +194,6 @@ set(CPACK_DEBIAN_DEVEL_PACKAGE_NAME "lib${PROJECT_NAME}-dev")
 set(CPACK_DEBIAN_DEVEL_PACKAGE_SECTION "libdevel")
 # Make -dev depend on the exact same runtime version
 set(CPACK_DEBIAN_DEVEL_PACKAGE_DEPENDS "${CPACK_DEBIAN_RUNTIME_PACKAGE_NAME} (= ${PROJECT_VERSION})")
-
-# Optional descriptions
-set(CPACK_COMPONENT_RUNTIME_DESCRIPTION "Library to access Fronius inverters and smart meters")
-set(CPACK_COMPONENT_DEVEL_DESCRIPTION   "Library to access Fronius inverters and smart meters (development files)")
 
 # DEB naming: canonical names per Debian policy
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
