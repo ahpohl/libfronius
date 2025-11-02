@@ -101,17 +101,13 @@ public:
    * @brief Convenience function combining context and libmodbus message.
    */
   std::string toString() const {
-    // Example format; adjust to your preferred style
-    return std::format("{} (code {}): {}", message, code, libText);
+    return std::format("{}: {} (code {})", message, libText, code);
   }
 
 private:
   /**
    * @brief Build a ModbusError, computing severity and libmodbus text
    * internally.
-   *
-   * This is defined out-of-line in modbus_error.cpp where we include
-   * <modbus/modbus.h>.
    */
   static ModbusError make(int code, std::string msg);
 
