@@ -7,6 +7,7 @@ var struct_modbus_error =
     [ "custom", "struct_modbus_error.html#ad02ae5564cc9954ecfbeebd4bc10a0f4", null ],
     [ "custom", "struct_modbus_error.html#ad8c972d1057ead419bb79dc24bd55cca", null ],
     [ "deduceSeverity", "struct_modbus_error.html#a335dcc94ea5a36158b330de2878a8f56", null ],
+    [ "describe", "struct_modbus_error.html#a34a5dcef61a01d8566d926045441786e", null ],
     [ "fromErrno", "struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac", null ],
     [ "fromErrno", "struct_modbus_error.html#afbb17e4c67217fb75da19606ba25fc14", null ],
     [ "getOrThrow", "struct_modbus_error.html#a6c078f0f97004b040174f818ca983066", null ],

@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('struct_modbus_error.html',''); initRes
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Data Fields</a> &#124;
 <a href="#pri-static-methods">Static Private Member Functions</a>  </div>
@@ -118,6 +119,12 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ae809e381b12257b9524d271685f2a5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error severity classification.  <a href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da">More...</a><br /></td></tr>
 <tr class="separator:ae809e381b12257b9524d271685f2a5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a34a5dcef61a01d8566d926045441786e" id="r_a34a5dcef61a01d8566d926045441786e"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_error.html#a34a5dcef61a01d8566d926045441786e">describe</a> () const</td></tr>
+<tr class="memdesc:a34a5dcef61a01d8566d926045441786e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the libmodbus textual description for the current error code.  <br /></td></tr>
+<tr class="separator:a34a5dcef61a01d8566d926045441786e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -348,6 +355,36 @@ fromErrno(std::format_string&lt;Args...&gt;, Args&amp;&amp;...)</dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc">Severity::FATAL</a> for unrecoverable errors; otherwise TRANSIENT. </dd></dl>
+
+</div>
+</div>
+<a id="a34a5dcef61a01d8566d926045441786e" name="a34a5dcef61a01d8566d926045441786e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a5dcef61a01d8566d926045441786e">&#9670;&#160;</a></span>describe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view ModbusError::describe </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the libmodbus textual description for the current error code. </p>
+<p>Returns a non-owning view over the C string produced by modbus_strerror(code). Use this to display the low-level libmodbus error text alongside the higher-level contextual message.</p>
+<p>The returned view refers to memory owned by libmodbus (typically static storage). If you need to store the text beyond the immediate call site, copy it into a std::string.</p>
+<dl class="section return"><dt>Returns</dt><dd>A std::string_view describing the error corresponding to <code>code</code>. </dd></dl>
 
 </div>
 </div>
