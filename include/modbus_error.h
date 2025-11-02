@@ -179,6 +179,24 @@ public:
       throw res.error();
   }
 
+  /**
+   * @brief Get the libmodbus textual description for the current error code.
+   *
+   * @details
+   * Returns a non-owning view over the C string produced by
+   * modbus_strerror(code). Use this to display the low-level libmodbus error
+   * text alongside the higher-level contextual message.
+   *
+   * The returned view refers to memory owned by libmodbus (typically static
+   * storage). If you need to store the text beyond the immediate call site,
+   * copy it into a std::string.
+   *
+   * @return A std::string_view describing the error corresponding to @c code.
+   */
+  std::string_view errorCodeDescription() const {
+    return modbus_strerror(code);
+  }
+
 private:
   /**
    * @brief Deduce severity based on the error code.
