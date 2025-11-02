@@ -47,7 +47,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # --- Sources ---
-set(MYLIB_SOURCES src/fronius.cpp src/meter.cpp src/inverter.cpp)
+set(MYLIB_SOURCES 
+    src/fronius.cpp 
+    src/meter.cpp 
+    src/inverter.cpp
+    src/modbus_error.cpp    
+)
 
 # --- Link libmodbus via pkg-config ---
 find_package(PkgConfig REQUIRED)
