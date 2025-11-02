@@ -193,7 +193,7 @@ public:
    *
    * @return A std::string_view describing the error corresponding to @c code.
    */
-  std::string_view errorCodeDescription() const {
+  std::string_view libmodbusErrorMessage() const {
     return modbus_strerror(code);
   }
 
