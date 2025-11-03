@@ -1,6 +1,5 @@
 var searchData=
 [
   ['l_0',['l',['../namespace_c001.html#a17d81c8499f54c63a9560f13699c6cd7',1,'C001::L()'],['../namespace_i10_x.html#a71034b6e382d6e4b9f8e2d6506fd8cb2',1,'I10X::L()'],['../namespace_i11_x.html#a2bd3361f22cbe5b54a0f522986e2ae90',1,'I11X::L()'],['../namespace_i120.html#a62279c72645f6aa7520eeed21816e8b5',1,'I120::L()'],['../namespace_i122.html#ad46ca3a087cbb10a1913f496c1e28e33',1,'I122::L()'],['../namespace_i123.html#adca4e2faaffcff6dc78f11eaac48130e',1,'I123::L()'],['../namespace_i124.html#a28d7540a21f1d5a824054d71abdc954e',1,'I124::L()'],['../namespace_i160.html#a4dcd9260b410cfa00a9256f4b7ae48d9',1,'I160::L()'],['../namespace_i___e_n_d.html#a70c563f132853470b4cb751265a20b7b',1,'I_END::L()'],['../namespace_m20_x.html#aa41e41b36b6c19e64171e10e87826981',1,'M20X::L()'],['../namespace_m21_x.html#a6137f62889d1a1cb0a9b0d6a75904404',1,'M21X::L()'],['../meter__registers_8h.html#a6e14778b66af867eb2e83c5921ce4a25',1,'M_END::L()']]],
-  ['libtext_1',['libText',['../struct_modbus_error.html#a827486bb5ee90d0a32dbf59f5a1edc1f',1,'ModbusError']]],
-  ['limitation_5ffault_2',['LIMITATION_FAULT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfac8094fa1e67ce6f831de8b7312ef1e15',1,'FroniusTypes']]]
+  ['limitation_5ffault_1',['LIMITATION_FAULT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfac8094fa1e67ce6f831de8b7312ef1e15',1,'FroniusTypes']]]
 ];

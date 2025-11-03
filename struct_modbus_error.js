@@ -7,13 +7,11 @@ var struct_modbus_error =
     [ "custom", "struct_modbus_error.html#ad02ae5564cc9954ecfbeebd4bc10a0f4", null ],
     [ "custom", "struct_modbus_error.html#ad8c972d1057ead419bb79dc24bd55cca", null ],
     [ "deduceSeverity", "struct_modbus_error.html#a335dcc94ea5a36158b330de2878a8f56", null ],
+    [ "describe", "struct_modbus_error.html#a0a4edf63d3f2dc60c87b9213a62c7ef7", null ],
     [ "fromErrno", "struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac", null ],
     [ "fromErrno", "struct_modbus_error.html#afbb17e4c67217fb75da19606ba25fc14", null ],
     [ "getOrThrow", "struct_modbus_error.html#a6c078f0f97004b040174f818ca983066", null ],
-    [ "make", "struct_modbus_error.html#ab836fe130761a7de8e25923103f28b7d", null ],
-    [ "toString", "struct_modbus_error.html#a1cc0c59883724c68956340d6bb4142fb", null ],
     [ "code", "struct_modbus_error.html#a47309a2767912296326d485197e2ea05", null ],
-    [ "libText", "struct_modbus_error.html#a827486bb5ee90d0a32dbf59f5a1edc1f", null ],
     [ "message", "struct_modbus_error.html#abcc3f7429f6d568c7a8d37379fb81488", null ],
     [ "severity", "struct_modbus_error.html#a556737c1c6d3ced2ccdc9c4dedbd6955", null ]
 ];

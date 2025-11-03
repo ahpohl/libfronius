@@ -23,6 +23,6 @@ var searchData=
   ['deduceseverity_20',['deduceSeverity',['../struct_modbus_error.html#a335dcc94ea5a36158b330de2878a8f56',1,'ModbusError']]],
   ['delete_5fdata_21',['DELETE_DATA',['../namespace_f.html#a5eaceccdd150d329875f02c19cdce18a',1,'F']]],
   ['dertyp_22',['DERTYP',['../namespace_i120.html#ac51ae0d51f5858b9988b79dd6ae73704',1,'I120']]],
-  ['describe_23',['describe',['../struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9',1,'Register']]],
+  ['describe_23',['describe',['../struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9',1,'Register::describe()'],['../struct_modbus_error.html#a0a4edf63d3f2dc60c87b9213a62c7ef7',1,'ModbusError::describe()']]],
   ['detectfloatorintregisters_24',['detectfloatorintregisters',['../class_meter.html#a10a6b002ada3d0cb450fb1a3c08b5ab3',1,'Meter::detectFloatOrIntRegisters()'],['../class_inverter.html#ab7206121c1c1fafc933d70659498b866',1,'Inverter::detectFloatOrIntRegisters()']]]
 ];
