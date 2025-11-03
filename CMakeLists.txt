@@ -50,8 +50,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(MYLIB_SOURCES 
     src/fronius.cpp 
     src/meter.cpp 
-    src/inverter.cpp
-    src/modbus_error.cpp    
+    src/inverter.cpp   
 )
 
 # --- Link libmodbus via pkg-config ---
@@ -67,7 +66,7 @@ if(BUILD_SHARED_LIBS)
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
-    target_link_libraries(fronius_shared PRIVATE PkgConfig::LIBMODBUS)
+    target_link_libraries(fronius_shared PUBLIC PkgConfig::LIBMODBUS)
     set_target_properties(fronius_shared PROPERTIES
         OUTPUT_NAME "fronius"
         VERSION ${PROJECT_VERSION}
@@ -87,7 +86,7 @@ if(BUILD_STATIC_LIBS)
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
-    target_link_libraries(fronius_static PRIVATE PkgConfig::LIBMODBUS)
+    target_link_libraries(fronius_static PUBLIC PkgConfig::LIBMODBUS)
     set_target_properties(fronius_static PROPERTIES
         OUTPUT_NAME "fronius"
         CXX_STANDARD 23
