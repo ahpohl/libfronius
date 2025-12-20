@@ -32,6 +32,6 @@ var searchData=
   ['transient_29',['TRANSIENT',['../struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386',1,'ModbusError']]],
   ['triggerreconnect_30',['triggerReconnect',['../class_fronius.html#ab26425a518c1917d8353689a96928103',1,'Fronius']]],
   ['tryconnect_31',['tryConnect',['../class_fronius.html#a4793cba62689a9e70aa0bdb8509a4a3f',1,'Fronius']]],
-  ['type_32',['type',['../struct_register.html#a6dbf7cb765d7f022d4337420d693b7ea',1,'Register::TYPE'],['../struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4',1,'Register::Type']]],
+  ['type_32',['type',['../struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4',1,'Register::Type'],['../struct_register.html#a6dbf7cb765d7f022d4337420d693b7ea',1,'Register::TYPE']]],
   ['typetostring_33',['typeToString',['../struct_register.html#a32c62912e004d2e03893de681adaa2d4',1,'Register']]]
 ];

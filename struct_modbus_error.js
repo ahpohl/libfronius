@@ -2,7 +2,8 @@ var struct_modbus_error =
 [
     [ "Severity", "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da", [
       [ "TRANSIENT", "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386", null ],
-      [ "FATAL", "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc", null ]
+      [ "FATAL", "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc", null ],
+      [ "SHUTDOWN", "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112", null ]
     ] ],
     [ "custom", "struct_modbus_error.html#ad02ae5564cc9954ecfbeebd4bc10a0f4", null ],
     [ "custom", "struct_modbus_error.html#ad8c972d1057ead419bb79dc24bd55cca", null ],

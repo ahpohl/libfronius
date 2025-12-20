@@ -171,6 +171,7 @@ var NAVTREEINDEX3 =
 "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da":[1,0,5,0],
 "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386":[1,0,5,0,0],
 "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc":[1,0,5,0,1],
+"struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112":[1,0,5,0,2],
 "struct_modbus_error.html#afbb17e4c67217fb75da19606ba25fc14":[1,0,5,6],
 "struct_register.html":[1,0,6],
 "struct_register.html#a32c62912e004d2e03893de681adaa2d4":[1,0,6,3],

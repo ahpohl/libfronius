@@ -116,6 +116,7 @@ $(document).ready(function(){initNavTree('struct_modbus_error.html',''); initRes
 Public Types</h2></td></tr>
 <tr class="memitem:ae809e381b12257b9524d271685f2a5da" id="r_ae809e381b12257b9524d271685f2a5da"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da">Severity</a> { <a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386">TRANSIENT</a>
 , <a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc">FATAL</a>
+, <a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112">SHUTDOWN</a>
  }</td></tr>
 <tr class="memdesc:ae809e381b12257b9524d271685f2a5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error severity classification.  <a href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da">More...</a><br /></td></tr>
 <tr class="separator:ae809e381b12257b9524d271685f2a5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,6 +200,8 @@ Static Private Member Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc" name="ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc"></a>FATAL&#160;</td><td class="fielddoc"><p>Fatal error — requires intervention. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112" name="ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112"></a>SHUTDOWN&#160;</td><td class="fielddoc"><p>Signal shutdown in progress </p>
+</td></tr>
 </table>
 
 </div>
@@ -252,7 +255,7 @@ Static Private Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac" title="Create a ModbusError from the current system errno using a plain message.">fromErrno(const std::string&amp;)</a></dd></dl>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> err = <a class="code hl_function" href="struct_modbus_error.html#ad02ae5564cc9954ecfbeebd4bc10a0f4">ModbusError::custom</a>(1234, <span class="stringliteral">&quot;Invalid Modbus address&quot;</span>);</div>
-<div class="ttc" id="astruct_modbus_error_html_ad02ae5564cc9954ecfbeebd4bc10a0f4"><div class="ttname"><a href="struct_modbus_error.html#ad02ae5564cc9954ecfbeebd4bc10a0f4">ModbusError::custom</a></div><div class="ttdeci">static ModbusError custom(int c, const std::string &amp;msg)</div><div class="ttdoc">Create a ModbusError with a custom error code and a plain message.</div><div class="ttdef"><b>Definition</b> modbus_error.h:118</div></div>
+<div class="ttc" id="astruct_modbus_error_html_ad02ae5564cc9954ecfbeebd4bc10a0f4"><div class="ttname"><a href="struct_modbus_error.html#ad02ae5564cc9954ecfbeebd4bc10a0f4">ModbusError::custom</a></div><div class="ttdeci">static ModbusError custom(int c, const std::string &amp;msg)</div><div class="ttdoc">Create a ModbusError with a custom error code and a plain message.</div><div class="ttdef"><b>Definition</b> modbus_error.h:119</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -424,7 +427,7 @@ fromErrno(std::format_string&lt;Args...&gt;, Args&amp;&amp;...)</dd></dl>
 <dd>
 <a class="el" href="struct_modbus_error.html#ad02ae5564cc9954ecfbeebd4bc10a0f4" title="Create a ModbusError with a custom error code and a plain message.">custom(int, const std::string&amp;)</a></dd></dl>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> err = <a class="code hl_function" href="struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac">ModbusError::fromErrno</a>(<span class="stringliteral">&quot;Failed to connect to Modbus device&quot;</span>);</div>
-<div class="ttc" id="astruct_modbus_error_html_a8ee0a18c7b54598998e9755b440d7bac"><div class="ttname"><a href="struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac">ModbusError::fromErrno</a></div><div class="ttdeci">static ModbusError fromErrno(const std::string &amp;msg)</div><div class="ttdoc">Create a ModbusError from the current system errno using a plain message.</div><div class="ttdef"><b>Definition</b> modbus_error.h:68</div></div>
+<div class="ttc" id="astruct_modbus_error_html_a8ee0a18c7b54598998e9755b440d7bac"><div class="ttname"><a href="struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac">ModbusError::fromErrno</a></div><div class="ttdeci">static ModbusError fromErrno(const std::string &amp;msg)</div><div class="ttdoc">Create a ModbusError from the current system errno using a plain message.</div><div class="ttdef"><b>Definition</b> modbus_error.h:69</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
