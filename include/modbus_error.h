@@ -34,7 +34,8 @@ public:
   /** @brief Error severity classification. */
   enum class Severity {
     TRANSIENT, /**< Temporary error — may succeed on retry. */
-    FATAL      /**< Fatal error — requires intervention. */
+    FATAL,     /**< Fatal error — requires intervention. */
+    SHUTDOWN   /**< Signal shutdown in progress */
   };
 
   /** @brief Modbus or system error code (as set in `errno`). */
@@ -211,6 +212,8 @@ private:
     case EMBXSFAIL: // Slave device or server failure
     case EMBXGTAR:  // Gateway target device failed to respond
       return Severity::FATAL;
+    case EINTR: // Call was interrupted by a signal
+      return Severity::SHUTDOWN;
     default:
       return Severity::TRANSIENT;
     }
