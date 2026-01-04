@@ -1,5 +1,6 @@
 #include "fronius.h"
 #include "common_registers.h"
+#include "fronius_types.h"
 #include "modbus_error.h"
 #include "modbus_utils.h"
 #include "register_base.h"
@@ -302,6 +303,17 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
                                (cfg_.useTcp ? cfg_.host : cfg_.device)));
   }
 
+  // Get the remote connection info
+  if (cfg_.useTcp) {
+    int socket = modbus_get_socket(ctx_);
+    if (socket == -1) {
+      ctx_ = nullptr;
+      return std::unexpected(ModbusError::fromErrno(
+          "tryConnect(): failed to get socket from libmodbus context"));
+    }
+    remote_ = ModbusUtils::getSocketInfo(socket);
+  }
+
   // Validate the connection
   uint16_t reg;
   int rc = modbus_read_registers(ctx_, C001::ID.ADDR, C001::ID.NB, &reg);
@@ -332,8 +344,9 @@ void Fronius::connectionLoop() {
           cv_.notify_all();
         }
 
-        if (onConnect_)
-          onConnect_();
+        if (onConnect_) {
+          onConnect_(remote_.ip, remote_.port);
+        }
 
         // Reset delay after success
         if (cfg_.exponential)
@@ -346,7 +359,7 @@ void Fronius::connectionLoop() {
         connected_.store(false);
 
         if (onDisconnect_)
-          onDisconnect_(reconnectDelay);
+          onDisconnect_(remote_.ip, remote_.port, reconnectDelay);
 
         // --- Notify via onError (callback handles logging and severity)
         if (onError_)

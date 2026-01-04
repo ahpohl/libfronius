@@ -14,7 +14,11 @@
 #ifndef MODBUS_UTILS_H_
 #define MODBUS_UTILS_H_
 
+#include "fronius_types.h"
+#include <arpa/inet.h>
 #include <cstdint>
+#include <modbus/modbus.h>
+#include <netinet/in.h>
 #include <string>
 
 /** @namespace ModbusUtils
@@ -105,6 +109,52 @@ inline std::string toHex(uint16_t val) {
   char buf[7];
   snprintf(buf, sizeof(buf), "%04X", val);
   return std::string(buf);
+}
+
+/**
+ * @brief Retrieves the remote peer's IP address and port from a connected
+ * socket.
+ *
+ * This function extracts connection information from a socket file descriptor,
+ * supporting both IPv4 and IPv6 protocols. It is protocol-independent and works
+ * for both client (master) and server (slave) socket roles.
+ *
+ * @param socket The socket file descriptor from which to retrieve peer
+ * information. Must be a connected socket (e.g., from accept() or after
+ * connect()).
+ *
+ * @return A std::pair containing:
+ *         - first:  Remote IP address as a string (IPv4 or IPv6 format)
+ *         - second:  Remote port number as an integer
+ *         Returns {"unknown", 0} if the socket is invalid or peer info cannot
+ * be retrieved.
+ */
+inline FroniusTypes::RemoteEndpoint getSocketInfo(int socket) {
+  struct sockaddr_storage addr;
+  socklen_t addr_len = sizeof(addr);
+
+  if (getpeername(socket, (struct sockaddr *)&addr, &addr_len) != 0) {
+    return {"unknown", 0};
+  }
+
+  char ip_str[INET6_ADDRSTRLEN];
+  int port = 0;
+
+  if (addr.ss_family == AF_INET) {
+    // IPv4
+    struct sockaddr_in *addr_in = (struct sockaddr_in *)&addr;
+    inet_ntop(AF_INET, &addr_in->sin_addr, ip_str, sizeof(ip_str));
+    port = ntohs(addr_in->sin_port);
+  } else if (addr.ss_family == AF_INET6) {
+    // IPv6
+    struct sockaddr_in6 *addr_in6 = (struct sockaddr_in6 *)&addr;
+    inet_ntop(AF_INET6, &addr_in6->sin6_addr, ip_str, sizeof(ip_str));
+    port = ntohs(addr_in6->sin6_port);
+  } else {
+    return {"unknown", 0};
+  }
+
+  return {ip_str, port};
 }
 
 } // namespace ModbusUtils

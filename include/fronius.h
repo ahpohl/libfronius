@@ -1,6 +1,7 @@
 #ifndef FRONIUS_H_
 #define FRONIUS_H_
 
+#include "fronius_types.h"
 #include "modbus_config.h"
 #include "modbus_error.h"
 #include "register_base.h"
@@ -12,6 +13,7 @@
 #include <optional>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
 /**
@@ -41,20 +43,43 @@ public:
   /**
    * @brief Set a callback to be invoked when a connection is established.
    *
+   * The callback is called immediately after a successful connection to the
+   * remote Modbus slave, allowing the application to log or react to the
+   * connection event.
+   *
    * @param cb Function to call upon successful connection.
-   * @note Thread-safe.
+   *           Signature: void(std::string remote_ip, int remote_port)
+   *           - remote_ip: IP address of the connected Modbus slave (IPv4 or
+   * IPv6)
+   *           - remote_port:  TCP port number of the connected Modbus slave
+   *
+   * @note Thread-safe. The callback is invoked from the connection thread.
+   * @note The callback should be lightweight and non-blocking.
    */
-  void setConnectCallback(std::function<void()> cb) {
+  void setConnectCallback(std::function<void(std::string, int)> cb) {
     onConnect_ = std::move(cb);
   }
 
   /**
    * @brief Set a callback to be invoked when the connection is lost.
    *
+   * The callback is called when the connection to the Modbus slave fails or
+   * is lost, providing information about the disconnected endpoint and the
+   * delay until the next reconnection attempt.
+   *
    * @param cb Function to call when disconnected.
-   * @note Thread-safe.
+   *           Signature: void(std::string remote_ip, int remote_port, int
+   * reconnect_delay)
+   *           - remote_ip:  IP address of the disconnected Modbus slave
+   *           - remote_port:  TCP port number of the disconnected Modbus slave
+   *           - reconnect_delay: Seconds until next reconnection attempt
+   *
+   * @note Thread-safe. The callback is invoked from the connection thread.
+   * @note The callback should be lightweight and non-blocking.
+   * @note If exponential backoff is enabled, reconnect_delay increases with
+   * each failure.
    */
-  void setDisconnectCallback(std::function<void(int)> cb) {
+  void setDisconnectCallback(std::function<void(std::string, int, int)> cb) {
     onDisconnect_ = std::move(cb);
   }
 
@@ -248,13 +273,24 @@ private:
   std::atomic<bool> connected_{false};
 
   /** @brief Optional callback invoked on successful connection. */
-  std::function<void()> onConnect_;
+  std::function<void(std::string, int)> onConnect_;
 
   /** @brief Optional callback invoked when disconnected. */
-  std::function<void(int)> onDisconnect_;
+  std::function<void(std::string, int, int)> onDisconnect_;
 
   /** @brief Optional callback invoked on Modbus communication error. */
   std::function<void(const ModbusError &)> onError_;
+
+  /**
+   * @brief Remote endpoint information for the active Modbus TCP connection.
+   *
+   * Stores the IP address and port of the connected Modbus slave, captured
+   * immediately after successful connection. This persists independently of
+   * the socket lifecycle, ensuring reliable access for disconnect callbacks.
+   *
+   * @note Updated via getSocketInfo() after modbus_connect() succeeds.
+   */
+  FroniusTypes::RemoteEndpoint remote_;
 
   /**
    * @brief Connection management loop.

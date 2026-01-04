@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 
 /**
  * @brief Container for project enums and their string conversion helpers.
@@ -626,6 +627,12 @@ struct FroniusTypes {
       return std::nullopt;
     }
   }
+
+  /** @brief Information about a remote Modbus TCP endpoint. */
+  struct RemoteEndpoint {
+    std::string ip; ///< IP address (IPv4 or IPv6)
+    int port{0};    ///< TCP port number
+  };
 };
 
 #endif /* FRONIUS_TYPES_H_ */
