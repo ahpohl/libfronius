@@ -5,3 +5,4 @@ docs/latex/
 *.obj
 *.so
 *.a
+build.sh
