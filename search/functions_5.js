@@ -29,7 +29,9 @@ var searchData=
   ['getoptions_26',['getOptions',['../class_fronius.html#aba29f69c3de5ec3f54b22fe204daa218',1,'Fronius']]],
   ['getorthrow_27',['getOrThrow',['../struct_modbus_error.html#a6c078f0f97004b040174f818ca983066',1,'ModbusError']]],
   ['getphases_28',['getphases',['../class_inverter.html#aa424c80527e408841490d4b38f590b8f',1,'Inverter::getPhases()'],['../class_meter.html#a6032aa0244acffc6bf88ffaf7838fff7',1,'Meter::getPhases()']]],
-  ['getserialnumber_29',['getSerialNumber',['../class_fronius.html#ac7b91bc23e6cf2e35f0915308228f87c',1,'Fronius']]],
-  ['getstate_30',['getState',['../class_inverter.html#abdc11aa68a57a2fce8886542787c7535',1,'Inverter']]],
-  ['getusefloatregisters_31',['getusefloatregisters',['../class_inverter.html#a8e2879ce5cc232b9632022f5596b30b7',1,'Inverter::getUseFloatRegisters()'],['../class_meter.html#ae75fa6b5782f2c2be0024abd650c75f5',1,'Meter::getUseFloatRegisters()']]]
+  ['getremoteendpoint_29',['getRemoteEndpoint',['../class_fronius.html#ac062b6119749a8b53b64601cc23ec5b9',1,'Fronius']]],
+  ['getserialnumber_30',['getSerialNumber',['../class_fronius.html#ac7b91bc23e6cf2e35f0915308228f87c',1,'Fronius']]],
+  ['getsocketinfo_31',['getSocketInfo',['../namespace_modbus_utils.html#aeeb08a4372f04601e8b780fc491047ac',1,'ModbusUtils']]],
+  ['getstate_32',['getState',['../class_inverter.html#abdc11aa68a57a2fce8886542787c7535',1,'Inverter']]],
+  ['getusefloatregisters_33',['getusefloatregisters',['../class_inverter.html#a8e2879ce5cc232b9632022f5596b30b7',1,'Inverter::getUseFloatRegisters()'],['../class_meter.html#ae75fa6b5782f2c2be0024abd650c75f5',1,'Meter::getUseFloatRegisters()']]]
 ];

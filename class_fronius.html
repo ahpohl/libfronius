@@ -149,6 +149,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Fronius</b> ()</t
 <tr class="memitem:ab26425a518c1917d8353689a96928103" id="r_ab26425a518c1917d8353689a96928103"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#ab26425a518c1917d8353689a96928103">triggerReconnect</a> (void)</td></tr>
 <tr class="memdesc:ab26425a518c1917d8353689a96928103"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the Modbus device as disconnected and triggers a reconnection attempt.  <br /></td></tr>
 <tr class="separator:ab26425a518c1917d8353689a96928103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac062b6119749a8b53b64601cc23ec5b9" id="r_ac062b6119749a8b53b64601cc23ec5b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#ac062b6119749a8b53b64601cc23ec5b9">getRemoteEndpoint</a> (void)</td></tr>
+<tr class="memdesc:ac062b6119749a8b53b64601cc23ec5b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the IP address and port of the remote Modbus TCP endpoint.  <br /></td></tr>
+<tr class="separator:ac062b6119749a8b53b64601cc23ec5b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa03910dbad885dc87be0b13c6b932262" id="r_aa03910dbad885dc87be0b13c6b932262"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aa03910dbad885dc87be0b13c6b932262">getManufacturer</a> (void)</td></tr>
 <tr class="memdesc:aa03910dbad885dc87be0b13c6b932262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the manufacturer name from the device.  <br /></td></tr>
 <tr class="separator:aa03910dbad885dc87be0b13c6b932262"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -251,6 +254,9 @@ std::function&lt; void(int)&gt;&#160;</td><td class="memItemRight" valign="botto
 std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onError_</b></td></tr>
 <tr class="memdesc:a731c562c06ecf5fe12d493f697326ac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional callback invoked on Modbus communication error. <br /></td></tr>
 <tr class="separator:a731c562c06ecf5fe12d493f697326ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39bef571e883389cb6b603c0cb29ea43" id="r_a39bef571e883389cb6b603c0cb29ea43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a39bef571e883389cb6b603c0cb29ea43">remoteEndpoint_</a></td></tr>
+<tr class="memdesc:a39bef571e883389cb6b603c0cb29ea43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remote endpoint information for the active Modbus TCP connection.  <br /></td></tr>
+<tr class="separator:a39bef571e883389cb6b603c0cb29ea43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides a Modbus communication interface for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices. </p>
@@ -675,6 +681,35 @@ std::function&lt; void(const <a class="el" href="struct_modbus_error.html">Modbu
 
 </div>
 </div>
+<a id="ac062b6119749a8b53b64601cc23ec5b9" name="ac062b6119749a8b53b64601cc23ec5b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac062b6119749a8b53b64601cc23ec5b9">&#9670;&#160;</a></span>getRemoteEndpoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a> Fronius::getRemoteEndpoint </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the IP address and port of the remote Modbus TCP endpoint. </p>
+<dl class="section return"><dt>Returns</dt><dd>RemoteEndpoint structure containing the IP address and port number of the remote endpoint. </dd></dl>
+
+</div>
+</div>
 <a id="ac7b91bc23e6cf2e35f0915308228f87c" name="ac7b91bc23e6cf2e35f0915308228f87c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac7b91bc23e6cf2e35f0915308228f87c">&#9670;&#160;</a></span>getSerialNumber()</h2>
 
@@ -792,13 +827,16 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Set a callback to be invoked when a connection is established. </p>
+<p>The callback is called immediately after a successful connection to the remote Modbus slave, allowing the application to log or react to the connection event.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cb</td><td>Function to call upon successful connection. </td></tr>
+    <tr><td class="paramname">cb</td><td>Function to call upon successful connection.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Thread-safe. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Thread-safe. The callback is invoked from the connection thread. </dd>
+<dd>
+The callback should be lightweight and non-blocking. </dd></dl>
 
 </div>
 </div>
@@ -827,13 +865,18 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Set a callback to be invoked when the connection is lost. </p>
+<p>The callback is called when the connection to the Modbus slave fails or is lost, providing information about the disconnected endpoint and the delay until the next reconnection attempt.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cb</td><td>Function to call when disconnected. </td></tr>
+    <tr><td class="paramname">cb</td><td>Function to call when disconnected. reconnect_delay: Seconds until next reconnection attempt</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Thread-safe. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Thread-safe. The callback is invoked from the connection thread. </dd>
+<dd>
+The callback should be lightweight and non-blocking. </dd>
+<dd>
+If exponential backoff is enabled, reconnect_delay increases with each failure. </dd></dl>
 
 </div>
 </div>
@@ -947,6 +990,33 @@ template&lt;typename T &gt; </div>
 
 <p>Validate that the connected device is SunSpec-compliant. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>std::expected&lt;bool, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;</code> Returns <code>true</code> if the device supports SunSpec. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Field Documentation</h2>
+<a id="a39bef571e883389cb6b603c0cb29ea43" name="a39bef571e883389cb6b603c0cb29ea43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39bef571e883389cb6b603c0cb29ea43">&#9670;&#160;</a></span>remoteEndpoint_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a> Fronius::remoteEndpoint_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remote endpoint information for the active Modbus TCP connection. </p>
+<p>Stores the IP address and port of the connected Modbus slave, captured immediately after successful connection. This persists independently of the socket lifecycle, ensuring reliable access for disconnect callbacks.</p>
+<dl class="section note"><dt>Note</dt><dd>Updated via getSocketInfo() after modbus_connect() succeeds. </dd></dl>
 
 </div>
 </div>

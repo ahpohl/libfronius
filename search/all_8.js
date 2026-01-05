@@ -23,9 +23,10 @@ var searchData=
   ['int16_20',['INT16',['../struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a5f90af42814c0a419d715d43ae54fd7a',1,'Register']]],
   ['intermediate_5ffault_21',['INTERMEDIATE_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01afe9d2cdb43e2f16542db190c975428bd',1,'FroniusTypes']]],
   ['inv_5faddress_5ffault_22',['INV_ADDRESS_FAULT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfaf9b212a20a1c63630f0f1d20abb9fc6a',1,'FroniusTypes']]],
-  ['inverter_23',['inverter',['../class_inverter.html#a8cfc0c7eb7b40e5e9a9c315d7701480c',1,'Inverter::Inverter()'],['../class_inverter.html',1,'Inverter']]],
+  ['inverter_23',['inverter',['../class_inverter.html',1,'Inverter'],['../class_inverter.html#a8cfc0c7eb7b40e5e9a9c315d7701480c',1,'Inverter::Inverter()']]],
   ['inverter_5fregisters_2eh_24',['inverter_registers.h',['../inverter__registers_8h.html',1,'']]],
   ['inwrte_25',['INWRTE',['../namespace_i124.html#a8818097b1fdde927d176270d9e2f25c4',1,'I124']]],
-  ['isconnected_26',['isConnected',['../class_fronius.html#aee3c52900dbad7a415f62481b905956d',1,'Fronius']]],
-  ['ishybrid_27',['isHybrid',['../class_inverter.html#a7dcc55bd4a9884f45ec65b72d96101be',1,'Inverter']]]
+  ['ip_26',['ip',['../struct_fronius_types_1_1_remote_endpoint.html#a09f2baf25adff14a3c2e683052c48f98',1,'FroniusTypes::RemoteEndpoint']]],
+  ['isconnected_27',['isConnected',['../class_fronius.html#aee3c52900dbad7a415f62481b905956d',1,'Fronius']]],
+  ['ishybrid_28',['isHybrid',['../class_inverter.html#a7dcc55bd4a9884f45ec65b72d96101be',1,'Inverter']]]
 ];

@@ -1,5 +1,6 @@
 var struct_fronius_types =
 [
+    [ "RemoteEndpoint", "struct_fronius_types_1_1_remote_endpoint.html", "struct_fronius_types_1_1_remote_endpoint" ],
     [ "Event_1", "struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01", [
       [ "INSULATION_FAULT", "struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a7dff71a68cd79c7b740627b45ffa508b", null ],
       [ "GRID_ERROR", "struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01abae85e92303970d0b8e497100d994099", null ],

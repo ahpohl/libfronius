@@ -126,10 +126,53 @@ Functions</h2></td></tr>
 <tr class="memitem:a559e877cb9556e621237890b939fee42" id="r_a559e877cb9556e621237890b939fee42"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#a559e877cb9556e621237890b939fee42">toHex</a> (uint16_t val)</td></tr>
 <tr class="memdesc:a559e877cb9556e621237890b939fee42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a 16-bit value to a hexadecimal string.  <br /></td></tr>
 <tr class="separator:a559e877cb9556e621237890b939fee42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeb08a4372f04601e8b780fc491047ac" id="r_aeeb08a4372f04601e8b780fc491047ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#aeeb08a4372f04601e8b780fc491047ac">getSocketInfo</a> (int socket)</td></tr>
+<tr class="memdesc:aeeb08a4372f04601e8b780fc491047ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the remote peer's IP address and port from a connected socket.  <br /></td></tr>
+<tr class="separator:aeeb08a4372f04601e8b780fc491047ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains helper functions for Modbus register manipulation. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="aeeb08a4372f04601e8b780fc491047ac" name="aeeb08a4372f04601e8b780fc491047ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeb08a4372f04601e8b780fc491047ac">&#9670;&#160;</a></span>getSocketInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a> ModbusUtils::getSocketInfo </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>socket</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the remote peer's IP address and port from a connected socket. </p>
+<p>This function extracts connection information from a socket file descriptor, supporting both IPv4 and IPv6 protocols. It is protocol-independent and works for both client (master) and server (slave) socket roles.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>The socket file descriptor from which to retrieve peer information. Must be a connected socket (e.g., from accept() or after connect()).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A std::pair containing:<ul>
+<li>first: Remote IP address as a string (IPv4 or IPv6 format)</li>
+<li>second: Remote port number as an integer Returns {"unknown", 0} if the socket is invalid or peer info cannot be retrieved. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
 <a id="ad95971d2f72990c64a0d7be5f285e276" name="ad95971d2f72990c64a0d7be5f285e276"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad95971d2f72990c64a0d7be5f285e276">&#9670;&#160;</a></span>modbus_get_int32()</h2>
 

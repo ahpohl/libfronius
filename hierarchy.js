@@ -7,5 +7,6 @@ var hierarchy =
     [ "FroniusTypes", "struct_fronius_types.html", null ],
     [ "ModbusConfig", "struct_modbus_config.html", null ],
     [ "ModbusError", "struct_modbus_error.html", null ],
-    [ "Register", "struct_register.html", null ]
+    [ "Register", "struct_register.html", null ],
+    [ "FroniusTypes::RemoteEndpoint", "struct_fronius_types_1_1_remote_endpoint.html", null ]
 ];

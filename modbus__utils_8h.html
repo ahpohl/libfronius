@@ -106,7 +106,11 @@ $(document).ready(function(){initNavTree('modbus__utils_8h.html',''); initResiza
 
 <p>Utility functions for working with Modbus registers and data.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<div class="textblock"><code>#include &quot;fronius_types.h&quot;</code><br />
+<code>#include &lt;arpa/inet.h&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;modbus/modbus.h&gt;</code><br />
+<code>#include &lt;netinet/in.h&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 </div>
 <p><a href="modbus__utils_8h_source.html">Go to the source code of this file.</a></p>
@@ -137,6 +141,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a559e877cb9556e621237890b939fee42" id="r_a559e877cb9556e621237890b939fee42"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#a559e877cb9556e621237890b939fee42">ModbusUtils::toHex</a> (uint16_t val)</td></tr>
 <tr class="memdesc:a559e877cb9556e621237890b939fee42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a 16-bit value to a hexadecimal string.  <br /></td></tr>
 <tr class="separator:a559e877cb9556e621237890b939fee42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeb08a4372f04601e8b780fc491047ac" id="r_aeeb08a4372f04601e8b780fc491047ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#aeeb08a4372f04601e8b780fc491047ac">ModbusUtils::getSocketInfo</a> (int socket)</td></tr>
+<tr class="memdesc:aeeb08a4372f04601e8b780fc491047ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the remote peer's IP address and port from a connected socket.  <br /></td></tr>
+<tr class="separator:aeeb08a4372f04601e8b780fc491047ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility functions for working with Modbus registers and data. </p>

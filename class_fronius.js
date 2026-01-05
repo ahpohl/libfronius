@@ -14,6 +14,7 @@ var class_fronius =
     [ "getModbusDouble", "class_fronius.html#a22c4f80b66e9f017b0829596f8ba191f", null ],
     [ "getModbusString", "class_fronius.html#a6b4bc0f95083ec6468a3916e5d6eeb95", null ],
     [ "getOptions", "class_fronius.html#aba29f69c3de5ec3f54b22fe204daa218", null ],
+    [ "getRemoteEndpoint", "class_fronius.html#ac062b6119749a8b53b64601cc23ec5b9", null ],
     [ "getSerialNumber", "class_fronius.html#ac7b91bc23e6cf2e35f0915308228f87c", null ],
     [ "isConnected", "class_fronius.html#aee3c52900dbad7a415f62481b905956d", null ],
     [ "reportError", "class_fronius.html#a6b229007bf3c213ae65dd61d95231cc6", null ],
@@ -33,5 +34,6 @@ var class_fronius =
     [ "onDisconnect_", "class_fronius.html#af35b22e9984b29faacb54ed7dfd111b3", null ],
     [ "onError_", "class_fronius.html#a731c562c06ecf5fe12d493f697326ac1", null ],
     [ "regs_", "class_fronius.html#af81f361049013f9c49b8aee98d7db41e", null ],
+    [ "remoteEndpoint_", "class_fronius.html#a39bef571e883389cb6b603c0cb29ea43", null ],
     [ "running_", "class_fronius.html#abfa2622c7575dde83dbd48818275b7e6", null ]
 ];
