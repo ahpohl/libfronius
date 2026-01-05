@@ -158,6 +158,8 @@ install(
 )
 
 # --- pkg-config (.pc) generation ---
+set(FRONIUS_PC_REQUIRES_PRIVATE "libmodbus")
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/libfronius.pc.in
     ${CMAKE_CURRENT_BINARY_DIR}/libfronius.pc

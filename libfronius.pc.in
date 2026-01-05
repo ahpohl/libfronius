@@ -6,5 +6,6 @@ includedir=${prefix}/include
 Name: fronius
 Description: Library to access Fronius inverters and smart meters
 Version: @PROJECT_VERSION@
+Requires.private: @FRONIUS_PC_REQUIRES_PRIVATE@
 Cflags: -I${includedir}
 Libs: -L${libdir} -lfronius
