@@ -311,7 +311,7 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
       return std::unexpected(ModbusError::fromErrno(
           "tryConnect(): failed to get socket from libmodbus context"));
     }
-    remote_ = ModbusUtils::getSocketInfo(socket);
+    remoteEndpoint_ = ModbusUtils::getSocketInfo(socket);
   }
 
   // Validate the connection
@@ -345,7 +345,7 @@ void Fronius::connectionLoop() {
         }
 
         if (onConnect_) {
-          onConnect_(remote_.ip, remote_.port);
+          onConnect_();
         }
 
         // Reset delay after success
@@ -359,7 +359,7 @@ void Fronius::connectionLoop() {
         connected_.store(false);
 
         if (onDisconnect_)
-          onDisconnect_(remote_.ip, remote_.port, reconnectDelay);
+          onDisconnect_(reconnectDelay);
 
         // --- Notify via onError (callback handles logging and severity)
         if (onError_)

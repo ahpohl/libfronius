@@ -48,15 +48,11 @@ public:
    * connection event.
    *
    * @param cb Function to call upon successful connection.
-   *           Signature: void(std::string remote_ip, int remote_port)
-   *           - remote_ip: IP address of the connected Modbus slave (IPv4 or
-   * IPv6)
-   *           - remote_port:  TCP port number of the connected Modbus slave
    *
    * @note Thread-safe. The callback is invoked from the connection thread.
    * @note The callback should be lightweight and non-blocking.
    */
-  void setConnectCallback(std::function<void(std::string, int)> cb) {
+  void setConnectCallback(std::function<void()> cb) {
     onConnect_ = std::move(cb);
   }
 
@@ -68,18 +64,14 @@ public:
    * delay until the next reconnection attempt.
    *
    * @param cb Function to call when disconnected.
-   *           Signature: void(std::string remote_ip, int remote_port, int
-   * reconnect_delay)
-   *           - remote_ip:  IP address of the disconnected Modbus slave
-   *           - remote_port:  TCP port number of the disconnected Modbus slave
-   *           - reconnect_delay: Seconds until next reconnection attempt
+   *           reconnect_delay: Seconds until next reconnection attempt
    *
    * @note Thread-safe. The callback is invoked from the connection thread.
    * @note The callback should be lightweight and non-blocking.
    * @note If exponential backoff is enabled, reconnect_delay increases with
    * each failure.
    */
-  void setDisconnectCallback(std::function<void(std::string, int, int)> cb) {
+  void setDisconnectCallback(std::function<void(int)> cb) {
     onDisconnect_ = std::move(cb);
   }
 
@@ -119,6 +111,16 @@ public:
    * errors or to recover from transient connection issues.
    */
   void triggerReconnect(void);
+
+  /**
+   * @brief Gets the IP address and port of the remote Modbus TCP endpoint
+   *
+   * @return RemoteEndpoint structure containing the IP address and port number
+   *         of the remote endpoint.
+   */
+  FroniusTypes::RemoteEndpoint getRemoteEndpoint(void) {
+    return remoteEndpoint_;
+  }
 
   /**
    * @brief Get the manufacturer name from the device.
@@ -273,10 +275,10 @@ private:
   std::atomic<bool> connected_{false};
 
   /** @brief Optional callback invoked on successful connection. */
-  std::function<void(std::string, int)> onConnect_;
+  std::function<void()> onConnect_;
 
   /** @brief Optional callback invoked when disconnected. */
-  std::function<void(std::string, int, int)> onDisconnect_;
+  std::function<void(int)> onDisconnect_;
 
   /** @brief Optional callback invoked on Modbus communication error. */
   std::function<void(const ModbusError &)> onError_;
@@ -290,7 +292,7 @@ private:
    *
    * @note Updated via getSocketInfo() after modbus_connect() succeeds.
    */
-  FroniusTypes::RemoteEndpoint remote_;
+  FroniusTypes::RemoteEndpoint remoteEndpoint_;
 
   /**
    * @brief Connection management loop.
