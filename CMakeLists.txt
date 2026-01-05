@@ -55,7 +55,7 @@ set(MYLIB_SOURCES
 
 # --- Link libmodbus via pkg-config ---
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBMODBUS REQUIRED IMPORTED_TARGET libmodbus)
+pkg_check_modules(MODBUS REQUIRED IMPORTED_TARGET libmodbus)
 
 # --- Shared library ---
 if(BUILD_SHARED_LIBS)
@@ -66,7 +66,7 @@ if(BUILD_SHARED_LIBS)
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
-    target_link_libraries(fronius_shared PUBLIC PkgConfig::LIBMODBUS)
+    target_link_libraries(fronius_shared PUBLIC PkgConfig::MODBUS)
     set_target_properties(fronius_shared PROPERTIES
         OUTPUT_NAME "fronius"
         VERSION ${PROJECT_VERSION}
@@ -86,7 +86,7 @@ if(BUILD_STATIC_LIBS)
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
-    target_link_libraries(fronius_static PUBLIC PkgConfig::LIBMODBUS)
+    target_link_libraries(fronius_static PUBLIC PkgConfig::MODBUS)
     set_target_properties(fronius_static PROPERTIES
         OUTPUT_NAME "fronius"
         CXX_STANDARD 23
