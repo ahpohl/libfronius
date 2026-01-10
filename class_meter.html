@@ -146,9 +146,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Meter</b> ()</td>
 <tr class="memitem:a3a42c6b3133469369c609d7fa26290be" id="r_a3a42c6b3133469369c609d7fa26290be"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a3a42c6b3133469369c609d7fa26290be">getAcCurrent</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
 <tr class="memdesc:a3a42c6b3133469369c609d7fa26290be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC current in amperes.  <br /></td></tr>
 <tr class="separator:a3a42c6b3133469369c609d7fa26290be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11aee055254857e273f854bab4bec351" id="r_a11aee055254857e273f854bab4bec351"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a11aee055254857e273f854bab4bec351">getAcVoltage</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a16de38737a9f8366e9b2042b4e9b6290">FroniusTypes::Phase::AVERAGE</a>) const</td></tr>
-<tr class="memdesc:a11aee055254857e273f854bab4bec351"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC voltage in volts.  <br /></td></tr>
-<tr class="separator:a11aee055254857e273f854bab4bec351"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa15cf217e90aea1cc49ba26bcf5fc861" id="r_aa15cf217e90aea1cc49ba26bcf5fc861"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#aa15cf217e90aea1cc49ba26bcf5fc861">getAcVoltage</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a5c6e89178a54145eb3fc8a5be882e078">FroniusTypes::Phase::PHV</a>) const</td></tr>
+<tr class="memdesc:aa15cf217e90aea1cc49ba26bcf5fc861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC voltage in volts.  <br /></td></tr>
+<tr class="separator:aa15cf217e90aea1cc49ba26bcf5fc861"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaee15e3ef1f790ae883452c75034e944" id="r_aaee15e3ef1f790ae883452c75034e944"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#aaee15e3ef1f790ae883452c75034e944">getAcPowerActive</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
 <tr class="memdesc:aaee15e3ef1f790ae883452c75034e944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC active power in watts.  <br /></td></tr>
 <tr class="separator:aaee15e3ef1f790ae883452c75034e944"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -393,7 +393,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get AC current in amperes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -420,7 +420,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get total exported active energy. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -447,7 +447,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get total imported active energy. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -495,7 +495,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get AC active power in watts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -522,7 +522,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get AC apparent power in volt-amperes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -549,7 +549,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get AC power factor (dimensionless). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>AVERAGE</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>AVERAGE</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -576,7 +576,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get AC reactive power in volt-ampere reactive. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -584,8 +584,8 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
-<a id="a11aee055254857e273f854bab4bec351" name="a11aee055254857e273f854bab4bec351"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11aee055254857e273f854bab4bec351">&#9670;&#160;</a></span>getAcVoltage()</h2>
+<a id="aa15cf217e90aea1cc49ba26bcf5fc861" name="aa15cf217e90aea1cc49ba26bcf5fc861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa15cf217e90aea1cc49ba26bcf5fc861">&#9670;&#160;</a></span>getAcVoltage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -594,7 +594,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcVoltage </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a>&#160;</td>
-          <td class="paramname"><em>ph</em> = <code><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a16de38737a9f8366e9b2042b4e9b6290">FroniusTypes::Phase::AVERAGE</a></code></td><td>)</td>
+          <td class="paramname"><em>ph</em> = <code><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a5c6e89178a54145eb3fc8a5be882e078">FroniusTypes::Phase::PHV</a></code></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -603,7 +603,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get AC voltage in volts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>AVERAGE</code>, <code>PHA</code>, <code>PHB</code>, or <code>PHC</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>PHV</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
   </table>
   </dd>
 </dl>

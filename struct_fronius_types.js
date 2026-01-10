@@ -91,9 +91,14 @@ var struct_fronius_types =
     [ "Phase", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4", [
       [ "TOTAL", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d", null ],
       [ "AVERAGE", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a16de38737a9f8366e9b2042b4e9b6290", null ],
+      [ "PHV", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a5c6e89178a54145eb3fc8a5be882e078", null ],
+      [ "PPV", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4abe91a07eac8c5c15016e42c03050b41f", null ],
       [ "A", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a7fc56270e7a70fa81a5935b72eacbe29", null ],
       [ "B", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a9d5ed678fe57bcca610140957afab571", null ],
-      [ "C", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a0d61f8370cad1d412f80b84d143e1257", null ]
+      [ "C", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a0d61f8370cad1d412f80b84d143e1257", null ],
+      [ "AB", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4ab86fc6b051f63d73de262d4c34e3a0a9", null ],
+      [ "BC", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4af85b7b377112c272bc87f3e73f10508d", null ],
+      [ "CA", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3e8d115eb4b32b9e9479f387dbe14ee1", null ]
     ] ],
     [ "State", "struct_fronius_types.html#a82125527cea5b559ef64289e1de34511", [
       [ "POWER_OFF", "struct_fronius_types.html#a82125527cea5b559ef64289e1de34511aa15cea80d926d7282b831d451ba8aee8", null ],

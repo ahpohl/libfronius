@@ -12,7 +12,7 @@ var class_meter =
     [ "getAcPowerApparent", "class_meter.html#a13a628259a6e75ee8468654d03e18d00", null ],
     [ "getAcPowerFactor", "class_meter.html#a4b4a8a565bf195a1bea67f083c78ee2b", null ],
     [ "getAcPowerReactive", "class_meter.html#a20119b1213ed49713098094be6423e7c", null ],
-    [ "getAcVoltage", "class_meter.html#a11aee055254857e273f854bab4bec351", null ],
+    [ "getAcVoltage", "class_meter.html#aa15cf217e90aea1cc49ba26bcf5fc861", null ],
     [ "getId", "class_meter.html#a31d4d0237a176fa91720d5eb521b6a4b", null ],
     [ "getPhases", "class_meter.html#a6032aa0244acffc6bf88ffaf7838fff7", null ],
     [ "getUseFloatRegisters", "class_meter.html#ae75fa6b5782f2c2be0024abd650c75f5", null ],
