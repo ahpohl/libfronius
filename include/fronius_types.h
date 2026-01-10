@@ -19,10 +19,15 @@ struct FroniusTypes {
    */
   enum class Phase {
     TOTAL,   /**< Total phase */
-    AVERAGE, /**< Average phase */
-    A,       /**< Phase A */
-    B,       /**< Phase B */
-    C        /**< Phase C */
+    AVERAGE, /**< Average value */
+    PHV,     /**< Average phase to neutral */
+    PPV,     /**< Average phase to phase */
+    A,       /**< Phase A to neutral */
+    B,       /**< Phase B to neutral*/
+    C,       /**< Phase C to neutral */
+    AB,      /**< Phase AB */
+    BC,      /**< Phase BC */
+    CA       /**< Phase CA */
   };
 
   /**
@@ -35,14 +40,22 @@ struct FroniusTypes {
     switch (phase) {
     case Phase::TOTAL:
       return "TOTAL";
-    case Phase::AVERAGE:
-      return "AVERAGE";
+    case Phase::PHV:
+      return "PHV";
     case Phase::A:
       return "A";
     case Phase::B:
       return "B";
     case Phase::C:
       return "C";
+    case Phase::PPV:
+      return "PPV";
+    case Phase::AB:
+      return "AB";
+    case Phase::BC:
+      return "BC";
+    case Phase::CA:
+      return "CA";
     default:
       return "UNKNOWN";
     }
