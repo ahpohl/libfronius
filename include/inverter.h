@@ -115,7 +115,7 @@ public:
   /**
    * @brief Get AC current in amperes.
    *
-   * @param ph Phase to read (`TOTAL`, `PHA`, `PHB`, or `PHC`).
+   * @param ph Phase to read (`TOTAL`, `A`, `B`, or `C`).
    * @return Current value in amperes (A).
    */
   std::expected<double, ModbusError>
@@ -124,7 +124,7 @@ public:
   /**
    * @brief Get AC voltage in volts.
    *
-   * @param ph Phase to read (`PHA`, `PHB`, or `PHC`).
+   * @param ph Phase to read (`A`, `B`, or `C`).
    * @return Voltage value in volts (V).
    */
   std::expected<double, ModbusError>

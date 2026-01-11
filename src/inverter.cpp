@@ -210,6 +210,19 @@ Inverter::getAcVoltage(const FroniusTypes::Phase ph) const {
     return useFloatRegisters_
                ? getModbusDouble(regs_, I11X::PHVPHC)
                : getModbusDouble(regs_, I10X::PHVPHC, I10X::V_SF);
+  case FroniusTypes::Phase::AB:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, I11X::PPVPHAB)
+               : getModbusDouble(regs_, I10X::PPVPHAB, I10X::V_SF);
+  case FroniusTypes::Phase::BC:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, I11X::PPVPHBC)
+               : getModbusDouble(regs_, I10X::PPVPHBC, I10X::V_SF);
+  case FroniusTypes::Phase::CA:
+    return useFloatRegisters_
+               ? getModbusDouble(regs_, I11X::PPVPHCA)
+               : getModbusDouble(regs_, I10X::PPVPHCA, I10X::V_SF);
+
   default:
     return reportError<double>(std::unexpected(
         ModbusError::custom(EINVAL, "getAcVoltage(): Invalid phase {}",
