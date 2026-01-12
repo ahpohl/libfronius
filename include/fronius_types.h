@@ -18,12 +18,12 @@ struct FroniusTypes {
    * @brief Represents AC or DC phases.
    */
   enum class Phase {
-    TOTAL,   /**< Total phase */
+    TOTAL,   /**< Total value */
     AVERAGE, /**< Average value */
     PHV,     /**< Average phase to neutral */
     PPV,     /**< Average phase to phase */
     A,       /**< Phase A to neutral */
-    B,       /**< Phase B to neutral*/
+    B,       /**< Phase B to neutral */
     C,       /**< Phase C to neutral */
     AB,      /**< Phase AB */
     BC,      /**< Phase BC */
@@ -40,16 +40,18 @@ struct FroniusTypes {
     switch (phase) {
     case Phase::TOTAL:
       return "TOTAL";
+    case Phase::AVERAGE:
+      return "AVERAGE";
     case Phase::PHV:
       return "PHV";
+    case Phase::PPV:
+      return "PPV";
     case Phase::A:
       return "A";
     case Phase::B:
       return "B";
     case Phase::C:
       return "C";
-    case Phase::PPV:
-      return "PPV";
     case Phase::AB:
       return "AB";
     case Phase::BC:
