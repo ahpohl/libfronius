@@ -10,5 +10,6 @@ var searchData=
   ['power_5fstage_5ffault_7',['POWER_STAGE_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01aa4fe2e0b8d0e4597e88e3fa028ddab87',1,'FroniusTypes']]],
   ['ppv_8',['PPV',['../struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4abe91a07eac8c5c15016e42c03050b41f',1,'FroniusTypes']]],
   ['program_5fstatus_9',['PROGRAM_STATUS',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa4f9b70b3bfb5a294830441b2469dd106',1,'FroniusTypes']]],
-  ['ps_5fpwr_5fsupply_5fissue_10',['PS_PWR_SUPPLY_ISSUE',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa8eaa65d8ba2f30fc59b3830a3adeead4',1,'FroniusTypes']]]
+  ['proprietary_10',['PROPRIETARY',['../struct_fronius_types.html#a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8',1,'FroniusTypes']]],
+  ['ps_5fpwr_5fsupply_5fissue_11',['PS_PWR_SUPPLY_ISSUE',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa8eaa65d8ba2f30fc59b3830a3adeead4',1,'FroniusTypes']]]
 ];

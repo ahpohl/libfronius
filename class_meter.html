@@ -128,9 +128,9 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Meter</b> ()</td></tr>
 <tr class="memdesc:a7f152fa166e30cb157bcc8a71bda53f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> instance. <br /></td></tr>
 <tr class="separator:a7f152fa166e30cb157bcc8a71bda53f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1262c740b45e5d4913f30a857058f1ae" id="r_a1262c740b45e5d4913f30a857058f1ae"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a1262c740b45e5d4913f30a857058f1ae">validateDevice</a> ()</td></tr>
-<tr class="memdesc:a1262c740b45e5d4913f30a857058f1ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the meter's register data.  <br /></td></tr>
-<tr class="separator:a1262c740b45e5d4913f30a857058f1ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b110d1e0fae233717436fa159ade0dc" id="r_a9b110d1e0fae233717436fa159ade0dc"><td class="memItemLeft" align="right" valign="top">std::expected&lt; <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a9b110d1e0fae233717436fa159ade0dc">validateDevice</a> ()</td></tr>
+<tr class="memdesc:a9b110d1e0fae233717436fa159ade0dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the meter's register data.  <br /></td></tr>
+<tr class="separator:a9b110d1e0fae233717436fa159ade0dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9303eab10b5fce41e4cc87754d918e61" id="r_a9303eab10b5fce41e4cc87754d918e61"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a9303eab10b5fce41e4cc87754d918e61">fetchMeterRegisters</a> (void)</td></tr>
 <tr class="memdesc:a9303eab10b5fce41e4cc87754d918e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch the complete <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> <a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> Map from the device.  <br /></td></tr>
 <tr class="separator:a9303eab10b5fce41e4cc87754d918e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,11 +138,26 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Meter</b> ()</td>
 <tr class="memdesc:ae75fa6b5782f2c2be0024abd650c75f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current register model type.  <br /></td></tr>
 <tr class="separator:ae75fa6b5782f2c2be0024abd650c75f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6032aa0244acffc6bf88ffaf7838fff7" id="r_a6032aa0244acffc6bf88ffaf7838fff7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a6032aa0244acffc6bf88ffaf7838fff7">getPhases</a> (void) const</td></tr>
-<tr class="memdesc:a6032aa0244acffc6bf88ffaf7838fff7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of active phases.  <br /></td></tr>
+<tr class="memdesc:a6032aa0244acffc6bf88ffaf7838fff7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of phases supported by the meter.  <br /></td></tr>
 <tr class="separator:a6032aa0244acffc6bf88ffaf7838fff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31d4d0237a176fa91720d5eb521b6a4b" id="r_a31d4d0237a176fa91720d5eb521b6a4b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a31d4d0237a176fa91720d5eb521b6a4b">getId</a> (void) const</td></tr>
 <tr class="memdesc:a31d4d0237a176fa91720d5eb521b6a4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the meter's device ID.  <br /></td></tr>
 <tr class="separator:a31d4d0237a176fa91720d5eb521b6a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84015a650967c46b3e8fd8ece99550ec" id="r_a84015a650967c46b3e8fd8ece99550ec"><td class="memItemLeft" align="right" valign="top">std::expected&lt; uint16_t, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a84015a650967c46b3e8fd8ece99550ec">getModbusDeviceAddress</a> (void)</td></tr>
+<tr class="memdesc:a84015a650967c46b3e8fd8ece99550ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Modbus slave address.  <br /></td></tr>
+<tr class="separator:a84015a650967c46b3e8fd8ece99550ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaefd4369fcdeddf5ba74592db4dafd8" id="r_aeaefd4369fcdeddf5ba74592db4dafd8"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#aeaefd4369fcdeddf5ba74592db4dafd8">getSerialNumber</a> (void)</td></tr>
+<tr class="memdesc:aeaefd4369fcdeddf5ba74592db4dafd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the serial number of the connected meter.  <br /></td></tr>
+<tr class="separator:aeaefd4369fcdeddf5ba74592db4dafd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab1c6db773b597434177e1738dcac2aa" id="r_aab1c6db773b597434177e1738dcac2aa"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#aab1c6db773b597434177e1738dcac2aa">getDeviceModel</a> (void)</td></tr>
+<tr class="memdesc:aab1c6db773b597434177e1738dcac2aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the meter model name.  <br /></td></tr>
+<tr class="separator:aab1c6db773b597434177e1738dcac2aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a800ac21c334e4100be107d0a917fb4fb" id="r_a800ac21c334e4100be107d0a917fb4fb"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a800ac21c334e4100be107d0a917fb4fb">getManufacturer</a> (void)</td></tr>
+<tr class="memdesc:a800ac21c334e4100be107d0a917fb4fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the manufacturer name.  <br /></td></tr>
+<tr class="separator:a800ac21c334e4100be107d0a917fb4fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ef5b5416558d5a73ce1f922505a8b77" id="r_a1ef5b5416558d5a73ce1f922505a8b77"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a1ef5b5416558d5a73ce1f922505a8b77">getFwVersion</a> (void)</td></tr>
+<tr class="memdesc:a1ef5b5416558d5a73ce1f922505a8b77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the meter firmware version.  <br /></td></tr>
+<tr class="separator:a1ef5b5416558d5a73ce1f922505a8b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a42c6b3133469369c609d7fa26290be" id="r_a3a42c6b3133469369c609d7fa26290be"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a3a42c6b3133469369c609d7fa26290be">getAcCurrent</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
 <tr class="memdesc:a3a42c6b3133469369c609d7fa26290be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC current in amperes.  <br /></td></tr>
 <tr class="separator:a3a42c6b3133469369c609d7fa26290be"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,12 +179,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Meter</b> ()</td>
 <tr class="memitem:a4b4a8a565bf195a1bea67f083c78ee2b" id="r_a4b4a8a565bf195a1bea67f083c78ee2b"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a4b4a8a565bf195a1bea67f083c78ee2b">getAcPowerFactor</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a16de38737a9f8366e9b2042b4e9b6290">FroniusTypes::Phase::AVERAGE</a>) const</td></tr>
 <tr class="memdesc:a4b4a8a565bf195a1bea67f083c78ee2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC power factor (dimensionless).  <br /></td></tr>
 <tr class="separator:a4b4a8a565bf195a1bea67f083c78ee2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb21131e35f7707325190a24549166fc" id="r_acb21131e35f7707325190a24549166fc"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#acb21131e35f7707325190a24549166fc">getAcEnergyActiveExport</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
-<tr class="memdesc:acb21131e35f7707325190a24549166fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total exported active energy.  <br /></td></tr>
-<tr class="separator:acb21131e35f7707325190a24549166fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f0af23e5258878744ca0498b706065f" id="r_a2f0af23e5258878744ca0498b706065f"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a2f0af23e5258878744ca0498b706065f">getAcEnergyActiveImport</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
-<tr class="memdesc:a2f0af23e5258878744ca0498b706065f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total imported active energy.  <br /></td></tr>
-<tr class="separator:a2f0af23e5258878744ca0498b706065f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce6fb689819187b9e8fae35a77c2231" id="r_a7ce6fb689819187b9e8fae35a77c2231"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a7ce6fb689819187b9e8fae35a77c2231">getAcEnergyActiveExport</a> (void) const</td></tr>
+<tr class="memdesc:a7ce6fb689819187b9e8fae35a77c2231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total exported active energy.  <br /></td></tr>
+<tr class="separator:a7ce6fb689819187b9e8fae35a77c2231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4ed5b4a3f3b0f7d812bd4509280a5f5" id="r_ad4ed5b4a3f3b0f7d812bd4509280a5f5"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#ad4ed5b4a3f3b0f7d812bd4509280a5f5">getAcEnergyActiveImport</a> (void) const</td></tr>
+<tr class="memdesc:ad4ed5b4a3f3b0f7d812bd4509280a5f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total imported active energy.  <br /></td></tr>
+<tr class="separator:ad4ed5b4a3f3b0f7d812bd4509280a5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_fronius"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_fronius')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_fronius.html">Fronius</a></td></tr>
 <tr class="memitem:aabc618a08184fe3382886ae471c51389 inherit pub_methods_class_fronius" id="r_aabc618a08184fe3382886ae471c51389"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aabc618a08184fe3382886ae471c51389">Fronius</a> (const <a class="el" href="struct_modbus_config.html">ModbusConfig</a> &amp;cfg)</td></tr>
 <tr class="memdesc:aabc618a08184fe3382886ae471c51389 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> instance.  <br /></td></tr>
@@ -223,17 +238,19 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a10a6b002ada3d0cb450fb1a3c08b5ab3" id="r_a10a6b002ada3d0cb450fb1a3c08b5ab3"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a10a6b002ada3d0cb450fb1a3c08b5ab3">detectFloatOrIntRegisters</a> (void)</td></tr>
 <tr class="memdesc:a10a6b002ada3d0cb450fb1a3c08b5ab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect the register map type (float vs. integer) and initialize the meter.  <br /></td></tr>
 <tr class="separator:a10a6b002ada3d0cb450fb1a3c08b5ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabc873abe6af8a8b2a42dc8d22c300ea" id="r_aabc873abe6af8a8b2a42dc8d22c300ea"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#aabc873abe6af8a8b2a42dc8d22c300ea">getRegValue</a> (const <a class="el" href="struct_register.html">Register</a> &amp;regProp, double sfProp, const <a class="el" href="struct_register.html">Register</a> &amp;regInt, const <a class="el" href="struct_register.html">Register</a> &amp;sfInt, const <a class="el" href="struct_register.html">Register</a> &amp;regFlt) const</td></tr>
+<tr class="memdesc:aabc873abe6af8a8b2a42dc8d22c300ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a scaled double value from the appropriate register depending on the detected register map.  <br /></td></tr>
+<tr class="separator:aabc873abe6af8a8b2a42dc8d22c300ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a0f25b83b5cf48e08382f52def3851eaf" id="r_a0f25b83b5cf48e08382f52def3851eaf"><td class="memItemLeft" align="right" valign="top"><a id="a0f25b83b5cf48e08382f52def3851eaf" name="a0f25b83b5cf48e08382f52def3851eaf"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>connectedAndValid_</b> {false}</td></tr>
-<tr class="memdesc:a0f25b83b5cf48e08382f52def3851eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates whether the meter connection and register data are valid. <br /></td></tr>
-<tr class="separator:a0f25b83b5cf48e08382f52def3851eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bf8da3d6912f3416b61655f88888a14" id="r_a8bf8da3d6912f3416b61655f88888a14"><td class="memItemLeft" align="right" valign="top"><a id="a8bf8da3d6912f3416b61655f88888a14" name="a8bf8da3d6912f3416b61655f88888a14"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>useFloatRegisters_</b> {false}</td></tr>
 <tr class="memdesc:a8bf8da3d6912f3416b61655f88888a14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating if the meter uses float-based register encoding. <br /></td></tr>
 <tr class="separator:a8bf8da3d6912f3416b61655f88888a14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf7883a150f3ce18387e8580b05c7c8" id="r_aeaf7883a150f3ce18387e8580b05c7c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#aeaf7883a150f3ce18387e8580b05c7c8">registerMap_</a></td></tr>
+<tr class="memdesc:aeaf7883a150f3ce18387e8580b05c7c8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> map type detected during the last successful <a class="el" href="class_meter.html#a9b110d1e0fae233717436fa159ade0dc" title="Validate the meter&#39;s register data.">validateDevice()</a> call. Defaults to UNAVAILABLE until detection has completed.  <br /></td></tr>
+<tr class="separator:aeaf7883a150f3ce18387e8580b05c7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95ea62856e7ba89ead6d7a94fe9e07d4" id="r_a95ea62856e7ba89ead6d7a94fe9e07d4"><td class="memItemLeft" align="right" valign="top"><a id="a95ea62856e7ba89ead6d7a94fe9e07d4" name="a95ea62856e7ba89ead6d7a94fe9e07d4"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>id_</b> {0}</td></tr>
 <tr class="memdesc:a95ea62856e7ba89ead6d7a94fe9e07d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detected <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> meter ID (e.g., 201, 213, etc.). <br /></td></tr>
@@ -252,6 +269,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a22c4f80b66e9f017b0829596f8ba191f inherit pro_methods_class_fronius" id="r_a22c4f80b66e9f017b0829596f8ba191f"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a22c4f80b66e9f017b0829596f8ba191f">getModbusDouble</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg, std::optional&lt; <a class="el" href="struct_register.html">Register</a> &gt; sf=std::nullopt) const</td></tr>
 <tr class="memdesc:a22c4f80b66e9f017b0829596f8ba191f inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a scaled double value from Modbus registers.  <br /></td></tr>
 <tr class="separator:a22c4f80b66e9f017b0829596f8ba191f inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af964ecea9f105b16fd07c3eb911be837 inherit pro_methods_class_fronius" id="r_af964ecea9f105b16fd07c3eb911be837"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#af964ecea9f105b16fd07c3eb911be837">getModbusDouble</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg, double sf) const</td></tr>
+<tr class="memdesc:af964ecea9f105b16fd07c3eb911be837 inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a scaled double value using a compile-time scale factor.  <br /></td></tr>
+<tr class="separator:af964ecea9f105b16fd07c3eb911be837 inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17388530ef44a1c8d625897542f5c257 inherit pro_methods_class_fronius" id="r_a17388530ef44a1c8d625897542f5c257"><td class="memItemLeft" align="right" valign="top">std::expected&lt; bool, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a17388530ef44a1c8d625897542f5c257">validateSunSpecRegisters</a> (void)</td></tr>
 <tr class="memdesc:a17388530ef44a1c8d625897542f5c257 inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate that the connected device is SunSpec-compliant.  <br /></td></tr>
 <tr class="separator:a17388530ef44a1c8d625897542f5c257 inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -263,6 +283,10 @@ Additional Inherited Members</h2></td></tr>
 modbus_t *&#160;</td><td class="memItemRight" valign="bottom"><b>ctx_</b> {nullptr}</td></tr>
 <tr class="memdesc:a943d81fb0a575e02e98f98440ab2d652 inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle for the libmodbus connection context. <br /></td></tr>
 <tr class="separator:a943d81fb0a575e02e98f98440ab2d652 inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a965f0c137a73cadd38c346fb45f4f5c5 inherit pro_attribs_class_fronius" id="r_a965f0c137a73cadd38c346fb45f4f5c5"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="struct_modbus_config.html">ModbusConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cfg_</b></td></tr>
+<tr class="memdesc:a965f0c137a73cadd38c346fb45f4f5c5 inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration object defining Modbus parameters. <br /></td></tr>
+<tr class="separator:a965f0c137a73cadd38c346fb45f4f5c5 inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af81f361049013f9c49b8aee98d7db41e inherit pro_attribs_class_fronius" id="r_af81f361049013f9c49b8aee98d7db41e"><td class="memItemLeft" align="right" valign="top">
 std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>regs_</b></td></tr>
 <tr class="memdesc:af81f361049013f9c49b8aee98d7db41e inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer storing the complete device register map. <br /></td></tr>
@@ -401,8 +425,8 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
-<a id="acb21131e35f7707325190a24549166fc" name="acb21131e35f7707325190a24549166fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb21131e35f7707325190a24549166fc">&#9670;&#160;</a></span>getAcEnergyActiveExport()</h2>
+<a id="a7ce6fb689819187b9e8fae35a77c2231" name="a7ce6fb689819187b9e8fae35a77c2231"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce6fb689819187b9e8fae35a77c2231">&#9670;&#160;</a></span>getAcEnergyActiveExport()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -410,26 +434,21 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcEnergyActiveExport </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a>&#160;</td>
-          <td class="paramname"><em>ph</em> = <code><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a></code></td><td>)</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Get total exported active energy. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Exported energy in watt-hours (Wh). </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Total exported energy in watt-hours (Wh). </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Per-phase export energy is not supported by any currently implemented meter (EasyMeter, <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> TS 65A-3). </dd></dl>
 
 </div>
 </div>
-<a id="a2f0af23e5258878744ca0498b706065f" name="a2f0af23e5258878744ca0498b706065f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f0af23e5258878744ca0498b706065f">&#9670;&#160;</a></span>getAcEnergyActiveImport()</h2>
+<a id="ad4ed5b4a3f3b0f7d812bd4509280a5f5" name="ad4ed5b4a3f3b0f7d812bd4509280a5f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4ed5b4a3f3b0f7d812bd4509280a5f5">&#9670;&#160;</a></span>getAcEnergyActiveImport()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -437,21 +456,16 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcEnergyActiveImport </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a>&#160;</td>
-          <td class="paramname"><em>ph</em> = <code><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a></code></td><td>)</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Get total imported active energy. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ph</td><td><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a> to read (<code>TOTAL</code>, <code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Imported energy in watt-hours (Wh). </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Total imported energy in watt-hours (Wh). </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Per-phase import energy is not supported by any currently implemented meter (EasyMeter, <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> TS 65A-3). </dd></dl>
 
 </div>
 </div>
@@ -611,6 +625,50 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
+<a id="aab1c6db773b597434177e1738dcac2aa" name="aab1c6db773b597434177e1738dcac2aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab1c6db773b597434177e1738dcac2aa">&#9670;&#160;</a></span>getDeviceModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getDeviceModel </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the meter model name. </p>
+<p>For the SunSpec register map, reads from <a class="el" href="namespace_c001.html#a1c857d06ba0f100fcf65b0ac0d4a8170">C001::MD</a>. For the proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map, returns the hardcoded string <code>"Smart Meter TS 65A-3"</code> since no model string register exists in that map.</p>
+<dl class="section return"><dt>Returns</dt><dd>Model name string (e.g. <code>"Smart Meter TS 65A-3"</code>). </dd></dl>
+
+</div>
+</div>
+<a id="a1ef5b5416558d5a73ce1f922505a8b77" name="a1ef5b5416558d5a73ce1f922505a8b77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ef5b5416558d5a73ce1f922505a8b77">&#9670;&#160;</a></span>getFwVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getFwVersion </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the meter firmware version. </p>
+<p>For the SunSpec register map, reads from <a class="el" href="namespace_c001.html#ae6e583e94a60948125f70b75992646ce">C001::VR</a>. For the proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map, returns the version cached from the device type probe performed during <a class="el" href="class_meter.html#a9b110d1e0fae233717436fa159ade0dc">validateDevice()</a> (e.g. <code>"1.5"</code>), since no separate firmware version register exists in that map.</p>
+<dl class="section return"><dt>Returns</dt><dd>Firmware version string (e.g. <code>"1.5"</code>). </dd></dl>
+
+</div>
+</div>
 <a id="a31d4d0237a176fa91720d5eb521b6a4b" name="a31d4d0237a176fa91720d5eb521b6a4b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31d4d0237a176fa91720d5eb521b6a4b">&#9670;&#160;</a></span>getId()</h2>
 
@@ -640,6 +698,50 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
+<a id="a800ac21c334e4100be107d0a917fb4fb" name="a800ac21c334e4100be107d0a917fb4fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a800ac21c334e4100be107d0a917fb4fb">&#9670;&#160;</a></span>getManufacturer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getManufacturer </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the manufacturer name. </p>
+<p>For the SunSpec register map, reads from <a class="el" href="namespace_c001.html#a3ffaffde131f00c6d564543e9bd2439e">C001::MN</a>. For the proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map, returns the hardcoded string <code>"Fronius"</code> since no manufacturer string register exists in that map.</p>
+<dl class="section return"><dt>Returns</dt><dd>Manufacturer name string (e.g. <code>"Fronius"</code>). </dd></dl>
+
+</div>
+</div>
+<a id="a84015a650967c46b3e8fd8ece99550ec" name="a84015a650967c46b3e8fd8ece99550ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84015a650967c46b3e8fd8ece99550ec">&#9670;&#160;</a></span>getModbusDeviceAddress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; uint16_t, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getModbusDeviceAddress </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Modbus slave address. </p>
+<p>For the SunSpec register map, reads the device address from the common block register <a class="el" href="namespace_c001.html#ad7c68e9e484295f35a61b1fb4829cc59">C001::DA</a>. For the proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map, returns the configured slave ID directly since the common block is not present.</p>
+<dl class="section return"><dt>Returns</dt><dd>Slave ID in the range 1–247. </dd></dl>
+
+</div>
+</div>
 <a id="a6032aa0244acffc6bf88ffaf7838fff7" name="a6032aa0244acffc6bf88ffaf7838fff7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6032aa0244acffc6bf88ffaf7838fff7">&#9670;&#160;</a></span>getPhases()</h2>
 
@@ -664,8 +766,98 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 </table>
 </div><div class="memdoc">
 
-<p>Get the number of active phases. </p>
+<p>Get the number of phases supported by the meter. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of phases (1, 2, or 3). </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For the proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU register map, the TS 65A-3 is always a three-phase meter. Individual phase readings may still be zero if fewer phases are active in the installation. For the SunSpec register map, the phase count is derived from the meter model ID (e.g. 201 = single-phase, 203 = three-phase). </dd></dl>
+
+</div>
+</div>
+<a id="aabc873abe6af8a8b2a42dc8d22c300ea" name="aabc873abe6af8a8b2a42dc8d22c300ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabc873abe6af8a8b2a42dc8d22c300ea">&#9670;&#160;</a></span>getRegValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getRegValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_register.html">Register</a> &amp;&#160;</td>
+          <td class="paramname"><em>regProp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sfProp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_register.html">Register</a> &amp;&#160;</td>
+          <td class="paramname"><em>regInt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_register.html">Register</a> &amp;&#160;</td>
+          <td class="paramname"><em>sfInt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_register.html">Register</a> &amp;&#160;</td>
+          <td class="paramname"><em>regFlt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve a scaled double value from the appropriate register depending on the detected register map. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">regProp</td><td>Proprietary RTU register descriptor (INT32, little-endian word order). </td></tr>
+    <tr><td class="paramname">sfProp</td><td>Compile-time scale factor for the proprietary register (e.g. <a class="el" href="meter__registers_8h.html#ac226b0c8a749ff502300b7f58b66309e">REG::V_SF</a>, <a class="el" href="meter__registers_8h.html#a3a3d813a00693bc6ba3cd3b535fb3ff6">REG::A_SF</a>). </td></tr>
+    <tr><td class="paramname">regInt</td><td>SunSpec integer register descriptor (int+sf model). </td></tr>
+    <tr><td class="paramname">sfInt</td><td>SunSpec scale-factor register for <code>regInt</code>. </td></tr>
+    <tr><td class="paramname">regFlt</td><td>SunSpec float register descriptor (float model).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Scaled physical value on success, or a <a class="el" href="struct_modbus_error.html">ModbusError</a> if the register map is unavailable or the register type is unsupported. </dd></dl>
+
+</div>
+</div>
+<a id="aeaefd4369fcdeddf5ba74592db4dafd8" name="aeaefd4369fcdeddf5ba74592db4dafd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaefd4369fcdeddf5ba74592db4dafd8">&#9670;&#160;</a></span>getSerialNumber()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getSerialNumber </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the serial number of the connected meter. </p>
+<p>For the SunSpec register map, reads from the common block string register <a class="el" href="namespace_c001.html#a986511c0eb8f7dd5c908ae7f969c8175">C001::SN</a>. For the proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map, reads the 32-bit serial number from registers 0x5007–0x5008 directly and returns it as a decimal string.</p>
+<dl class="section return"><dt>Returns</dt><dd>Serial number string (e.g. <code>"149685681"</code>). </dd></dl>
 
 </div>
 </div>
@@ -698,14 +890,14 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
-<a id="a1262c740b45e5d4913f30a857058f1ae" name="a1262c740b45e5d4913f30a857058f1ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1262c740b45e5d4913f30a857058f1ae">&#9670;&#160;</a></span>validateDevice()</h2>
+<a id="a9b110d1e0fae233717436fa159ade0dc" name="a9b110d1e0fae233717436fa159ade0dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b110d1e0fae233717436fa159ade0dc">&#9670;&#160;</a></span>validateDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::validateDevice </td>
+          <td class="memname">std::expected&lt; <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::validateDevice </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -714,8 +906,35 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 </div><div class="memdoc">
 
 <p>Validate the meter's register data. </p>
-<p>Performs internal checks to ensure that the connected meter is responding correctly and that its register layout is supported.</p>
-<dl class="section return"><dt>Returns</dt><dd><code>std::expected&lt;void, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;</code> indicating success or failure. </dd></dl>
+<p>Performs internal checks to ensure that the connected meter is responding correctly and that its register layout is supported. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Field Documentation</h2>
+<a id="aeaf7883a150f3ce18387e8580b05c7c8" name="aeaf7883a150f3ce18387e8580b05c7c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaf7883a150f3ce18387e8580b05c7c8">&#9670;&#160;</a></span>registerMap_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a> Meter::registerMap_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">      <a class="code hl_enumvalue" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead">FroniusTypes::RegisterMap::UNAVAILABLE</a>}</div>
+<div class="ttc" id="astruct_fronius_types_html_a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead"><div class="ttname"><a href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead">FroniusTypes::RegisterMap::UNAVAILABLE</a></div><div class="ttdeci">@ UNAVAILABLE</div><div class="ttdoc">Device responded but no recognised register map found.</div></div>
+</div><!-- fragment -->
+<p><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> map type detected during the last successful <a class="el" href="class_meter.html#a9b110d1e0fae233717436fa159ade0dc" title="Validate the meter&#39;s register data.">validateDevice()</a> call. Defaults to UNAVAILABLE until detection has completed. </p>
 
 </div>
 </div>

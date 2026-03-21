@@ -145,6 +145,18 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>device</b></td
 <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>baud</b> {9600}</td></tr>
 <tr class="memdesc:aecb30c40c0a3213e998bd2e551932e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial baud rate (used if <code>useTcp</code> is false) <br /></td></tr>
 <tr class="separator:aecb30c40c0a3213e998bd2e551932e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aee3ee1e22a01b73b968acc3e3eca34" id="r_a6aee3ee1e22a01b73b968acc3e3eca34"><td class="memItemLeft" align="right" valign="top"><a id="a6aee3ee1e22a01b73b968acc3e3eca34" name="a6aee3ee1e22a01b73b968acc3e3eca34"></a>
+<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dataBits</b> {8}</td></tr>
+<tr class="memdesc:a6aee3ee1e22a01b73b968acc3e3eca34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial data bits (used if <code>useTcp</code> is false, typically 7 or 8) <br /></td></tr>
+<tr class="separator:a6aee3ee1e22a01b73b968acc3e3eca34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c2233312faf3524168c520c7c70d004" id="r_a4c2233312faf3524168c520c7c70d004"><td class="memItemLeft" align="right" valign="top"><a id="a4c2233312faf3524168c520c7c70d004" name="a4c2233312faf3524168c520c7c70d004"></a>
+<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>stopBits</b> {1}</td></tr>
+<tr class="memdesc:a4c2233312faf3524168c520c7c70d004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial stop bits (used if <code>useTcp</code> is false, 1 or 2) <br /></td></tr>
+<tr class="separator:a4c2233312faf3524168c520c7c70d004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bf7c244540ede1356a7c0027ff71ef4" id="r_a1bf7c244540ede1356a7c0027ff71ef4"><td class="memItemLeft" align="right" valign="top"><a id="a1bf7c244540ede1356a7c0027ff71ef4" name="a1bf7c244540ede1356a7c0027ff71ef4"></a>
+<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">char</a>&#160;</td><td class="memItemRight" valign="bottom"><b>parity</b> {'N'}</td></tr>
+<tr class="memdesc:a1bf7c244540ede1356a7c0027ff71ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial parity character (used if <code>useTcp</code> is false: 'N', 'E', or 'O') <br /></td></tr>
+<tr class="separator:a1bf7c244540ede1356a7c0027ff71ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67cac6c6714a1438613b71db9e05d971" id="r_a67cac6c6714a1438613b71db9e05d971"><td class="memItemLeft" align="right" valign="top"><a id="a67cac6c6714a1438613b71db9e05d971" name="a67cac6c6714a1438613b71db9e05d971"></a>
 <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>secTimeout</b> {0}</td></tr>
 <tr class="memdesc:a67cac6c6714a1438613b71db9e05d971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout for response in seconds. <br /></td></tr>
@@ -203,6 +215,9 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>device</b></td
 <p>Checks:</p><ul>
 <li>slaveId must be in 1–247</li>
 <li>baud rate must be positive</li>
+<li>dataBits must be 5–8</li>
+<li>stopBits must be 1 or 2</li>
+<li>parity must be 'N', 'E', or 'O'</li>
 <li>TCP port must be 1–65535</li>
 <li>reconnectDelay and reconnectDelayMax must be positive</li>
 <li>reconnectDelay must be smaller than reconnectDelayMax </li>

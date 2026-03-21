@@ -4,6 +4,7 @@ var struct_register =
       [ "UINT16", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62", null ],
       [ "INT16", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a5f90af42814c0a419d715d43ae54fd7a", null ],
       [ "UINT32", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc", null ],
+      [ "INT32", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf", null ],
       [ "UINT64", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f", null ],
       [ "FLOAT", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4ae738c26bf4ce1037fa81b039a915cbf6", null ],
       [ "STRING", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949", null ],

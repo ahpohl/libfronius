@@ -9,5 +9,6 @@ var searchData=
   ['standby_6',['STANDBY',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511aeea559d5c56d48e94e586f7fe000c0b1',1,'FroniusTypes']]],
   ['starting_7',['STARTING',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a034312d8adc8099c1c6f53aaff745e26',1,'FroniusTypes']]],
   ['string_8',['STRING',['../struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949',1,'Register']]],
-  ['supply_5fvoltage_5ffault_9',['SUPPLY_VOLTAGE_FAULT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa033d5a3455d22f0017e0c780b38a8ce4',1,'FroniusTypes']]]
+  ['sunspec_9',['SUNSPEC',['../struct_fronius_types.html#a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df',1,'FroniusTypes']]],
+  ['supply_5fvoltage_5ffault_10',['SUPPLY_VOLTAGE_FAULT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa033d5a3455d22f0017e0c780b38a8ce4',1,'FroniusTypes']]]
 ];

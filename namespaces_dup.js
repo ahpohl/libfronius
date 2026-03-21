@@ -12,6 +12,9 @@ var namespaces_dup =
       [ "VR", "namespace_c001.html#ae6e583e94a60948125f70b75992646ce", null ],
       [ "SIZE", "namespace_c001.html#a28f442424540eeb09dff53d21d8a9751", null ]
     ] ],
+    [ "detail", "namespacedetail.html", [
+      [ "packInteger", "namespacedetail.html#a8b32eeff9e0cf30cb28cb0c56b03d7a3", null ]
+    ] ],
     [ "END", "namespace_e_n_d.html", null ],
     [ "F", "namespace_f.html", [
       [ "ACTIVE_STATE_CODE", "namespace_f.html#af1a5d09fea9ef641c9748f4c72b98fa9", null ],
@@ -333,6 +336,8 @@ var namespaces_dup =
       [ "modbus_get_int64", "namespace_modbus_utils.html#a641881055b4b93185008ec373762f05c", null ],
       [ "modbus_get_uint32", "namespace_modbus_utils.html#af0c3e47debd8c52c81d119a7098a7743", null ],
       [ "modbus_get_uint64", "namespace_modbus_utils.html#a1ba15e5bd8ee35c2050190d05a884018", null ],
+      [ "packToModbus", "namespace_modbus_utils.html#a444e9dc8daffd180317021eb0560460e", null ],
+      [ "packToModbus", "namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf", null ],
       [ "swapBytes16", "namespace_modbus_utils.html#adf290f16ed82ea3738a584e8b5cdedc5", null ],
       [ "toHex", "namespace_modbus_utils.html#a559e877cb9556e621237890b939fee42", null ]
     ] ]

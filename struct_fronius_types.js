@@ -100,6 +100,11 @@ var struct_fronius_types =
       [ "BC", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4af85b7b377112c272bc87f3e73f10508d", null ],
       [ "CA", "struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3e8d115eb4b32b9e9479f387dbe14ee1", null ]
     ] ],
+    [ "RegisterMap", "struct_fronius_types.html#a328049381f2ae6ea9798488587882154", [
+      [ "SUNSPEC", "struct_fronius_types.html#a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df", null ],
+      [ "PROPRIETARY", "struct_fronius_types.html#a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8", null ],
+      [ "UNAVAILABLE", "struct_fronius_types.html#a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead", null ]
+    ] ],
     [ "State", "struct_fronius_types.html#a82125527cea5b559ef64289e1de34511", [
       [ "POWER_OFF", "struct_fronius_types.html#a82125527cea5b559ef64289e1de34511aa15cea80d926d7282b831d451ba8aee8", null ],
       [ "SLEEPING", "struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a7850588c11fe6db41b8b2dd6c455f8f3", null ],

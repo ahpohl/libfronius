@@ -5,6 +5,9 @@ var modbus__utils_8h =
     [ "modbus_get_int64", "modbus__utils_8h.html#a641881055b4b93185008ec373762f05c", null ],
     [ "modbus_get_uint32", "modbus__utils_8h.html#af0c3e47debd8c52c81d119a7098a7743", null ],
     [ "modbus_get_uint64", "modbus__utils_8h.html#a1ba15e5bd8ee35c2050190d05a884018", null ],
+    [ "packInteger", "modbus__utils_8h.html#a8b32eeff9e0cf30cb28cb0c56b03d7a3", null ],
+    [ "packToModbus", "modbus__utils_8h.html#a444e9dc8daffd180317021eb0560460e", null ],
+    [ "packToModbus", "modbus__utils_8h.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf", null ],
     [ "swapBytes16", "modbus__utils_8h.html#adf290f16ed82ea3738a584e8b5cdedc5", null ],
     [ "toHex", "modbus__utils_8h.html#a559e877cb9556e621237890b939fee42", null ]
 ];

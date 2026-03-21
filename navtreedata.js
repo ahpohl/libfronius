@@ -52,9 +52,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"inverter__registers_8h.html#ab8955e72511aa14e67c1a4cc799f3108",
-"namespace_i11_x.html#a32a2e21220bc3d1dc6a4e43467b6918e",
-"namespacemembers.html"
+"inverter__registers_8h.html#aaff6e210eaef237dc2ee14e5b0ebcd3e",
+"namespace_f.html#ac316e7d507c8d6207e52d804af0ddcc3",
+"namespace_m21_x.html#a0d895393d949b5b5515a3c777fe5a503",
+"struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

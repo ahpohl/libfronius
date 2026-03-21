@@ -269,6 +269,12 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a2e057ce4476cb3ac150174bf9585e2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vendor-specific inverter diagnostic flags (Set 3).  <a href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bc">More...</a><br /></td></tr>
 <tr class="separator:a2e057ce4476cb3ac150174bf9585e2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a328049381f2ae6ea9798488587882154" id="r_a328049381f2ae6ea9798488587882154"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">RegisterMap</a> { <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df">SUNSPEC</a>
+, <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8">PROPRIETARY</a>
+, <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead">UNAVAILABLE</a>
+ }</td></tr>
+<tr class="memdesc:a328049381f2ae6ea9798488587882154"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies which Modbus register map a connected meter uses.  <a href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">More...</a><br /></td></tr>
+<tr class="separator:a328049381f2ae6ea9798488587882154"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -609,7 +615,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Represents AC or DC phases. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d" name="a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d"></a>TOTAL&#160;</td><td class="fielddoc"><p>Total phase </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d" name="a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d"></a>TOTAL&#160;</td><td class="fielddoc"><p>Total value </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a62058489a09a820de5c9e68c7c6db9d4a16de38737a9f8366e9b2042b4e9b6290" name="a62058489a09a820de5c9e68c7c6db9d4a16de38737a9f8366e9b2042b4e9b6290"></a>AVERAGE&#160;</td><td class="fielddoc"><p>Average value </p>
 </td></tr>
@@ -628,6 +634,38 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a62058489a09a820de5c9e68c7c6db9d4af85b7b377112c272bc87f3e73f10508d" name="a62058489a09a820de5c9e68c7c6db9d4af85b7b377112c272bc87f3e73f10508d"></a>BC&#160;</td><td class="fielddoc"><p>Phase BC </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a62058489a09a820de5c9e68c7c6db9d4a3e8d115eb4b32b9e9479f387dbe14ee1" name="a62058489a09a820de5c9e68c7c6db9d4a3e8d115eb4b32b9e9479f387dbe14ee1"></a>CA&#160;</td><td class="fielddoc"><p>Phase CA </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a328049381f2ae6ea9798488587882154" name="a328049381f2ae6ea9798488587882154"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a328049381f2ae6ea9798488587882154">&#9670;&#160;</a></span>RegisterMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Identifies which Modbus register map a connected meter uses. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df" name="a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df"></a>SUNSPEC&#160;</td><td class="fielddoc"><p>SunSpec block present at 0x9C40 (inverters, TCP gateway) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8" name="a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8"></a>PROPRIETARY&#160;</td><td class="fielddoc"><p><a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU proprietary map (TS 65A-3 direct RTU) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead" name="a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead"></a>UNAVAILABLE&#160;</td><td class="fielddoc"><p>Device responded but no recognised register map found. </p>
 </td></tr>
 </table>
 

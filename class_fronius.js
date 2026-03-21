@@ -11,6 +11,7 @@ var class_fronius =
     [ "getFwVersion", "class_fronius.html#a85d695fc4c9b7429fc99f639c5563385", null ],
     [ "getManufacturer", "class_fronius.html#aa03910dbad885dc87be0b13c6b932262", null ],
     [ "getModbusDeviceAddress", "class_fronius.html#adc813425e8d61357a82d68e84e6cf27c", null ],
+    [ "getModbusDouble", "class_fronius.html#af964ecea9f105b16fd07c3eb911be837", null ],
     [ "getModbusDouble", "class_fronius.html#a22c4f80b66e9f017b0829596f8ba191f", null ],
     [ "getModbusString", "class_fronius.html#a6b4bc0f95083ec6468a3916e5d6eeb95", null ],
     [ "getOptions", "class_fronius.html#aba29f69c3de5ec3f54b22fe204daa218", null ],
