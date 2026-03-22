@@ -648,6 +648,15 @@ struct FroniusTypes {
     std::string ip; ///< IP address (IPv4 or IPv6)
     int port{0};    ///< TCP port number
   };
+
+  /**
+   * @brief Identifies which Modbus register map a connected meter uses.
+   */
+  enum class RegisterMap {
+    SUNSPEC,     ///< SunSpec block present at 0x9C40 (inverters, TCP gateway)
+    PROPRIETARY, ///< Fronius RTU proprietary map (TS 65A-3 direct RTU)
+    UNAVAILABLE, ///< Device responded but no recognised register map found
+  };
 };
 
 #endif /* FRONIUS_TYPES_H_ */

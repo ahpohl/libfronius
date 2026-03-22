@@ -32,6 +32,7 @@ struct Register {
     UINT16, /**< 16-bit unsigned integer */
     INT16,  /**< 16-bit signed integer */
     UINT32, /**< 32-bit unsigned integer (two consecutive 16-bit registers) */
+    INT32,  /**< 32-bit signed integer (two consecutive 16-bit registers) */
     UINT64, /**< 64-bit unsigned integer (four consecutive 16-bit registers) */
     FLOAT,  /**< 32-bit floating-point value (single-precision) */
     STRING, /**< ASCII string stored across multiple 16-bit registers */
@@ -73,6 +74,8 @@ struct Register {
       return "INT16";
     case Type::UINT32:
       return "UINT32";
+    case Type::INT32:
+      return "INT32";
     case Type::UINT64:
       return "UINT64";
     case Type::FLOAT:

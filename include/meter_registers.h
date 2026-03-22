@@ -660,4 +660,270 @@ constexpr Register L(40177, 1, Register::Type::UINT16);
 
 } // namespace M_END
 
+namespace REG {
+
+/**
+ * @brief Proprietary meter register model identifier 1
+ * @return 731
+ */
+constexpr Register ID(11, 1, Register::Type::UINT16);
+
+/**
+ * @brief Device serial number
+ */
+constexpr Register SN(20487, 2, Register::Type::UINT16);
+
+/**
+ * @brief Meter firmware version.
+ */
+constexpr Register VR(770, 2, Register::Type::UINT16);
+
+/**
+ * @brief Total AC current
+ * @unit Amperes [A]
+ */
+constexpr Register A(270, 2, Register::Type::INT32);
+
+/**
+ * @brief AC current phase A
+ * @unit Amperes [A]
+ */
+constexpr Register APHA(290, 2, Register::Type::INT32);
+
+/**
+ * @brief AC current phase B
+ * @unit Amperes [A]
+ */
+constexpr Register APHB(304, 2, Register::Type::INT32);
+
+/**
+ * @brief AC current phase C
+ * @unit Amperes [A]
+ */
+constexpr Register APHC(318, 2, Register::Type::INT32);
+
+/** @brief AC current scale factor */
+constexpr double A_SF = 0.001;
+
+/**
+ * @brief Average AC voltage phase-to-neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHV(258, 2, Register::Type::INT32);
+
+/**
+ * @brief AC voltage phase A to neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHVPHA(288, 2, Register::Type::INT32);
+
+/**
+ * @brief AC voltage phase B to neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHVPHB(302, 2, Register::Type::INT32);
+
+/**
+ * @brief AC voltage phase C to neutral
+ * @unit Volts [V]
+ */
+constexpr Register PHVPHC(316, 2, Register::Type::INT32);
+
+/**
+ * @brief Average AC voltage phase-to-phase
+ * @unit Volts [V]
+ */
+constexpr Register PPV(260, 2, Register::Type::INT32);
+
+/**
+ * @brief AC voltage phase AB
+ * @unit Volts [V]
+ */
+constexpr Register PPVPHAB(286, 2, Register::Type::INT32);
+
+/**
+ * @brief AC voltage phase BC
+ * @unit Volts [V]
+ */
+constexpr Register PPVPHBC(300, 2, Register::Type::INT32);
+
+/**
+ * @brief AC voltage phase CA
+ * @unit Volts [V]
+ */
+constexpr Register PPVPHCA(314, 2, Register::Type::INT32);
+
+/** @brief Voltage scale factor */
+constexpr double V_SF = 0.1;
+
+/**
+ * @brief AC frequency
+ * @unit Hertz [Hz]
+ */
+constexpr Register FREQ(272, 2, Register::Type::INT32);
+
+/** @brief Frequency scale factor */
+constexpr double FREQ_SF = 0.1;
+
+/**
+ * @brief Total AC active power
+ * @unit Watts [W]
+ */
+constexpr Register W(262, 2, Register::Type::INT32);
+
+/**
+ * @brief AC active power phase A
+ * @unit Watts [W]
+ */
+constexpr Register WPHA(292, 2, Register::Type::INT32);
+
+/**
+ * @brief AC active power phase B
+ * @unit Watts [W]
+ */
+constexpr Register WPHB(306, 2, Register::Type::INT32);
+
+/**
+ * @brief AC active power phase C
+ * @unit Watts [W]
+ */
+constexpr Register WPHC(320, 2, Register::Type::INT32);
+
+/** @brief Power scale factor */
+constexpr double W_SF = 0.1;
+
+/**
+ * @brief Total AC apparent power
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VA(264, 2, Register::Type::INT32);
+
+/**
+ * @brief AC apparent power phase A
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VAPHA(294, 2, Register::Type::INT32);
+
+/**
+ * @brief AC apparent power phase B
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VAPHB(308, 2, Register::Type::INT32);
+
+/**
+ * @brief AC apparent power phase C
+ * @unit Volt-amperes [VA]
+ */
+constexpr Register VAPHC(322, 2, Register::Type::INT32);
+
+/** @brief Apparent power scale factor */
+constexpr double VA_SF = 0.1;
+
+/**
+ * @brief Total AC reactive power
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VAR(266, 2, Register::Type::INT32);
+
+/**
+ * @brief AC reactive power phase A
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VARPHA(296, 2, Register::Type::INT32);
+
+/**
+ * @brief AC reactive power phase B
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VARPHB(310, 2, Register::Type::INT32);
+
+/**
+ * @brief AC reactive power phase C
+ * @unit Volt-ampere reactive [VAr]
+ */
+constexpr Register VARPHC(324, 2, Register::Type::INT32);
+
+/** @brief Reactive power scale factor */
+constexpr double VAR_SF = 0.1;
+
+/**
+ * @brief Total power factor
+ * @unit Percent [%]
+ */
+constexpr Register PF(268, 2, Register::Type::INT32);
+
+/**
+ * @brief Power factor phase A
+ * @unit Percent [%]
+ */
+constexpr Register PFPHA(298, 2, Register::Type::INT32);
+
+/**
+ * @brief Power factor phase B
+ * @unit Percent [%]
+ */
+constexpr Register PFPHB(312, 2, Register::Type::INT32);
+
+/**
+ * @brief Power factor phase C
+ * @unit Percent [%]
+ */
+constexpr Register PFPHC(326, 2, Register::Type::INT32);
+
+/** @brief Power factor scale factor */
+constexpr double PF_SF = 0.1;
+
+/**
+ * @brief Total exported active energy — kilowatt-hours component
+ *
+ * @details
+ * The proprietary Fronius RTU map stores energy as two separate INT32
+ * register pairs. Multiply this value by TOTWH_SF (1000) and add
+ * TOTWH_EXP_WH to obtain the total exported energy in watt-hours.
+ *
+ * @unit Kilowatt-hours [kWh]
+ */
+constexpr Register TOTWH_EXP_KWH(1032, 2, Register::Type::INT32);
+
+/**
+ * @brief Total exported active energy — watt-hours remainder
+ *
+ * @details
+ * The watt-hours component of the exported energy counter. Add to
+ * TOTWH_EXP_KWH × TOTWH_SF to obtain the total in watt-hours.
+ *
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_EXP_WH(1034, 2, Register::Type::INT32);
+
+/**
+ * @brief Total imported active energy — kilowatt-hours component
+ *
+ * @details
+ * The proprietary Fronius RTU map stores energy as two separate INT32
+ * register pairs. Multiply this value by TOTWH_SF (1000) and add
+ * TOTWH_IMP_WH to obtain the total imported energy in watt-hours.
+ *
+ * @unit Kilowatt-hours [kWh]
+ */
+constexpr Register TOTWH_IMP_KWH(1024, 2, Register::Type::INT32);
+
+/**
+ * @brief Total imported active energy — watt-hours remainder
+ *
+ * @details
+ * The watt-hours component of the imported energy counter. Add to
+ * TOTWH_IMP_KWH × TOTWH_SF to obtain the total in watt-hours.
+ *
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOTWH_IMP_WH(1026, 2, Register::Type::INT32);
+
+/**
+ * @brief Energy register scale factor
+ */
+constexpr double TOTWH_SF = 1.0;
+
+} // namespace REG
+
 #endif /* METER_REGISTERS_H_ */

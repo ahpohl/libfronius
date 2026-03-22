@@ -12,13 +12,17 @@
 - **Automatic Register Detection**: Supports both integer/scale factor and float register types.
 - **Automatic Input & Phase Detection**: Finds the number of inverter inputs (MPPT trackers) and electrical phases.
 - **Hybrid Inverter Detection**: Identifies hybrid devices capable of battery connection (battery state reading not yet supported).
+- **Dual Meter Access Modes**: The `Meter` class can read values in two ways:
+  - **Via the Fronius inverter** — when the TS65-A is configured in the inverter's web interface, meter values are exposed through the inverter's SunSpec register map.
+  - **Directly from the TS65-A** — using the meter's proprietary Fronius register map over a direct Modbus connection, without routing through the inverter.
 - **Robust Connection Handling**:
   - Manages connection to Modbus master.
   - Automatically reconnects after connection loss (e.g., inverter standby at night).
   - Configurable exponential backoff for reconnection attempts.
 - **Object-Oriented Design**: 
   - `Fronius` base class.
-  - `Inverter` and `Meter` subclasses.
+  - `Inverter` subclass for inverter communication.
+  - `Meter` subclass supporting both SunSpec (via inverter) and proprietary (direct TS65-A) register maps.
 - **Doxygen Documentation**: [Browse the docs](https://ahpohl.github.io/libfronius/) <!-- Update this link if needed -->
 - **Depends on [libmodbus](https://libmodbus.org/)** for low-level Modbus communication.
 

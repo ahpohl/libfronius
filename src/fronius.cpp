@@ -242,6 +242,19 @@ Fronius::getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
   return value;
 }
 
+std::expected<double, ModbusError>
+Fronius::getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
+                         double sf) const {
+  if (reg.TYPE != Register::Type::INT32) {
+    return reportError<double>(std::unexpected(ModbusError::custom(
+        EINVAL, "getModbusDouble(): Unsupported register {}", reg.describe())));
+  }
+
+  return static_cast<double>(
+             ModbusUtils::modbus_get_int32(regs.data() + reg.ADDR, true)) *
+         sf;
+}
+
 /* -------------------------- private methods ------------------------------*/
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
@@ -265,7 +278,8 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     ctx_ =
         modbus_new_tcp_pi(cfg_.host.c_str(), std::to_string(cfg_.port).c_str());
   } else {
-    ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, 'N', 8, 1);
+    ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, cfg_.parity,
+                          cfg_.dataBits, cfg_.stopBits);
   }
   if (!ctx_) {
     return std::unexpected(ModbusError::custom(
@@ -312,17 +326,6 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
           "tryConnect(): failed to get socket from libmodbus context"));
     }
     remoteEndpoint_ = ModbusUtils::getSocketInfo(socket);
-  }
-
-  // Validate the connection
-  uint16_t reg;
-  int rc = modbus_read_registers(ctx_, C001::ID.ADDR, C001::ID.NB, &reg);
-  if (rc == -1) {
-    modbus_close(ctx_);
-    modbus_free(ctx_);
-    ctx_ = nullptr;
-    return std::unexpected(
-        ModbusError::fromErrno("tryConnect(): slave not responding"));
   }
 
   return {};

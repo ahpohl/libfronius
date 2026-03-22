@@ -177,6 +177,9 @@ protected:
    */
   modbus_t *ctx_{nullptr};
 
+  /** @brief Configuration object defining Modbus parameters. */
+  const ModbusConfig cfg_;
+
   /**
    * @brief Buffer storing the complete device register map.
    */
@@ -241,6 +244,21 @@ protected:
                   std::optional<Register> sf = std::nullopt) const;
 
   /**
+   * @brief Retrieve a scaled double value using a compile-time scale factor.
+   *
+   * Intended for the proprietary Fronius RTU register map where scale
+   * factors are fixed constants (e.g. @ref REG::V_SF, @ref REG::A_SF)
+   * rather than separate scale factor registers.
+   *
+   * @param regs Register buffer populated by fetchMeterRegisters().
+   * @param reg  Register descriptor.
+   * @param sf   Fixed-point scale factor (e.g. 0.1 for V, 0.001 for A).
+   */
+  std::expected<double, ModbusError>
+  getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
+                  double sf) const;
+
+  /**
    * @brief Validate that the connected device is SunSpec-compliant.
    *
    * @return `std::expected<bool, ModbusError>`
@@ -256,9 +274,6 @@ protected:
   std::expected<void, ModbusError> fetchCommonRegisters(void);
 
 private:
-  /** @brief Configuration object defining Modbus parameters. */
-  const ModbusConfig cfg_;
-
   /** @brief Background thread managing connection and reconnection logic. */
   std::thread connectionThread_;
 

@@ -5,6 +5,8 @@ Release/
 deploy.sh
 build.sh
 .clangd/
+libfronius.zip
+docs/html/
 
 # Eclipse CDT project files
 .project

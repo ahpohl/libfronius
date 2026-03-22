@@ -50,6 +50,16 @@ struct ModbusConfig {
   /** @brief Serial baud rate (used if `useTcp` is false) */
   int baud{9600};
 
+  /** @brief Serial data bits (used if `useTcp` is false, typically 7 or 8) */
+  int dataBits{8};
+
+  /** @brief Serial stop bits (used if `useTcp` is false, 1 or 2) */
+  int stopBits{1};
+
+  /** @brief Serial parity character (used if `useTcp` is false: 'N', 'E', or
+   * 'O') */
+  char parity{'N'};
+
   /** @brief Timeout for response in seconds */
   int secTimeout{0};
 
@@ -75,6 +85,9 @@ struct ModbusConfig {
    * Checks:
    *  - slaveId must be in 1–247
    *  - baud rate must be positive
+   *  - dataBits must be 5–8
+   *  - stopBits must be 1 or 2
+   *  - parity must be 'N', 'E', or 'O'
    *  - TCP port must be 1–65535
    *  - reconnectDelay and reconnectDelayMax must be positive
    *  - reconnectDelay must be smaller than reconnectDelayMax
@@ -84,8 +97,19 @@ struct ModbusConfig {
       throw std::invalid_argument(
           "Slave ID must be in range 1–247 for unicast");
     }
-    if (baud <= 0) {
-      throw std::invalid_argument("Baud rate must be positive");
+    if (!useTcp) {
+      if (baud <= 0) {
+        throw std::invalid_argument("Baud rate must be positive");
+      }
+      if (dataBits < 5 || dataBits > 8) {
+        throw std::invalid_argument("dataBits must be in range 5–8");
+      }
+      if (stopBits != 1 && stopBits != 2) {
+        throw std::invalid_argument("stopBits must be 1 or 2");
+      }
+      if (parity != 'N' && parity != 'E' && parity != 'O') {
+        throw std::invalid_argument("parity must be 'N', 'E', or 'O'");
+      }
     }
     if (port <= 0 || port > 65535) {
       throw std::invalid_argument("TCP port must be in range 1–65535");
