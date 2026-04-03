@@ -115,12 +115,34 @@ struct FroniusTypes {
       return "ACTIVE";
     case Output::APPARENT:
       return "APPARENT";
+    case Output::REACTIVE:
+      return "REACTIVE";
     case Output::Q1_REACTIVE:
       return "Q1_REACTIVE";
     case Output::Q4_REACTIVE:
       return "Q4_REACTIVE";
     case Output::FACTOR:
       return "FACTOR";
+    }
+    return "UNKNOWN";
+  }
+
+  /**
+   * @brief Direction of energy flow relative to the grid
+   */
+  enum class EnergyDirection { IMPORT, EXPORT };
+
+  /**
+   * @brief Convert an EnergyDirection to its string representation
+   * @param flow The energy direction to convert
+   * @return "IMPORT", "EXPORT", or "UNKNOWN"
+   */
+  static constexpr const char *toString(EnergyDirection flow) {
+    switch (flow) {
+    case EnergyDirection::IMPORT:
+      return "IMPORT";
+    case EnergyDirection::EXPORT:
+      return "EXPORT";
     }
     return "UNKNOWN";
   }

@@ -266,52 +266,103 @@ constexpr Register PF_SF(40106, 1, Register::Type::INT16);
  * @brief Total energy exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXP(40107, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_EXP(40107, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy exported phase A
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHA(40109, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_EXPPHA(40109, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy exported phase B
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHB(40111, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_EXPPHB(40111, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy exported phase C
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHC(40113, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_EXPPHC(40113, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMP(40115, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_IMP(40115, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy imported phase A
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHA(40117, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_IMPPHA(40117, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy imported phase B
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHB(40119, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_IMPPHB(40119, 2, Register::Type::UINT32);
 
 /**
  * @brief Total energy imported phase C
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHC(40121, 2, Register::Type::UINT32);
+constexpr Register TOT_WH_IMPPHC(40121, 2, Register::Type::UINT32);
 
-/** @brief Energy scale factor */
-constexpr Register TOTWH_SF(40123, 1, Register::Type::INT16);
+/** @brief Active energy scale factor */
+constexpr Register TOT_WH_SF(40123, 1, Register::Type::INT16);
+
+/**
+ * @brief Total apparent energy exported
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_EXP(40124, 2, Register::Type::UINT32);
+
+/**
+ * @brief Total apparent energy exported phase A
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_EXPPHA(40126, 2, Register::Type::UINT32);
+
+/**
+ * @brief Total apparent energy exported phase B
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_EXPPHB(40128, 2, Register::Type::UINT32);
+
+/**
+ * @brief Total apparent energy exported phase C
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_EXPPHC(40130, 2, Register::Type::UINT32);
+
+/**
+ * @brief Total apparent energy imported
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_IMP(40132, 2, Register::Type::UINT32);
+
+/**
+ * @brief Total apparent energy imported phase A
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_IMPPHA(40134, 2, Register::Type::UINT32);
+
+/**
+ * @brief Total apparent energy imported phase B
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_IMPPHB(40136, 2, Register::Type::UINT32);
+
+/**
+ * @brief Total apparent energy imported phase C
+ * @unit Volt-ampere-hours [VAh]
+ */
+constexpr Register TOT_VAH_IMPPHC(40138, 2, Register::Type::UINT32);
+
+/** @brief Apparent energy scale factor */
+constexpr Register TOT_VAH_SF(40140, 1, Register::Type::INT16);
 
 /** @brief Event flags */
 constexpr Register EVT(40174, 2, Register::Type::UINT32);
@@ -526,97 +577,97 @@ constexpr Register PFPHC(40127, 2, Register::Type::FLOAT);
  * @brief Total AC energy exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXP(40129, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_EXP(40129, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC energy phase A exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHA(40131, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_EXPPHA(40131, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC energy phase B exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHB(40133, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_EXPPHB(40133, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC energy phase C exported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_EXPPHC(40135, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_EXPPHC(40135, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC energy imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMP(40137, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_IMP(40137, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC energy phase A imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHA(40139, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_IMPPHA(40139, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC energy phase B imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHB(40141, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_IMPPHB(40141, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC energy phase C imported
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMPPHC(40143, 2, Register::Type::FLOAT);
+constexpr Register TOT_WH_IMPPHC(40143, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXP(40145, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_EXP(40145, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase A exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXPPHA(40147, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_EXPPHA(40147, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase B exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXPPHB(40149, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_EXPPHB(40149, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase C exported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_EXPPHC(40151, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_EXPPHC(40151, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMP(40153, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_IMP(40153, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase A imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMPPHA(40155, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_IMPPHA(40155, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase B imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMPPHB(40157, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_IMPPHB(40157, 2, Register::Type::FLOAT);
 
 /**
  * @brief Total AC apparent energy phase C imported
  * @unit VA-hours [VA]
  */
-constexpr Register TOTVAH_IMPPHC(40159, 2, Register::Type::FLOAT);
+constexpr Register TOT_VAH_IMPPHC(40159, 2, Register::Type::FLOAT);
 
 /** @brief Event flags */
 constexpr Register EVT(40193, 2, Register::Type::UINT32);
@@ -874,55 +925,113 @@ constexpr Register PFPHC(326, 2, Register::Type::INT32);
 constexpr double PF_SF = 0.1;
 
 /**
- * @brief Total exported active energy — kilowatt-hours component
- *
- * @details
- * The proprietary Fronius RTU map stores energy as two separate INT32
- * register pairs. Multiply this value by TOTWH_SF (1000) and add
- * TOTWH_EXP_WH to obtain the total exported energy in watt-hours.
- *
- * @unit Kilowatt-hours [kWh]
- */
-constexpr Register TOTWH_EXP_KWH(1032, 2, Register::Type::INT32);
-
-/**
- * @brief Total exported active energy — watt-hours remainder
- *
- * @details
- * The watt-hours component of the exported energy counter. Add to
- * TOTWH_EXP_KWH × TOTWH_SF to obtain the total in watt-hours.
- *
- * @unit Watt-hours [Wh]
- */
-constexpr Register TOTWH_EXP_WH(1034, 2, Register::Type::INT32);
-
-/**
  * @brief Total imported active energy — kilowatt-hours component
  *
  * @details
  * The proprietary Fronius RTU map stores energy as two separate INT32
- * register pairs. Multiply this value by TOTWH_SF (1000) and add
- * TOTWH_IMP_WH to obtain the total imported energy in watt-hours.
+ * register pairs. Multiply this value by 1000 and add TOT_WH_IMP to
+ * obtain the total imported active energy in watt-hours.
  *
  * @unit Kilowatt-hours [kWh]
  */
-constexpr Register TOTWH_IMP_KWH(1024, 2, Register::Type::INT32);
+constexpr Register TOT_KWH_IMP(1024, 2, Register::Type::INT32);
 
 /**
  * @brief Total imported active energy — watt-hours remainder
  *
  * @details
- * The watt-hours component of the imported energy counter. Add to
- * TOTWH_IMP_KWH × TOTWH_SF to obtain the total in watt-hours.
+ * The watt-hours component of the imported active energy counter. Add to
+ * TOT_KWH_IMP × 1000 to obtain the total imported active energy in watt-hours.
  *
  * @unit Watt-hours [Wh]
  */
-constexpr Register TOTWH_IMP_WH(1026, 2, Register::Type::INT32);
+constexpr Register TOT_WH_IMP(1026, 2, Register::Type::INT32);
 
 /**
- * @brief Energy register scale factor
+ * @brief Total imported reactive energy — kilovolt-ampere-reactive-hours
+ * component
+ *
+ * @details
+ * The proprietary Fronius RTU map stores reactive energy as two separate INT32
+ * register pairs. Multiply this value by 1000 and add TOT_VARH_IMP to
+ * obtain the total imported reactive energy in volt-ampere-reactive-hours.
+ *
+ * @unit Kilovolt-ampere-reactive-hours [kVArh]
  */
-constexpr double TOTWH_SF = 1.0;
+constexpr Register TOT_KVARH_IMP(1028, 2, Register::Type::INT32);
+
+/**
+ * @brief Total imported reactive energy — volt-ampere-reactive-hours remainder
+ *
+ * @details
+ * The volt-ampere-reactive-hours component of the imported reactive energy
+ * counter. Add to TOT_KVARH_IMP × 1000 to obtain the total imported
+ * reactive energy in volt-ampere-reactive-hours.
+ *
+ * @unit Volt-ampere-reactive-hours [VArh]
+ */
+constexpr Register TOT_VARH_IMP(1030, 2, Register::Type::INT32);
+
+/**
+ * @brief Total exported active energy — kilowatt-hours component
+ *
+ * @details
+ * The proprietary Fronius RTU map stores energy as two separate INT32
+ * register pairs. Multiply this value by 1000 and add TOT_WH_EXP to
+ * obtain the total exported active energy in watt-hours.
+ *
+ * @unit Kilowatt-hours [kWh]
+ */
+constexpr Register TOT_KWH_EXP(1032, 2, Register::Type::INT32);
+
+/**
+ * @brief Total exported active energy — watt-hours remainder
+ *
+ * @details
+ * The watt-hours component of the exported active energy counter. Add to
+ * TOT_KWH_EXP × 1000 to obtain the total exported active energy in watt-hours.
+ *
+ * @unit Watt-hours [Wh]
+ */
+constexpr Register TOT_WH_EXP(1034, 2, Register::Type::INT32);
+
+/**
+ * @brief Total exported reactive energy — kilovolt-ampere-reactive-hours
+ * component
+ *
+ * @details
+ * The proprietary Fronius RTU map stores reactive energy as two separate INT32
+ * register pairs. Multiply this value by 1000 and add TOT_VARH_EXP to
+ * obtain the total exported reactive energy in volt-ampere-reactive-hours.
+ *
+ * @unit Kilovolt-ampere-reactive-hours [kVArh]
+ */
+constexpr Register TOT_KVARH_EXP(1036, 2, Register::Type::INT32);
+
+/**
+ * @brief Total exported reactive energy — volt-ampere-reactive-hours remainder
+ *
+ * @details
+ * The volt-ampere-reactive-hours component of the exported reactive energy
+ * counter. Add to TOT_KVARH_EXP × 1000 to obtain the total exported
+ * reactive energy in volt-ampere-reactive-hours.
+ *
+ * @unit Volt-ampere-reactive-hours [VArh]
+ */
+constexpr Register TOT_VARH_EXP(1038, 2, Register::Type::INT32);
+
+/**
+ * @brief Scale factor applied to all kWh/kVArh energy register pairs
+ *
+ * @details
+ * Converts the kilowatt-hours (or kilovolt-ampere-reactive-hours) component
+ * to watt-hours before summing with the watt-hours remainder:
+ *   total_Wh = (TOT_K{W,VAr}H_{IMP,EXP} × 1000) + TOT_{W,VAr}H_{IMP,EXP}
+ *
+ * The factor of 1000 is applied in code when combining the register pair;
+ * this constant is reserved for any additional scaling beyond that conversion.
+ */
+constexpr double TOT_SF = 1.0;
 
 } // namespace REG
 

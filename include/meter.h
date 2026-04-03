@@ -210,22 +210,48 @@ public:
       const FroniusTypes::Phase ph = FroniusTypes::Phase::AVERAGE) const;
 
   /**
-   * @brief Get total exported active energy.
+   * @brief Get total active energy flow in the given direction.
    *
-   * @return Total exported energy in watt-hours (Wh).
-   * @note Per-phase export energy is not supported by any currently
-   *       implemented meter (EasyMeter, Fronius TS 65A-3).
+   * @param direction Energy flow direction relative to the grid.
+   * @return Total active energy in watt-hours [__Wh__].
+   * @note Per-phase energy is not supported by any currently implemented
+   *       meter (EasyMeter, __Fronius__ TS 65A-3).
    */
-  std::expected<double, ModbusError> getAcEnergyActiveExport(void) const;
+  std::expected<double, ModbusError>
+  getAcEnergyActive(FroniusTypes::EnergyDirection direction) const;
 
   /**
-   * @brief Get total imported active energy.
+   * @brief Get total apparent energy flow in the given direction.
    *
-   * @return Total imported energy in watt-hours (Wh).
-   * @note Per-phase import energy is not supported by any currently
-   *       implemented meter (EasyMeter, Fronius TS 65A-3).
+   * @param direction Energy flow direction relative to the grid.
+   * @return Total apparent energy in volt-ampere-hours [VAh].
+   * @note Per-phase energy is not supported by any currently implemented
+   *       meter (EasyMeter, __Fronius__ TS 65A-3).
+   * @note Not supported for the proprietary register map.
    */
-  std::expected<double, ModbusError> getAcEnergyActiveImport(void) const;
+  std::expected<double, ModbusError>
+  getAcEnergyApparent(FroniusTypes::EnergyDirection direction) const;
+
+  /**
+   * @brief Get total reactive energy flow in the given direction.
+   *
+   * @param direction Energy flow direction relative to the grid.
+   * @return Total reactive energy in volt-ampere-reactive-hours [VArh].
+   * @note Per-phase energy is not supported by any currently implemented
+   *       meter (EasyMeter, __Fronius__ TS 65A-3).
+   * @note Only supported for the proprietary register map.
+   */
+  std::expected<double, ModbusError>
+  getAcEnergyReactive(FroniusTypes::EnergyDirection direction) const;
+
+  /**
+   * @brief Return the register map type detected during device validation.
+   * @return The active RegisterMap, or RegisterMap::UNAVAILABLE if
+   *         validateDevice() has not been called yet.
+   */
+  [[nodiscard]] FroniusTypes::RegisterMap getRegisterMap() const noexcept {
+    return registerMap_;
+  };
 
 private:
   /**

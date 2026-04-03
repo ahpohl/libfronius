@@ -53,6 +53,12 @@ struct Register {
       : ADDR(addr), NB(nb), TYPE(type) {}
 
   /**
+   * @brief Default-construct a register with address 0, width 0, and
+   *        type Type::UNKNOWN.
+   */
+  constexpr Register() = default;
+
+  /**
    * @brief Return a copy of this register with an address offset applied.
    * @param offset Offset to add to the register address (can be negative).
    * @return A new Register instance with the adjusted address.

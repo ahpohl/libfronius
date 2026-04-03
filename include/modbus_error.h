@@ -230,6 +230,7 @@ private:
     case EIO:          // Low-level I/O error
     case EBUSY:        // Device or resource busy
     case EADDRINUSE:   // Address already in use
+    case ENOTSUP:      // Not supported
       return Severity::FATAL;
     case EINTR: // Call was interrupted by a signal
       return Severity::SHUTDOWN;

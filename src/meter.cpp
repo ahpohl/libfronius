@@ -43,12 +43,12 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters(void) {
     }
 
     // Energy block: import/export kWh + Wh pairs
-    rc = modbus_read_registers(ctx_, REG::TOTWH_IMP_KWH.ADDR, 16,
-                               regs_.data() + REG::TOTWH_IMP_KWH.ADDR);
+    rc = modbus_read_registers(ctx_, REG::TOT_KWH_IMP.ADDR, 16,
+                               regs_.data() + REG::TOT_KWH_IMP.ADDR);
     if (rc == -1) {
       return reportError<void>(std::unexpected(ModbusError::fromErrno(
           "fetchMeterRegisters(): reading proprietary energy block {} failed",
-          REG::TOTWH_IMP_KWH.ADDR)));
+          REG::TOT_KWH_IMP.ADDR)));
     }
 
     return {};
@@ -183,64 +183,6 @@ std::expected<std::string, ModbusError> Meter::getFwVersion(void) {
 /* --------------------- get values -------------------------- */
 
 std::expected<double, ModbusError>
-Meter::getAcCurrent(const FroniusTypes::Phase ph) const {
-  switch (ph) {
-  case FroniusTypes::Phase::TOTAL:
-    return getRegValue(REG::A, REG::A_SF, M20X::A, M20X::A_SF, M21X::A);
-  case FroniusTypes::Phase::A:
-    return getRegValue(REG::APHA, REG::A_SF, M20X::APHA, M20X::A_SF,
-                       M21X::APHA);
-  case FroniusTypes::Phase::B:
-    return getRegValue(REG::APHB, REG::A_SF, M20X::APHB, M20X::A_SF,
-                       M21X::APHB);
-  case FroniusTypes::Phase::C:
-    return getRegValue(REG::APHC, REG::A_SF, M20X::APHC, M20X::A_SF,
-                       M21X::APHC);
-  default:
-    return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "getAcCurrent(): Invalid phase {}",
-                            FroniusTypes::toString(ph))));
-  }
-}
-
-std::expected<double, ModbusError>
-Meter::getAcVoltage(const FroniusTypes::Phase ph) const {
-  switch (ph) {
-  case FroniusTypes::Phase::PHV:
-    return getRegValue(REG::PHV, REG::V_SF, M20X::PHV, M20X::V_SF, M21X::PHV);
-  case FroniusTypes::Phase::A:
-    return getRegValue(REG::PHVPHA, REG::V_SF, M20X::PHVPHA, M20X::V_SF,
-                       M21X::PHVPHA);
-  case FroniusTypes::Phase::B:
-    return getRegValue(REG::PHVPHB, REG::V_SF, M20X::PHVPHB, M20X::V_SF,
-                       M21X::PHVPHB);
-  case FroniusTypes::Phase::C:
-    return getRegValue(REG::PHVPHC, REG::V_SF, M20X::PHVPHC, M20X::V_SF,
-                       M21X::PHVPHC);
-  case FroniusTypes::Phase::PPV:
-    return getRegValue(REG::PPV, REG::V_SF, M20X::PPV, M20X::V_SF, M21X::PPV);
-  case FroniusTypes::Phase::AB:
-    return getRegValue(REG::PPVPHAB, REG::V_SF, M20X::PPVPHAB, M20X::V_SF,
-                       M21X::PPVPHAB);
-  case FroniusTypes::Phase::BC:
-    return getRegValue(REG::PPVPHBC, REG::V_SF, M20X::PPVPHBC, M20X::V_SF,
-                       M21X::PPVPHBC);
-  case FroniusTypes::Phase::CA:
-    return getRegValue(REG::PPVPHCA, REG::V_SF, M20X::PPVPHCA, M20X::V_SF,
-                       M21X::PPVPHCA);
-  default:
-    return reportError<double>(std::unexpected(
-        ModbusError::custom(EINVAL, "getAcVoltage(): Invalid phase {}",
-                            FroniusTypes::toString(ph))));
-  }
-}
-
-std::expected<double, ModbusError> Meter::getAcFrequency(void) const {
-  return getRegValue(REG::FREQ, REG::FREQ_SF, M20X::FREQ, M20X::FREQ_SF,
-                     M21X::FREQ);
-}
-
-std::expected<double, ModbusError>
 Meter::getAcPowerActive(const FroniusTypes::Phase ph) const {
   switch (ph) {
   case FroniusTypes::Phase::TOTAL:
@@ -325,34 +267,173 @@ Meter::getAcPowerFactor(const FroniusTypes::Phase ph) const {
   }
 }
 
-std::expected<double, ModbusError> Meter::getAcEnergyActiveExport(void) const {
-  if (registerMap_ == FroniusTypes::RegisterMap::PROPRIETARY) {
-    auto kwh = getModbusDouble(regs_, REG::TOTWH_EXP_KWH, REG::TOTWH_SF);
-    if (!kwh)
-      return std::unexpected(kwh.error());
-    auto wh = getModbusDouble(regs_, REG::TOTWH_EXP_WH, REG::TOTWH_SF);
-    if (!wh)
-      return std::unexpected(wh.error());
-    return *kwh * 1000.0 + *wh;
+std::expected<double, ModbusError>
+Meter::getAcCurrent(const FroniusTypes::Phase ph) const {
+  switch (ph) {
+  case FroniusTypes::Phase::TOTAL:
+    if (registerMap_ == FroniusTypes::RegisterMap::PROPRIETARY)
+      return reportError<double>(std::unexpected(ModbusError::custom(
+          ENOTSUP, "getAcCurrent(): Phase::TOTAL not supported for proprietary "
+                   "register map")));
+    return getRegValue(REG::A, REG::A_SF, M20X::A, M20X::A_SF, M21X::A);
+  case FroniusTypes::Phase::A:
+    return getRegValue(REG::APHA, REG::A_SF, M20X::APHA, M20X::A_SF,
+                       M21X::APHA);
+  case FroniusTypes::Phase::B:
+    return getRegValue(REG::APHB, REG::A_SF, M20X::APHB, M20X::A_SF,
+                       M21X::APHB);
+  case FroniusTypes::Phase::C:
+    return getRegValue(REG::APHC, REG::A_SF, M20X::APHC, M20X::A_SF,
+                       M21X::APHC);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "getAcCurrent(): Invalid phase {}",
+                            FroniusTypes::toString(ph))));
   }
-  return useFloatRegisters_
-             ? getModbusDouble(regs_, M21X::TOTWH_EXP)
-             : getModbusDouble(regs_, M20X::TOTWH_EXP, M20X::TOTWH_SF);
 }
 
-std::expected<double, ModbusError> Meter::getAcEnergyActiveImport(void) const {
+std::expected<double, ModbusError>
+Meter::getAcVoltage(const FroniusTypes::Phase ph) const {
+  switch (ph) {
+  case FroniusTypes::Phase::PHV:
+    return getRegValue(REG::PHV, REG::V_SF, M20X::PHV, M20X::V_SF, M21X::PHV);
+  case FroniusTypes::Phase::A:
+    return getRegValue(REG::PHVPHA, REG::V_SF, M20X::PHVPHA, M20X::V_SF,
+                       M21X::PHVPHA);
+  case FroniusTypes::Phase::B:
+    return getRegValue(REG::PHVPHB, REG::V_SF, M20X::PHVPHB, M20X::V_SF,
+                       M21X::PHVPHB);
+  case FroniusTypes::Phase::C:
+    return getRegValue(REG::PHVPHC, REG::V_SF, M20X::PHVPHC, M20X::V_SF,
+                       M21X::PHVPHC);
+  case FroniusTypes::Phase::PPV:
+    return getRegValue(REG::PPV, REG::V_SF, M20X::PPV, M20X::V_SF, M21X::PPV);
+  case FroniusTypes::Phase::AB:
+    return getRegValue(REG::PPVPHAB, REG::V_SF, M20X::PPVPHAB, M20X::V_SF,
+                       M21X::PPVPHAB);
+  case FroniusTypes::Phase::BC:
+    return getRegValue(REG::PPVPHBC, REG::V_SF, M20X::PPVPHBC, M20X::V_SF,
+                       M21X::PPVPHBC);
+  case FroniusTypes::Phase::CA:
+    return getRegValue(REG::PPVPHCA, REG::V_SF, M20X::PPVPHCA, M20X::V_SF,
+                       M21X::PPVPHCA);
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "getAcVoltage(): Invalid phase {}",
+                            FroniusTypes::toString(ph))));
+  }
+}
+
+std::expected<double, ModbusError> Meter::getAcFrequency(void) const {
+  return getRegValue(REG::FREQ, REG::FREQ_SF, M20X::FREQ, M20X::FREQ_SF,
+                     M21X::FREQ);
+}
+
+std::expected<double, ModbusError>
+Meter::getAcEnergyActive(FroniusTypes::EnergyDirection direction) const {
+
+  struct EnergyRegs {
+    Register kwh, wh;
+    Register m20x_wh, m20x_sf;
+    Register m21x_wh;
+  };
+
+  EnergyRegs eregs;
+  switch (direction) {
+  case FroniusTypes::EnergyDirection::EXPORT:
+    eregs = {REG::TOT_KWH_EXP, REG::TOT_WH_EXP, M20X::TOT_WH_EXP,
+             M20X::TOT_WH_SF, M21X::TOT_WH_EXP};
+    break;
+  case FroniusTypes::EnergyDirection::IMPORT:
+    eregs = {REG::TOT_KWH_IMP, REG::TOT_WH_IMP, M20X::TOT_WH_IMP,
+             M20X::TOT_WH_SF, M21X::TOT_WH_IMP};
+    break;
+  default:
+    return reportError<double>(std::unexpected(
+        ModbusError::custom(EINVAL, "getAcEnergyActive(): Invalid direction {}",
+                            FroniusTypes::toString(direction))));
+  }
+
   if (registerMap_ == FroniusTypes::RegisterMap::PROPRIETARY) {
-    auto kwh = getModbusDouble(regs_, REG::TOTWH_IMP_KWH, REG::TOTWH_SF);
+    auto kwh = getModbusDouble(regs_, eregs.kwh, REG::TOT_SF);
     if (!kwh)
       return std::unexpected(kwh.error());
-    auto wh = getModbusDouble(regs_, REG::TOTWH_IMP_WH, REG::TOTWH_SF);
+    auto wh = getModbusDouble(regs_, eregs.wh, REG::TOT_SF);
     if (!wh)
       return std::unexpected(wh.error());
     return *kwh * 1000.0 + *wh;
   }
+
   return useFloatRegisters_
-             ? getModbusDouble(regs_, M21X::TOTWH_IMP)
-             : getModbusDouble(regs_, M20X::TOTWH_IMP, M20X::TOTWH_SF);
+             ? getModbusDouble(regs_, eregs.m21x_wh)
+             : getModbusDouble(regs_, eregs.m20x_wh, eregs.m20x_sf);
+}
+
+std::expected<double, ModbusError>
+Meter::getAcEnergyApparent(FroniusTypes::EnergyDirection direction) const {
+
+  struct EnergyRegs {
+    Register m20x_vah, m20x_sf;
+    Register m21x_vah;
+  };
+
+  EnergyRegs eregs;
+  switch (direction) {
+  case FroniusTypes::EnergyDirection::EXPORT:
+    eregs = {M20X::TOT_VAH_EXP, M20X::TOT_VAH_SF, M21X::TOT_VAH_EXP};
+    break;
+  case FroniusTypes::EnergyDirection::IMPORT:
+    eregs = {M20X::TOT_VAH_IMP, M20X::TOT_VAH_SF, M21X::TOT_VAH_IMP};
+    break;
+  default:
+    return reportError<double>(std::unexpected(ModbusError::custom(
+        EINVAL, "getAcEnergyApparent(): Invalid direction {}",
+        FroniusTypes::toString(direction))));
+  }
+
+  if (registerMap_ == FroniusTypes::RegisterMap::PROPRIETARY)
+    return reportError<double>(std::unexpected(ModbusError::custom(
+        ENOTSUP,
+        "getAcEnergyApparent(): Not supported for proprietary register map")));
+
+  return useFloatRegisters_
+             ? getModbusDouble(regs_, eregs.m21x_vah)
+             : getModbusDouble(regs_, eregs.m20x_vah, eregs.m20x_sf);
+}
+
+std::expected<double, ModbusError>
+Meter::getAcEnergyReactive(FroniusTypes::EnergyDirection direction) const {
+
+  struct EnergyRegs {
+    Register kwh, wh;
+  };
+
+  EnergyRegs eregs;
+  switch (direction) {
+  case FroniusTypes::EnergyDirection::EXPORT:
+    eregs = {REG::TOT_KVARH_EXP, REG::TOT_VARH_EXP};
+    break;
+  case FroniusTypes::EnergyDirection::IMPORT:
+    eregs = {REG::TOT_KVARH_IMP, REG::TOT_VARH_IMP};
+    break;
+  default:
+    return reportError<double>(std::unexpected(ModbusError::custom(
+        EINVAL, "getAcEnergyReactive(): Invalid direction {}",
+        FroniusTypes::toString(direction))));
+  }
+
+  if (registerMap_ == FroniusTypes::RegisterMap::SUNSPEC)
+    return reportError<double>(std::unexpected(ModbusError::custom(
+        ENOTSUP,
+        "getAcEnergyReactive(): Not supported for sunspec register map")));
+
+  auto kwh = getModbusDouble(regs_, eregs.kwh, REG::TOT_SF);
+  if (!kwh)
+    return std::unexpected(kwh.error());
+  auto wh = getModbusDouble(regs_, eregs.wh, REG::TOT_SF);
+  if (!wh)
+    return std::unexpected(wh.error());
+  return *kwh * 1000.0 + *wh;
 }
 
 /* -------------------------- private methods ------------------------------*/
