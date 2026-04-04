@@ -11,6 +11,7 @@ var struct_register =
       [ "UNKNOWN", "struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3", null ]
     ] ],
     [ "Register", "struct_register.html#a9884d3fa0349d25a36ae4f7c4ced9fe6", null ],
+    [ "Register", "struct_register.html#a917191e40d81c4b7155b1529bf5ba729", null ],
     [ "describe", "struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9", null ],
     [ "typeToString", "struct_register.html#a32c62912e004d2e03893de681adaa2d4", null ],
     [ "withOffset", "struct_register.html#a63ede74afd148f371ccce306795998bc", null ],

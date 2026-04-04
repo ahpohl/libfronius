@@ -179,12 +179,18 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Meter</b> ()</td>
 <tr class="memitem:a4b4a8a565bf195a1bea67f083c78ee2b" id="r_a4b4a8a565bf195a1bea67f083c78ee2b"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a4b4a8a565bf195a1bea67f083c78ee2b">getAcPowerFactor</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a16de38737a9f8366e9b2042b4e9b6290">FroniusTypes::Phase::AVERAGE</a>) const</td></tr>
 <tr class="memdesc:a4b4a8a565bf195a1bea67f083c78ee2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC power factor (dimensionless).  <br /></td></tr>
 <tr class="separator:a4b4a8a565bf195a1bea67f083c78ee2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ce6fb689819187b9e8fae35a77c2231" id="r_a7ce6fb689819187b9e8fae35a77c2231"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a7ce6fb689819187b9e8fae35a77c2231">getAcEnergyActiveExport</a> (void) const</td></tr>
-<tr class="memdesc:a7ce6fb689819187b9e8fae35a77c2231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total exported active energy.  <br /></td></tr>
-<tr class="separator:a7ce6fb689819187b9e8fae35a77c2231"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4ed5b4a3f3b0f7d812bd4509280a5f5" id="r_ad4ed5b4a3f3b0f7d812bd4509280a5f5"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#ad4ed5b4a3f3b0f7d812bd4509280a5f5">getAcEnergyActiveImport</a> (void) const</td></tr>
-<tr class="memdesc:ad4ed5b4a3f3b0f7d812bd4509280a5f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total imported active energy.  <br /></td></tr>
-<tr class="separator:ad4ed5b4a3f3b0f7d812bd4509280a5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c25edf07200ad54e37a82e4911934d2" id="r_a7c25edf07200ad54e37a82e4911934d2"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a7c25edf07200ad54e37a82e4911934d2">getAcEnergyActive</a> (<a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">FroniusTypes::EnergyDirection</a> direction) const</td></tr>
+<tr class="memdesc:a7c25edf07200ad54e37a82e4911934d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total active energy flow in the given direction.  <br /></td></tr>
+<tr class="separator:a7c25edf07200ad54e37a82e4911934d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa5af785610a9e90ace2e43d225949d9" id="r_afa5af785610a9e90ace2e43d225949d9"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#afa5af785610a9e90ace2e43d225949d9">getAcEnergyApparent</a> (<a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">FroniusTypes::EnergyDirection</a> direction) const</td></tr>
+<tr class="memdesc:afa5af785610a9e90ace2e43d225949d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total apparent energy flow in the given direction.  <br /></td></tr>
+<tr class="separator:afa5af785610a9e90ace2e43d225949d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0be84c8eba793d59f2787dd24a3ccfac" id="r_a0be84c8eba793d59f2787dd24a3ccfac"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a0be84c8eba793d59f2787dd24a3ccfac">getAcEnergyReactive</a> (<a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">FroniusTypes::EnergyDirection</a> direction) const</td></tr>
+<tr class="memdesc:a0be84c8eba793d59f2787dd24a3ccfac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total reactive energy flow in the given direction.  <br /></td></tr>
+<tr class="separator:a0be84c8eba793d59f2787dd24a3ccfac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a517c47188031ffefaa3692056bf4ef8d" id="r_a517c47188031ffefaa3692056bf4ef8d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_meter.html#a517c47188031ffefaa3692056bf4ef8d">getRegisterMap</a> () const noexcept</td></tr>
+<tr class="memdesc:a517c47188031ffefaa3692056bf4ef8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the register map type detected during device validation.  <br /></td></tr>
+<tr class="separator:a517c47188031ffefaa3692056bf4ef8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_fronius"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_fronius')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_fronius.html">Fronius</a></td></tr>
 <tr class="memitem:aabc618a08184fe3382886ae471c51389 inherit pub_methods_class_fronius" id="r_aabc618a08184fe3382886ae471c51389"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aabc618a08184fe3382886ae471c51389">Fronius</a> (const <a class="el" href="struct_modbus_config.html">ModbusConfig</a> &amp;cfg)</td></tr>
 <tr class="memdesc:aabc618a08184fe3382886ae471c51389 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> instance.  <br /></td></tr>
@@ -425,47 +431,91 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
-<a id="a7ce6fb689819187b9e8fae35a77c2231" name="a7ce6fb689819187b9e8fae35a77c2231"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ce6fb689819187b9e8fae35a77c2231">&#9670;&#160;</a></span>getAcEnergyActiveExport()</h2>
+<a id="a7c25edf07200ad54e37a82e4911934d2" name="a7c25edf07200ad54e37a82e4911934d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c25edf07200ad54e37a82e4911934d2">&#9670;&#160;</a></span>getAcEnergyActive()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcEnergyActiveExport </td>
+          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcEnergyActive </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">FroniusTypes::EnergyDirection</a>&#160;</td>
+          <td class="paramname"><em>direction</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get total exported active energy. </p>
-<dl class="section return"><dt>Returns</dt><dd>Total exported energy in watt-hours (Wh). </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Per-phase export energy is not supported by any currently implemented meter (EasyMeter, <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> TS 65A-3). </dd></dl>
+<p>Get total active energy flow in the given direction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">direction</td><td>Energy flow direction relative to the grid. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Total active energy in watt-hours [<b>Wh</b>]. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Per-phase energy is not supported by any currently implemented meter (EasyMeter, <b><a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a></b> TS 65A-3). </dd></dl>
 
 </div>
 </div>
-<a id="ad4ed5b4a3f3b0f7d812bd4509280a5f5" name="ad4ed5b4a3f3b0f7d812bd4509280a5f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4ed5b4a3f3b0f7d812bd4509280a5f5">&#9670;&#160;</a></span>getAcEnergyActiveImport()</h2>
+<a id="afa5af785610a9e90ace2e43d225949d9" name="afa5af785610a9e90ace2e43d225949d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa5af785610a9e90ace2e43d225949d9">&#9670;&#160;</a></span>getAcEnergyApparent()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcEnergyActiveImport </td>
+          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcEnergyApparent </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">FroniusTypes::EnergyDirection</a>&#160;</td>
+          <td class="paramname"><em>direction</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get total imported active energy. </p>
-<dl class="section return"><dt>Returns</dt><dd>Total imported energy in watt-hours (Wh). </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Per-phase import energy is not supported by any currently implemented meter (EasyMeter, <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> TS 65A-3). </dd></dl>
+<p>Get total apparent energy flow in the given direction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">direction</td><td>Energy flow direction relative to the grid. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Total apparent energy in volt-ampere-hours [VAh]. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Per-phase energy is not supported by any currently implemented meter (EasyMeter, <b><a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a></b> TS 65A-3). </dd>
+<dd>
+Not supported for the proprietary register map. </dd></dl>
+
+</div>
+</div>
+<a id="a0be84c8eba793d59f2787dd24a3ccfac" name="a0be84c8eba793d59f2787dd24a3ccfac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be84c8eba793d59f2787dd24a3ccfac">&#9670;&#160;</a></span>getAcEnergyReactive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Meter::getAcEnergyReactive </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">FroniusTypes::EnergyDirection</a>&#160;</td>
+          <td class="paramname"><em>direction</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get total reactive energy flow in the given direction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">direction</td><td>Energy flow direction relative to the grid. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Total reactive energy in volt-ampere-reactive-hours [VArh]. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Per-phase energy is not supported by any currently implemented meter (EasyMeter, <b><a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a></b> TS 65A-3). </dd>
+<dd>
+Only supported for the proprietary register map. </dd></dl>
 
 </div>
 </div>
@@ -769,6 +819,34 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get the number of phases supported by the meter. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of phases (1, 2, or 3). </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>For the proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU register map, the TS 65A-3 is always a three-phase meter. Individual phase readings may still be zero if fewer phases are active in the installation. For the SunSpec register map, the phase count is derived from the meter model ID (e.g. 201 = single-phase, 203 = three-phase). </dd></dl>
+
+</div>
+</div>
+<a id="a517c47188031ffefaa3692056bf4ef8d" name="a517c47188031ffefaa3692056bf4ef8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a517c47188031ffefaa3692056bf4ef8d">&#9670;&#160;</a></span>getRegisterMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a> Meter::getRegisterMap </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the register map type detected during device validation. </p>
+<dl class="section return"><dt>Returns</dt><dd>The active RegisterMap, or RegisterMap::UNAVAILABLE if <a class="el" href="class_meter.html#a9b110d1e0fae233717436fa159ade0dc" title="Validate the meter&#39;s register data.">validateDevice()</a> has not been called yet. </dd></dl>
 
 </div>
 </div>

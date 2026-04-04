@@ -153,6 +153,11 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:aa00ef3ece9924874f05a61f843a208a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of power output reported by the inverter.  <a href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">More...</a><br /></td></tr>
 <tr class="separator:aa00ef3ece9924874f05a61f843a208a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdaae03adccb2a01a6bedfe28da8877f" id="r_afdaae03adccb2a01a6bedfe28da8877f"><td class="memItemLeft" align="right" valign="top"><a id="afdaae03adccb2a01a6bedfe28da8877f" name="afdaae03adccb2a01a6bedfe28da8877f"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">EnergyDirection</a> { <b>IMPORT</b>
+, <b>EXPORT</b>
+ }</td></tr>
+<tr class="memdesc:afdaae03adccb2a01a6bedfe28da8877f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direction of energy flow relative to the grid. <br /></td></tr>
+<tr class="separator:afdaae03adccb2a01a6bedfe28da8877f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82125527cea5b559ef64289e1de34511" id="r_a82125527cea5b559ef64289e1de34511"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511">State</a> : uint16_t { <br />
 &#160;&#160;<a class="el" href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511aa15cea80d926d7282b831d451ba8aee8">POWER_OFF</a> = 1
 , <a class="el" href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a7850588c11fe6db41b8b2dd6c455f8f3">SLEEPING</a>
@@ -287,6 +292,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ad8a8f5d19c13fd9a5eccd10606aacabe" id="r_ad8a8f5d19c13fd9a5eccd10606aacabe"><td class="memItemLeft" align="right" valign="top">static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#ad8a8f5d19c13fd9a5eccd10606aacabe">toString</a> (<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">Output</a> output)</td></tr>
 <tr class="memdesc:ad8a8f5d19c13fd9a5eccd10606aacabe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an Output enum value to a string representation.  <br /></td></tr>
 <tr class="separator:ad8a8f5d19c13fd9a5eccd10606aacabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a701e40dd176af7ebcd2c372d85fad6b8" id="r_a701e40dd176af7ebcd2c372d85fad6b8"><td class="memItemLeft" align="right" valign="top">static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a701e40dd176af7ebcd2c372d85fad6b8">toString</a> (<a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">EnergyDirection</a> flow)</td></tr>
+<tr class="memdesc:a701e40dd176af7ebcd2c372d85fad6b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an EnergyDirection to its string representation.  <br /></td></tr>
+<tr class="separator:a701e40dd176af7ebcd2c372d85fad6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a954dc831b47011673a9b04ca82266a97" id="r_a954dc831b47011673a9b04ca82266a97"><td class="memItemLeft" align="right" valign="top">static constexpr std::optional&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a954dc831b47011673a9b04ca82266a97">toString</a> (<a class="el" href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511">State</a> state)</td></tr>
 <tr class="memdesc:a954dc831b47011673a9b04ca82266a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an inverter status code to its string representation.  <br /></td></tr>
 <tr class="separator:a954dc831b47011673a9b04ca82266a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -725,8 +733,43 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a701e40dd176af7ebcd2c372d85fad6b8" name="a701e40dd176af7ebcd2c372d85fad6b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a701e40dd176af7ebcd2c372d85fad6b8">&#9670;&#160;</a></span>toString() <span class="overload">[1/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr const char * FroniusTypes::toString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f">EnergyDirection</a>&#160;</td>
+          <td class="paramname"><em>flow</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert an EnergyDirection to its string representation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flow</td><td>The energy direction to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>"IMPORT", "EXPORT", or "UNKNOWN" </dd></dl>
+
+</div>
+</div>
 <a id="a8957dd29be2853c9435e291ad11ac152" name="a8957dd29be2853c9435e291ad11ac152"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8957dd29be2853c9435e291ad11ac152">&#9670;&#160;</a></span>toString() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8957dd29be2853c9435e291ad11ac152">&#9670;&#160;</a></span>toString() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -762,7 +805,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0bdc2d7733f5b6b7040d68b7601a5f4c" name="a0bdc2d7733f5b6b7040d68b7601a5f4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bdc2d7733f5b6b7040d68b7601a5f4c">&#9670;&#160;</a></span>toString() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bdc2d7733f5b6b7040d68b7601a5f4c">&#9670;&#160;</a></span>toString() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -798,7 +841,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="afaea87d09e178bb2504d06cffb16d165" name="afaea87d09e178bb2504d06cffb16d165"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afaea87d09e178bb2504d06cffb16d165">&#9670;&#160;</a></span>toString() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afaea87d09e178bb2504d06cffb16d165">&#9670;&#160;</a></span>toString() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -834,7 +877,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a159bba3c7bef13da9b386aefa327d2ba" name="a159bba3c7bef13da9b386aefa327d2ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a159bba3c7bef13da9b386aefa327d2ba">&#9670;&#160;</a></span>toString() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a159bba3c7bef13da9b386aefa327d2ba">&#9670;&#160;</a></span>toString() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -869,7 +912,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad8a8f5d19c13fd9a5eccd10606aacabe" name="ad8a8f5d19c13fd9a5eccd10606aacabe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8a8f5d19c13fd9a5eccd10606aacabe">&#9670;&#160;</a></span>toString() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8a8f5d19c13fd9a5eccd10606aacabe">&#9670;&#160;</a></span>toString() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -904,7 +947,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a29a97cb4acc694719bc02e62c3668b08" name="a29a97cb4acc694719bc02e62c3668b08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29a97cb4acc694719bc02e62c3668b08">&#9670;&#160;</a></span>toString() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a29a97cb4acc694719bc02e62c3668b08">&#9670;&#160;</a></span>toString() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -939,7 +982,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a954dc831b47011673a9b04ca82266a97" name="a954dc831b47011673a9b04ca82266a97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a954dc831b47011673a9b04ca82266a97">&#9670;&#160;</a></span>toString() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a954dc831b47011673a9b04ca82266a97">&#9670;&#160;</a></span>toString() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

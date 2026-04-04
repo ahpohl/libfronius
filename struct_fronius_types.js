@@ -1,6 +1,10 @@
 var struct_fronius_types =
 [
     [ "RemoteEndpoint", "struct_fronius_types_1_1_remote_endpoint.html", "struct_fronius_types_1_1_remote_endpoint" ],
+    [ "EnergyDirection", "struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877f", [
+      [ "IMPORT", "struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877fad9c89e6459f4fbd0b03b5bc093e87919", null ],
+      [ "EXPORT", "struct_fronius_types.html#afdaae03adccb2a01a6bedfe28da8877fa0ceefc7f4aa071a30dd85c5b5bd14852", null ]
+    ] ],
     [ "Event_1", "struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01", [
       [ "INSULATION_FAULT", "struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a7dff71a68cd79c7b740627b45ffa508b", null ],
       [ "GRID_ERROR", "struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01abae85e92303970d0b8e497100d994099", null ],
@@ -120,6 +124,7 @@ var struct_fronius_types =
       [ "BOOTLOAD", "struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a2cb9a9f0e9706b9ba921debb203ad325", null ],
       [ "AFCI", "struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a1a3aba28896c0abfdc84ed5f20167839", null ]
     ] ],
+    [ "toString", "struct_fronius_types.html#a701e40dd176af7ebcd2c372d85fad6b8", null ],
     [ "toString", "struct_fronius_types.html#a8957dd29be2853c9435e291ad11ac152", null ],
     [ "toString", "struct_fronius_types.html#a0bdc2d7733f5b6b7040d68b7601a5f4c", null ],
     [ "toString", "struct_fronius_types.html#afaea87d09e178bb2504d06cffb16d165", null ],

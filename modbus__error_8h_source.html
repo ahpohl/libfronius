@@ -205,18 +205,19 @@ $(document).ready(function(){initNavTree('modbus__error_8h_source.html',''); ini
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordflow">case</span> EIO:          <span class="comment">// Low-level I/O error</span></div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordflow">case</span> EBUSY:        <span class="comment">// Device or resource busy</span></div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordflow">case</span> EADDRINUSE:   <span class="comment">// Address already in use</span></div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc">Severity::FATAL</a>;</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keywordflow">case</span> EINTR: <span class="comment">// Call was interrupted by a signal</span></div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112">Severity::SHUTDOWN</a>;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordflow">default</span>:</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386">Severity::TRANSIENT</a>;</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    }</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  }</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="keywordflow">case</span> ENOTSUP:      <span class="comment">// Not supported</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc">Severity::FATAL</a>;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keywordflow">case</span> EINTR: <span class="comment">// Call was interrupted by a signal</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112">Severity::SHUTDOWN</a>;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386">Severity::TRANSIENT</a>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    }</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>  }</div>
 </div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>};</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>};</div>
 </div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">#endif </span><span class="comment">/* MODBUS_ERROR_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">#endif </span><span class="comment">/* MODBUS_ERROR_H_ */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="astruct_modbus_error_html"><div class="ttname"><a href="struct_modbus_error.html">ModbusError</a></div><div class="ttdoc">Encapsulates a Modbus error with code, message, and severity.</div><div class="ttdef"><b>Definition</b> modbus_error.h:32</div></div>
 <div class="ttc" id="astruct_modbus_error_html_a0a4edf63d3f2dc60c87b9213a62c7ef7"><div class="ttname"><a href="struct_modbus_error.html#a0a4edf63d3f2dc60c87b9213a62c7ef7">ModbusError::describe</a></div><div class="ttdeci">std::string describe() const</div><div class="ttdoc">Get a preformatted human-readable error description.</div><div class="ttdef"><b>Definition</b> modbus_error.h:194</div></div>
 <div class="ttc" id="astruct_modbus_error_html_a335dcc94ea5a36158b330de2878a8f56"><div class="ttname"><a href="struct_modbus_error.html#a335dcc94ea5a36158b330de2878a8f56">ModbusError::deduceSeverity</a></div><div class="ttdeci">static Severity deduceSeverity(int c)</div><div class="ttdoc">Deduce severity based on the error code.</div><div class="ttdef"><b>Definition</b> modbus_error.h:205</div></div>
