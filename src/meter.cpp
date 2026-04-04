@@ -107,8 +107,9 @@ std::expected<FroniusTypes::RegisterMap, ModbusError> Meter::validateDevice() {
   int rc = modbus_read_registers(ctx_, REG::ID.ADDR, REG::ID.NB, buf);
   if (rc == -1) {
     if (errno != EMBXILADD) {
-      return std::unexpected(ModbusError::fromErrno(
-          "validateDevice(): reading proprietary device type register failed"));
+      return reportError<FroniusTypes::RegisterMap>(std::unexpected(
+          ModbusError::fromErrno("validateDevice(): reading proprietary device "
+                                 "type register failed")));
     }
   } else if (buf[0] == 731) {
     registerMap_ = FroniusTypes::RegisterMap::PROPRIETARY;
@@ -118,17 +119,20 @@ std::expected<FroniusTypes::RegisterMap, ModbusError> Meter::validateDevice() {
   // --- Step 2: Check SunSpec signature ---
   auto sunspec = validateSunSpecRegisters();
   if (!sunspec)
-    return std::unexpected(sunspec.error());
+    return reportError<FroniusTypes::RegisterMap>(
+        std::unexpected(sunspec.error()));
 
   // --- Step 3: Fetch common registers ---
   auto common = fetchCommonRegisters();
   if (!common)
-    return std::unexpected(common.error());
+    return reportError<FroniusTypes::RegisterMap>(
+        std::unexpected(common.error()));
 
   // --- Step 4: Detect float vs. integer register model ---
   auto init = detectFloatOrIntRegisters();
   if (!init)
-    return std::unexpected(init.error());
+    return reportError<FroniusTypes::RegisterMap>(
+        std::unexpected(init.error()));
 
   registerMap_ = FroniusTypes::RegisterMap::SUNSPEC;
   return registerMap_;
@@ -146,8 +150,8 @@ std::expected<std::string, ModbusError> Meter::getSerialNumber(void) {
     uint16_t buf[REG::SN.NB]{};
     int rc = modbus_read_registers(ctx_, REG::SN.ADDR, REG::SN.NB, buf);
     if (rc == -1) {
-      return std::unexpected(ModbusError::fromErrno(
-          "getSerialNumber(): reading serial number register failed"));
+      return reportError<std::string>(std::unexpected(ModbusError::fromErrno(
+          "getSerialNumber(): reading serial number register failed")));
     }
     uint32_t serial = ModbusUtils::modbus_get_uint32(buf);
     return std::to_string(serial);
@@ -172,8 +176,8 @@ std::expected<std::string, ModbusError> Meter::getFwVersion(void) {
     uint16_t buf[REG::VR.NB]{};
     int rc = modbus_read_registers(ctx_, REG::VR.ADDR, REG::VR.NB, buf);
     if (rc == -1) {
-      return std::unexpected(ModbusError::fromErrno(
-          "getFwVersion(): reading firmware version registers failed"));
+      return reportError<std::string>(std::unexpected(ModbusError::fromErrno(
+          "getFwVersion(): reading firmware version registers failed")));
     }
     return std::format("{}.{}", buf[0], buf[1]);
   }
