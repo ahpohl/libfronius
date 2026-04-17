@@ -24,10 +24,12 @@ var searchData=
   ['int32_21',['INT32',['../struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf',1,'Register']]],
   ['intermediate_5ffault_22',['INTERMEDIATE_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01afe9d2cdb43e2f16542db190c975428bd',1,'FroniusTypes']]],
   ['inv_5faddress_5ffault_23',['INV_ADDRESS_FAULT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfaf9b212a20a1c63630f0f1d20abb9fc6a',1,'FroniusTypes']]],
-  ['inverter_24',['inverter',['../class_inverter.html',1,'Inverter'],['../class_inverter.html#a8cfc0c7eb7b40e5e9a9c315d7701480c',1,'Inverter::Inverter()']]],
+  ['inverter_24',['inverter',['../class_inverter.html#a8cfc0c7eb7b40e5e9a9c315d7701480c',1,'Inverter::Inverter()'],['../class_inverter.html',1,'Inverter']]],
   ['inverter_5fregisters_2eh_25',['inverter_registers.h',['../inverter__registers_8h.html',1,'']]],
   ['inwrte_26',['INWRTE',['../namespace_i124.html#a8818097b1fdde927d176270d9e2f25c4',1,'I124']]],
   ['ip_27',['ip',['../struct_fronius_types_1_1_remote_endpoint.html#a09f2baf25adff14a3c2e683052c48f98',1,'FroniusTypes::RemoteEndpoint']]],
   ['isconnected_28',['isConnected',['../class_fronius.html#aee3c52900dbad7a415f62481b905956d',1,'Fronius']]],
-  ['ishybrid_29',['isHybrid',['../class_inverter.html#a7dcc55bd4a9884f45ec65b72d96101be',1,'Inverter']]]
+  ['ishybrid_29',['isHybrid',['../class_inverter.html#a7dcc55bd4a9884f45ec65b72d96101be',1,'Inverter']]],
+  ['isrtu_30',['isRtu',['../struct_modbus_config.html#a7ea35cde369c0e026c27af513145f221',1,'ModbusConfig']]],
+  ['istcp_31',['isTcp',['../struct_modbus_config.html#a0452eadc63343cab7d949edfbdb523eb',1,'ModbusConfig']]]
 ];

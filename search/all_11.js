@@ -24,7 +24,7 @@ var searchData=
   ['standby_21',['STANDBY',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511aeea559d5c56d48e94e586f7fe000c0b1',1,'FroniusTypes']]],
   ['starting_22',['STARTING',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a034312d8adc8099c1c6f53aaff745e26',1,'FroniusTypes']]],
   ['state_23',['State',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511',1,'FroniusTypes']]],
-  ['stopbits_24',['stopBits',['../struct_modbus_config.html#a4c2233312faf3524168c520c7c70d004',1,'ModbusConfig']]],
+  ['stopbits_24',['stopBits',['../struct_modbus_rtu_transport.html#abf94e346e4809c358547a1afd1ce71db',1,'ModbusRtuTransport']]],
   ['storage_5foffset_25',['STORAGE_OFFSET',['../namespace_i___e_n_d.html#afa14509b2f81611f2229588ab2955d7d',1,'I_END']]],
   ['storage_5frestrictions_5fview_5fmode_26',['STORAGE_RESTRICTIONS_VIEW_MODE',['../namespace_f.html#a38e3a3fbeac21042bd14a17915d4eae7',1,'F']]],
   ['storconn_27',['STORCONN',['../namespace_i122.html#ae205fd531e78bbbdd9d949e991585394',1,'I122']]],

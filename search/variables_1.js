@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['baud_0',['baud',['../struct_modbus_config.html#aecb30c40c0a3213e998bd2e551932e71',1,'ModbusConfig']]]
+  ['baud_0',['baud',['../struct_modbus_rtu_transport.html#acc1e38b1c812d008d6d41b90ac1ae421',1,'ModbusRtuTransport']]]
 ];

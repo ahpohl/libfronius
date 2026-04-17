@@ -82,14 +82,14 @@ var NAVTREEINDEX3 =
 "namespace_modbus_utils.html#af0c3e47debd8c52c81d119a7098a7743":[0,0,14,3],
 "namespacedetail.html":[0,0,1],
 "namespacedetail.html#a8b32eeff9e0cf30cb28cb0c56b03d7a3":[0,0,1,0],
-"namespacemembers.html":[0,1,0,0],
 "namespacemembers.html":[0,1,0],
+"namespacemembers.html":[0,1,0,0],
 "namespacemembers_c.html":[0,1,0,1],
 "namespacemembers_d.html":[0,1,0,2],
 "namespacemembers_e.html":[0,1,0,3],
 "namespacemembers_f.html":[0,1,0,4],
-"namespacemembers_func.html":[0,1,1,0],
 "namespacemembers_func.html":[0,1,1],
+"namespacemembers_func.html":[0,1,1,0],
 "namespacemembers_func_c.html":[0,1,1,1],
 "namespacemembers_func_d.html":[0,1,1,2],
 "namespacemembers_func_e.html":[0,1,1,3],
@@ -249,5 +249,5 @@ var NAVTREEINDEX3 =
 "struct_fronius_types_1_1_remote_endpoint.html#a09f2baf25adff14a3c2e683052c48f98":[1,0,1,0,0],
 "struct_fronius_types_1_1_remote_endpoint.html#ada7ca13397f2b034bf4962370b7ae4fb":[1,0,1,0,1],
 "struct_modbus_config.html":[1,0,4],
-"struct_modbus_config.html#a0c784a4c30e22720e849715a10762cfa":[1,0,4,4]
+"struct_modbus_config.html#a0452eadc63343cab7d949edfbdb523eb":[1,0,4,1]
 };

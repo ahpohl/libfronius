@@ -13,5 +13,6 @@ var searchData=
   ['remoteendpoint_5f_10',['remoteEndpoint_',['../class_fronius.html#a39bef571e883389cb6b603c0cb29ea43',1,'Fronius']]],
   ['reporterror_11',['reportError',['../class_fronius.html#a6b229007bf3c213ae65dd61d95231cc6',1,'Fronius']]],
   ['reset_5fall_5fevent_5fflags_12',['RESET_ALL_EVENT_FLAGS',['../namespace_f.html#a9c2cfa27acd73c8976ceb3ce2b2b417c',1,'F']]],
-  ['running_5f_13',['running_',['../class_fronius.html#abfa2622c7575dde83dbd48818275b7e6',1,'Fronius']]]
+  ['rtu_13',['rtu',['../struct_modbus_config.html#a0eb7c1a0da9764dd26f86dba4c649258',1,'ModbusConfig']]],
+  ['running_5f_14',['running_',['../class_fronius.html#abfa2622c7575dde83dbd48818275b7e6',1,'Fronius']]]
 ];

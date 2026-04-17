@@ -23,8 +23,10 @@ var searchData=
   ['modbus_5futils_2eh_20',['modbus_utils.h',['../modbus__utils_8h.html',1,'']]],
   ['modbusconfig_21',['ModbusConfig',['../struct_modbus_config.html',1,'']]],
   ['modbuserror_22',['ModbusError',['../struct_modbus_error.html',1,'']]],
-  ['modbusutils_23',['ModbusUtils',['../namespace_modbus_utils.html',1,'']]],
-  ['model_5ftype_24',['MODEL_TYPE',['../namespace_f.html#ac316e7d507c8d6207e52d804af0ddcc3',1,'F']]],
-  ['mppt_25',['MPPT',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511ab4d03e8f918a5dc756c1b3bcf5705225',1,'FroniusTypes']]],
-  ['mtx_5f_26',['mtx_',['../class_fronius.html#a011767bd6af8cd0b32019b67f4ca221f',1,'Fronius']]]
+  ['modbusrtutransport_23',['ModbusRtuTransport',['../struct_modbus_rtu_transport.html',1,'']]],
+  ['modbustcptransport_24',['ModbusTcpTransport',['../struct_modbus_tcp_transport.html',1,'']]],
+  ['modbusutils_25',['ModbusUtils',['../namespace_modbus_utils.html',1,'']]],
+  ['model_5ftype_26',['MODEL_TYPE',['../namespace_f.html#ac316e7d507c8d6207e52d804af0ddcc3',1,'F']]],
+  ['mppt_27',['MPPT',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511ab4d03e8f918a5dc756c1b3bcf5705225',1,'FroniusTypes']]],
+  ['mtx_5f_28',['mtx_',['../class_fronius.html#a011767bd6af8cd0b32019b67f4ca221f',1,'Fronius']]]
 ];

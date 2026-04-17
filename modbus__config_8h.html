@@ -103,22 +103,29 @@ $(document).ready(function(){initNavTree('modbus__config_8h.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 
-<p>Configuration structure for Modbus connections (TCP/RTU) and reconnection behavior.  
+<p>Type-safe configuration for Modbus connections (TCP/RTU)  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;variant&gt;</code><br />
 </div>
 <p><a href="modbus__config_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_tcp_transport.html">ModbusTcpTransport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a Modbus TCP connection.  <a href="struct_modbus_tcp_transport.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_rtu_transport.html">ModbusRtuTransport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a Modbus RTU serial connection.  <a href="struct_modbus_rtu_transport.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_config.html">ModbusConfig</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds all configuration options for a Modbus client.  <a href="struct_modbus_config.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Complete configuration for one Modbus device.  <a href="struct_modbus_config.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for Modbus connections (TCP/RTU) and reconnection behavior. </p>
-<p>Provides a convenient struct for storing all parameters needed to configure a Modbus client, including TCP/RTU connection settings, slave ID, debugging, and automatic reconnect parameters. Includes a <code>validate()</code> method to ensure all parameters are within allowed ranges before use. </p>
+<div class="textblock"><p>Type-safe configuration for Modbus connections (TCP/RTU) </p>
+<p>Provides convenient structures for storing all parameters needed to configure a Modbus client, including TCP/RTU connection settings, slave ID, debugging, and automatic reconnect parameters. The active transport type is encoded in the type system: holding a <code><a class="el" href="struct_modbus_tcp_transport.html" title="Parameters for a Modbus TCP connection.">ModbusTcpTransport</a></code> is unambiguous. Includes a <code>validate()</code> method to ensure all parameters are within allowed ranges before use. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

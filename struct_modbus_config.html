@@ -104,19 +104,37 @@ $(document).ready(function(){initNavTree('struct_modbus_config.html',''); initRe
 </div><!--header-->
 <div class="contents">
 
-<p>Holds all configuration options for a Modbus client.  
+<p>Complete configuration for one Modbus device.  
  <a href="struct_modbus_config.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="modbus__config_8h_source.html">modbus_config.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a0452eadc63343cab7d949edfbdb523eb" id="r_a0452eadc63343cab7d949edfbdb523eb"><td class="memItemLeft" align="right" valign="top"><a id="a0452eadc63343cab7d949edfbdb523eb" name="a0452eadc63343cab7d949edfbdb523eb"></a>
+<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>isTcp</b> () <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a> <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">noexcept</a></td></tr>
+<tr class="memdesc:a0452eadc63343cab7d949edfbdb523eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true when the active transport is TCP. <br /></td></tr>
+<tr class="separator:a0452eadc63343cab7d949edfbdb523eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ea35cde369c0e026c27af513145f221" id="r_a7ea35cde369c0e026c27af513145f221"><td class="memItemLeft" align="right" valign="top"><a id="a7ea35cde369c0e026c27af513145f221" name="a7ea35cde369c0e026c27af513145f221"></a>
+<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>isRtu</b> () <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a> <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">noexcept</a></td></tr>
+<tr class="memdesc:a7ea35cde369c0e026c27af513145f221"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true when the active transport is RTU. <br /></td></tr>
+<tr class="separator:a7ea35cde369c0e026c27af513145f221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac060c49cfa7fdac90c06d9a24928926" id="r_aac060c49cfa7fdac90c06d9a24928926"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a> <a class="el" href="struct_modbus_tcp_transport.html">ModbusTcpTransport</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_config.html#aac060c49cfa7fdac90c06d9a24928926">tcp</a> () <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a></td></tr>
+<tr class="memdesc:aac060c49cfa7fdac90c06d9a24928926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the TCP transport parameters.  <br /></td></tr>
+<tr class="separator:aac060c49cfa7fdac90c06d9a24928926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eb7c1a0da9764dd26f86dba4c649258" id="r_a0eb7c1a0da9764dd26f86dba4c649258"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a> <a class="el" href="struct_modbus_rtu_transport.html">ModbusRtuTransport</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_config.html#a0eb7c1a0da9764dd26f86dba4c649258">rtu</a> () <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a></td></tr>
+<tr class="memdesc:a0eb7c1a0da9764dd26f86dba4c649258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the RTU transport parameters.  <br /></td></tr>
+<tr class="separator:a0eb7c1a0da9764dd26f86dba4c649258"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a274aced1c85062b5e2f558b011e87edf" id="r_a274aced1c85062b5e2f558b011e87edf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_config.html#a274aced1c85062b5e2f558b011e87edf">validate</a> () <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a></td></tr>
 <tr class="memdesc:a274aced1c85062b5e2f558b011e87edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate configuration parameters.  <br /></td></tr>
 <tr class="separator:a274aced1c85062b5e2f558b011e87edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
+<tr class="memitem:a259b05935ac59e09200934636b33e627" id="r_a259b05935ac59e09200934636b33e627"><td class="memItemLeft" align="right" valign="top"><a id="a259b05935ac59e09200934636b33e627" name="a259b05935ac59e09200934636b33e627"></a>
+std::variant&lt; <a class="el" href="struct_modbus_tcp_transport.html">ModbusTcpTransport</a>, <a class="el" href="struct_modbus_rtu_transport.html">ModbusRtuTransport</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>transport</b></td></tr>
+<tr class="memdesc:a259b05935ac59e09200934636b33e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transport: either a TCP connection or an RTU serial bus. <br /></td></tr>
+<tr class="separator:a259b05935ac59e09200934636b33e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a346fab5a96e3f358a1995b7b43a3406d" id="r_a346fab5a96e3f358a1995b7b43a3406d"><td class="memItemLeft" align="right" valign="top"><a id="a346fab5a96e3f358a1995b7b43a3406d" name="a346fab5a96e3f358a1995b7b43a3406d"></a>
 <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>debug</b> {<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">false</a>}</td></tr>
 <tr class="memdesc:a346fab5a96e3f358a1995b7b43a3406d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable debug logging. <br /></td></tr>
@@ -125,38 +143,6 @@ Data Fields</h2></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>slaveId</b> {1}</td></tr>
 <tr class="memdesc:af833e90b1d39e903a0eeb5cfbcec48b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modbus slave ID (1–247) <br /></td></tr>
 <tr class="separator:af833e90b1d39e903a0eeb5cfbcec48b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19164ee409301da67da7c476a40b2509" id="r_a19164ee409301da67da7c476a40b2509"><td class="memItemLeft" align="right" valign="top"><a id="a19164ee409301da67da7c476a40b2509" name="a19164ee409301da67da7c476a40b2509"></a>
-<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>useTcp</b> {<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">true</a>}</td></tr>
-<tr class="memdesc:a19164ee409301da67da7c476a40b2509"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use TCP if true, else use RTU (serial) <br /></td></tr>
-<tr class="separator:a19164ee409301da67da7c476a40b2509"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e7eacbea3e1b1945f2c0f6e3f3deb53" id="r_a9e7eacbea3e1b1945f2c0f6e3f3deb53"><td class="memItemLeft" align="right" valign="top"><a id="a9e7eacbea3e1b1945f2c0f6e3f3deb53" name="a9e7eacbea3e1b1945f2c0f6e3f3deb53"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>host</b></td></tr>
-<tr class="memdesc:a9e7eacbea3e1b1945f2c0f6e3f3deb53"><td class="mdescLeft">&#160;</td><td class="mdescRight">TCP host name or IP address (used if <code>useTcp</code> is true) <br /></td></tr>
-<tr class="separator:a9e7eacbea3e1b1945f2c0f6e3f3deb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c11ab8ec11d12e6227faaa47a8768fd" id="r_a6c11ab8ec11d12e6227faaa47a8768fd"><td class="memItemLeft" align="right" valign="top"><a id="a6c11ab8ec11d12e6227faaa47a8768fd" name="a6c11ab8ec11d12e6227faaa47a8768fd"></a>
-<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>port</b> {502}</td></tr>
-<tr class="memdesc:a6c11ab8ec11d12e6227faaa47a8768fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">TCP port (default 502) <br /></td></tr>
-<tr class="separator:a6c11ab8ec11d12e6227faaa47a8768fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c784a4c30e22720e849715a10762cfa" id="r_a0c784a4c30e22720e849715a10762cfa"><td class="memItemLeft" align="right" valign="top"><a id="a0c784a4c30e22720e849715a10762cfa" name="a0c784a4c30e22720e849715a10762cfa"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>device</b></td></tr>
-<tr class="memdesc:a0c784a4c30e22720e849715a10762cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial device path (used if <code>useTcp</code> is false, e.g., "/dev/ttyUSB0") <br /></td></tr>
-<tr class="separator:a0c784a4c30e22720e849715a10762cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecb30c40c0a3213e998bd2e551932e71" id="r_aecb30c40c0a3213e998bd2e551932e71"><td class="memItemLeft" align="right" valign="top"><a id="aecb30c40c0a3213e998bd2e551932e71" name="aecb30c40c0a3213e998bd2e551932e71"></a>
-<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>baud</b> {9600}</td></tr>
-<tr class="memdesc:aecb30c40c0a3213e998bd2e551932e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial baud rate (used if <code>useTcp</code> is false) <br /></td></tr>
-<tr class="separator:aecb30c40c0a3213e998bd2e551932e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6aee3ee1e22a01b73b968acc3e3eca34" id="r_a6aee3ee1e22a01b73b968acc3e3eca34"><td class="memItemLeft" align="right" valign="top"><a id="a6aee3ee1e22a01b73b968acc3e3eca34" name="a6aee3ee1e22a01b73b968acc3e3eca34"></a>
-<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dataBits</b> {8}</td></tr>
-<tr class="memdesc:a6aee3ee1e22a01b73b968acc3e3eca34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial data bits (used if <code>useTcp</code> is false, typically 7 or 8) <br /></td></tr>
-<tr class="separator:a6aee3ee1e22a01b73b968acc3e3eca34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c2233312faf3524168c520c7c70d004" id="r_a4c2233312faf3524168c520c7c70d004"><td class="memItemLeft" align="right" valign="top"><a id="a4c2233312faf3524168c520c7c70d004" name="a4c2233312faf3524168c520c7c70d004"></a>
-<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>stopBits</b> {1}</td></tr>
-<tr class="memdesc:a4c2233312faf3524168c520c7c70d004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial stop bits (used if <code>useTcp</code> is false, 1 or 2) <br /></td></tr>
-<tr class="separator:a4c2233312faf3524168c520c7c70d004"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bf7c244540ede1356a7c0027ff71ef4" id="r_a1bf7c244540ede1356a7c0027ff71ef4"><td class="memItemLeft" align="right" valign="top"><a id="a1bf7c244540ede1356a7c0027ff71ef4" name="a1bf7c244540ede1356a7c0027ff71ef4"></a>
-<a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">char</a>&#160;</td><td class="memItemRight" valign="bottom"><b>parity</b> {'N'}</td></tr>
-<tr class="memdesc:a1bf7c244540ede1356a7c0027ff71ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial parity character (used if <code>useTcp</code> is false: 'N', 'E', or 'O') <br /></td></tr>
-<tr class="separator:a1bf7c244540ede1356a7c0027ff71ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67cac6c6714a1438613b71db9e05d971" id="r_a67cac6c6714a1438613b71db9e05d971"><td class="memItemLeft" align="right" valign="top"><a id="a67cac6c6714a1438613b71db9e05d971" name="a67cac6c6714a1438613b71db9e05d971"></a>
 <a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>secTimeout</b> {0}</td></tr>
 <tr class="memdesc:a67cac6c6714a1438613b71db9e05d971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout for response in seconds. <br /></td></tr>
@@ -179,9 +165,76 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>device</b></td
 <tr class="separator:aab81922760a8948bde054e009b8f5b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Holds all configuration options for a Modbus client. </p>
-<p>Contains TCP/RTU connection settings, slave ID, debug flag, and reconnect parameters. Call <code><a class="el" href="struct_modbus_config.html#a274aced1c85062b5e2f558b011e87edf" title="Validate configuration parameters.">validate()</a></code> to ensure configuration values are within valid ranges. </p>
+<div class="textblock"><p>Complete configuration for one Modbus device. </p>
+<p>Combines a type-discriminated transport (TCP or RTU) with the per-device parameters that are independent of the physical bus: slave ID, response timeout, reconnect policy, and debug flag.</p>
+<p>On RTU, the per-device slave ID allows multiple <code>ModbusConnectionConfig</code> values to share a single <code>ModbusRtuBus</code> (same <code>device</code> path) while each addressing a different slave. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0eb7c1a0da9764dd26f86dba4c649258" name="a0eb7c1a0da9764dd26f86dba4c649258"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eb7c1a0da9764dd26f86dba4c649258">&#9670;&#160;</a></span>rtu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a> <a class="el" href="struct_modbus_rtu_transport.html">ModbusRtuTransport</a> &amp; ModbusConfig::rtu </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Access the RTU transport parameters. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_variant_access</td><td>if the active transport is not RTU. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aac060c49cfa7fdac90c06d9a24928926" name="aac060c49cfa7fdac90c06d9a24928926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac060c49cfa7fdac90c06d9a24928926">&#9670;&#160;</a></span>tcp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_modbus_config.html#af833e90b1d39e903a0eeb5cfbcec48b6">const</a> <a class="el" href="struct_modbus_tcp_transport.html">ModbusTcpTransport</a> &amp; ModbusConfig::tcp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Access the TCP transport parameters. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_variant_access</td><td>if the active transport is not TCP. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a274aced1c85062b5e2f558b011e87edf" name="a274aced1c85062b5e2f558b011e87edf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a274aced1c85062b5e2f558b011e87edf">&#9670;&#160;</a></span>validate()</h2>
 
@@ -208,20 +261,10 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>device</b></td
 <p>Validate configuration parameters. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if any parameter is out of allowed range.</td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if any parameter is out of allowed range. </td></tr>
   </table>
   </dd>
 </dl>
-<p>Checks:</p><ul>
-<li>slaveId must be in 1–247</li>
-<li>baud rate must be positive</li>
-<li>dataBits must be 5–8</li>
-<li>stopBits must be 1 or 2</li>
-<li>parity must be 'N', 'E', or 'O'</li>
-<li>TCP port must be 1–65535</li>
-<li>reconnectDelay and reconnectDelayMax must be positive</li>
-<li>reconnectDelay must be smaller than reconnectDelayMax </li>
-</ul>
 
 </div>
 </div>

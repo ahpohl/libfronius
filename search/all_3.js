@@ -1,7 +1,7 @@
 var searchData=
 [
   ['da_0',['DA',['../namespace_c001.html#ad7c68e9e484295f35a61b1fb4829cc59',1,'C001']]],
-  ['databits_1',['dataBits',['../struct_modbus_config.html#a6aee3ee1e22a01b73b968acc3e3eca34',1,'ModbusConfig']]],
+  ['databits_1',['dataBits',['../struct_modbus_rtu_transport.html#a191cb7bfbbee51715204919110e58e6d',1,'ModbusRtuTransport']]],
   ['dc_5fac_5fboard_5ffault_2',['DC_AC_BOARD_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01ac02b1d164df1024902a2311889f65ae1',1,'FroniusTypes']]],
   ['dc_5fhigh_3',['DC_HIGH',['../struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bcacc6d58054a89eb225f3d7d0f085ed0af',1,'FroniusTypes']]],
   ['dc_5flow_4',['DC_LOW',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a008e52d9651d53576030f4f02e47003e',1,'FroniusTypes']]],
@@ -34,7 +34,7 @@ var searchData=
   ['describe_31',['describe',['../struct_modbus_error.html#a0a4edf63d3f2dc60c87b9213a62c7ef7',1,'ModbusError::describe()'],['../struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9',1,'Register::describe()']]],
   ['detail_32',['detail',['../namespacedetail.html',1,'']]],
   ['detectfloatorintregisters_33',['detectfloatorintregisters',['../class_inverter.html#ab7206121c1c1fafc933d70659498b866',1,'Inverter::detectFloatOrIntRegisters()'],['../class_meter.html#a10a6b002ada3d0cb450fb1a3c08b5ab3',1,'Meter::detectFloatOrIntRegisters()']]],
-  ['device_34',['device',['../struct_modbus_config.html#a0c784a4c30e22720e849715a10762cfa',1,'ModbusConfig']]],
+  ['device_34',['device',['../struct_modbus_rtu_transport.html#ab2fc4b3a37810cc0b96f3e2452812567',1,'ModbusRtuTransport']]],
   ['direct_5fcurrent_35',['DIRECT_CURRENT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a2963c3b77e24a67603f97f1685bf1300',1,'FroniusTypes']]],
   ['display_5ffault_36',['DISPLAY_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a42d9776cd0c450d4290752418ad287ab',1,'FroniusTypes']]]
 ];
