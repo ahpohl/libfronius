@@ -258,13 +258,10 @@ Fronius::getModbusDouble(const std::vector<uint16_t> &regs, const Register &reg,
 /* -------------------------- private methods ------------------------------*/
 
 std::expected<void, ModbusError> Fronius::tryConnect() {
-
-  // If context already exists and connection is healthy, skip
   if (ctx_ && connected_.load())
-    return {}; // Connection healthy, return
+    return {};
 
   if (ctx_) {
-    // Connection lost → transient error
     modbus_close(ctx_);
     modbus_free(ctx_);
     ctx_ = nullptr;
@@ -273,18 +270,20 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   // Start with a fresh register map
   std::fill(regs_.begin(), regs_.end(), 0);
 
-  // Create new context based on config
-  if (cfg_.useTcp) {
-    ctx_ =
-        modbus_new_tcp_pi(cfg_.host.c_str(), std::to_string(cfg_.port).c_str());
+  // Create new context based on transport variant
+  if (cfg_.isTcp()) {
+    const auto &t = cfg_.tcp();
+    ctx_ = modbus_new_tcp_pi(t.host.c_str(), std::to_string(t.port).c_str());
   } else {
-    ctx_ = modbus_new_rtu(cfg_.device.c_str(), cfg_.baud, cfg_.parity,
-                          cfg_.dataBits, cfg_.stopBits);
+    const auto &r = cfg_.rtu();
+    ctx_ = modbus_new_rtu(r.device.c_str(), r.baud, r.parity, r.dataBits,
+                          r.stopBits);
   }
+
   if (!ctx_) {
     return std::unexpected(ModbusError::custom(
         ENOMEM, "tryConnect(): Unable to create the libmodbus {} context",
-        (cfg_.useTcp ? "TCP" : "RTU")));
+        (cfg_.isTcp() ? "TCP" : "RTU")));
   }
 
   // Set slave/unit ID
@@ -312,13 +311,13 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
   if (modbus_connect(ctx_) == -1) {
     modbus_free(ctx_);
     ctx_ = nullptr;
-    return std::unexpected(
-        ModbusError::fromErrno("tryConnect(): Connection to '{}' failed",
-                               (cfg_.useTcp ? cfg_.host : cfg_.device)));
+    return std::unexpected(ModbusError::fromErrno(
+        "tryConnect(): Connection to '{}' failed",
+        (cfg_.isTcp() ? cfg_.tcp().host : cfg_.rtu().device)));
   }
 
   // Get the remote connection info
-  if (cfg_.useTcp) {
+  if (cfg_.isTcp()) {
     int socket = modbus_get_socket(ctx_);
     if (socket == -1) {
       ctx_ = nullptr;

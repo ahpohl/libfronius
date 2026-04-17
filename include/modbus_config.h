@@ -1,64 +1,89 @@
 /**
  * @file modbus_config.h
- * @brief Configuration structure for Modbus connections (TCP/RTU) and
- * reconnection behavior.
+ * @brief Type-safe configuration for Modbus connections (TCP/RTU)
  *
  * @details
- * Provides a convenient struct for storing all parameters needed to
+ * Provides convenient structures for storing all parameters needed to
  * configure a Modbus client, including TCP/RTU connection settings,
- * slave ID, debugging, and automatic reconnect parameters.
- * Includes a `validate()` method to ensure all parameters are within
- * allowed ranges before use.
+ * slave ID, debugging, and automatic reconnect parameters. The active
+ * transport type is encoded in the type system: holding a
+ * `ModbusTcpTransport` is unambiguous. Includes a `validate()` method
+ * to ensure all parameters are within allowed ranges before use.
  */
 
-#ifndef MB_CONFIG_H_
-#define MB_CONFIG_H_
+#ifndef MODBUS_CONFIG_H_
+#define MODBUS_CONFIG_H_
 
 #include <stdexcept>
 #include <string>
+#include <variant>
 
-/** @struct ModbusConfig
- *  @brief Holds all configuration options for a Modbus client.
+// ---------------------------------------------------------------------------
+// Transport descriptors
+// ---------------------------------------------------------------------------
+
+/**
+ * @struct ModbusTcpTransport
+ * @brief Parameters for a Modbus TCP connection.
+ */
+struct ModbusTcpTransport {
+  /** @brief Hostname or IPv4/IPv6 address of the Modbus TCP server. */
+  std::string host;
+
+  /** @brief TCP port (default 502). */
+  int port{502};
+};
+
+/**
+ * @struct ModbusRtuTransport
+ * @brief Parameters for a Modbus RTU serial connection.
  *
- *  @details
- *  Contains TCP/RTU connection settings, slave ID, debug flag,
- *  and reconnect parameters. Call `validate()` to ensure configuration
- *  values are within valid ranges.
+ */
+struct ModbusRtuTransport {
+  /** @brief Serial device path (e.g. "/dev/ttyUSB0"). */
+  std::string device;
+
+  /** @brief Baud rate (e.g. 9600, 19200). */
+  int baud{9600};
+
+  /** @brief Number of data bits (5–8). */
+  int dataBits{8};
+
+  /** @brief Number of stop bits (1 or 2). */
+  int stopBits{1};
+
+  /** @brief Parity: 'N' (none), 'E' (even), or 'O' (odd). */
+  char parity{'N'};
+};
+
+// ---------------------------------------------------------------------------
+// Unified per-device config
+// ---------------------------------------------------------------------------
+
+/**
+ * @struct ModbusConfig
+ * @brief Complete configuration for one Modbus device
+ *
+ * @details
+ * Combines a type-discriminated transport (TCP or RTU) with the per-device
+ * parameters that are independent of the physical bus: slave ID, response
+ * timeout, reconnect policy, and debug flag.
+ *
+ * On RTU, the per-device slave ID allows multiple `ModbusConnectionConfig`
+ * values to share a single `ModbusRtuBus` (same `device` path) while each
+ * addressing a different slave.
  */
 struct ModbusConfig {
+  /** @brief Transport: either a TCP connection or an RTU serial bus. */
+  std::variant<ModbusTcpTransport, ModbusRtuTransport> transport;
+
   /** @brief Enable debug logging */
   bool debug{false};
 
-  // --- Connection parameters ---
+  // --- Per-device parameters ---
 
   /** @brief Modbus slave ID (1–247) */
   int slaveId{1};
-
-  /** @brief Use TCP if true, else use RTU (serial) */
-  bool useTcp{true};
-
-  /** @brief TCP host name or IP address (used if `useTcp` is true) */
-  std::string host;
-
-  /** @brief TCP port (default 502) */
-  int port{502};
-
-  /** @brief Serial device path (used if `useTcp` is false, e.g.,
-   * "/dev/ttyUSB0") */
-  std::string device;
-
-  /** @brief Serial baud rate (used if `useTcp` is false) */
-  int baud{9600};
-
-  /** @brief Serial data bits (used if `useTcp` is false, typically 7 or 8) */
-  int dataBits{8};
-
-  /** @brief Serial stop bits (used if `useTcp` is false, 1 or 2) */
-  int stopBits{1};
-
-  /** @brief Serial parity character (used if `useTcp` is false: 'N', 'E', or
-   * 'O') */
-  char parity{'N'};
 
   /** @brief Timeout for response in seconds */
   int secTimeout{0};
@@ -66,7 +91,7 @@ struct ModbusConfig {
   /** @brief Timeout for response in micro seconds */
   int usecTimeout{200000};
 
-  // --- Reconnect parameters ---
+  // --- Reconnect policy ---
 
   /** @brief Initial reconnect delay in seconds */
   int reconnectDelay{5};
@@ -77,59 +102,74 @@ struct ModbusConfig {
   /** @brief Use exponential backoff for reconnect if true */
   bool exponential{true};
 
+  // --- Convenience accessors ---
+
+  /** @brief Returns true when the active transport is TCP. */
+  [[nodiscard]] bool isTcp() const noexcept {
+    return std::holds_alternative<ModbusTcpTransport>(transport);
+  }
+
+  /** @brief Returns true when the active transport is RTU. */
+  [[nodiscard]] bool isRtu() const noexcept {
+    return std::holds_alternative<ModbusRtuTransport>(transport);
+  }
+
+  /**
+   * @brief Access the TCP transport parameters.
+   * @throws std::bad_variant_access if the active transport is not TCP.
+   */
+  [[nodiscard]] const ModbusTcpTransport &tcp() const {
+    return std::get<ModbusTcpTransport>(transport);
+  }
+
+  /**
+   * @brief Access the RTU transport parameters.
+   * @throws std::bad_variant_access if the active transport is not RTU.
+   */
+  [[nodiscard]] const ModbusRtuTransport &rtu() const {
+    return std::get<ModbusRtuTransport>(transport);
+  }
+
   /**
    * @brief Validate configuration parameters.
    * @throws std::invalid_argument if any parameter is out of allowed range.
-   *
-   * @details
-   * Checks:
-   *  - slaveId must be in 1–247
-   *  - baud rate must be positive
-   *  - dataBits must be 5–8
-   *  - stopBits must be 1 or 2
-   *  - parity must be 'N', 'E', or 'O'
-   *  - TCP port must be 1–65535
-   *  - reconnectDelay and reconnectDelayMax must be positive
-   *  - reconnectDelay must be smaller than reconnectDelayMax
    */
   void validate() const {
-    if (slaveId < 1 || slaveId > 247) {
+    if (slaveId < 1 || slaveId > 247)
+      throw std::invalid_argument("slaveId must be in range 1–247");
+
+    if (isRtu()) {
+      const auto &r = rtu();
+
+      if (r.baud <= 0)
+        throw std::invalid_argument("RTU naud rate must be positive");
+      if (r.dataBits < 5 || r.dataBits > 8)
+        throw std::invalid_argument("RTU dataBits must be in range 5–8");
+      if (r.stopBits != 1 && r.stopBits != 2)
+        throw std::invalid_argument("RTU stopBits must be 1 or 2");
+      if (r.parity != 'N' && r.parity != 'E' && r.parity != 'O')
+        throw std::invalid_argument("RTU parity must be 'N', 'E', or 'O'");
+    }
+
+    if (isTcp()) {
+      const auto &t = tcp();
+
+      if (t.port <= 0 || t.port > 65535)
+        throw std::invalid_argument("TCP port must be in range 1–65535");
+    }
+
+    if (reconnectDelay <= 0 || reconnectDelayMax <= 0)
       throw std::invalid_argument(
-          "Slave ID must be in range 1–247 for unicast");
-    }
-    if (!useTcp) {
-      if (baud <= 0) {
-        throw std::invalid_argument("Baud rate must be positive");
-      }
-      if (dataBits < 5 || dataBits > 8) {
-        throw std::invalid_argument("dataBits must be in range 5–8");
-      }
-      if (stopBits != 1 && stopBits != 2) {
-        throw std::invalid_argument("stopBits must be 1 or 2");
-      }
-      if (parity != 'N' && parity != 'E' && parity != 'O') {
-        throw std::invalid_argument("parity must be 'N', 'E', or 'O'");
-      }
-    }
-    if (port <= 0 || port > 65535) {
-      throw std::invalid_argument("TCP port must be in range 1–65535");
-    }
-    if (reconnectDelay < 0 || reconnectDelayMax < 0) {
+          "reconnectDelay and reconnectDelayMax must be positive");
+    if (reconnectDelay >= reconnectDelayMax)
       throw std::invalid_argument(
-          "reconnectDelay and reconnectDelayMax must be > 0");
-    }
-    if (reconnectDelay >= reconnectDelayMax) {
+          "reconnectDelay must be less than reconnectDelayMax");
+    if (secTimeout == 0 && usecTimeout == 0)
       throw std::invalid_argument(
-          "reconnectDelay must be smaller than reconnectDelayMax");
-    }
-    if (secTimeout == 0 && usecTimeout == 0) {
-      throw std::invalid_argument(
-          "Both secTimeout and usecTimeout cannot be 0");
-    }
-    if (usecTimeout < 0 || usecTimeout > 999999) {
+          "secTimeout and usecTimeout cannot both be 0");
+    if (usecTimeout < 0 || usecTimeout > 999999)
       throw std::invalid_argument("usecTimeout must be in range 0-999999");
-    }
   }
 };
 
-#endif /* MB_CONFIG_H_ */
+#endif /* MODBUS_CONFIG_H_ */
