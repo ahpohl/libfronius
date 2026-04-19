@@ -327,6 +327,13 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     remoteEndpoint_ = ModbusUtils::getSocketInfo(socket);
   }
 
+  // Flush any stale bytes left in the RTU receive buffer before the first
+  // transaction.
+  if (cfg_.isRtu()) {
+    modbus_flush(ctx_);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+
   // Subclass validation (device identification, register map detection, etc.)
   auto validation = validateConnection();
   if (!validation) {
