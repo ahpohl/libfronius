@@ -260,14 +260,6 @@ private:
   bool useFloatRegisters_{false};
 
   /**
-   * @brief Register map type detected during the last successful
-   *        validateDevice() call. Defaults to UNAVAILABLE until detection
-   *        has completed.
-   */
-  FroniusTypes::RegisterMap registerMap_{
-      FroniusTypes::RegisterMap::UNAVAILABLE};
-
-  /**
    * @brief Detected Fronius meter ID (e.g., 201, 213, etc.).
    */
   int id_{0};
@@ -313,6 +305,18 @@ private:
   std::expected<double, ModbusError>
   getRegValue(const Register &regProp, double sfProp, const Register &regInt,
               const Register &sfInt, const Register &regFlt) const;
+
+  /**
+   * @brief Identify the meter's register map after connection.
+   *
+   * Overrides Fronius::validateConnection(). Probes the device to determine
+   * whether it uses the proprietary Fronius register map or the SunSpec model,
+   * and initialises internal state accordingly (registerMap_,
+   * useFloatRegisters_, id_, phases_).
+   *
+   * Called automatically by tryConnect() — do not call directly.
+   */
+  std::expected<void, ModbusError> validateConnection() override;
 };
 
 #endif /* METER_H_ */

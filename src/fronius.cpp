@@ -327,6 +327,15 @@ std::expected<void, ModbusError> Fronius::tryConnect() {
     remoteEndpoint_ = ModbusUtils::getSocketInfo(socket);
   }
 
+  // Subclass validation (device identification, register map detection, etc.)
+  auto validation = validateConnection();
+  if (!validation) {
+    modbus_close(ctx_);
+    modbus_free(ctx_);
+    ctx_ = nullptr;
+    return std::unexpected(validation.error());
+  }
+
   return {};
 }
 
@@ -347,7 +356,7 @@ void Fronius::connectionLoop() {
         }
 
         if (onConnect_) {
-          onConnect_();
+          onConnect_(registerMap_);
         }
 
         // Reset delay after success

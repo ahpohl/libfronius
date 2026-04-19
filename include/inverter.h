@@ -420,6 +420,17 @@ private:
    *   - A `ModbusError` describing the failure if validation fails.
    */
   std::expected<void, ModbusError> validateNameplateRegisters(void);
+
+  /**
+   * @brief Identify the inverter's register map after connection.
+   *
+   * Overrides Fronius::validateConnection(). Validates the SunSpec signature
+   * and fetches the common register block to confirm the device is a supported
+   * Fronius inverter.
+   *
+   * Called automatically by tryConnect() — do not call directly.
+   */
+  std::expected<void, ModbusError> validateConnection() override;
 };
 
 #endif /* INVERTER_H_ */

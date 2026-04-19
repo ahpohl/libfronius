@@ -134,6 +134,8 @@ std::expected<void, ModbusError> Inverter::validateDevice() {
 
   // If we got here, device is fully valid
   connectedAndValid_ = true;
+  registerMap_ = FroniusTypes::RegisterMap::SUNSPEC;
+
   return {};
 }
 
@@ -618,5 +620,12 @@ std::expected<void, ModbusError> Inverter::validateNameplateRegisters() {
                             regs_[idReg.ADDR + idReg.NB], I120::SIZE)));
   }
 
+  return {};
+}
+
+std::expected<void, ModbusError> Inverter::validateConnection() {
+  auto result = validateDevice();
+  if (!result)
+    return std::unexpected(result.error());
   return {};
 }

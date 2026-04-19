@@ -679,6 +679,24 @@ struct FroniusTypes {
     PROPRIETARY, ///< Fronius RTU proprietary map (TS 65A-3 direct RTU)
     UNAVAILABLE, ///< Device responded but no recognised register map found
   };
-};
 
+  /**
+   * @brief Convert a RegisterMap value to a human-readable string.
+   *
+   * @param map The register map to convert.
+   * @return A null-terminated string describing the register map:
+   *         "SunSpec", "proprietary", or "unavailable".
+   */
+  static constexpr const char *toString(RegisterMap map) {
+    switch (map) {
+    case RegisterMap::SUNSPEC:
+      return "SunSpec";
+    case RegisterMap::PROPRIETARY:
+      return "proprietary";
+    case RegisterMap::UNAVAILABLE:
+      return "unavailable";
+    }
+    return "unknown";
+  }
+};
 #endif /* FRONIUS_TYPES_H_ */

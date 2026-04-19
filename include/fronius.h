@@ -44,17 +44,24 @@ public:
    * @brief Set a callback to be invoked when a connection is established.
    *
    * The callback is called immediately after a successful connection to the
-   * remote Modbus slave, allowing the application to log or react to the
-   * connection event.
+   * remote Modbus slave and device validation, allowing the application to
+   * log or react to the connection event.
    *
-   * @param cb Function to call upon successful connection.
+   * @param cb Function to call upon successful connection. Receives the
+   *           detected register map of the connected device.
    *
    * @note Thread-safe. The callback is invoked from the connection thread.
    * @note The callback should be lightweight and non-blocking.
    */
-  void setConnectCallback(std::function<void()> cb) {
+  void setConnectCallback(std::function<void(FroniusTypes::RegisterMap)> cb) {
     onConnect_ = std::move(cb);
   }
+
+  /**
+   * @brief Returns the register map detected during the last successful
+   *        connection.
+   */
+  FroniusTypes::RegisterMap getRegisterMap() const { return registerMap_; }
 
   /**
    * @brief Set a callback to be invoked when the connection is lost.
@@ -259,6 +266,22 @@ protected:
                   double sf) const;
 
   /**
+   * @brief Validate the device after a physical connection has been
+   * established.
+   *
+   * Called by tryConnect() as its final step, after the Modbus context is
+   * created and the transport is connected. The default implementation performs
+   * no validation and returns success, which is appropriate when no
+   * device-specific probing is needed.
+   *
+   * Subclasses override this to identify the device and initialise any state
+   * that depends on talking to the device (e.g. register map detection).
+   * On failure, return a plain std::unexpected — do not call reportError(),
+   * as connectionLoop() is responsible for dispatching the error to onError_.
+   */
+  virtual std::expected<void, ModbusError> validateConnection() { return {}; }
+
+  /**
    * @brief Validate that the connected device is SunSpec-compliant.
    *
    * @return `std::expected<bool, ModbusError>`
@@ -272,6 +295,14 @@ protected:
    * @return `std::expected<void, ModbusError>` indicating success or failure.
    */
   std::expected<void, ModbusError> fetchCommonRegisters(void);
+
+  /**
+   * @brief Register map type detected during the last successful
+   *        validateDevice() call. Defaults to UNAVAILABLE until detection
+   *        has completed.
+   */
+  FroniusTypes::RegisterMap registerMap_{
+      FroniusTypes::RegisterMap::UNAVAILABLE};
 
 private:
   /** @brief Background thread managing connection and reconnection logic. */
@@ -289,8 +320,10 @@ private:
   /** @brief Flag indicating if the device is currently connected. */
   std::atomic<bool> connected_{false};
 
-  /** @brief Optional callback invoked on successful connection. */
-  std::function<void()> onConnect_;
+  /** @brief Optional callback invoked on successful connection.
+   *
+   *  Receives the detected register map of the connected device. */
+  std::function<void(FroniusTypes::RegisterMap)> onConnect_;
 
   /** @brief Optional callback invoked when disconnected. */
   std::function<void(int)> onDisconnect_;

@@ -516,3 +516,10 @@ Meter::getRegValue(const Register &regProp, double sfProp,
   return reportError<double>(std::unexpected(ModbusError::custom(
       ENODATA, "getRegValue(): register map not yet detected")));
 }
+
+std::expected<void, ModbusError> Meter::validateConnection() {
+  auto result = validateDevice();
+  if (!result)
+    return std::unexpected(result.error());
+  return {};
+}
