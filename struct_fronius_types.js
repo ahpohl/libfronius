@@ -131,5 +131,6 @@ var struct_fronius_types =
     [ "toString", "struct_fronius_types.html#a159bba3c7bef13da9b386aefa327d2ba", null ],
     [ "toString", "struct_fronius_types.html#ad8a8f5d19c13fd9a5eccd10606aacabe", null ],
     [ "toString", "struct_fronius_types.html#a29a97cb4acc694719bc02e62c3668b08", null ],
+    [ "toString", "struct_fronius_types.html#ae98ff55bc8340036c9c916e5ca3495fa", null ],
     [ "toString", "struct_fronius_types.html#a954dc831b47011673a9b04ca82266a97", null ]
 ];

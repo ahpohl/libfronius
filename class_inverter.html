@@ -196,9 +196,13 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Inverter</b> ()</
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Fronius</b> ()</td></tr>
 <tr class="memdesc:ac56a053f68d532837fe79950b657d9b2 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> instance and stop any running connection threads. <br /></td></tr>
 <tr class="separator:ac56a053f68d532837fe79950b657d9b2 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99bf10e98a670f3ae9fb3903ad0076e5 inherit pub_methods_class_fronius" id="r_a99bf10e98a670f3ae9fb3903ad0076e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a99bf10e98a670f3ae9fb3903ad0076e5">setConnectCallback</a> (std::function&lt; void()&gt; cb)</td></tr>
-<tr class="memdesc:a99bf10e98a670f3ae9fb3903ad0076e5 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be invoked when a connection is established.  <br /></td></tr>
-<tr class="separator:a99bf10e98a670f3ae9fb3903ad0076e5 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a296a790e31a80456ee1de52c2ef36c5c inherit pub_methods_class_fronius" id="r_a296a790e31a80456ee1de52c2ef36c5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a296a790e31a80456ee1de52c2ef36c5c">setConnectCallback</a> (std::function&lt; void(<a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>)&gt; cb)</td></tr>
+<tr class="memdesc:a296a790e31a80456ee1de52c2ef36c5c inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be invoked when a connection is established.  <br /></td></tr>
+<tr class="separator:a296a790e31a80456ee1de52c2ef36c5c inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3670455f70be612f36c2d068f57483b9 inherit pub_methods_class_fronius" id="r_a3670455f70be612f36c2d068f57483b9"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getRegisterMap</b> () const</td></tr>
+<tr class="memdesc:a3670455f70be612f36c2d068f57483b9 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the register map detected during the last successful connection. <br /></td></tr>
+<tr class="separator:a3670455f70be612f36c2d068f57483b9 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4b2baadc5516d9d07f30b2e75d7bbb7 inherit pub_methods_class_fronius" id="r_ac4b2baadc5516d9d07f30b2e75d7bbb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#ac4b2baadc5516d9d07f30b2e75d7bbb7">setDisconnectCallback</a> (std::function&lt; void(int)&gt; cb)</td></tr>
 <tr class="memdesc:ac4b2baadc5516d9d07f30b2e75d7bbb7 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be invoked when the connection is lost.  <br /></td></tr>
 <tr class="separator:ac4b2baadc5516d9d07f30b2e75d7bbb7 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -250,6 +254,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a1c41e2d0e5bcd48b80ea68cc092f204a" id="r_a1c41e2d0e5bcd48b80ea68cc092f204a"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a1c41e2d0e5bcd48b80ea68cc092f204a">validateNameplateRegisters</a> (void)</td></tr>
 <tr class="memdesc:a1c41e2d0e5bcd48b80ea68cc092f204a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validates the inverter's nameplate register map.  <br /></td></tr>
 <tr class="separator:a1c41e2d0e5bcd48b80ea68cc092f204a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaef14cfbc839181ad2ee3c7465455495" id="r_aaef14cfbc839181ad2ee3c7465455495"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#aaef14cfbc839181ad2ee3c7465455495">validateConnection</a> () override</td></tr>
+<tr class="memdesc:aaef14cfbc839181ad2ee3c7465455495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identify the inverter's register map after connection.  <br /></td></tr>
+<tr class="separator:aaef14cfbc839181ad2ee3c7465455495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -307,6 +314,9 @@ const <a class="el" href="struct_modbus_config.html">ModbusConfig</a>&#160;</td>
 std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>regs_</b></td></tr>
 <tr class="memdesc:af81f361049013f9c49b8aee98d7db41e inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer storing the complete device register map. <br /></td></tr>
 <tr class="separator:af81f361049013f9c49b8aee98d7db41e inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80455b80a62929e31e0b640044329160 inherit pro_attribs_class_fronius" id="r_a80455b80a62929e31e0b640044329160"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a80455b80a62929e31e0b640044329160">registerMap_</a></td></tr>
+<tr class="memdesc:a80455b80a62929e31e0b640044329160 inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> map type detected during the last successful validateDevice() call. Defaults to UNAVAILABLE until detection has completed.  <br /></td></tr>
+<tr class="separator:a80455b80a62929e31e0b640044329160 inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Modbus-compatible inverter. </p>
@@ -941,6 +951,37 @@ Event group numbers in the error message are 1-based. </dd></dl>
 
 <p>Check whether the inverter is a hybrid system. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the inverter has valid hybrid storage registers (as determined by <code><a class="el" href="class_inverter.html#a16e7ae468f666a2261b1c254082dedcf" title="Validate the storage-related Modbus registers on the inverter.">validateStorageRegisters()</a></code>), false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="aaef14cfbc839181ad2ee3c7465455495" name="aaef14cfbc839181ad2ee3c7465455495"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaef14cfbc839181ad2ee3c7465455495">&#9670;&#160;</a></span>validateConnection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateConnection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Identify the inverter's register map after connection. </p>
+<p>Overrides <a class="el" href="class_fronius.html#aa11a915e587c38439f8e3fad0ef14b48" title="Validate the device after a physical connection has been established.">Fronius::validateConnection()</a>. Validates the SunSpec signature and fetches the common register block to confirm the device is a supported <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverter.</p>
+<p>Called automatically by <a class="el" href="class_fronius.html#a4793cba62689a9e70aa0bdb8509a4a3f" title="Attempt a single connection to the Modbus device.">tryConnect()</a> — do not call directly. </p>
+
+<p>Reimplemented from <a class="el" href="class_fronius.html#aa11a915e587c38439f8e3fad0ef14b48">Fronius</a>.</p>
 
 </div>
 </div>

@@ -24,8 +24,8 @@ var class_meter =
     [ "getRegValue", "class_meter.html#aabc873abe6af8a8b2a42dc8d22c300ea", null ],
     [ "getSerialNumber", "class_meter.html#aeaefd4369fcdeddf5ba74592db4dafd8", null ],
     [ "getUseFloatRegisters", "class_meter.html#ae75fa6b5782f2c2be0024abd650c75f5", null ],
+    [ "validateConnection", "class_meter.html#a230bbae2179c10d7d22449971e405533", null ],
     [ "validateDevice", "class_meter.html#a9b110d1e0fae233717436fa159ade0dc", null ],
     [ "id_", "class_meter.html#a95ea62856e7ba89ead6d7a94fe9e07d4", null ],
-    [ "registerMap_", "class_meter.html#aeaf7883a150f3ce18387e8580b05c7c8", null ],
     [ "useFloatRegisters_", "class_meter.html#a8bf8da3d6912f3416b61655f88888a14", null ]
 ];

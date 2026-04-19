@@ -6,7 +6,7 @@ var searchData=
   ['ref_5fpower_5fsource_5fac_3',['REF_POWER_SOURCE_AC',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01aecc37082714f6ce7c6d8dfcb4e7de6e2',1,'FroniusTypes']]],
   ['register_4',['register',['../struct_register.html',1,'Register'],['../struct_register.html#a9884d3fa0349d25a36ae4f7c4ced9fe6',1,'Register::Register(uint16_t addr, uint16_t nb, Type type)'],['../struct_register.html#a917191e40d81c4b7155b1529bf5ba729',1,'Register::Register()=default']]],
   ['registermap_5',['RegisterMap',['../struct_fronius_types.html#a328049381f2ae6ea9798488587882154',1,'FroniusTypes']]],
-  ['registermap_5f_6',['registerMap_',['../class_meter.html#aeaf7883a150f3ce18387e8580b05c7c8',1,'Meter']]],
+  ['registermap_5f_6',['registerMap_',['../class_fronius.html#a80455b80a62929e31e0b640044329160',1,'Fronius']]],
   ['regs_5f_7',['regs_',['../class_fronius.html#af81f361049013f9c49b8aee98d7db41e',1,'Fronius']]],
   ['relay_5ffault_8',['RELAY_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01aea2bbd74ea97dcf2de90e6416c3c2607',1,'FroniusTypes']]],
   ['remoteendpoint_9',['RemoteEndpoint',['../struct_fronius_types_1_1_remote_endpoint.html',1,'FroniusTypes']]],

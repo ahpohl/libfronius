@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['onconnect_5f_0',['onConnect_',['../class_fronius.html#a07d3886cfe695543f59e9dec4a598799',1,'Fronius']]],
+  ['onconnect_5f_0',['onConnect_',['../class_fronius.html#a98710f6eedd4f4c7b899e0f6b3d0b855',1,'Fronius']]],
   ['ondisconnect_5f_1',['onDisconnect_',['../class_fronius.html#af35b22e9984b29faacb54ed7dfd111b3',1,'Fronius']]],
   ['onerror_5f_2',['onError_',['../class_fronius.html#a731c562c06ecf5fe12d493f697326ac1',1,'Fronius']]],
   ['open_5fcontact_3',['OPEN_CONTACT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa0603d0aa298b615e58d59096a5fafaf2',1,'FroniusTypes']]],

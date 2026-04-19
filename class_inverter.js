@@ -22,6 +22,7 @@ var class_inverter =
     [ "getState", "class_inverter.html#abdc11aa68a57a2fce8886542787c7535", null ],
     [ "getUseFloatRegisters", "class_inverter.html#a8e2879ce5cc232b9632022f5596b30b7", null ],
     [ "isHybrid", "class_inverter.html#a7dcc55bd4a9884f45ec65b72d96101be", null ],
+    [ "validateConnection", "class_inverter.html#aaef14cfbc839181ad2ee3c7465455495", null ],
     [ "validateDevice", "class_inverter.html#a7de9eab8e71640b2abf7fc3cdf2b431b", null ],
     [ "validateMultiMpptRegisters", "class_inverter.html#afc7c124610da8251ae650c4f054832c4", null ],
     [ "validateNameplateRegisters", "class_inverter.html#a1c41e2d0e5bcd48b80ea68cc092f204a", null ],

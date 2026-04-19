@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['setconnectcallback_0',['setConnectCallback',['../class_fronius.html#a99bf10e98a670f3ae9fb3903ad0076e5',1,'Fronius']]],
+  ['setconnectcallback_0',['setConnectCallback',['../class_fronius.html#a296a790e31a80456ee1de52c2ef36c5c',1,'Fronius']]],
   ['setdisconnectcallback_1',['setDisconnectCallback',['../class_fronius.html#ac4b2baadc5516d9d07f30b2e75d7bbb7',1,'Fronius']]],
   ['seterrorcallback_2',['setErrorCallback',['../class_fronius.html#a36588f4ae24f16f3ef86c7faa015efc8',1,'Fronius']]],
   ['sid_3',['SID',['../namespace_c001.html#a1586ab4e0a22d06ae1e81b1abf6d4e5a',1,'C001']]],

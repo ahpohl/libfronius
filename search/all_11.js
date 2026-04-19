@@ -1,7 +1,7 @@
 var searchData=
 [
   ['sectimeout_0',['secTimeout',['../struct_modbus_config.html#a67cac6c6714a1438613b71db9e05d971',1,'ModbusConfig']]],
-  ['setconnectcallback_1',['setConnectCallback',['../class_fronius.html#a99bf10e98a670f3ae9fb3903ad0076e5',1,'Fronius']]],
+  ['setconnectcallback_1',['setConnectCallback',['../class_fronius.html#a296a790e31a80456ee1de52c2ef36c5c',1,'Fronius']]],
   ['setdisconnectcallback_2',['setDisconnectCallback',['../class_fronius.html#ac4b2baadc5516d9d07f30b2e75d7bbb7',1,'Fronius']]],
   ['seterrorcallback_3',['setErrorCallback',['../class_fronius.html#a36588f4ae24f16f3ef86c7faa015efc8',1,'Fronius']]],
   ['severity_4',['severity',['../struct_modbus_error.html#a556737c1c6d3ced2ccdc9c4dedbd6955',1,'ModbusError::severity'],['../struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da',1,'ModbusError::Severity']]],

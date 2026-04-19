@@ -1,5 +1,10 @@
 var NAVTREEINDEX4 =
 {
+"struct_fronius_types_1_1_remote_endpoint.html":[1,0,1,0],
+"struct_fronius_types_1_1_remote_endpoint.html#a09f2baf25adff14a3c2e683052c48f98":[1,0,1,0,0],
+"struct_fronius_types_1_1_remote_endpoint.html#ada7ca13397f2b034bf4962370b7ae4fb":[1,0,1,0,1],
+"struct_modbus_config.html":[1,0,4],
+"struct_modbus_config.html#a0452eadc63343cab7d949edfbdb523eb":[1,0,4,1],
 "struct_modbus_config.html#a0eb7c1a0da9764dd26f86dba4c649258":[1,0,4,2],
 "struct_modbus_config.html#a259b05935ac59e09200934636b33e627":[1,0,4,11],
 "struct_modbus_config.html#a274aced1c85062b5e2f558b011e87edf":[1,0,4,4],
