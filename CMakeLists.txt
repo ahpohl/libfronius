@@ -48,7 +48,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # --- Sources ---
 set(MYLIB_SOURCES 
-    src/fronius.cpp 
+    src/fronius_device.cpp
+    src/fronius_bus.cpp 
     src/meter.cpp 
     src/inverter.cpp   
 )

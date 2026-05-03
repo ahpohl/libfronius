@@ -1,322 +1,294 @@
+/**
+ * @file meter.h
+ * @brief Fronius Modbus-compatible power meter device.
+ */
+
 #ifndef METER_H_
 #define METER_H_
 
-#include "fronius.h"
+#include "fronius_bus.h"
+#include "fronius_device.h"
 #include "fronius_types.h"
 #include "modbus_config.h"
 #include "modbus_error.h"
 #include <expected>
-#include <modbus/modbus.h>
+#include <memory>
+#include <string>
 
 /**
  * @class Meter
  * @brief Represents a Fronius Modbus-compatible power meter.
  *
- * The Meter class extends the Fronius Modbus base class to handle
- * Fronius-specific meter register layouts. It supports automatic
- * detection of float- and integer-based register maps, validation
- * of meter data, and retrieval of key electrical measurements
- * such as current, voltage, power, and energy.
+ * Meter communicates over a shared `FroniusBus` instance and supports
+ * automatic detection of float- and integer-based SunSpec register maps as
+ * well as the proprietary Fronius RTU register map (Smart Meter TS 65A-3).
  *
- * @see Fronius
+ * @note Must always be heap-allocated via `std::shared_ptr`. The constructor
+ *       registers the instance with the bus via `weak_from_this()`.
  */
-class Meter : public Fronius {
+class Meter : public FroniusDevice {
 public:
   /**
-   * @brief Construct a new Meter instance.
-   * @param cfg Modbus configuration parameters.
+   * @brief Construct a Meter and register it with the given bus.
+   *
+   * @param bus  Shared bus this meter communicates over.
+   * @param cfg  Per-device configuration (slave ID, response timeout).
    */
-  explicit Meter(const ModbusConfig &cfg);
+  Meter(std::shared_ptr<FroniusBus> bus, const ModbusDeviceConfig &cfg);
 
   /**
-   * @brief Destroy the Meter instance.
+   * @brief Destructor.
    */
-  virtual ~Meter();
+  ~Meter() override = default;
+
+  // -------------------------------------------------------------------------
+  // FroniusDevice bus lifecycle interface
+  // -------------------------------------------------------------------------
 
   /**
-   * @brief Validate the meter's register data.
+   * @brief Probe and validate the meter when the bus comes up.
    *
-   * Performs internal checks to ensure that the connected meter
-   * is responding correctly and that its register layout is supported.
-   *
+   * Detects whether the device speaks the proprietary RTU map or the
+   * SunSpec map (and within SunSpec, integer vs. float). Calls
+   * `setReady()` on success or `setUnavailable()` on failure.
    */
-  std::expected<FroniusTypes::RegisterMap, ModbusError> validateDevice();
+  void onBusConnected() override;
 
   /**
-   * @brief Fetch the complete Fronius Meter Register Map from the device.
-   *
-   * Reads all registers relevant to the meter, including voltage,
-   * current, power, and energy values.
-   *
-   * @return `std::expected<void, ModbusError>` indicating success or failure.
+   * @brief Reset all detected state and mark the device unavailable.
    */
-  std::expected<void, ModbusError> fetchMeterRegisters(void);
+  void onBusDisconnected() override;
+
+  // -------------------------------------------------------------------------
+  // Data fetch
+  // -------------------------------------------------------------------------
 
   /**
-   * @brief Get the current register model type.
+   * @brief Fetch the complete meter register map from the device.
    *
-   * @return `true` if using float-based registers, `false` if using
-   * integer/scaled registers.
+   * Submits the necessary register-read transactions and blocks until they
+   * complete. After a successful call, all `getXxx()` accessors reflect
+   * fresh values.
    */
-  bool getUseFloatRegisters(void) const { return useFloatRegisters_; };
+  std::expected<void, ModbusError> fetchMeterRegisters();
+
+  // -------------------------------------------------------------------------
+  // Device identity
+  // -------------------------------------------------------------------------
+
+  /**
+   * @brief Returns true if the meter uses float-based register encoding.
+   *
+   * Float model IDs: 211 (single-phase), 212 (split-phase), 213 (three-phase).
+   * Integer model IDs: 201, 202, 203.
+   */
+  bool getUseFloatRegisters() const { return useFloatRegisters_; }
 
   /**
    * @brief Get the number of phases supported by the meter.
    *
-   * @return Number of phases (1, 2, or 3).
-   * @note For the proprietary Fronius RTU register map, the TS 65A-3 is
-   *       always a three-phase meter. Individual phase readings may still
-   *       be zero if fewer phases are active in the installation.
-   *       For the SunSpec register map, the phase count is derived from
-   *       the meter model ID (e.g. 201 = single-phase, 203 = three-phase).
+   * For the proprietary RTU map the TS 65A-3 is always three-phase.
+   * For SunSpec maps, the phase count is derived from the meter model ID
+   * (last digit: 1 = single, 2 = split, 3 = three).
    */
-  int getPhases(void) const {
+  int getPhases() const {
     if (registerMap_ == FroniusTypes::RegisterMap::PROPRIETARY)
       return 3;
     return id_ % 10;
-  };
+  }
 
   /**
-   * @brief Get the meter's device ID.
+   * @brief Get the detected meter model ID (e.g. 201, 213).
    *
-   * @return Integer representing the detected meter ID.
+   * Returns 0 if the device has not been validated yet.
    */
-  int getId(void) const { return id_; };
+  int getId() const { return id_; }
 
   /**
-   * @brief Get the Modbus slave address.
+   * @brief Get the Modbus slave address reported by the device.
    *
-   * @details
-   * For the SunSpec register map, reads the device address from the
-   * common block register @ref C001::DA. For the proprietary Fronius RTU
-   * map, returns the configured slave ID directly since the common block
-   * is not present.
-   *
-   * @return Slave ID in the range 1–247.
+   * For the SunSpec map, reads from the common block DA register.
+   * For the proprietary map, returns the configured slave ID directly.
    */
-  std::expected<uint16_t, ModbusError> getModbusDeviceAddress(void);
+  std::expected<uint16_t, ModbusError> getModbusDeviceAddress();
 
   /**
    * @brief Get the serial number of the connected meter.
    *
-   * @details
-   * For the SunSpec register map, reads from the common block string
-   * register @ref C001::SN. For the proprietary Fronius RTU map, reads
-   * the 32-bit serial number from registers 0x5007–0x5008 directly and
+   * For the SunSpec map, reads from the common block SN register.
+   * For the proprietary map, reads the 32-bit serial number directly and
    * returns it as a decimal string.
-   *
-   * @return Serial number string (e.g. `"149685681"`).
    */
-  std::expected<std::string, ModbusError> getSerialNumber(void);
+  std::expected<std::string, ModbusError> getSerialNumber();
 
   /**
    * @brief Get the meter model name.
    *
-   * @details
-   * For the SunSpec register map, reads from @ref C001::MD. For the
-   * proprietary Fronius RTU map, returns the hardcoded string
-   * `"Smart Meter TS 65A-3"` since no model string register exists in
-   * that map.
-   *
-   * @return Model name string (e.g. `"Smart Meter TS 65A-3"`).
+   * For the SunSpec map, reads from the common block MD register.
+   * For the proprietary map, returns the hardcoded string
+   * `"Smart Meter TS 65A-3"`.
    */
-  std::expected<std::string, ModbusError> getDeviceModel(void);
+  std::expected<std::string, ModbusError> getDeviceModel();
 
   /**
    * @brief Get the manufacturer name.
    *
-   * @details
-   * For the SunSpec register map, reads from @ref C001::MN. For the
-   * proprietary Fronius RTU map, returns the hardcoded string `"Fronius"`
-   * since no manufacturer string register exists in that map.
-   *
-   * @return Manufacturer name string (e.g. `"Fronius"`).
+   * For the SunSpec map, reads from the common block MN register.
+   * For the proprietary map, returns the hardcoded string `"Fronius"`.
    */
-  std::expected<std::string, ModbusError> getManufacturer(void);
+  std::expected<std::string, ModbusError> getManufacturer();
 
   /**
    * @brief Get the meter firmware version.
    *
-   * @details
-   * For the SunSpec register map, reads from @ref C001::VR. For the
-   * proprietary Fronius RTU map, returns the version cached from the
-   * device type probe performed during @ref validateDevice() (e.g.
-   * `"1.5"`), since no separate firmware version register exists in that
-   * map.
-   *
-   * @return Firmware version string (e.g. `"1.5"`).
+   * For the SunSpec map, reads from the common block VR register.
+   * For the proprietary map, reads the version registers directly and
+   * returns a string in `"major.minor"` format (e.g. `"1.5"`).
    */
-  std::expected<std::string, ModbusError> getFwVersion(void);
+  std::expected<std::string, ModbusError> getFwVersion();
+
+  // -------------------------------------------------------------------------
+  // Electrical measurements — all read from regs_ populated by
+  // fetchMeterRegisters()
+  // -------------------------------------------------------------------------
 
   /**
    * @brief Get AC current in amperes.
-   *
-   * @param ph FroniusTypes::Phase to read (`TOTAL`, `A`, `B`, or `C`).
-   * @return Current value in amperes (A).
+   * @param ph Phase to read (`TOTAL`, `A`, `B`, or `C`).
+   *           `TOTAL` is not supported for the proprietary register map.
    */
   std::expected<double, ModbusError>
-  getAcCurrent(const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
+  getAcCurrent(FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC voltage in volts.
-   *
-   * @param ph FroniusTypes::Phase to read (`PHV`, `A`, `B`, or `C`).
-   * @return Voltage value in volts (V).
+   * @param ph Phase to read (`PHV`, `PPV`, `A`, `B`, `C`, `AB`, `BC`, `CA`).
    */
   std::expected<double, ModbusError>
-  getAcVoltage(const FroniusTypes::Phase ph = FroniusTypes::Phase::PHV) const;
+  getAcVoltage(FroniusTypes::Phase ph = FroniusTypes::Phase::PHV) const;
 
   /**
    * @brief Get AC active power in watts.
-   *
-   * @param ph FroniusTypes::Phase to read (`TOTAL`, `A`, `B`, or `C`).
-   * @return Active power value in watts (W).
+   * @param ph Phase to read (`TOTAL`, `A`, `B`, or `C`).
    */
-  std::expected<double, ModbusError> getAcPowerActive(
-      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
+  std::expected<double, ModbusError>
+  getAcPowerActive(FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC frequency in hertz.
-   *
-   * @return Frequency value in hertz (Hz).
    */
-  std::expected<double, ModbusError> getAcFrequency(void) const;
+  std::expected<double, ModbusError> getAcFrequency() const;
 
   /**
    * @brief Get AC apparent power in volt-amperes.
-   *
-   * @param ph FroniusTypes::Phase to read (`TOTAL`, `A`, `B`, or `C`).
-   * @return Apparent power value in volt-amperes (VA).
+   * @param ph Phase to read (`TOTAL`, `A`, `B`, or `C`).
    */
-  std::expected<double, ModbusError> getAcPowerApparent(
-      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
+  std::expected<double, ModbusError>
+  getAcPowerApparent(FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
    * @brief Get AC reactive power in volt-ampere reactive.
-   *
-   * @param ph FroniusTypes::Phase to read (`TOTAL`, `A`, `B`, or `C`).
-   * @return Reactive power value in volt-ampere reactive (VAr).
+   * @param ph Phase to read (`TOTAL`, `A`, `B`, or `C`).
    */
-  std::expected<double, ModbusError> getAcPowerReactive(
-      const FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
+  std::expected<double, ModbusError>
+  getAcPowerReactive(FroniusTypes::Phase ph = FroniusTypes::Phase::TOTAL) const;
 
   /**
-   * @brief Get AC power factor (dimensionless).
-   *
-   * @param ph FroniusTypes::Phase to read (`AVERAGE`, `A`, `B`, or `C`).
-   * @return Power factor as a unitless ratio (typically between -1 and 1).
+   * @brief Get AC power factor (dimensionless, typically -1 to 1).
+   * @param ph Phase to read (`AVERAGE`, `A`, `B`, or `C`).
    */
-  std::expected<double, ModbusError> getAcPowerFactor(
-      const FroniusTypes::Phase ph = FroniusTypes::Phase::AVERAGE) const;
+  std::expected<double, ModbusError>
+  getAcPowerFactor(FroniusTypes::Phase ph = FroniusTypes::Phase::AVERAGE) const;
 
   /**
-   * @brief Get total active energy flow in the given direction.
-   *
-   * @param direction Energy flow direction relative to the grid.
-   * @return Total active energy in watt-hours [__Wh__].
-   * @note Per-phase energy is not supported by any currently implemented
-   *       meter (EasyMeter, __Fronius__ TS 65A-3).
+   * @brief Get total active energy in watt-hours (Wh).
+   * @param direction `IMPORT` or `EXPORT`.
+   * @note Per-phase energy is not supported.
    */
   std::expected<double, ModbusError>
   getAcEnergyActive(FroniusTypes::EnergyDirection direction) const;
 
   /**
-   * @brief Get total apparent energy flow in the given direction.
-   *
-   * @param direction Energy flow direction relative to the grid.
-   * @return Total apparent energy in volt-ampere-hours [VAh].
-   * @note Per-phase energy is not supported by any currently implemented
-   *       meter (EasyMeter, __Fronius__ TS 65A-3).
+   * @brief Get total apparent energy in volt-ampere-hours (VAh).
+   * @param direction `IMPORT` or `EXPORT`.
    * @note Not supported for the proprietary register map.
    */
   std::expected<double, ModbusError>
   getAcEnergyApparent(FroniusTypes::EnergyDirection direction) const;
 
   /**
-   * @brief Get total reactive energy flow in the given direction.
-   *
-   * @param direction Energy flow direction relative to the grid.
-   * @return Total reactive energy in volt-ampere-reactive-hours [VArh].
-   * @note Per-phase energy is not supported by any currently implemented
-   *       meter (EasyMeter, __Fronius__ TS 65A-3).
+   * @brief Get total reactive energy in volt-ampere-reactive-hours (VArh).
+   * @param direction `IMPORT` or `EXPORT`.
    * @note Only supported for the proprietary register map.
    */
   std::expected<double, ModbusError>
   getAcEnergyReactive(FroniusTypes::EnergyDirection direction) const;
 
-  /**
-   * @brief Return the register map type detected during device validation.
-   * @return The active RegisterMap, or RegisterMap::UNAVAILABLE if
-   *         validateDevice() has not been called yet.
-   */
-  [[nodiscard]] FroniusTypes::RegisterMap getRegisterMap() const noexcept {
-    return registerMap_;
-  };
-
 private:
-  /**
-   * @brief Flag indicating if the meter uses float-based register encoding.
-   */
+  /** @brief Shared bus this device communicates over. */
+  std::shared_ptr<FroniusBus> bus_;
+
+  /** @brief True if the meter uses float-based (M21X) register encoding. */
   bool useFloatRegisters_{false};
 
-  /**
-   * @brief Detected Fronius meter ID (e.g., 201, 213, etc.).
-   */
+  /** @brief Detected meter model ID (201–203 integer, 211–213 float, 0 =
+   * unknown). */
   int id_{0};
 
   /**
-   * @brief Detect the register map type (float vs. integer) and initialize the
-   * meter.
+   * @brief Probe the device to determine its register map.
    *
-   * Must be called after establishing a connection.
-   * Determines the register model based on the meter ID:
-   * - **Float model:**
-   *   - 211: single-phase
-   *   - 212: split-phase
-   *   - 213: three-phase
+   * Tries the proprietary RTU map first; falls back to the SunSpec common
+   * block. Within SunSpec, dispatches to `detectFloatOrIntRegisters()` to
+   * pick between the M20X (integer + scale factor) and M21X (float)
+   * variants. Sets `registerMap_`, `id_`, and `useFloatRegisters_`.
    *
-   * - **Integer model:**
-   *   - 201: single-phase
-   *   - 202: split-phase
-   *   - 203: three-phase
-   *
-   * @return `std::expected<void, ModbusError>` indicating success or failure.
-   * @note Automatically sets `useFloatRegisters_` and `id_` based on the device
-   * response.
+   * @return The detected register map on success.
    */
-  std::expected<void, ModbusError> detectFloatOrIntRegisters(void);
+  std::expected<FroniusTypes::RegisterMap, ModbusError> validateDevice();
 
   /**
-   * @brief Retrieve a scaled double value from the appropriate register
-   *        depending on the detected register map.
+   * @brief Detect float vs. integer SunSpec meter model.
    *
-   * @param regProp  Proprietary RTU register descriptor (INT32, little-endian
-   *                 word order).
-   * @param sfProp   Compile-time scale factor for the proprietary register
-   *                 (e.g. @ref REG::V_SF, @ref REG::A_SF).
-   * @param regInt   SunSpec integer register descriptor (int+sf model).
-   * @param sfInt    SunSpec scale-factor register for @p regInt.
-   * @param regFlt   SunSpec float register descriptor (float model).
+   * Reads the meter model ID register and matches it against the known
+   * SunSpec IDs (201–203 integer, 211–213 float). Sets `id_` and
+   * `useFloatRegisters_`.
+   */
+  std::expected<void, ModbusError> detectFloatOrIntRegisters();
+
+  /**
+   * @brief Validate the SunSpec end-of-map block.
    *
-   * @return Scaled physical value on success, or a @ref ModbusError if
-   *         the register map is unavailable or the register type is
-   *         unsupported.
+   * Confirms that the end-block ID is `0xFFFF` and length is `0` at the
+   * address that corresponds to the detected encoding (integer vs. float).
+   */
+  std::expected<void, ModbusError> validateEndRegisters();
+
+  /**
+   * @brief Read a value from the register that matches the detected map.
+   *
+   * Dispatches to the proprietary, SunSpec-integer, or SunSpec-float
+   * variant based on `registerMap_` and `useFloatRegisters_`.
+   *
+   * @param regProp  Proprietary register (INT32, swapped word order).
+   * @param sfProp   Compile-time scale factor for the proprietary register.
+   * @param regInt   SunSpec integer register.
+   * @param sfInt    SunSpec scale-factor register for `regInt`.
+   * @param regFlt   SunSpec float register.
    */
   std::expected<double, ModbusError>
   getRegValue(const Register &regProp, double sfProp, const Register &regInt,
               const Register &sfInt, const Register &regFlt) const;
 
   /**
-   * @brief Identify the meter's register map after connection.
+   * @brief Build a Transaction targeting this device's slave ID and timeouts.
    *
-   * Overrides Fronius::validateConnection(). Probes the device to determine
-   * whether it uses the proprietary Fronius register map or the SunSpec model,
-   * and initialises internal state accordingly (registerMap_,
-   * useFloatRegisters_, id_, phases_).
-   *
-   * Called automatically by tryConnect() — do not call directly.
+   * @param startAddr  Starting Modbus register address.
+   * @param count      Number of registers to read.
+   * @param dest       Pointer into `regs_` where results are written.
    */
-  std::expected<void, ModbusError> validateConnection() override;
+  FroniusBus::Transaction makeTransaction(int startAddr, int count,
+                                          uint16_t *dest);
 };
 
 #endif /* METER_H_ */

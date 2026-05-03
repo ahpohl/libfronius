@@ -1,14 +1,12 @@
 /**
  * @file modbus_utils.h
- * @brief Utility functions for working with Modbus registers and data.
+ * @brief Utility helpers for Modbus register encoding and decoding.
  *
  * @details
- * Provides helper functions to extract integer, floating-point, and string
- * values from Modbus register arrays, handle byte and word swaps, and
- * convert values to hex strings. Also provides packToModbus() for encoding
- * typed values and scaled floating-point values into Modbus register mappings.
- *
- * These functions are commonly used with Fronius SunSpec Modbus maps.
+ * Free functions that read 32- and 64-bit integers from register arrays
+ * (with optional word/byte swap), produce hex strings, retrieve TCP peer
+ * info, and pack typed or scaled-floating-point values into a
+ * `modbus_mapping_t` (server-side write helpers).
  */
 
 #ifndef MODBUS_UTILS_H_
@@ -26,32 +24,20 @@
 
 /**
  * @namespace detail
- * @brief Internal implementation helpers — do not use directly.
- *
- * @details
- * Contains low-level packing primitives used by the ModbusUtils public API.
- * These functions are not part of the stable interface and may change without
- * notice.
+ * @brief Internal implementation helpers — not part of the public API.
  */
 namespace detail {
 
 /**
- * @brief Pack an integral value into consecutive 16-bit Modbus registers in
- * big-endian word order.
+ * @brief Pack an integral value into consecutive 16-bit Modbus registers
+ *        in big-endian word order.
  *
- * @details
  * Splits @p value into 16-bit words, byte-swaps each word from native
- * little-endian to big-endian, and writes them into @p dest in most-significant
- * word-first order, matching the SunSpec / Modbus-over-TCP wire format.
+ * little-endian to big-endian, and writes them most-significant-word first
+ * — the SunSpec / Modbus-over-TCP wire format.
  *
- * This is an internal helper. Callers should use ModbusUtils::packToModbus
- * instead.
- *
- * @tparam T  Integral type to encode (e.g. @c uint32_t, @c uint64_t).
- *            Must satisfy @c std::is_integral_v<T>.
- * @param dest  Pointer to the first of @c sizeof(T)/2 consecutive
- *              @c uint16_t registers to write into. Must not be null and must
- *              have room for @c sizeof(T)/2 words.
+ * @tparam T  Integral type (e.g. `uint32_t`, `uint64_t`).
+ * @param dest  Pointer to `sizeof(T)/2` consecutive registers.
  * @param value Value to encode.
  */
 template <typename T> void packInteger(uint16_t *dest, T value) {
@@ -165,23 +151,12 @@ inline std::string toHex(uint16_t val) {
 }
 
 /**
- * @brief Retrieves the remote peer's IP address and port from a connected
- * socket.
+ * @brief Get the remote IP and port of a connected socket.
  *
- * @details
- * Extracts peer connection information from a socket file descriptor,
- * supporting both IPv4 and IPv6 protocols. Protocol-independent and works
- * for both client (master) and server (slave) socket roles.
+ * Works with IPv4 and IPv6, on either client or server sockets.
  *
- * @param socket Connected socket file descriptor (e.g., returned by accept()
- * or after a successful connect()).
- *
- * @return A FroniusTypes::RemoteEndpoint with:
- *         - @c ip:   Remote IP address as a string (dotted-decimal IPv4 or
- *                    colon-separated IPv6 format).
- *         - @c port: Remote port number as an integer.
- *         Returns {"unknown", 0} if the socket is invalid or peer information
- *         cannot be retrieved.
+ * @param socket  Connected socket file descriptor.
+ * @return `{ip, port}` or `{"unknown", 0}` if peer info is unavailable.
  */
 inline FroniusTypes::RemoteEndpoint getSocketInfo(int socket) {
   struct sockaddr_storage addr;
@@ -216,33 +191,28 @@ inline FroniusTypes::RemoteEndpoint getSocketInfo(int socket) {
 /**
  * @brief Write a typed value into a Modbus register mapping.
  *
- * @details
- * Encodes @p value into the register(s) starting at @c reg.ADDR inside
- * @p dest, using the encoding implied by @c reg.TYPE:
+ * Encodes @p value into the register(s) starting at `reg.ADDR` inside
+ * `dest->tab_registers`, using the encoding implied by `reg.TYPE`:
  *
- * | Register::Type | Accepted T            | Encoding                        |
- * |----------------|-----------------------|---------------------------------|
- * | INT16          | integral              | cast to int16_t, stored as 1 register |
- * | UINT16         | integral              | stored as 1 register            |
- * | UINT32         | integral              | big-endian word order, 2 registers |
- * | UINT64         | integral              | big-endian word order, 4 registers |
- * | FLOAT          | floating-point        | IEEE 754 ABCD byte order, 2 registers |
- * | STRING         | std::string           | ASCII, high byte first per register, zero-padded to reg.NB registers |
+ * | reg.TYPE | Accepted T       | Encoding                                   |
+ * |----------|------------------|--------------------------------------------|
+ * | INT16    | integral         | cast to `int16_t`, 1 register              |
+ * | UINT16   | integral         | 1 register                                 |
+ * | UINT32   | integral         | big-endian word order, 2 registers         |
+ * | UINT64   | integral         | big-endian word order, 4 registers         |
+ * | FLOAT    | floating-point   | IEEE 754 ABCD byte order, 2 registers      |
+ * | STRING   | `std::string`    | ASCII, hi-byte first, zero-padded to NB    |
  *
- * The template is intentionally permissive — mismatched combinations (e.g.
- * passing a float for an INT16 register) compile but are no-ops at runtime.
- * Prefer using the correct type for the register's declared type.
+ * Mismatched type combinations (e.g. a float for an INT16 register) compile
+ * but are silent no-ops at runtime — pass the type that matches `reg.TYPE`.
  *
- * @tparam T  Type of the value to encode. Must be integral, floating-point,
- *            or @c std::string, matching the register's declared type.
- * @param dest  Target Modbus mapping. Must not be null.
- * @param reg   Register definition specifying the address, width, and type.
- * @param value Value to encode.
+ * @tparam T   Integral, floating-point, or `std::string`.
+ * @param dest   Target Modbus mapping (must not be null).
+ * @param reg    Register definition.
+ * @param value  Value to encode.
  *
- * @return An empty expected on success, or an unexpected ModbusError if:
- *         - @p dest or its @c tab_registers pointer is null (@c EINVAL)
- *         - @c reg.TYPE is UNKNOWN or unsupported (@c EINVAL)
- *         - A STRING value exceeds the register's declared capacity (@c EINVAL)
+ * @return Empty on success, or `ModbusError` (`EINVAL`) if `dest` is null,
+ *         `reg.TYPE` is unsupported, or a STRING value exceeds `reg.NB * 2`.
  */
 template <typename T>
 std::expected<void, ModbusError> packToModbus(modbus_mapping_t *dest,
@@ -320,36 +290,30 @@ std::expected<void, ModbusError> packToModbus(modbus_mapping_t *dest,
 }
 
 /**
- * @brief Encode a floating-point value into an integer register plus a SunSpec
- * scale-factor register.
+ * @brief Encode a floating-point value into an integer register plus a
+ *        SunSpec scale-factor register.
  *
- * @details
- * Scales @p realValue by 10^@p decimals, rounds to the nearest integer, and
- * writes the result into the register at @c reg.ADDR. The corresponding scale
- * factor register at @c sf.ADDR is written as @c -decimals (a signed INT16),
- * following the SunSpec convention where the reconstructed value equals
- * @c register_value × 10^sf.
+ * Scales `realValue` by `10^decimals`, rounds to the nearest integer, and
+ * writes the result into `reg`. Writes `-decimals` (as INT16) into `sf`,
+ * matching the SunSpec convention `value = register × 10^sf`.
  *
- * Supported register types for @p reg: INT16, UINT16, UINT32, UINT64.
+ * Supported `reg.TYPE`: `INT16`, `UINT16`, `UINT32`, `UINT64`.
  *
- * Example — storing 230.5 V with 1 decimal place into a UINT16 voltage
- * register and its SF register:
+ * Example — store 230.5 V with 1 decimal place:
  * @code
  *   packToModbus(mapping, M20X::PHVPHA, M20X::V_SF, 230.5, 1);
  *   // tab_registers[PHVPHA.ADDR] = 2305
  *   // tab_registers[V_SF.ADDR]   = 0xFFFF  (-1 as INT16)
  * @endcode
  *
- * @param dest      Target Modbus mapping. Must not be null.
- * @param reg       Register definition for the scaled integer value.
- * @param sf        Register definition for the INT16 scale factor.
- * @param realValue The physical value to encode (e.g. watts, volts).
- * @param decimals  Number of decimal places to preserve (i.e. the negated
- *                  SunSpec scale factor). Must be ≥ 0.
+ * @param dest      Target mapping (must not be null).
+ * @param reg       Register for the scaled integer value.
+ * @param sf        Register for the INT16 scale factor.
+ * @param realValue Physical value to encode.
+ * @param decimals  Decimal places to preserve (≥ 0).
  *
- * @return An empty expected on success, or an unexpected ModbusError if:
- *         - @p dest or its @c tab_registers pointer is null (@c EINVAL)
- *         - @c reg.TYPE is unsupported (@c EINVAL)
+ * @return Empty on success, or `ModbusError` (`EINVAL`) if `dest` is null
+ *         or `reg.TYPE` is unsupported.
  */
 inline std::expected<void, ModbusError> packToModbus(modbus_mapping_t *dest,
                                                      Register reg, Register sf,

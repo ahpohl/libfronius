@@ -1,33 +1,26 @@
 /**
  * @file meter_registers.h
- * @brief SunSpec Meter Model registers (Integer + Scale Factor and Float) for
- * Fronius devices.
+ * @brief SunSpec and proprietary meter register definitions for Fronius
+ *        meters.
  *
  * @details
- * This header consolidates the symbolic register definitions for Fronius
- * SunSpec meters, supporting both floating-point (M21X) and integer + scale
- * factor (M20X) models.
+ * Three register namespaces:
  *
- * The two namespaces represent the two different representations:
+ * - **M20X** – SunSpec integer + scale-factor meter models (201–203):
+ *              measurements as 16-bit integers paired with `*_SF` scale
+ *              factors. IDs: 201 = single-phase, 202 = split-phase,
+ *              203 = three-phase.
+ * - **M21X** – SunSpec float meter models (211–213): measurements as
+ *              32-bit IEEE floats; no scale factors needed.
+ *              IDs: 211 = single-phase, 212 = split-phase,
+ *              213 = three-phase.
+ * - **REG**  – Fronius proprietary RTU register map for the
+ *              Smart Meter TS 65A-3 (INT32 values with compile-time scale
+ *              factors).
  *
- * - **M21X::** Floating-point registers (M21X)
- *   - Measurements are 32-bit IEEE floats and can generally be used directly as
- * physical values.
- *   - Supported meter model IDs:
- *     - 211 – Single-phase
- *     - 212 – Split-phase
- *     - 213 – Three-phase
- *
- * - **M20X::** Integer + scale factor registers (M20X)
- *   - Measurements are stored as 16-bit integers and require the associated
- * scale factor registers (e.g., A_SF, V_SF) to convert to physical units.
- *   - Supported meter model IDs:
- *     - 201 – Single-phase
- *     - 202 – Split-phase
- *     - 203 – Three-phase
- *
- * @note Many registers in the integer + scale factor model require applying the
- * scale factor to obtain correct physical values, while float registers do not.
+ * The **M_END** namespace defines the end-of-map marker shared by both
+ * SunSpec variants, and provides `FLOAT_OFFSET` to derive the float-map
+ * end address from the integer-map end address.
  */
 
 #ifndef METER_REGISTERS_H_
@@ -38,13 +31,10 @@
 
 /**
  * @namespace M20X
- * @brief Contains integer + scale factor SunSpec Meter registers for Fronius
- * inverters.
+ * @brief SunSpec meter model — integer + scale factor variant (201–203).
  *
- * All measurements in this namespace are represented as 16-bit integers. Scale
- * factors must be applied to convert raw register values into physical units.
- * Register addresses follow the standard SunSpec integer + scale factor model
- * layout.
+ * Measurements are 16-bit integers; apply the corresponding `*_SF`
+ * scale-factor register to obtain physical units.
  */
 namespace M20X {
 
@@ -371,11 +361,9 @@ constexpr Register EVT(40174, 2, Register::Type::UINT32);
 
 /**
  * @namespace M21X
- * @brief Contains floating-point SunSpec Meter registers for Fronius inverters.
+ * @brief SunSpec meter model — float variant (211–213).
  *
- * All measurements in this namespace are represented as 32-bit IEEE
- * floating-point values. Register addresses follow the standard SunSpec float
- * model layout.
+ * Measurements are 32-bit IEEE floats; no scale factors required.
  */
 namespace M21X {
 
@@ -383,13 +371,8 @@ namespace M21X {
 constexpr uint16_t SIZE = 124;
 
 /**
- * @brief
- * SunSpec meter model identifier (float).
- *
- * @return
- *  - 211: Single-phase
- *  - 212: Split-phase
- *  - 213: Three-phase
+ * @brief SunSpec meter model identifier (float variant).
+ * @returns 211 (single-phase), 212 (split-phase), or 213 (three-phase).
  */
 constexpr Register ID(40069, 1, Register::Type::UINT16);
 
@@ -675,59 +658,80 @@ constexpr Register EVT(40193, 2, Register::Type::UINT32);
 } // namespace M21X
 
 /**
- * @namespace END
- * @brief SunSpec end-of-block registers.
- * @details
- * This namespace defines the SunSpec "end model" block that marks the end of a
- * SunSpec register map within Fronius devices. It is typically composed of two
- * registers — an identifier (`ID`) with a constant value of 0xFFFF and a length
- * field (`L`) that is always 0.
+ * @namespace M_END
+ * @brief SunSpec end-of-map marker for the meter map.
+ *
+ * Two registers (`ID = 0xFFFF`, `L = 0`) terminate the SunSpec register
+ * map. Defines `FLOAT_OFFSET` to derive the float-map address from the
+ * integer-map address.
  */
 namespace M_END {
 
 /**
- * @brief Offset to convert integer and scale factor register addresses
- * to float addresses.
+ * @brief Offset between integer-map and float-map end-block addresses.
  *
- * @details
- * In Fronius devices, certain SunSpec float registers are implemented as
- * integer registers with associated scale factors. To obtain the integer
- * register address corresponding to a float register, add this offset to
- * the integer register address (`ADDR`).
+ * The float meter model is longer than the integer model; add this offset
+ * to the integer-map end address to obtain the float-map end address.
  */
 constexpr uint16_t FLOAT_OFFSET = 19;
 
 /**
- * @brief End block identifier
- * @return Always 0xFFFF
+ * @brief End-of-block identifier.
+ * @return Always 0xFFFF.
  */
 constexpr Register ID(40176, 1, Register::Type::UINT16);
 
 /**
- * @brief End block length
- * @return Always 0
+ * @brief End-of-block length field.
+ * @return Always 0.
  */
 constexpr Register L(40177, 1, Register::Type::UINT16);
 
 } // namespace M_END
 
+/**
+ * @namespace REG
+ * @brief Fronius proprietary RTU register map for the Smart Meter
+ *        TS 65A-3.
+ *
+ * Used when no SunSpec common block is present at the standard address
+ * range. Values are stored as INT32 with a swapped word order; scale
+ * factors are compile-time `double` constants (e.g. `A_SF`, `V_SF`)
+ * rather than separate registers.
+ *
+ * Total energy counters are split across two INT32 register pairs (a
+ * kWh/kVArh component plus a Wh/VArh remainder) — see the per-register
+ * notes for how to combine them.
+ */
 namespace REG {
 
 /**
- * @brief Proprietary meter register model identifier 1
- * @return 731
+ * @brief Proprietary device-type identifier.
+ *
+ * Reads as `731` on a Smart Meter TS 65A-3.
  */
 constexpr Register ID(11, 1, Register::Type::UINT16);
 
 /**
- * @brief Device serial number
+ * @brief Device serial number.
+ *
+ * Two consecutive registers; read as a 32-bit unsigned integer (decimal).
  */
-constexpr Register SN(20487, 2, Register::Type::UINT16);
+constexpr Register SN(20487, 1, Register::Type::UINT32);
 
 /**
- * @brief Meter firmware version.
+ * @brief Meter firmware version — major component.
+ *
+ * Read together with `VR_MINOR` (the immediately following register) and
+ * formatted as `"<major>.<minor>"`.
  */
-constexpr Register VR(770, 2, Register::Type::UINT16);
+constexpr Register VR_MAJOR(770, 1, Register::Type::UINT16);
+
+/**
+ * @brief Meter firmware version — minor component.
+ * @see VR_MAJOR
+ */
+constexpr Register VR_MINOR(771, 1, Register::Type::UINT16);
 
 /**
  * @brief Total AC current
@@ -925,111 +929,71 @@ constexpr Register PFPHC(326, 2, Register::Type::INT32);
 constexpr double PF_SF = 0.1;
 
 /**
- * @brief Total imported active energy — kilowatt-hours component
+ * @brief Imported active energy — kWh component.
  *
  * @details
- * The proprietary Fronius RTU map stores energy as two separate INT32
- * register pairs. Multiply this value by 1000 and add TOT_WH_IMP to
- * obtain the total imported active energy in watt-hours.
+ * The proprietary RTU map stores total energy as a pair of INT32 registers
+ * (a kWh component plus a Wh remainder). Reconstruct the watt-hour total
+ * with: `total_Wh = TOT_KWH_IMP × 1000 + TOT_WH_IMP`. The same pattern
+ * applies to the EXP variants and to the kVArh/VArh reactive-energy
+ * pairs.
  *
- * @unit Kilowatt-hours [kWh]
+ * @unit Kilowatt-hour [kWh]
  */
 constexpr Register TOT_KWH_IMP(1024, 2, Register::Type::INT32);
 
 /**
- * @brief Total imported active energy — watt-hours remainder
- *
- * @details
- * The watt-hours component of the imported active energy counter. Add to
- * TOT_KWH_IMP × 1000 to obtain the total imported active energy in watt-hours.
- *
- * @unit Watt-hours [Wh]
+ * @brief Imported active energy — Wh remainder. Combine with `TOT_KWH_IMP`.
+ * @unit Watt-hour [Wh]
  */
 constexpr Register TOT_WH_IMP(1026, 2, Register::Type::INT32);
 
 /**
- * @brief Total imported reactive energy — kilovolt-ampere-reactive-hours
- * component
- *
- * @details
- * The proprietary Fronius RTU map stores reactive energy as two separate INT32
- * register pairs. Multiply this value by 1000 and add TOT_VARH_IMP to
- * obtain the total imported reactive energy in volt-ampere-reactive-hours.
- *
- * @unit Kilovolt-ampere-reactive-hours [kVArh]
+ * @brief Imported reactive energy — kVArh component.
+ *        Combine with `TOT_VARH_IMP`.
+ * @unit Kilovolt-ampere-reactive-hour [kVArh]
  */
 constexpr Register TOT_KVARH_IMP(1028, 2, Register::Type::INT32);
 
 /**
- * @brief Total imported reactive energy — volt-ampere-reactive-hours remainder
- *
- * @details
- * The volt-ampere-reactive-hours component of the imported reactive energy
- * counter. Add to TOT_KVARH_IMP × 1000 to obtain the total imported
- * reactive energy in volt-ampere-reactive-hours.
- *
- * @unit Volt-ampere-reactive-hours [VArh]
+ * @brief Imported reactive energy — VArh remainder.
+ *        Combine with `TOT_KVARH_IMP`.
+ * @unit Volt-ampere-reactive-hour [VArh]
  */
 constexpr Register TOT_VARH_IMP(1030, 2, Register::Type::INT32);
 
 /**
- * @brief Total exported active energy — kilowatt-hours component
- *
- * @details
- * The proprietary Fronius RTU map stores energy as two separate INT32
- * register pairs. Multiply this value by 1000 and add TOT_WH_EXP to
- * obtain the total exported active energy in watt-hours.
- *
- * @unit Kilowatt-hours [kWh]
+ * @brief Exported active energy — kWh component. Combine with `TOT_WH_EXP`.
+ * @unit Kilowatt-hour [kWh]
  */
 constexpr Register TOT_KWH_EXP(1032, 2, Register::Type::INT32);
 
 /**
- * @brief Total exported active energy — watt-hours remainder
- *
- * @details
- * The watt-hours component of the exported active energy counter. Add to
- * TOT_KWH_EXP × 1000 to obtain the total exported active energy in watt-hours.
- *
- * @unit Watt-hours [Wh]
+ * @brief Exported active energy — Wh remainder. Combine with `TOT_KWH_EXP`.
+ * @unit Watt-hour [Wh]
  */
 constexpr Register TOT_WH_EXP(1034, 2, Register::Type::INT32);
 
 /**
- * @brief Total exported reactive energy — kilovolt-ampere-reactive-hours
- * component
- *
- * @details
- * The proprietary Fronius RTU map stores reactive energy as two separate INT32
- * register pairs. Multiply this value by 1000 and add TOT_VARH_EXP to
- * obtain the total exported reactive energy in volt-ampere-reactive-hours.
- *
- * @unit Kilovolt-ampere-reactive-hours [kVArh]
+ * @brief Exported reactive energy — kVArh component.
+ *        Combine with `TOT_VARH_EXP`.
+ * @unit Kilovolt-ampere-reactive-hour [kVArh]
  */
 constexpr Register TOT_KVARH_EXP(1036, 2, Register::Type::INT32);
 
 /**
- * @brief Total exported reactive energy — volt-ampere-reactive-hours remainder
- *
- * @details
- * The volt-ampere-reactive-hours component of the exported reactive energy
- * counter. Add to TOT_KVARH_EXP × 1000 to obtain the total exported
- * reactive energy in volt-ampere-reactive-hours.
- *
- * @unit Volt-ampere-reactive-hours [VArh]
+ * @brief Exported reactive energy — VArh remainder.
+ *        Combine with `TOT_KVARH_EXP`.
+ * @unit Volt-ampere-reactive-hour [VArh]
  */
 constexpr Register TOT_VARH_EXP(1038, 2, Register::Type::INT32);
 
 /**
- * @brief Scale factor applied to all kWh/kVArh energy register pairs
+ * @brief Reserved scale factor for the energy-pair sum.
  *
- * @details
- * Converts the kilowatt-hours (or kilovolt-ampere-reactive-hours) component
- * to watt-hours before summing with the watt-hours remainder:
- *   total_Wh = (TOT_K{W,VAr}H_{IMP,EXP} × 1000) + TOT_{W,VAr}H_{IMP,EXP}
- *
- * The factor of 1000 is applied in code when combining the register pair;
- * this constant is reserved for any additional scaling beyond that conversion.
+ * The factor of 1000 used to combine kWh/kVArh and Wh/VArh components is
+ * applied directly in code; this constant is reserved for any further
+ * scaling applied on top of that conversion.
  */
 constexpr double TOT_SF = 1.0;
 

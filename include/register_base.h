@@ -2,31 +2,21 @@
 #define REGISTER_BASE_H_
 
 #include <cstdint>
-
-#include <cstdint>
 #include <format>
 #include <string>
 
 /**
  * @struct Register
- * @brief Represents a Modbus register definition.
+ * @brief Describes one Modbus register or a contiguous register range.
  *
- * @details
- * Each instance of `Register` specifies the register address (`ADDR`),
- * the number of consecutive 16-bit registers (`NB`) used to store the value,
- * and the type of data (`TYPE`). This allows higher-level functions to
- * interpret raw Modbus data correctly, whether it is integer, floating-point,
- * or string data.
+ * Each `Register` carries a starting address (`ADDR`), the number of
+ * consecutive 16-bit registers (`NB`) used to store the value, and a
+ * type (`TYPE`) that tells decoding helpers how to interpret the bytes.
  */
 struct Register {
   /**
    * @enum Type
-   * @brief Enumerates the possible types of values stored in Modbus registers.
-   *
-   * @details
-   * This enum allows the code to explicitly distinguish between
-   * different kinds of register contents, such as signed vs. unsigned integers,
-   * floating-point values, or strings. It improves type safety and readability.
+   * @brief Tags the encoding of a register value.
    */
   enum class Type : uint8_t {
     UINT16, /**< 16-bit unsigned integer */
@@ -34,43 +24,37 @@ struct Register {
     UINT32, /**< 32-bit unsigned integer (two consecutive 16-bit registers) */
     INT32,  /**< 32-bit signed integer (two consecutive 16-bit registers) */
     UINT64, /**< 64-bit unsigned integer (four consecutive 16-bit registers) */
-    FLOAT,  /**< 32-bit floating-point value (single-precision) */
-    STRING, /**< ASCII string stored across multiple 16-bit registers */
-    UNKNOWN /**< RegType not specified or unknown */
+    FLOAT,  /**< 32-bit IEEE 754 single-precision */
+    STRING, /**< ASCII string spanning multiple 16-bit registers */
+    UNKNOWN /**< Type not specified or unrecognised */
   };
 
-  uint16_t ADDR{0}; /**< Modbus register address (0-based or device-specific) */
-  uint16_t NB{0};   /**< Number of consecutive registers used for this value */
-  Type TYPE{Type::UNKNOWN}; /**< RegType of value stored in the register */
+  uint16_t ADDR{0};         /**< Modbus register address. */
+  uint16_t NB{0};           /**< Number of consecutive 16-bit registers. */
+  Type TYPE{Type::UNKNOWN}; /**< Encoding of the register value. */
 
   /**
    * @brief Construct a register definition.
    * @param addr Starting register address.
-   * @param nb Number of consecutive 16-bit registers used for this value.
-   * @param type RegType of value stored in the register.
+   * @param nb Number of consecutive 16-bit registers.
+   * @param type Encoding of the value.
    */
   constexpr Register(uint16_t addr, uint16_t nb, Type type)
       : ADDR(addr), NB(nb), TYPE(type) {}
 
-  /**
-   * @brief Default-construct a register with address 0, width 0, and
-   *        type Type::UNKNOWN.
-   */
+  /** @brief Default-construct a register: addr 0, width 0, `Type::UNKNOWN`. */
   constexpr Register() = default;
 
   /**
-   * @brief Return a copy of this register with an address offset applied.
-   * @param offset Offset to add to the register address (can be negative).
-   * @return A new Register instance with the adjusted address.
+   * @brief Return a copy of this register with `offset` added to the address.
+   * @param offset Offset to add to `ADDR` (may be negative).
    */
   [[nodiscard]] constexpr Register withOffset(int16_t offset) const {
     return Register{static_cast<uint16_t>(ADDR + offset), NB, TYPE};
   }
 
   /**
-   * @brief Convert a register Type enum value to a human-readable string.
-   * @param type The Type value to convert.
-   * @return A C-string representing the enum name.
+   * @brief Convert a `Type` value to its name as a C-string.
    */
   static constexpr const char *typeToString(Type type) {
     switch (type) {
@@ -96,13 +80,9 @@ struct Register {
   }
 
   /**
-   * @brief Return a human-readable string representation of the register.
+   * @brief Format the register as `"[ADDR=..., NB=..., TYPE=...]"`.
    *
-   * @details
-   * The returned string includes the register address, number of consecutive
-   * registers, and the type as a string. Useful for logging and error messages.
-   *
-   * @return std::string in the format: "[ADDR=..., NB=..., TYPE=...]"
+   * Useful for logging and error messages.
    */
   std::string describe() const {
     return std::format("[ADDR={}, NB={}, TYPE={}]", ADDR, NB,

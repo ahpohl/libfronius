@@ -1,27 +1,25 @@
 /**
  * @file inverter_registers.h
- * @brief Defines all SunSpec inverter and Fronius-specific register namespaces.
+ * @brief SunSpec inverter and Fronius-specific register definitions.
  *
  * @details
- * This header provides symbolic register definitions for the SunSpec Modbus
- * inverter models and Fronius proprietary extensions. It consolidates both
- * integer (with scale factors) and floating-point maps, as well as auxiliary
- * models such as Nameplate, Extended Measurements, Immediate Controls,
- * Storage Controls, and Multiple MPPT Extension.
+ * Symbolic register addresses for the SunSpec inverter models and the
+ * Fronius proprietary extensions, organised into the following namespaces:
  *
- * The following namespaces are defined:
- * - **F** – Fronius proprietary Modbus extensions.
- * - **I10X** – SunSpec Inverter Integer + Scale Factor models (101–103).
- * - **I11X** – SunSpec Inverter Float models (111–113).
- * - **I120** – SunSpec Nameplate model.
- * - **I122** – SunSpec Extended Measurements and Status model.
- * - **I123** – SunSpec Immediate Controls model.
- * - **I124** – SunSpec Basic Storage Controls model.
- * - **I160** – SunSpec Multiple MPPT Extension model.
+ * - **F**     – Fronius proprietary Modbus extensions.
+ * - **I10X**  – SunSpec inverter integer + scale-factor models (101–103).
+ * - **I11X**  – SunSpec inverter float models (111–113).
+ * - **I120**  – SunSpec Nameplate model.
+ * - **I122**  – SunSpec Extended Measurements & Status model.
+ * - **I123**  – SunSpec Immediate Controls model.
+ * - **I124**  – SunSpec Basic Storage Controls model.
+ * - **I160**  – SunSpec Multiple MPPT Extension model.
+ * - **I_END** – SunSpec end-of-map marker.
  *
- * Where applicable, namespaces define an `FLOAT_OFFSET` constant used to derive
- * float register addresses from their corresponding integer register addresses
- * by adding the offset value.
+ * Several namespaces define a `FLOAT_OFFSET` constant. In Fronius devices,
+ * some SunSpec float-defined registers are implemented as integer
+ * registers with associated scale factors. To compute the float-map
+ * address, add `FLOAT_OFFSET` to the integer register's `ADDR`.
  */
 
 #ifndef INVERTER_REGISTERS_H_
@@ -32,117 +30,89 @@
 
 /**
  * @namespace F
- * @brief Fronius-specific Modbus register definitions.
+ * @brief Fronius proprietary Modbus extensions.
  *
- * @details
- * Contains Fronius proprietary Modbus registers that extend or complement the
- * SunSpec register maps. These registers provide device management functions,
- * inverter status reporting, and access to site-level power and energy data.
+ * Vendor registers that complement the SunSpec maps: device management
+ * triggers, vendor inverter state, and site-level totals.
  */
 namespace F {
 
 /**
  * @brief Delete stored rating data of the current inverter.
  *
- * @details
- * Writing the value `0xFFFF` deletes stored rating data for the
- * currently addressed inverter.
+ * Writing `0xFFFF` deletes the stored rating data for the addressed
+ * inverter.
  */
 constexpr Register DELETE_DATA(211, 1, Register::Type::UINT16);
 
 /**
- * @brief Store rating data persistently.
+ * @brief Persistently store rating data.
  *
- * @details
- * Writing `0xFFFF` stores the rating data of all inverters connected to the
- * Fronius Datamanager persistently.
+ * Writing `0xFFFF` stores rating data of all inverters connected to the
+ * Fronius Datamanager.
  */
 constexpr Register STORE_DATA(212, 1, Register::Type::UINT16);
 
 /**
- * @brief Current active inverter state code.
+ * @brief Current vendor-specific inverter state code.
  *
- * @details
- * Reports the current operational state of the inverter.
- * Refer to the inverter manual for detailed state descriptions.
+ * Refer to the inverter manual for state-code details.
  *
- * @note Not supported for Fronius Hybrid inverters. Status may differ during
- * night-time operation compared to other inverter models.
+ * @note Not supported for Fronius Hybrid inverters. Behaviour can differ
+ *       at night vs. daytime on some models.
  */
 constexpr Register ACTIVE_STATE_CODE(213, 1, Register::Type::UINT16);
 
 /**
- * @brief Reset all event flags and active state code.
+ * @brief Reset all event flags and the active state code.
  *
- * @details
- * Writing the value `0xFFFF` resets all event flags and clears
- * the active state code register.
+ * Writing `0xFFFF` clears the event flag registers and the active state
+ * code register.
  */
 constexpr Register RESET_ALL_EVENT_FLAGS(214, 1, Register::Type::UINT16);
 
 /**
- * @brief Select SunSpec model type used for inverter and meter data.
+ * @brief Select SunSpec model encoding for inverter and meter data.
  *
- * @details
- * Defines whether the SunSpec data is represented using floating-point or
- * integer & scale-factor models.
- * After setting, the value `6` must be written to confirm the change.
+ * After writing the desired value, write `6` to confirm the change.
  *
- * - `1`: Floating point model
- * - `2`: Integer & scale factor model
+ * - `1`: floating-point models
+ * - `2`: integer + scale-factor models
  */
 constexpr Register MODEL_TYPE(215, 1, Register::Type::UINT16);
 
 /**
- * @brief Defines scope of storage restriction reporting.
+ * @brief Scope of storage restriction reporting in I124.
  *
- * @details
- * Selects which type of restriction data is reported by the
- * BasicStorageControl model (IC124).
- *
- * - `0`: Local restrictions (default, set by Modbus interface)
- * - `1`: Global restrictions (system-wide)
+ * - `0`: local restrictions (default; set via Modbus)
+ * - `1`: global restrictions (system-wide)
  */
 constexpr Register STORAGE_RESTRICTIONS_VIEW_MODE(216, 1,
                                                   Register::Type::UINT16);
 
 /**
- * @brief Total site power of all connected inverters.
+ * @brief Total instantaneous active power across all connected inverters.
  * @unit Watt [W]
- *
- * @details
- * Reports the instantaneous total active power output across all
- * connected inverters in the system.
  */
 constexpr Register SITE_POWER(499, 2, Register::Type::UINT32);
 
 /**
- * @brief Total energy produced today by all connected inverters.
+ * @brief Total energy produced today across all connected inverters
+ *        (since midnight).
  * @unit Watt-hour [Wh]
- *
- * @details
- * Accumulates the total daily energy production across all connected
- * inverters since midnight.
  */
 constexpr Register SITE_ENERGY_DAY(501, 4, Register::Type::UINT64);
 
 /**
- * @brief Total energy produced during the current year.
+ * @brief Total energy produced this calendar year across all connected
+ *        inverters.
  * @unit Watt-hour [Wh]
- *
- * @details
- * Represents the cumulative energy produced by all connected inverters
- * since January 1st of the current year.
  */
 constexpr Register SITE_ENERGY_YEAR(505, 4, Register::Type::UINT64);
 
 /**
- * @brief Lifetime total energy produced by all connected inverters.
+ * @brief Lifetime total energy produced across all connected inverters.
  * @unit Watt-hour [Wh]
- *
- * @details
- * Indicates the total lifetime energy yield of all connected
- * inverters in the system.
  */
 constexpr Register SITE_ENERGY_TOTAL(509, 4, Register::Type::UINT64);
 
@@ -150,16 +120,11 @@ constexpr Register SITE_ENERGY_TOTAL(509, 4, Register::Type::UINT64);
 
 /**
  * @namespace I10X
- * @brief SunSpec Inverter (Integer + Scale Factor) Model registers.
+ * @brief SunSpec inverter model — integer + scale factor variant.
  *
- * @details
- * Provides register mappings for SunSpec inverter models 101–103, which encode
- * physical quantities as integers combined with scale-factor registers. These
- * models cover AC/DC electrical data, power and energy values, temperatures,
- * inverter operating state, and event flags. They correspond to:
- *   - 101 – Single-phase inverter
- *   - 102 – Split-phase inverter
- *   - 103 – Three-phase inverter
+ * Models 101 (single-phase), 102 (split-phase), and 103 (three-phase).
+ * Physical quantities are 16-bit integers paired with scale-factor
+ * registers (`*_SF`).
  */
 namespace I10X {
 
@@ -357,17 +322,10 @@ constexpr Register EVTVND4(40119, 2, Register::Type::UINT32);
 
 /**
  * @namespace I11X
- * @brief SunSpec Inverter (Float) Model registers.
+ * @brief SunSpec inverter model — float variant.
  *
- * @details
- * Provides register mappings for SunSpec inverter models 111–113, which use
- * 32-bit floating-point values for all primary quantities. These models cover
- * AC/DC electrical measurements, power and energy values, temperatures,
- * inverter state, and event flags. They represent the canonical SunSpec float
- * inverter types:
- *   - 111 – Single-phase inverter
- *   - 112 – Split-phase inverter
- *   - 113 – Three-phase inverter
+ * Models 111 (single-phase), 112 (split-phase), and 113 (three-phase).
+ * Physical quantities are 32-bit IEEE floats; no scale factors needed.
  */
 namespace I11X {
 
@@ -533,32 +491,19 @@ constexpr Register EVTVND4(40129, 2, Register::Type::UINT32);
 
 /**
  * @namespace I120
- * @brief SunSpec Nameplate Model (ID 120) register definitions.
+ * @brief SunSpec Nameplate Model (ID 120).
  *
- * @details
- * Describes the static electrical capabilities of the inverter such as rated
- * power, current, voltage, and supported quadrants.
- *
- * This namespace defines a `FLOAT_OFFSET` constant. Float register addresses
- * are obtained by adding this offset to the corresponding integer register
- * address (`ADDR`). This adjustment accounts for the Fronius representation
- * where float-defined registers are stored as integers with scale factors.
+ * Static electrical capabilities of the inverter: rated power, current,
+ * voltage, and supported quadrants. Defines `FLOAT_OFFSET` — see file
+ * overview for usage.
  */
 namespace I120 {
 
 /** @brief Total number of registers in the nameplate model. */
 constexpr uint16_t SIZE = 26;
 
-/**
- * @brief Offset to convert integer+scale factor register addresses to float
- * addresses.
- *
- * @details
- * In Fronius devices, certain SunSpec float registers are implemented as
- * integer registers with associated scale factors. To obtain the float
- * register address corresponding to an integer+scale register, add this
- * offset to the integer+scale register address (`ADDR`).
- */
+/** @brief Offset to derive the float-map address from the integer-map address.
+ * See file overview. */
 constexpr uint16_t FLOAT_OFFSET = 10;
 
 /**
@@ -578,7 +523,7 @@ constexpr Register DERTYP(40123, 1, Register::Type::UINT16);
 
 /**
  * @brief Continuous power output capability of the inverter.
- * @return Power output [W]
+ * @unit Watt [W]
  */
 constexpr Register WRTG(40124, 1, Register::Type::UINT16);
 
@@ -587,7 +532,7 @@ constexpr Register WRTG_SF(40125, 1, Register::Type::INT16);
 
 /**
  * @brief Continuous Volt-Ampere capability of the inverter.
- * @return Apparent power [VA]
+ * @unit Volt-ampere [VA]
  */
 constexpr Register VARTG(40126, 1, Register::Type::UINT16);
 
@@ -596,13 +541,13 @@ constexpr Register VARTG_SF(40127, 1, Register::Type::INT16);
 
 /**
  * @brief Continuous VAR capability of the inverter in quadrant 1.
- * @return Reactive power Q1 [VAr]
+ * @unit Volt-ampere reactive [VAr]
  */
 constexpr Register VARRTGQ1(40128, 1, Register::Type::INT16);
 
 /**
  * @brief Continuous VAR capability of the inverter in quadrant 4.
- * @return Reactive power Q4 [VAr]
+ * @unit Volt-ampere reactive [VAr]
  */
 constexpr Register VARRTGQ4(40131, 1, Register::Type::INT16);
 
@@ -611,7 +556,7 @@ constexpr Register VARRTG_SF(40132, 1, Register::Type::INT16);
 
 /**
  * @brief Maximum RMS AC current level capability of the inverter.
- * @return AC current [A]
+ * @unit Ampere [A]
  */
 constexpr Register ARTG(40133, 1, Register::Type::UINT16);
 
@@ -620,13 +565,13 @@ constexpr Register ARTG_SF(40134, 1, Register::Type::INT16);
 
 /**
  * @brief Minimum power factor capability of the inverter in quadrant 1.
- * @return Power factor Q1 [cos(phi)]
+ * @unit cos(phi)
  */
 constexpr Register PFRTGQ1(40135, 1, Register::Type::INT16);
 
 /**
  * @brief Minimum power factor capability of the inverter in quadrant 4.
- * @return Power factor Q4 [cos(phi)]
+ * @unit cos(phi)
  */
 constexpr Register PFRTGQ4(40138, 1, Register::Type::INT16);
 
@@ -635,7 +580,7 @@ constexpr Register PFRTG_SF(40139, 1, Register::Type::INT16);
 
 /**
  * @brief Nominal energy rating of storage device.
- * @return Energy rating [Wh]
+ * @unit Watt-hour [Wh]
  */
 constexpr Register WHRTG(40140, 1, Register::Type::UINT16);
 
@@ -644,7 +589,7 @@ constexpr Register WHRTG_SF(40141, 1, Register::Type::INT16);
 
 /**
  * @brief Maximum rate of energy transfer into the storage device.
- * @return Transfer power [W]
+ * @unit Watt [W]
  */
 constexpr Register MAXCHARTE(40144, 1, Register::Type::UINT16);
 
@@ -653,7 +598,7 @@ constexpr Register MAXCHARTE_SF(40145, 1, Register::Type::INT16);
 
 /**
  * @brief Maximum rate of energy transfer out of the storage device.
- * @return Transfer power [W]
+ * @unit Watt [W]
  */
 constexpr Register MAXDISCHARTE(40146, 1, Register::Type::UINT16);
 
@@ -664,284 +609,216 @@ constexpr Register MAXDISCHARTE_SF(40147, 1, Register::Type::INT16);
 
 /**
  * @namespace I122
- * @brief SunSpec Extended Measurements and Status Model (ID 122) register
- * definitions.
+ * @brief SunSpec Extended Measurements & Status Model (ID 122).
  *
- * @details
- * Defines extended measurement and inverter status registers beyond the basic
- * inverter models. Includes metrics such as total harmonic distortion, power
- * factor, and frequency deviation.
- *
- * A `FlOAT_OFFSET` is defined in this namespace. Float register addresses are
- * calculated by adding this offset to the integer model addresses (`ADDR`) to
- * match the Fronius integer + scale factor representation.
+ * Extended measurement and inverter status registers (e.g. cumulative
+ * imported/exported energy, control-state bitmasks, time sync source).
+ * Defines `FLOAT_OFFSET` — see file overview for usage.
  */
 namespace I122 {
 
 /** @brief Total number of registers in the extended model. */
 constexpr uint16_t SIZE = 44;
 
-/**
- * @brief Offset to convert integer+scale factor register addresses to float
- * addresses.
- *
- * @details
- * In Fronius devices, certain SunSpec float registers are implemented as
- * integer registers with associated scale factors. To obtain the float
- * register address corresponding to an integer+scale register, add this
- * offset to the integer+scale register address (`ADDR`).
- */
+/** @brief Offset to derive the float-map address from the integer-map address.
+ * See file overview. */
 constexpr uint16_t FLOAT_OFFSET = 10;
 
 /**
- * @brief
- * Uniquely identifies this as a SunSpec Extended (Measurements_Status) Model.
- * @return 122
+ * @brief Model identifier.
+ * @return Always 122.
  */
 constexpr Register ID(40181, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Length of Extended Model block.
- * @return Always 44
+ * @brief Length of the Extended Measurements & Status block.
+ * @return Always 44.
  */
 constexpr Register L(40182, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * PV inverter present/available status.
- * Bit 0: Connected
- * Bit 1: Available
- * Bit 2: Operating
- * Bit 3: Test
+ * @brief PV inverter present/available status (bitmask).
+ *
+ * Bit 0: Connected, Bit 1: Available, Bit 2: Operating, Bit 3: Test.
  */
 constexpr Register PVCONN(40183, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Storage inverter present/available status.
- * Bit 0: Connected
- * Bit 1: Available
- * Bit 2: Operating
- * Bit 3: Test
+ * @brief Storage inverter present/available status (bitmask).
+ *
+ * Bit 0: Connected, Bit 1: Available, Bit 2: Operating, Bit 3: Test.
  */
 constexpr Register STORCONN(40184, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * ECP connection status.
- * 0: Disconnected
- * 1: Connected
+ * @brief ECP connection status.
+ *
+ * 0: Disconnected, 1: Connected.
  */
 constexpr Register ECPCONN(40185, 1, Register::Type::UINT16);
 
-/** @brief AC lifetime active (real) energy output [Wh]. */
+/**
+ * @brief AC lifetime active (real) energy output.
+ * @unit Watt-hour [Wh]
+ */
 constexpr Register ACTWH(40186, 4, Register::Type::UINT64);
 
 /**
- * @brief
- * Bit Mask indicating which inverter controls are currently active.
- * Bit 0: FixedW
- * Bit 1: FixedVAR
- * Bit 2: FixedPF
+ * @brief Bitmask of currently active inverter controls.
+ *
+ * Bit 0: FixedW, Bit 1: FixedVAR, Bit 2: FixedPF.
  */
 constexpr Register STACTCTL(40216, 2, Register::Type::UINT32);
 
 /**
- * @brief
- * Source of time synchronization
- * @return RTC
+ * @brief Source of time synchronisation (e.g. "RTC").
  */
 constexpr Register TMSSRC(40218, 4, Register::Type::STRING);
 
-/** @brief Timestamp seconds since 01-01-2000 00:00 UTC */
+/**
+ * @brief Timestamp, seconds since 01-Jan-2000 00:00 UTC.
+ */
 constexpr Register TMS(40222, 2, Register::Type::UINT32);
 
 } // namespace I122
 
 /**
  * @namespace I123
- * @brief SunSpec Immediate Controls Model (ID 123) register definitions.
+ * @brief SunSpec Immediate Controls Model (ID 123).
  *
- * @details
- * This namespace provides definitions for all registers of the SunSpec
- * Immediate Controls model, including writable control points for inverter
- * commands and setpoint updates, such as power-limit or reactive-power
- * settings.
+ * Writable control points — connect/disconnect, fixed-power, fixed-PF,
+ * fixed-VAR setpoints with their time windows and ramp/revert timers.
+ * Defines `FLOAT_OFFSET` — see file overview for usage.
  */
 namespace I123 {
 
 /** @brief Total number of registers in the Immediate Controls model. */
 constexpr uint16_t SIZE = 24;
 
-/**
- * @brief Offset to convert integer+scale factor register addresses to float
- * addresses.
- *
- * @details
- * In Fronius SunSpec devices, some float registers are implemented using
- * integer registers with associated scale factors. To obtain the corresponding
- * float register address from an integer+scale factor register address
- * (`ADDR`), add this offset.
- */
+/** @brief Offset to derive the float-map address from the integer-map address.
+ * See file overview. */
 constexpr uint16_t FLOAT_OFFSET = 10;
 
 /**
- * @brief
- * Uniquely identifies this as a SunSpec Immediate Controls model.
- * @return 123
+ * @brief Model identifier.
+ * @return Always 123.
  */
 constexpr Register ID(40227, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Length of the SunSpec Immediate Controls model.
- * @return 24
+ * @brief Length of the Immediate Controls block.
+ * @return Always 24.
  */
 constexpr Register L(40228, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Time window for connect/disconnect.
- * @unit s
+ * @brief Time window for connect/disconnect.
+ * @unit Second [s]
  */
 constexpr Register CONN_WINTMS(40229, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Timeout period for connect/disconnect.
- * @unit s
+ * @brief Timeout period for connect/disconnect.
+ * @unit Second [s]
  */
 constexpr Register CONN_RVRTTMS(40230, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Connection control.
- * 0: Disconnected
- * 1: Connected
+ * @brief Connection control. 0: Disconnected, 1: Connected.
  */
 constexpr Register CONN(40231, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Set power output to specified level.
- * @unit % WMax
+ * @brief Set power output to the specified level.
+ * @unit Percent of WMax [%]
  */
 constexpr Register WMAXLIMPCT(40232, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Time window for power limit change.
- * @return 0-300
- * @unit seconds [s]
+ * @brief Time window for power limit change. Range 0–300.
+ * @unit Second [s]
  */
 constexpr Register WMAXLIMPCT_WINTMS(40233, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Timeout period for power limit.
- * @return 0-28800
- * @unit seconds [s]
+ * @brief Timeout period for power limit. Range 0–28800.
+ * @unit Second [s]
  */
 constexpr Register WMAXLIMPCT_RVRTTMS(40234, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Ramp time for moving from current setpoint to new setpoint.
- * @return 0-65534 (0xFFFF has the same effect as 0x0000)
- * @unit seconds [s]
+ * @brief Ramp time from current to new setpoint. Range 0–65534
+ *        (`0xFFFF` is treated as `0x0000`).
+ * @unit Second [s]
  */
 constexpr Register WMAXLIMPCT_RMPTMS(40235, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Throttle enable/disable control.
- * 0: Disabled
- * 1: Enabled
+ * @brief Throttle enable/disable. 0: Disabled, 1: Enabled.
  */
 constexpr Register WMAXLIM_ENA(40236, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Set power factor to specific value.
- * @return 0.8 to 1.0 and -0.8 to -0.999 [cos phi]
+ * @brief Set power factor.
+ * @unit cos(phi); valid range 0.8 to 1.0 and -0.8 to -0.999
  */
 constexpr Register OUTPFSET(40237, 1, Register::Type::INT16);
 
 /**
- * @brief
- * Time window for power factor change.
- * @return 0-300
- * @unit seconds [s]
+ * @brief Time window for power-factor change. Range 0–300.
+ * @unit Second [s]
  */
 constexpr Register OUTPFSET_WINTMS(40238, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Timeout period for power factor.
- * @return 0-28800
- * @unit seconds [s]
+ * @brief Timeout period for power factor. Range 0–28800.
+ * @unit Second [s]
  */
 constexpr Register OUTPFSET_RVRTTMS(40239, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Ramp time for moving from current setpoint to new setpoint.
- * @return 0-65534 (0xFFFF has the same effect as 0x0000)
- * @unit seconds [s]
+ * @brief Ramp time from current to new setpoint. Range 0–65534
+ *        (`0xFFFF` is treated as `0x0000`).
+ * @unit Second [s]
  */
 constexpr Register OUTPFSET_RMPTMS(40240, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Fixed power factor enable/disable control.
- * 0: Disabled
- * 1: Enabled
+ * @brief Fixed power-factor enable/disable. 0: Disabled, 1: Enabled.
  */
 constexpr Register OUTPFSET_ENA(40241, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Reactive power in percent of I_VArMax.
+ * @brief Reactive power as a percent of I_VArMax.
  */
 constexpr Register VARMAXPCT(40243, 1, Register::Type::INT16);
 
 /**
- * @brief
- * Time window for VAR limit change.
- * @return 0-300
- * @unit seconds [s]
+ * @brief Time window for VAR limit change. Range 0–300.
+ * @unit Second [s]
  */
 constexpr Register VARPCT_WINTMS(40245, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Timeout period for VAR limit.
- * @return 0-28800
- * @unit seconds [s]
+ * @brief Timeout period for VAR limit. Range 0–28800.
+ * @unit Second [s]
  */
 constexpr Register VARPCT_RVRTTMS(40246, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Ramp time for moving from current setpoint to new setpoint.
- * @return 0-65534 (0xFFFF has the same effect as 0x0000)
- * @unit seconds [s]
+ * @brief Ramp time from current to new setpoint. Range 0–65534
+ *        (`0xFFFF` is treated as `0x0000`).
+ * @unit Second [s]
  */
 constexpr Register VARPCT_RMPTMS(40247, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * VAR limit mode.
- * 2: VAR limit as a % of VArMax
+ * @brief VAR limit mode. 2: VAR limit as a percent of VArMax.
  */
 constexpr Register VARPCT_MOD(40248, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Fixed VAR enable/disable control.
- * 0: Disabled
- * 1: Enabled
+ * @brief Fixed VAR enable/disable. 0: Disabled, 1: Enabled.
  */
 constexpr Register VARPCT_ENA(40249, 1, Register::Type::UINT16);
 
@@ -958,197 +835,158 @@ constexpr Register VARPCT_SF(40252, 1, Register::Type::INT16);
 
 /**
  * @namespace I124
- * @brief SunSpec Basic Storage Controls Model (ID 124) register definitions.
+ * @brief SunSpec Basic Storage Controls Model (ID 124).
  *
- * @details
- * Defines the register map for the SunSpec Basic Storage Controls Model.
- * Although specified as a float model, Fronius devices store all values as
- * integer registers with corresponding scale factors, similar to the Multiple
- * MPPT Extension model quirk.
- *
- * The namespace defines an `INT_OFFSET`. Integer register addresses must be
- * obtained by adding this offset to the float register address (`ADDR`).
- * All registers are 16-bit and must be scaled accordingly.
+ * Storage charge/discharge setpoints and state. Although specified as a
+ * float model in SunSpec, Fronius devices implement these as integer
+ * registers with scale factors. Defines `FLOAT_OFFSET` — see file overview
+ * for usage.
  */
 namespace I124 {
 
 /** @brief Total number of registers in the storage model (float) */
 constexpr uint16_t SIZE = 26;
 
-/**
- * @brief Offset to convert integer+scale factor register addresses to float
- * addresses.
- *
- * @details
- * In Fronius devices, certain SunSpec float registers are implemented as
- * integer registers with associated scale factors. To obtain the float
- * register address corresponding to an integer+scale register, add this
- * offset to the integer+scale register address (`ADDR`).
- */
+/** @brief Offset to derive the float-map address from the integer-map address.
+ * See file overview. */
 constexpr uint16_t FLOAT_OFFSET = 10;
 
 /**
- * @brief
- * Model identifier
- * @return 124
+ * @brief Model identifier.
+ * @return Always 124.
  */
 constexpr Register ID(40303, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Length of Basic Storage Controls block
- * @return 24
+ * @brief Length of the Basic Storage Controls block.
+ * @return Always 24.
  */
 constexpr Register L(40304, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Setpoint for maximum charge
+ * @brief Setpoint for maximum charge.
  * @unit Watt [W]
- * @note Multiply by InWRte and OutWRte to define charge/discharge limits.
+ * @note Combined with InWRte and OutWRte to define charge/discharge limits.
  */
 constexpr Register WCHAMAX(40305, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Setpoint for maximum charging rate
+ * @brief Setpoint for the maximum charging rate.
  * @unit Percent of WChaMax per second [% WChaMax/s]
  */
 constexpr Register WCHAGRA(40306, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Setpoint for maximum discharging rate
+ * @brief Setpoint for the maximum discharging rate.
  * @unit Percent of WChaMax per second [% WChaMax/s]
  */
 constexpr Register WDISCHAGRA(40307, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Activate hold/discharge/charge storage control mode
- * @note Bitfield: bit 0 = CHARGE, bit 1 = DISCHARGE
+ * @brief Storage control mode (bitfield).
+ *
+ * Bit 0: CHARGE, Bit 1: DISCHARGE.
  */
 constexpr Register STORCTL_MOD(40308, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Setpoint for minimum storage reserve
+ * @brief Setpoint for the minimum storage reserve.
  * @unit Percent of nominal maximum storage [%]
  */
 constexpr Register MINRSVPCT(40310, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Available energy as a percent of capacity rating
+ * @brief Available energy as a percent of capacity rating.
  * @unit Percent [%]
  */
 constexpr Register CHASTATE(40311, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Charge status of the storage device
- * @note Enumerated values: 1=OFF, 2=EMPTY, 3=DISCHARGING, 4=CHARGING, 5=FULL,
- * 6=HOLDING, 7=TESTING
+ * @brief Charge status of the storage device.
+ *
+ * Enumeration: 1=OFF, 2=EMPTY, 3=DISCHARGING, 4=CHARGING, 5=FULL,
+ * 6=HOLDING, 7=TESTING.
  */
 constexpr Register CHAST(40314, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Percent of maximum discharge rate
+ * @brief Percent of maximum discharge rate. Valid range -100.00 % to
+ *        +100.00 %; uses scale factor `INOUTWRTE_SF`.
  * @unit Percent of WChaMax [%]
- * @note Valid range -100.00% to +100.00%; uses scale factor InOutWRte_SF.
  */
 constexpr Register OUTWRTE(40315, 1, Register::Type::INT16);
 
 /**
- * @brief
- * Percent of maximum charge rate
+ * @brief Percent of maximum charge rate. Valid range -100.00 % to
+ *        +100.00 %; uses scale factor `INOUTWRTE_SF`.
  * @unit Percent of WChaMax [%]
- * @note Valid range -100.00% to +100.00%; uses scale factor InOutWRte_SF.
  */
 constexpr Register INWRTE(40316, 1, Register::Type::INT16);
 
 /**
- * @brief
- * Setpoint to enable or disable charging from grid
- * @note Enumerated values: 0=PV (grid charging disabled), 1=GRID (grid charging
- * enabled)
+ * @brief Enable/disable charging from the grid.
+ *
+ * 0: PV (grid charging disabled), 1: GRID (grid charging enabled).
  */
 constexpr Register CHAGRISET(40320, 1, Register::Type::UINT16);
 
-/** @brief Scale factor for maximum charge */
+/** @brief Scale factor for maximum charge. */
 constexpr Register WCHAMAX_SF(40321, 1, Register::Type::INT16);
 
-/** @brief Scale factor for maximum charge and discharge rate */
+/** @brief Scale factor for maximum charge and discharge rate. */
 constexpr Register WCHADISCHAGRA_SF(40322, 1, Register::Type::INT16);
 
-/** @brief Scale factor for minimum reserve percentage */
+/** @brief Scale factor for minimum reserve percent. */
 constexpr Register MINRSVPCT_SF(40324, 1, Register::Type::INT16);
 
-/** @brief Scale factor for available energy percent */
+/** @brief Scale factor for available-energy percent. */
 constexpr Register CHASTATE_SF(40325, 1, Register::Type::INT16);
 
-/** @brief Scale factor for percent charge/discharge rate */
+/** @brief Scale factor for percent charge/discharge rate. */
 constexpr Register INOUTWRTE_SF(40328, 1, Register::Type::INT16);
 
 } // namespace I124
 
 /**
  * @namespace I160
- * @brief SunSpec Multiple MPPT Extension Model (ID 160) register definitions.
+ * @brief SunSpec Multiple MPPT Extension Model (ID 160).
  *
- * @details
- * Groups all registers of the SunSpec Multiple MPPT Extension Model, which
- * provides per-input DC data for inverters with multiple MPP trackers.
- *
- * An `INT_OFFSET` constant is defined in this namespace. Integer register
- * addresses must be derived by adding this offset to the float address
- * (`ADDR`), reflecting the Fronius implementation where float-mapped registers
- * are stored as integer registers with scale factors.
+ * Per-input DC data for inverters with multiple MPP trackers. Defines
+ * `FLOAT_OFFSET` — see file overview for usage.
  */
 namespace I160 {
 
 /** @brief Total number of registers in the multiple MPPT model (float). */
 constexpr uint16_t SIZE = 48;
 
-/**
- * @brief Offset to convert integer+scale factor register addresses to float
- * addresses.
- *
- * @details
- * In Fronius devices, certain SunSpec float registers are implemented as
- * integer registers with associated scale factors. To obtain the float
- * register address corresponding to an integer+scale register, add this
- * offset to the integer+scale register address (`ADDR`).
- */
+/** @brief Offset to derive the float-map address from the integer-map address.
+ * See file overview. */
 constexpr uint16_t FLOAT_OFFSET = 10;
 
 /**
- * @brief
- * Uniquely identifies this as a SunSpec Multiple MPPT Inverter
- * Extension Model.
- * @return 160
+ * @brief Model identifier.
+ * @return Always 160.
  */
 constexpr Register ID(40253, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Length of Multiple MPPT Inverter Extension Model.
- * @return 48
+ * @brief Length of the Multi-MPPT block.
+ * @return Always 48.
  */
 constexpr Register L(40254, 1, Register::Type::UINT16);
 
-/** @brief DC current scale factor */
+/** @brief DC current scale factor. */
 constexpr Register DCA_SF(40255, 1, Register::Type::INT16);
 
-/** @brief DC voltage scale factor */
+/** @brief DC voltage scale factor. */
 constexpr Register DCV_SF(40256, 1, Register::Type::INT16);
 
-/** @brief DC power scale factor */
+/** @brief DC power scale factor. */
 constexpr Register DCW_SF(40257, 1, Register::Type::INT16);
 
-/** @brief DC energy scale factor
- * @note Not supported for Fronius Hybrid inverters
+/**
+ * @brief DC energy scale factor.
+ * @note Not supported on Fronius Hybrid inverters.
  */
 constexpr Register DCWH_SF(40258, 1, Register::Type::INT16);
 
@@ -1156,143 +994,124 @@ constexpr Register DCWH_SF(40258, 1, Register::Type::INT16);
 constexpr Register EVT(40259, 2, Register::Type::UINT32);
 
 /**
- * @brief
- * Number of DC modules.
- * @return 2
+ * @brief Number of DC modules.
+ * @return Always 2.
  */
 constexpr Register N(40261, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Input ID of first DC input.
- * @return 1
+ * @brief Numeric input ID of the first DC input.
+ * @return Always 1.
  */
 constexpr Register ID_1(40263, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Input ID string of first DC input.
- * @return "String 1"
+ * @brief Input name of the first DC input (e.g. "String 1").
  */
 constexpr Register IDSTR_1(40264, 8, Register::Type::STRING);
 
 /**
- * @brief
- * DC current of first input.
+ * @brief DC current of the first input.
  * @unit Ampere [A]
  */
 constexpr Register DCA_1(40272, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * DC voltage of first input.
+ * @brief DC voltage of the first input.
  * @unit Volt [V]
  */
 constexpr Register DCV_1(40273, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * DC power of first input.
+ * @brief DC power of the first input.
  * @unit Watt [W]
  */
 constexpr Register DCW_1(40274, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * DC lifetime energy of first input.
- * @note Not supported for Fronius Hybrid inverters
+ * @brief DC lifetime energy of the first input.
  * @unit Watt-hour [Wh]
+ * @note Not supported on Fronius Hybrid inverters.
  */
 constexpr Register DCWH_1(40275, 2, Register::Type::UINT32);
 
-/** @brief Timestamp of first DC input since 01-Jan-2000 00:00 UTC. */
+/** @brief Timestamp of the first DC input, seconds since 01-Jan-2000 UTC. */
 constexpr Register TMS_1(40277, 2, Register::Type::UINT32);
 
 /**
- * @brief
- * Temperature of first DC input.
+ * @brief Temperature of the first DC input.
  * @unit Celsius [°C]
  */
 constexpr Register TMP_1(40279, 1, Register::Type::INT16);
 
-/** @brief Operating state of first DC input. */
+/** @brief Operating state of the first DC input. */
 constexpr Register DCST_1(40280, 1, Register::Type::UINT16);
 
-/** @brief Module events of first DC input. */
+/** @brief Module events of the first DC input. */
 constexpr Register DCEVT_1(40281, 2, Register::Type::UINT32);
 
 /**
- * @brief
- * Input ID of second DC input.
- * @return 2
+ * @brief Numeric input ID of the second DC input.
+ * @return Always 2.
  */
 constexpr Register ID_2(40283, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Input ID string of second DC input.
- * @return "String 2" or "not supported"
+ * @brief Input name of the second DC input
+ *        (e.g. "String 2" or "not supported").
  */
 constexpr Register IDSTR_2(40284, 8, Register::Type::STRING);
 
 /**
- * @brief
- * DC current of second input.
+ * @brief DC current of the second input.
  * @unit Ampere [A]
- * @note Not supported if only one DC input
+ * @note Not supported if only one DC input is present.
  */
 constexpr Register DCA_2(40292, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * DC voltage of second input.
+ * @brief DC voltage of the second input.
  * @unit Volt [V]
- * @note Not supported if only one DC input
+ * @note Not supported if only one DC input is present.
  */
 constexpr Register DCV_2(40293, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * DC power of second input.
+ * @brief DC power of the second input.
  * @unit Watt [W]
- * @note Not supported if only one DC input
+ * @note Not supported if only one DC input is present.
  */
 constexpr Register DCW_2(40294, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * DC lifetime energy of second input.
- * @note Not supported for Fronius Hybrid inverters
+ * @brief DC lifetime energy of the second input.
  * @unit Watt-hour [Wh]
+ * @note Not supported on Fronius Hybrid inverters.
  */
-constexpr Register DCWH_2(40295, 2, Register::Type::UINT16);
+constexpr Register DCWH_2(40295, 2, Register::Type::UINT32);
 
 /**
- * @brief
- * Timestamp of second DC input since 01-Jan-2000 00:00 UTC.
- * @note Not supported if only one DC input
+ * @brief Timestamp of the second DC input, seconds since 01-Jan-2000 UTC.
+ * @note Not supported if only one DC input is present.
  */
 constexpr Register TMS_2(40297, 2, Register::Type::UINT32);
 
 /**
- * @brief
- * Temperature of second DC input.
+ * @brief Temperature of the second DC input.
  * @unit Celsius [°C]
- * @note Not supported if only one DC input
+ * @note Not supported if only one DC input is present.
  */
 constexpr Register TMP_2(40299, 1, Register::Type::INT16);
 
 /**
- * @brief
- * Operating state of second DC input.
- * @note Not supported if only one DC input
+ * @brief Operating state of the second DC input.
+ * @note Not supported if only one DC input is present.
  */
 constexpr Register DCST_2(40300, 1, Register::Type::UINT16);
 
 /**
- * @brief
- * Module events of second DC input.
- * @note Not supported if only one DC input
+ * @brief Module events of the second DC input.
+ * @note Not supported if only one DC input is present.
  */
 constexpr Register DCEVT_2(40301, 2, Register::Type::UINT32);
 
@@ -1300,70 +1119,42 @@ constexpr Register DCEVT_2(40301, 2, Register::Type::UINT32);
 
 /**
  * @namespace I_END
- * @brief SunSpec end-of-block registers.
+ * @brief SunSpec end-of-map marker.
  *
- * @details
- * This namespace defines the SunSpec "end model" block that marks the end of a
- * SunSpec register map within Fronius devices. It is typically composed of two
- * registers — an identifier (`ID`) with a constant value of 0xFFFF and a length
- * field (`L`) that is always 0.
- *
- * Fronius inverters, including hybrid models, follow this pattern at the end of
- * each SunSpec model block. However, when a Basic Storage Control (BSC) model
- * is present, the end-of-block position is shifted by 26 registers to account
- * for the storage model length. When parsing or iterating over SunSpec model
- * blocks, this offset must be considered to correctly locate the next model.
+ * Two registers (`ID = 0xFFFF`, `L = 0`) that mark the end of the SunSpec
+ * register map. Defines `FLOAT_OFFSET` (see file overview) and a
+ * `STORAGE_OFFSET` that shifts the end-block address on hybrid inverters
+ * which include the BSC (I124) block.
  */
 namespace I_END {
 
-/**
- * @brief Offset to convert integer+scale factor register addresses to float
- * addresses.
- *
- * @details
- * In Fronius devices, certain SunSpec float registers are implemented as
- * integer registers with associated scale factors. To obtain the float
- * register address corresponding to an integer+scale register, add this
- * offset to the integer+scale register address (`ADDR`).
- */
+/** @brief Offset to derive the float-map address from the integer-map
+ *         address. See file overview. */
 constexpr uint16_t FLOAT_OFFSET = 10;
 
 /**
- * @brief Offset for storage-enabled (hybrid) inverter register maps.
+ * @brief Address shift applied on storage-enabled (hybrid) inverters.
  *
- * @details
- * Some Fronius inverters, specifically hybrid models that include a
- * Basic Storage Control (BSC) register map, have their END register
- * block shifted by a fixed number of registers compared to
- * non-hybrid models.
- *
- * This constant defines that address offset. For example:
- * - On **non-hybrid** inverters (no storage map), the END::ID register starts
- * at address **40303**.
- * - On **hybrid** inverters (with storage map), the END::ID register starts at
- * address **40329**.
- *
- * Thus, the address difference between hybrid and non-hybrid models is 26
- * registers.
+ * Hybrid inverters with a Basic Storage Control (BSC) block place the
+ * end-of-map marker 26 registers later than non-hybrid models. For
+ * example, with the integer map: non-hybrid at 40303, hybrid at 40329.
  */
 constexpr uint16_t STORAGE_OFFSET = 26;
 
 /**
  * @brief End-of-block identifier.
- * @details This register indicates the end of the SunSpec inverter model block.
- * @return Always returns 0xFFFF.
  *
- * @note For hybrid inverters that include a Basic Storage Control (BSC)
- * register map, the end register address is offset by 26 registers. Take this
- * into account when iterating over SunSpec blocks or calculating the next
- * model's start address.
+ * @return Always `0xFFFF`.
+ *
+ * @note The actual address depends on integer/float encoding (`FLOAT_OFFSET`)
+ *       and on hybrid storage presence (`STORAGE_OFFSET`).
  */
 constexpr Register ID(40303, 1, Register::Type::UINT16);
 
 /**
  * @brief End-of-block length field.
- * @details This register contains the length of the end-of-block segment.
- * @return Always returns 0.
+ *
+ * @return Always `0`.
  */
 constexpr Register L(40304, 1, Register::Type::UINT16);
 

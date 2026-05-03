@@ -1,3 +1,13 @@
+/**
+ * @file fronius_types.h
+ * @brief Shared enumerations and value types used across libfronius.
+ *
+ * @details
+ * Defines the public enums for phases, inverter inputs, output quantities,
+ * energy direction, operating state, vendor-specific event flags, and the
+ * detected register map. Each enum has a `toString()` overload for logging.
+ */
+
 #ifndef FRONIUS_TYPES_H_
 #define FRONIUS_TYPES_H_
 
@@ -6,12 +16,11 @@
 #include <string>
 
 /**
- * @brief Container for project enums and their string conversion helpers.
+ * @brief Container for shared enumerations and their `toString()` helpers.
  *
- * This struct holds all related enums and provides static
- * constexpr `toString()` functions to convert enum values to
- * human-readable strings, useful for logging, error messages,
- * and debugging.
+ * Grouping the enums under a struct gives them a common namespace prefix
+ * (`FroniusTypes::Phase`, `FroniusTypes::Output`, …) without polluting the
+ * global namespace.
  */
 struct FroniusTypes {
   /**
@@ -148,11 +157,9 @@ struct FroniusTypes {
   }
 
   /**
-   * @brief Operating state codes of the inverter.
+   * @brief Inverter operating state codes.
    *
-   * This enumeration defines the possible runtime states of a Fronius inverter.
-   * The values correspond to Modbus status codes reported by the device and
-   * represent various operational, standby, and fault conditions.
+   * Values match the Modbus status codes reported by the device.
    */
   enum class State : uint16_t {
     /** Inverter is turned off and not producing power. */
@@ -196,14 +203,11 @@ struct FroniusTypes {
   };
 
   /**
-   * @brief Convert an inverter status code to its string representation.
+   * @brief Convert an inverter state code to a human-readable description.
    *
-   * This helper function returns a human-readable string for a given
-   * `InverterStatus` value, allowing convenient logging or debugging
-   * of inverter operating states.
-   *
-   * @param state The inverter status code.
-   * @return A constant string corresponding to the provided status
+   * @param state The inverter state.
+   * @return A descriptive string, or "Invalid inverter operating state" for
+   *         unknown values.
    */
   static constexpr std::optional<const char *> toString(State state) {
     switch (state) {
@@ -239,13 +243,10 @@ struct FroniusTypes {
   }
 
   /**
-   * @brief Vendor-specific inverter fault and event flags.
+   * @brief Vendor-specific inverter fault and event flags (set 1).
    *
-   * This enumeration represents 32-bit bitmask flags for various fault
-   * conditions and events reported by a specific inverter vendor. Each
-   * enumerator corresponds to a specific hardware or operational fault
-   * condition. Multiple flags can be active simultaneously, allowing them to be
-   * combined using bitwise operations.
+   * 32-bit bitmask. Multiple flags can be active simultaneously and are
+   * combined with bitwise OR.
    */
   enum class Event_1 : uint32_t {
     /** Insulation fault detected on the DC side. */
@@ -346,14 +347,11 @@ struct FroniusTypes {
   };
 
   /**
-   * @brief Convert a Event_1 event flag to a human-readable string.
+   * @brief Convert a single Event_1 flag to a human-readable string.
    *
-   * @param event1 The Event_1 flag to convert.
-   * @return A constant string describing the event, suitable for logging or
-   * debugging.
-   *
-   * @note Only a single flag should be passed at a time. Multiple flags should
-   *       be tested individually using bitwise operations.
+   * @param event1 A single flag value (not a combined bitmask).
+   * @return The string for the flag, or `std::nullopt` for unknown values.
+   * @note Test combined bitmasks one bit at a time before calling.
    */
   static constexpr std::optional<const char *> toString(Event_1 event1) {
     switch (event1) {
@@ -427,15 +425,9 @@ struct FroniusTypes {
   }
 
   /**
-   * @brief Vendor-specific inverter warning and diagnostic flags (Set 2).
+   * @brief Vendor-specific inverter warning and diagnostic flags (set 2).
    *
-   * This enumeration defines a 32-bit bitmask of vendor-specific warning and
-   * diagnostic conditions. Each bit corresponds to a specific fault or issue
-   * that may be reported by the inverter firmware.
-   *
-   * Multiple flags can be combined using bitwise operations to represent
-   * concurrent issues. Use helper functions such as `hasFlag()` or bitwise
-   * tests to check individual flags.
+   * 32-bit bitmask. Multiple flags can be active simultaneously.
    */
   enum class Event_2 : uint32_t {
     /** No communication with SolarNet or datalogger. */
@@ -536,14 +528,11 @@ struct FroniusTypes {
   };
 
   /**
-   * @brief Convert a Event_2 event flag to a human-readable string.
+   * @brief Convert a single Event_2 flag to a human-readable string.
    *
-   * @param event2 The Event_2 event flag to convert.
-   * @return A string representing the given event flag.
-   *
-   * @note This function is intended for single flag values only. If multiple
-   *       flags are combined, test each one individually using bitwise logic
-   *       before calling this function.
+   * @param event2 A single flag value (not a combined bitmask).
+   * @return The string for the flag, or `std::nullopt` for unknown values.
+   * @note Test combined bitmasks one bit at a time before calling.
    */
   static constexpr std::optional<const char *> toString(Event_2 event2) {
     switch (event2) {
@@ -617,14 +606,10 @@ struct FroniusTypes {
   }
 
   /**
-   * @brief Vendor-specific inverter diagnostic flags (Set 3).
+   * @brief Vendor-specific inverter diagnostic flags (set 3).
    *
-   * This enumeration defines an additional set of vendor-specific fault and
-   * diagnostic flags reported by the inverter. Unlike `Event_1` and
-   * `Event_2`, this set typically represents less common or auxiliary faults.
-   *
-   * Each bit corresponds to an independent fault condition and may be combined
-   * as a bitfield. Use bitwise operations to check for specific flags.
+   * Auxiliary fault flags not covered by `Event_1` or `Event_2`. Combine
+   * with bitwise OR.
    */
   enum class Event_3 {
     /** Real-time clock or system time synchronization fault. */
@@ -641,14 +626,11 @@ struct FroniusTypes {
   };
 
   /**
-   * @brief Convert a Event_3 event flag to a human-readable string.
+   * @brief Convert a single Event_3 flag to a human-readable string.
    *
-   * @param event3 The Event_3 event flag to convert.
-   * @return A descriptive string corresponding to the given event flag.
-   *
-   * @note This function is intended for single flag values only. If multiple
-   *       flags are combined, test each individually before calling this
-   * function.
+   * @param event3 A single flag value (not a combined bitmask).
+   * @return The string for the flag, or `std::nullopt` for unknown values.
+   * @note Test combined bitmasks one bit at a time before calling.
    */
   static constexpr std::optional<const char *> toString(Event_3 event3) {
     switch (event3) {
