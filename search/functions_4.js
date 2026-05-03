@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['fetchcommonregisters_0',['fetchCommonRegisters',['../class_fronius.html#a761b3c0a352503a318f3b3392b61e162',1,'Fronius']]],
-  ['fetchinverterregisters_1',['fetchInverterRegisters',['../class_inverter.html#af7d65aadecabeff8a4b243c96fbcdec5',1,'Inverter']]],
-  ['fetchmeterregisters_2',['fetchMeterRegisters',['../class_meter.html#a9303eab10b5fce41e4cc87754d918e61',1,'Meter']]],
-  ['freq_3',['freq',['../namespace_i10_x.html#a723b747facafcdb948ac2cd9fed91ee5',1,'I10X::FREQ()'],['../namespace_i11_x.html#afe2e34812d5b86da264e95ab369921e4',1,'I11X::FREQ()'],['../namespace_m20_x.html#a2daf034bbe709c881f235edb70e173ae',1,'M20X::FREQ()'],['../namespace_m21_x.html#ac686fb43de4e4d7960b1dcc22aacbfea',1,'M21X::FREQ()'],['../meter__registers_8h.html#a0d8dd20c7ab55257e2eb60eab202ee0c',1,'REG::FREQ()']]],
-  ['freq_5fsf_4',['freq_sf',['../namespace_i10_x.html#abb91d181cba8d305620be36b36f996bd',1,'I10X::FREQ_SF()'],['../namespace_m20_x.html#aeed208594614b490555db39c53dc7109',1,'M20X::FREQ_SF()']]],
-  ['fromerrno_5',['fromerrno',['../struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac',1,'ModbusError::fromErrno(const std::string &amp;msg)'],['../struct_modbus_error.html#afbb17e4c67217fb75da19606ba25fc14',1,'ModbusError::fromErrno(std::format_string&lt; Args... &gt; fmt, Args &amp;&amp;...args)']]],
-  ['fronius_6',['Fronius',['../class_fronius.html#aabc618a08184fe3382886ae471c51389',1,'Fronius']]]
+  ['ecpconn_0',['ECPCONN',['../namespace_i122.html#a3f5a0336d53c4ce3e66da9f744a61d86',1,'I122']]],
+  ['evt_1',['evt',['../namespace_i160.html#ac53d9a4bc456c21acd85a65504dbbad9',1,'I160::EVT()'],['../namespace_m20_x.html#a0eaad4810e47addbc12543532783df9f',1,'M20X::EVT()'],['../namespace_m21_x.html#a9b77fded469e9a9d9af868b5010bf510',1,'M21X::EVT()']]],
+  ['evt1_2',['evt1',['../namespace_i10_x.html#af491a95876e8f8c7c1bbcd5bb759c13c',1,'I10X::EVT1()'],['../namespace_i11_x.html#aec84235a812f63897a9d2fe0095bf53a',1,'I11X::EVT1(40119, 2, Register::Type::UINT32)']]],
+  ['evt2_3',['evt2',['../namespace_i11_x.html#a59b5312dad177e47dbb2e623e9154f3b',1,'I11X::EVT2()'],['../namespace_i10_x.html#a593905ae7a501f49b7338a7bb8037c26',1,'I10X::EVT2(40111, 2, Register::Type::UINT32)']]],
+  ['evtvnd1_4',['evtvnd1',['../namespace_i10_x.html#a94f905e4d96f353a7709f8505ab0aaa2',1,'I10X::EVTVND1()'],['../namespace_i11_x.html#ae2b75a7badb70609570e0e0a634c1a44',1,'I11X::EVTVND1()']]],
+  ['evtvnd2_5',['evtvnd2',['../namespace_i10_x.html#a518c0de4eb104319a068f3850d38efa7',1,'I10X::EVTVND2()'],['../namespace_i11_x.html#af1ad5a270ebc7a93f6876ab08cf96169',1,'I11X::EVTVND2()']]],
+  ['evtvnd3_6',['evtvnd3',['../namespace_i10_x.html#a39fb9186dad858553b5456b2583e6292',1,'I10X::EVTVND3()'],['../namespace_i11_x.html#aad804e0b8b50fd70fcfb461c4c00aff9',1,'I11X::EVTVND3()']]],
+  ['evtvnd4_7',['evtvnd4',['../namespace_i10_x.html#a477fab7b9296e46a8879316fdb52e91a',1,'I10X::EVTVND4()'],['../namespace_i11_x.html#a176fe400f47e0ddb5d856d9e9f9e6ce3',1,'I11X::EVTVND4()']]],
+  ['executetransaction_8',['executeTransaction',['../class_fronius_bus.html#a2eb25f0c01d42ca0404dfbed635f076d',1,'FroniusBus']]]
 ];

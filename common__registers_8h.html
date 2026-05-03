@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('common__registers_8h.html',''); initRe
 </div><!--header-->
 <div class="contents">
 
-<p>Defines SunSpec Common Model (<a class="el" href="namespace_c001.html" title="SunSpec Common Model registers.">C001</a>) register mappings for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices.  
+<p>SunSpec Common Model (<a class="el" href="namespace_c001.html" title="SunSpec Common Model (ID 1) registers.">C001</a>) register definitions for Fronius devices.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;register_base.h&quot;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('common__registers_8h.html',''); initRe
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespace_c001" id="r_namespace_c001"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html">C001</a></td></tr>
-<tr class="memdesc:namespace_c001"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec Common Model registers. <br /></td></tr>
+<tr class="memdesc:namespace_c001"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec Common Model (ID 1) registers. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -129,36 +129,40 @@ Functions</h2></td></tr>
 <tr class="memitem:a17d81c8499f54c63a9560f13699c6cd7" id="r_a17d81c8499f54c63a9560f13699c6cd7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html#a17d81c8499f54c63a9560f13699c6cd7">C001::L</a> (40003, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
 <tr class="memdesc:a17d81c8499f54c63a9560f13699c6cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the Common Model block.  <br /></td></tr>
 <tr class="separator:a17d81c8499f54c63a9560f13699c6cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ffaffde131f00c6d564543e9bd2439e" id="r_a3ffaffde131f00c6d564543e9bd2439e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html#a3ffaffde131f00c6d564543e9bd2439e">C001::MN</a> (40004, 16, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
-<tr class="memdesc:a3ffaffde131f00c6d564543e9bd2439e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufacturer name.  <br /></td></tr>
+<tr class="memitem:a3ffaffde131f00c6d564543e9bd2439e" id="r_a3ffaffde131f00c6d564543e9bd2439e"><td class="memItemLeft" align="right" valign="top"><a id="a3ffaffde131f00c6d564543e9bd2439e" name="a3ffaffde131f00c6d564543e9bd2439e"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>C001::MN</b> (40004, 16, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
+<tr class="memdesc:a3ffaffde131f00c6d564543e9bd2439e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufacturer name (typically "Fronius"). <br /></td></tr>
 <tr class="separator:a3ffaffde131f00c6d564543e9bd2439e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c857d06ba0f100fcf65b0ac0d4a8170" id="r_a1c857d06ba0f100fcf65b0ac0d4a8170"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html#a1c857d06ba0f100fcf65b0ac0d4a8170">C001::MD</a> (40020, 16, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
-<tr class="memdesc:a1c857d06ba0f100fcf65b0ac0d4a8170"><td class="mdescLeft">&#160;</td><td class="mdescRight">Device model.  <br /></td></tr>
+<tr class="memitem:a1c857d06ba0f100fcf65b0ac0d4a8170" id="r_a1c857d06ba0f100fcf65b0ac0d4a8170"><td class="memItemLeft" align="right" valign="top"><a id="a1c857d06ba0f100fcf65b0ac0d4a8170" name="a1c857d06ba0f100fcf65b0ac0d4a8170"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>C001::MD</b> (40020, 16, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
+<tr class="memdesc:a1c857d06ba0f100fcf65b0ac0d4a8170"><td class="mdescLeft">&#160;</td><td class="mdescRight">Device model name (e.g. "IG+150V [3p]"). <br /></td></tr>
 <tr class="separator:a1c857d06ba0f100fcf65b0ac0d4a8170"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13a8b56763fe9c3ea5cf414191fcc4c7" id="r_a13a8b56763fe9c3ea5cf414191fcc4c7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html#a13a8b56763fe9c3ea5cf414191fcc4c7">C001::OPT</a> (40036, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
-<tr class="memdesc:a13a8b56763fe9c3ea5cf414191fcc4c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Software version of installed option.  <br /></td></tr>
+<tr class="memitem:a13a8b56763fe9c3ea5cf414191fcc4c7" id="r_a13a8b56763fe9c3ea5cf414191fcc4c7"><td class="memItemLeft" align="right" valign="top"><a id="a13a8b56763fe9c3ea5cf414191fcc4c7" name="a13a8b56763fe9c3ea5cf414191fcc4c7"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>C001::OPT</b> (40036, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
+<tr class="memdesc:a13a8b56763fe9c3ea5cf414191fcc4c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Firmware version of an installed option (e.g. Datamanager). <br /></td></tr>
 <tr class="separator:a13a8b56763fe9c3ea5cf414191fcc4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6e583e94a60948125f70b75992646ce" id="r_ae6e583e94a60948125f70b75992646ce"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html#ae6e583e94a60948125f70b75992646ce">C001::VR</a> (40044, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
-<tr class="memdesc:ae6e583e94a60948125f70b75992646ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main device firmware version.  <br /></td></tr>
+<tr class="memitem:ae6e583e94a60948125f70b75992646ce" id="r_ae6e583e94a60948125f70b75992646ce"><td class="memItemLeft" align="right" valign="top"><a id="ae6e583e94a60948125f70b75992646ce" name="ae6e583e94a60948125f70b75992646ce"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>C001::VR</b> (40044, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
+<tr class="memdesc:ae6e583e94a60948125f70b75992646ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main device firmware version. <br /></td></tr>
 <tr class="separator:ae6e583e94a60948125f70b75992646ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a986511c0eb8f7dd5c908ae7f969c8175" id="r_a986511c0eb8f7dd5c908ae7f969c8175"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html#a986511c0eb8f7dd5c908ae7f969c8175">C001::SN</a> (40052, 16, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
 <tr class="memdesc:a986511c0eb8f7dd5c908ae7f969c8175"><td class="mdescLeft">&#160;</td><td class="mdescRight">Device serial number.  <br /></td></tr>
 <tr class="separator:a986511c0eb8f7dd5c908ae7f969c8175"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7c68e9e484295f35a61b1fb4829cc59" id="r_ad7c68e9e484295f35a61b1fb4829cc59"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_c001.html#ad7c68e9e484295f35a61b1fb4829cc59">C001::DA</a> (40068, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:ad7c68e9e484295f35a61b1fb4829cc59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modbus device address register.  <br /></td></tr>
+<tr class="memitem:ad7c68e9e484295f35a61b1fb4829cc59" id="r_ad7c68e9e484295f35a61b1fb4829cc59"><td class="memItemLeft" align="right" valign="top"><a id="ad7c68e9e484295f35a61b1fb4829cc59" name="ad7c68e9e484295f35a61b1fb4829cc59"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>C001::DA</b> (40068, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
+<tr class="memdesc:ad7c68e9e484295f35a61b1fb4829cc59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modbus device address (slave ID, range 1–247). <br /></td></tr>
 <tr class="separator:ad7c68e9e484295f35a61b1fb4829cc59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a28f442424540eeb09dff53d21d8a9751" id="r_a28f442424540eeb09dff53d21d8a9751"><td class="memItemLeft" align="right" valign="top"><a id="a28f442424540eeb09dff53d21d8a9751" name="a28f442424540eeb09dff53d21d8a9751"></a>
 constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>C001::SIZE</b> = 65</td></tr>
-<tr class="memdesc:a28f442424540eeb09dff53d21d8a9751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total length of the Common Model block (in registers). <br /></td></tr>
+<tr class="memdesc:a28f442424540eeb09dff53d21d8a9751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total length of the Common Model block, in registers. <br /></td></tr>
 <tr class="separator:a28f442424540eeb09dff53d21d8a9751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines SunSpec Common Model (<a class="el" href="namespace_c001.html" title="SunSpec Common Model registers.">C001</a>) register mappings for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices. </p>
-<p>This header provides symbolic register definitions for the SunSpec Modbus Common Model block (<a class="el" href="namespace_c001.html" title="SunSpec Common Model registers.">C001</a>), which describes general device information such as manufacturer, model, firmware versions, and serial number.</p>
-<p>These definitions are used for Modbus communication with <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters, meters, and other compatible devices. </p>
+<div class="textblock"><p>SunSpec Common Model (<a class="el" href="namespace_c001.html" title="SunSpec Common Model (ID 1) registers.">C001</a>) register definitions for Fronius devices. </p>
+<p>Symbolic register addresses for the SunSpec Common Model block, which carries generic device metadata (manufacturer, model, firmware versions, serial number) and is implemented identically across all SunSpec- compliant Fronius devices. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

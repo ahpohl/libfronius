@@ -37,7 +37,7 @@ var NAVTREE =
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Data Fields", "functions.html", [
-        [ "All", "functions.html", null ],
+        [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", null ],
         [ "Enumerations", "functions_enum.html", null ]
@@ -52,10 +52,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"inverter__registers_8h.html#aa8f5d57fbe8c0128aaad3d00fc2ab745",
-"namespace_c001.html",
-"namespace_m20_x.html#aa41e41b36b6c19e64171e10e87826981",
-"struct_fronius_types_1_1_remote_endpoint.html"
+"inverter__registers_8h.html#a4dcd9260b410cfa00a9256f4b7ae48d9",
+"meter__registers_8h.html#aafe2097c707edff710ba6d0ef283c2a2",
+"namespace_i160.html#a37c1b0f976847ddd701608ccd2bddc34",
+"struct_fronius_bus_1_1_transaction.html#a32ca000b9fe9326705a0e6a51d1cc3fb"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

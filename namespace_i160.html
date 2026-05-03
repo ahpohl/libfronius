@@ -104,16 +104,16 @@ $(document).ready(function(){initNavTree('namespace_i160.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 
-<p>SunSpec Multiple MPPT Extension Model (ID 160) register definitions.  
+<p>SunSpec Multiple MPPT Extension Model (ID 160).  
 <a href="namespace_i160.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a56d5f87cb9b817e3f12e55f043640253" id="r_a56d5f87cb9b817e3f12e55f043640253"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a56d5f87cb9b817e3f12e55f043640253">ID</a> (40253, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a56d5f87cb9b817e3f12e55f043640253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uniquely identifies this as a SunSpec Multiple MPPT <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> Extension Model.  <br /></td></tr>
+<tr class="memdesc:a56d5f87cb9b817e3f12e55f043640253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Model identifier.  <br /></td></tr>
 <tr class="separator:a56d5f87cb9b817e3f12e55f043640253"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dcd9260b410cfa00a9256f4b7ae48d9" id="r_a4dcd9260b410cfa00a9256f4b7ae48d9"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a4dcd9260b410cfa00a9256f4b7ae48d9">L</a> (40254, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a4dcd9260b410cfa00a9256f4b7ae48d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of Multiple MPPT <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> Extension Model.  <br /></td></tr>
+<tr class="memdesc:a4dcd9260b410cfa00a9256f4b7ae48d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the Multi-MPPT block.  <br /></td></tr>
 <tr class="separator:a4dcd9260b410cfa00a9256f4b7ae48d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2cb069d015df8432c8fcc21c291f2fe" id="r_af2cb069d015df8432c8fcc21c291f2fe"><td class="memItemLeft" align="right" valign="top"><a id="af2cb069d015df8432c8fcc21c291f2fe" name="af2cb069d015df8432c8fcc21c291f2fe"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DCA_SF</b> (40255, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a5f90af42814c0a419d715d43ae54fd7a">Register::Type::INT16</a>)</td></tr>
@@ -138,71 +138,73 @@ constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td c
 <tr class="memdesc:a0328404563b415cc993a4e60f55522e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of DC modules.  <br /></td></tr>
 <tr class="separator:a0328404563b415cc993a4e60f55522e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e910d7b3bebc26e0016271c88f006a6" id="r_a9e910d7b3bebc26e0016271c88f006a6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a9e910d7b3bebc26e0016271c88f006a6">ID_1</a> (40263, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a9e910d7b3bebc26e0016271c88f006a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input ID of first DC input.  <br /></td></tr>
+<tr class="memdesc:a9e910d7b3bebc26e0016271c88f006a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numeric input ID of the first DC input.  <br /></td></tr>
 <tr class="separator:a9e910d7b3bebc26e0016271c88f006a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16c5e90591903cdc9a4b19787e0df9b4" id="r_a16c5e90591903cdc9a4b19787e0df9b4"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a16c5e90591903cdc9a4b19787e0df9b4">IDSTR_1</a> (40264, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
-<tr class="memdesc:a16c5e90591903cdc9a4b19787e0df9b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input ID string of first DC input.  <br /></td></tr>
+<tr class="memitem:a16c5e90591903cdc9a4b19787e0df9b4" id="r_a16c5e90591903cdc9a4b19787e0df9b4"><td class="memItemLeft" align="right" valign="top"><a id="a16c5e90591903cdc9a4b19787e0df9b4" name="a16c5e90591903cdc9a4b19787e0df9b4"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>IDSTR_1</b> (40264, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
+<tr class="memdesc:a16c5e90591903cdc9a4b19787e0df9b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input name of the first DC input (e.g. "String 1"). <br /></td></tr>
 <tr class="separator:a16c5e90591903cdc9a4b19787e0df9b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb328cbb76b67f2dc249d033efc4e844" id="r_aeb328cbb76b67f2dc249d033efc4e844"><td class="memItemLeft" align="right" valign="top"><a id="aeb328cbb76b67f2dc249d033efc4e844" name="aeb328cbb76b67f2dc249d033efc4e844"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DCA_1</b> (40272, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:aeb328cbb76b67f2dc249d033efc4e844"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC current of first input. <b>Unit:</b> Ampere [A]. <br /></td></tr>
+<tr class="memdesc:aeb328cbb76b67f2dc249d033efc4e844"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC current of the first input. <b>Unit:</b> Ampere [A]. <br /></td></tr>
 <tr class="separator:aeb328cbb76b67f2dc249d033efc4e844"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a394acdbc88e1e91a8d044726fa77c01e" id="r_a394acdbc88e1e91a8d044726fa77c01e"><td class="memItemLeft" align="right" valign="top"><a id="a394acdbc88e1e91a8d044726fa77c01e" name="a394acdbc88e1e91a8d044726fa77c01e"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DCV_1</b> (40273, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a394acdbc88e1e91a8d044726fa77c01e"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC voltage of first input. <b>Unit:</b> Volt [V]. <br /></td></tr>
+<tr class="memdesc:a394acdbc88e1e91a8d044726fa77c01e"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC voltage of the first input. <b>Unit:</b> Volt [V]. <br /></td></tr>
 <tr class="separator:a394acdbc88e1e91a8d044726fa77c01e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a604951b3494371ecdff62dc68c4e6061" id="r_a604951b3494371ecdff62dc68c4e6061"><td class="memItemLeft" align="right" valign="top"><a id="a604951b3494371ecdff62dc68c4e6061" name="a604951b3494371ecdff62dc68c4e6061"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DCW_1</b> (40274, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a604951b3494371ecdff62dc68c4e6061"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC power of first input. <b>Unit:</b> Watt [W]. <br /></td></tr>
+<tr class="memdesc:a604951b3494371ecdff62dc68c4e6061"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC power of the first input. <b>Unit:</b> Watt [W]. <br /></td></tr>
 <tr class="separator:a604951b3494371ecdff62dc68c4e6061"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a881e9ec9bb3d623cdcf057f985293979" id="r_a881e9ec9bb3d623cdcf057f985293979"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a881e9ec9bb3d623cdcf057f985293979">DCWH_1</a> (40275, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
-<tr class="memdesc:a881e9ec9bb3d623cdcf057f985293979"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC lifetime energy of first input.  <br /></td></tr>
+<tr class="memdesc:a881e9ec9bb3d623cdcf057f985293979"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC lifetime energy of the first input. <b>Unit:</b> Watt-hour [Wh].  <br /></td></tr>
 <tr class="separator:a881e9ec9bb3d623cdcf057f985293979"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af694501aa397e8fa9dddbe1fc3ea8659" id="r_af694501aa397e8fa9dddbe1fc3ea8659"><td class="memItemLeft" align="right" valign="top"><a id="af694501aa397e8fa9dddbe1fc3ea8659" name="af694501aa397e8fa9dddbe1fc3ea8659"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>TMS_1</b> (40277, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
-<tr class="memdesc:af694501aa397e8fa9dddbe1fc3ea8659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp of first DC input since 01-Jan-2000 00:00 UTC. <br /></td></tr>
+<tr class="memdesc:af694501aa397e8fa9dddbe1fc3ea8659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp of the first DC input, seconds since 01-Jan-2000 UTC. <br /></td></tr>
 <tr class="separator:af694501aa397e8fa9dddbe1fc3ea8659"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad350f4566aa6e43a82e7c9407bbd747b" id="r_ad350f4566aa6e43a82e7c9407bbd747b"><td class="memItemLeft" align="right" valign="top"><a id="ad350f4566aa6e43a82e7c9407bbd747b" name="ad350f4566aa6e43a82e7c9407bbd747b"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>TMP_1</b> (40279, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a5f90af42814c0a419d715d43ae54fd7a">Register::Type::INT16</a>)</td></tr>
-<tr class="memdesc:ad350f4566aa6e43a82e7c9407bbd747b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temperature of first DC input. <b>Unit:</b> Celsius [°C]. <br /></td></tr>
+<tr class="memdesc:ad350f4566aa6e43a82e7c9407bbd747b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temperature of the first DC input. <b>Unit:</b> Celsius [°C]. <br /></td></tr>
 <tr class="separator:ad350f4566aa6e43a82e7c9407bbd747b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37c1b0f976847ddd701608ccd2bddc34" id="r_a37c1b0f976847ddd701608ccd2bddc34"><td class="memItemLeft" align="right" valign="top"><a id="a37c1b0f976847ddd701608ccd2bddc34" name="a37c1b0f976847ddd701608ccd2bddc34"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DCST_1</b> (40280, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a37c1b0f976847ddd701608ccd2bddc34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operating state of first DC input. <br /></td></tr>
+<tr class="memdesc:a37c1b0f976847ddd701608ccd2bddc34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operating state of the first DC input. <br /></td></tr>
 <tr class="separator:a37c1b0f976847ddd701608ccd2bddc34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabdbde1f7a4b264132c3d1a1efe40aa6" id="r_aabdbde1f7a4b264132c3d1a1efe40aa6"><td class="memItemLeft" align="right" valign="top"><a id="aabdbde1f7a4b264132c3d1a1efe40aa6" name="aabdbde1f7a4b264132c3d1a1efe40aa6"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DCEVT_1</b> (40281, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
-<tr class="memdesc:aabdbde1f7a4b264132c3d1a1efe40aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module events of first DC input. <br /></td></tr>
+<tr class="memdesc:aabdbde1f7a4b264132c3d1a1efe40aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module events of the first DC input. <br /></td></tr>
 <tr class="separator:aabdbde1f7a4b264132c3d1a1efe40aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b8886719ed5bfb3a5c9439e5989b97c" id="r_a7b8886719ed5bfb3a5c9439e5989b97c"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a7b8886719ed5bfb3a5c9439e5989b97c">ID_2</a> (40283, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a7b8886719ed5bfb3a5c9439e5989b97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input ID of second DC input.  <br /></td></tr>
+<tr class="memdesc:a7b8886719ed5bfb3a5c9439e5989b97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numeric input ID of the second DC input.  <br /></td></tr>
 <tr class="separator:a7b8886719ed5bfb3a5c9439e5989b97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa02686eec0a58cfd10b8dd5162c11a84" id="r_aa02686eec0a58cfd10b8dd5162c11a84"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#aa02686eec0a58cfd10b8dd5162c11a84">IDSTR_2</a> (40284, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
-<tr class="memdesc:aa02686eec0a58cfd10b8dd5162c11a84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input ID string of second DC input.  <br /></td></tr>
+<tr class="memitem:aa02686eec0a58cfd10b8dd5162c11a84" id="r_aa02686eec0a58cfd10b8dd5162c11a84"><td class="memItemLeft" align="right" valign="top"><a id="aa02686eec0a58cfd10b8dd5162c11a84" name="aa02686eec0a58cfd10b8dd5162c11a84"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>IDSTR_2</b> (40284, 8, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>)</td></tr>
+<tr class="memdesc:aa02686eec0a58cfd10b8dd5162c11a84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input name of the second DC input (e.g. "String 2" or "not supported"). <br /></td></tr>
 <tr class="separator:aa02686eec0a58cfd10b8dd5162c11a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e899306567b32397875a357594efa7d" id="r_a5e899306567b32397875a357594efa7d"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a5e899306567b32397875a357594efa7d">DCA_2</a> (40292, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a5e899306567b32397875a357594efa7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC current of second input. <b>Unit:</b> Ampere [A].  <br /></td></tr>
+<tr class="memdesc:a5e899306567b32397875a357594efa7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC current of the second input. <b>Unit:</b> Ampere [A].  <br /></td></tr>
 <tr class="separator:a5e899306567b32397875a357594efa7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac490994a98652acfeeed30230f46037d" id="r_ac490994a98652acfeeed30230f46037d"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#ac490994a98652acfeeed30230f46037d">DCV_2</a> (40293, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:ac490994a98652acfeeed30230f46037d"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC voltage of second input. <b>Unit:</b> Volt [V].  <br /></td></tr>
+<tr class="memdesc:ac490994a98652acfeeed30230f46037d"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC voltage of the second input. <b>Unit:</b> Volt [V].  <br /></td></tr>
 <tr class="separator:ac490994a98652acfeeed30230f46037d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87105437987a625c1106c56d8e4b560b" id="r_a87105437987a625c1106c56d8e4b560b"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a87105437987a625c1106c56d8e4b560b">DCW_2</a> (40294, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a87105437987a625c1106c56d8e4b560b"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC power of second input. <b>Unit:</b> Watt [W].  <br /></td></tr>
+<tr class="memdesc:a87105437987a625c1106c56d8e4b560b"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC power of the second input. <b>Unit:</b> Watt [W].  <br /></td></tr>
 <tr class="separator:a87105437987a625c1106c56d8e4b560b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60c769b1c60115fb609d0ba2a027b4fe" id="r_a60c769b1c60115fb609d0ba2a027b4fe"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a60c769b1c60115fb609d0ba2a027b4fe">DCWH_2</a> (40295, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a60c769b1c60115fb609d0ba2a027b4fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC lifetime energy of second input.  <br /></td></tr>
-<tr class="separator:a60c769b1c60115fb609d0ba2a027b4fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99c8089ff7fdb5a2e10676893c52477c" id="r_a99c8089ff7fdb5a2e10676893c52477c"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a99c8089ff7fdb5a2e10676893c52477c">DCWH_2</a> (40295, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
+<tr class="memdesc:a99c8089ff7fdb5a2e10676893c52477c"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC lifetime energy of the second input. <b>Unit:</b> Watt-hour [Wh].  <br /></td></tr>
+<tr class="separator:a99c8089ff7fdb5a2e10676893c52477c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cb959f264c6b7b09aca5b16ca60fae9" id="r_a8cb959f264c6b7b09aca5b16ca60fae9"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a8cb959f264c6b7b09aca5b16ca60fae9">TMS_2</a> (40297, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
-<tr class="memdesc:a8cb959f264c6b7b09aca5b16ca60fae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp of second DC input since 01-Jan-2000 00:00 UTC.  <br /></td></tr>
+<tr class="memdesc:a8cb959f264c6b7b09aca5b16ca60fae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp of the second DC input, seconds since 01-Jan-2000 UTC.  <br /></td></tr>
 <tr class="separator:a8cb959f264c6b7b09aca5b16ca60fae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa72dd671685326e20851fdc99b20ac30" id="r_aa72dd671685326e20851fdc99b20ac30"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#aa72dd671685326e20851fdc99b20ac30">TMP_2</a> (40299, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a5f90af42814c0a419d715d43ae54fd7a">Register::Type::INT16</a>)</td></tr>
-<tr class="memdesc:aa72dd671685326e20851fdc99b20ac30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temperature of second DC input. <b>Unit:</b> Celsius [°C].  <br /></td></tr>
+<tr class="memdesc:aa72dd671685326e20851fdc99b20ac30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temperature of the second DC input. <b>Unit:</b> Celsius [°C].  <br /></td></tr>
 <tr class="separator:aa72dd671685326e20851fdc99b20ac30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade419a9cf256b7925e1cc0e7da4f760a" id="r_ade419a9cf256b7925e1cc0e7da4f760a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#ade419a9cf256b7925e1cc0e7da4f760a">DCST_2</a> (40300, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:ade419a9cf256b7925e1cc0e7da4f760a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operating state of second DC input.  <br /></td></tr>
+<tr class="memdesc:ade419a9cf256b7925e1cc0e7da4f760a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operating state of the second DC input.  <br /></td></tr>
 <tr class="separator:ade419a9cf256b7925e1cc0e7da4f760a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2637c560b21a8a712f6ea7480261e1a2" id="r_a2637c560b21a8a712f6ea7480261e1a2"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a2637c560b21a8a712f6ea7480261e1a2">DCEVT_2</a> (40301, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
-<tr class="memdesc:a2637c560b21a8a712f6ea7480261e1a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module events of second DC input.  <br /></td></tr>
+<tr class="memdesc:a2637c560b21a8a712f6ea7480261e1a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module events of the second DC input.  <br /></td></tr>
 <tr class="separator:a2637c560b21a8a712f6ea7480261e1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -211,14 +213,14 @@ Variables</h2></td></tr>
 constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b> = 48</td></tr>
 <tr class="memdesc:a4d95b6cc2d2b75f6a56497ba4bb1de9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total number of registers in the multiple MPPT model (float). <br /></td></tr>
 <tr class="separator:a4d95b6cc2d2b75f6a56497ba4bb1de9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56a7c9609e0ebfdf89a9218aed3046ad" id="r_a56a7c9609e0ebfdf89a9218aed3046ad"><td class="memItemLeft" align="right" valign="top">constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i160.html#a56a7c9609e0ebfdf89a9218aed3046ad">FLOAT_OFFSET</a> = 10</td></tr>
-<tr class="memdesc:a56a7c9609e0ebfdf89a9218aed3046ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset to convert integer+scale factor register addresses to float addresses.  <br /></td></tr>
+<tr class="memitem:a56a7c9609e0ebfdf89a9218aed3046ad" id="r_a56a7c9609e0ebfdf89a9218aed3046ad"><td class="memItemLeft" align="right" valign="top"><a id="a56a7c9609e0ebfdf89a9218aed3046ad" name="a56a7c9609e0ebfdf89a9218aed3046ad"></a>
+constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>FLOAT_OFFSET</b> = 10</td></tr>
+<tr class="memdesc:a56a7c9609e0ebfdf89a9218aed3046ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset to derive the float-map address from the integer-map address. See file overview. <br /></td></tr>
 <tr class="separator:a56a7c9609e0ebfdf89a9218aed3046ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>SunSpec Multiple MPPT Extension Model (ID 160) register definitions. </p>
-<p>Groups all registers of the SunSpec Multiple MPPT Extension Model, which provides per-input DC data for inverters with multiple MPP trackers.</p>
-<p>An <code>INT_OFFSET</code> constant is defined in this namespace. Integer register addresses must be derived by adding this offset to the float address (<code>ADDR</code>), reflecting the <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> implementation where float-mapped registers are stored as integer registers with scale factors. </p>
+<div class="textblock"><p>SunSpec Multiple MPPT Extension Model (ID 160). </p>
+<p>Per-input DC data for inverters with multiple MPP trackers. Defines <code>FLOAT_OFFSET</code> — see file overview for usage. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a5e899306567b32397875a357594efa7d" name="a5e899306567b32397875a357594efa7d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5e899306567b32397875a357594efa7d">&#9670;&#160;</a></span>DCA_2()</h2>
@@ -260,8 +262,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>DC current of second input. <b>Unit:</b> Ampere [A]. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input </dd></dl>
+<p>DC current of the second input. <b>Unit:</b> Ampere [A]. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input is present. </dd></dl>
 
 </div>
 </div>
@@ -305,8 +307,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Module events of second DC input. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input </dd></dl>
+<p>Module events of the second DC input. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input is present. </dd></dl>
 
 </div>
 </div>
@@ -350,8 +352,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Operating state of second DC input. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input </dd></dl>
+<p>Operating state of the second DC input. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input is present. </dd></dl>
 
 </div>
 </div>
@@ -395,8 +397,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>DC voltage of second input. <b>Unit:</b> Volt [V]. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input </dd></dl>
+<p>DC voltage of the second input. <b>Unit:</b> Volt [V]. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input is present. </dd></dl>
 
 </div>
 </div>
@@ -440,8 +442,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>DC power of second input. <b>Unit:</b> Watt [W]. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input </dd></dl>
+<p>DC power of the second input. <b>Unit:</b> Watt [W]. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input is present. </dd></dl>
 
 </div>
 </div>
@@ -485,13 +487,13 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>DC lifetime energy of first input. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Hybrid inverters <b>Unit:</b> Watt-hour [Wh] </dd></dl>
+<p>DC lifetime energy of the first input. <b>Unit:</b> Watt-hour [Wh]. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported on Fronius Hybrid inverters. </dd></dl>
 
 </div>
 </div>
-<a id="a60c769b1c60115fb609d0ba2a027b4fe" name="a60c769b1c60115fb609d0ba2a027b4fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60c769b1c60115fb609d0ba2a027b4fe">&#9670;&#160;</a></span>DCWH_2()</h2>
+<a id="a99c8089ff7fdb5a2e10676893c52477c" name="a99c8089ff7fdb5a2e10676893c52477c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99c8089ff7fdb5a2e10676893c52477c">&#9670;&#160;</a></span>DCWH_2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -514,7 +516,7 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -530,8 +532,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>DC lifetime energy of second input. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Hybrid inverters <b>Unit:</b> Watt-hour [Wh] </dd></dl>
+<p>DC lifetime energy of the second input. <b>Unit:</b> Watt-hour [Wh]. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported on Fronius Hybrid inverters. </dd></dl>
 
 </div>
 </div>
@@ -576,7 +578,7 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </div><div class="memdoc">
 
 <p>DC energy scale factor. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Hybrid inverters </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Not supported on Fronius Hybrid inverters. </dd></dl>
 
 </div>
 </div>
@@ -620,8 +622,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Uniquely identifies this as a SunSpec Multiple MPPT <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> Extension Model. </p>
-<dl class="section return"><dt>Returns</dt><dd>160 </dd></dl>
+<p>Model identifier. </p>
+<dl class="section return"><dt>Returns</dt><dd>Always 160. </dd></dl>
 
 </div>
 </div>
@@ -665,8 +667,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Input ID of first DC input. </p>
-<dl class="section return"><dt>Returns</dt><dd>1 </dd></dl>
+<p>Numeric input ID of the first DC input. </p>
+<dl class="section return"><dt>Returns</dt><dd>Always 1. </dd></dl>
 
 </div>
 </div>
@@ -710,98 +712,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Input ID of second DC input. </p>
-<dl class="section return"><dt>Returns</dt><dd>2 </dd></dl>
-
-</div>
-</div>
-<a id="a16c5e90591903cdc9a4b19787e0df9b4" name="a16c5e90591903cdc9a4b19787e0df9b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16c5e90591903cdc9a4b19787e0df9b4">&#9670;&#160;</a></span>IDSTR_1()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> I160::IDSTR_1 </td>
-          <td>(</td>
-          <td class="paramtype">40264&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">8&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Input ID string of first DC input. </p>
-<dl class="section return"><dt>Returns</dt><dd>"String 1" </dd></dl>
-
-</div>
-</div>
-<a id="aa02686eec0a58cfd10b8dd5162c11a84" name="aa02686eec0a58cfd10b8dd5162c11a84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa02686eec0a58cfd10b8dd5162c11a84">&#9670;&#160;</a></span>IDSTR_2()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> I160::IDSTR_2 </td>
-          <td>(</td>
-          <td class="paramtype">40284&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">8&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949">Register::Type::STRING</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Input ID string of second DC input. </p>
-<dl class="section return"><dt>Returns</dt><dd>"String 2" or "not supported" </dd></dl>
+<p>Numeric input ID of the second DC input. </p>
+<dl class="section return"><dt>Returns</dt><dd>Always 2. </dd></dl>
 
 </div>
 </div>
@@ -845,8 +757,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Length of Multiple MPPT <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> Extension Model. </p>
-<dl class="section return"><dt>Returns</dt><dd>48 </dd></dl>
+<p>Length of the Multi-MPPT block. </p>
+<dl class="section return"><dt>Returns</dt><dd>Always 48. </dd></dl>
 
 </div>
 </div>
@@ -891,7 +803,7 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </div><div class="memdoc">
 
 <p>Number of DC modules. </p>
-<dl class="section return"><dt>Returns</dt><dd>2 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Always 2. </dd></dl>
 
 </div>
 </div>
@@ -935,8 +847,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Temperature of second DC input. <b>Unit:</b> Celsius [°C]. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input </dd></dl>
+<p>Temperature of the second DC input. <b>Unit:</b> Celsius [°C]. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input is present. </dd></dl>
 
 </div>
 </div>
@@ -980,34 +892,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>Timestamp of second DC input since 01-Jan-2000 00:00 UTC. </p>
-<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a56a7c9609e0ebfdf89a9218aed3046ad" name="a56a7c9609e0ebfdf89a9218aed3046ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56a7c9609e0ebfdf89a9218aed3046ad">&#9670;&#160;</a></span>FLOAT_OFFSET</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint16_t I160::FLOAT_OFFSET = 10</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Offset to convert integer+scale factor register addresses to float addresses. </p>
-<p>In <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices, certain SunSpec float registers are implemented as integer registers with associated scale factors. To obtain the float register address corresponding to an integer+scale register, add this offset to the integer+scale register address (<code>ADDR</code>). </p>
+<p>Timestamp of the second DC input, seconds since 01-Jan-2000 UTC. </p>
+<dl class="section note"><dt>Note</dt><dd>Not supported if only one DC input is present. </dd></dl>
 
 </div>
 </div>

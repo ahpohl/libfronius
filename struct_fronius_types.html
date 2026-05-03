@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('struct_fronius_types.html',''); initRe
 </div><!--header-->
 <div class="contents">
 
-<p>Container for project enums and their string conversion helpers.  
+<p>Container for shared enumerations and their <code><a class="el" href="struct_fronius_types.html#a29a97cb4acc694719bc02e62c3668b08" title="Get a string representation of a Phase enum.">toString()</a></code> helpers.  
  <a href="struct_fronius_types.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="fronius__types_8h_source.html">fronius_types.h</a>&gt;</code></p>
@@ -177,7 +177,7 @@ Public Types</h2></td></tr>
 &#160;&#160;<a class="el" href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a1a3aba28896c0abfdc84ed5f20167839">AFCI</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a82125527cea5b559ef64289e1de34511"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operating state codes of the inverter.  <a href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511">More...</a><br /></td></tr>
+<tr class="memdesc:a82125527cea5b559ef64289e1de34511"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> operating state codes.  <a href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511">More...</a><br /></td></tr>
 <tr class="separator:a82125527cea5b559ef64289e1de34511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e5073aa91d91d9443e4101cf2117f01" id="r_a8e5073aa91d91d9443e4101cf2117f01"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01">Event_1</a> : uint32_t { <br />
 &#160;&#160;<a class="el" href="struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a7dff71a68cd79c7b740627b45ffa508b">INSULATION_FAULT</a> = 0x00000001
@@ -221,7 +221,7 @@ Public Types</h2></td></tr>
 , <a class="el" href="struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01af04e3fcfbfb5316b8505f52d8d1e52b4">CONVERTER_RELAY_FAULT</a> = 0x80000000
 <br />
  }</td></tr>
-<tr class="memdesc:a8e5073aa91d91d9443e4101cf2117f01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vendor-specific inverter fault and event flags.  <a href="struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01">More...</a><br /></td></tr>
+<tr class="memdesc:a8e5073aa91d91d9443e4101cf2117f01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vendor-specific inverter fault and event flags (set 1).  <a href="struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01">More...</a><br /></td></tr>
 <tr class="separator:a8e5073aa91d91d9443e4101cf2117f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cbd6dd6f60e3350fb871a6345ee14cf" id="r_a7cbd6dd6f60e3350fb871a6345ee14cf"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cf">Event_2</a> : uint32_t { <br />
 &#160;&#160;<a class="el" href="struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfab2ba3dee9f724c0291ec7e9ae15edfa6">NO_SOLARNET_COMM</a> = 0x00000001
@@ -265,14 +265,14 @@ Public Types</h2></td></tr>
 , <a class="el" href="struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa033d5a3455d22f0017e0c780b38a8ce4">SUPPLY_VOLTAGE_FAULT</a> = 0x80000000
 <br />
  }</td></tr>
-<tr class="memdesc:a7cbd6dd6f60e3350fb871a6345ee14cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vendor-specific inverter warning and diagnostic flags (Set 2).  <a href="struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cf">More...</a><br /></td></tr>
+<tr class="memdesc:a7cbd6dd6f60e3350fb871a6345ee14cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vendor-specific inverter warning and diagnostic flags (set 2).  <a href="struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cf">More...</a><br /></td></tr>
 <tr class="separator:a7cbd6dd6f60e3350fb871a6345ee14cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e057ce4476cb3ac150174bf9585e2bc" id="r_a2e057ce4476cb3ac150174bf9585e2bc"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bc">Event_3</a> { <a class="el" href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bcab31dc7655a11698b2181fefd1014f4e6">TIME_FAULT</a> = 1
 , <a class="el" href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bca9a18ae3ce16f27e78621cce31fe4e9ca">USB_FAULT</a> = 2
 , <a class="el" href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bcacc6d58054a89eb225f3d7d0f085ed0af">DC_HIGH</a> = 4
 , <a class="el" href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bca26c90895a6927eb3f6df540a1ab1498c">INIT_ERROR</a> = 8
  }</td></tr>
-<tr class="memdesc:a2e057ce4476cb3ac150174bf9585e2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vendor-specific inverter diagnostic flags (Set 3).  <a href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bc">More...</a><br /></td></tr>
+<tr class="memdesc:a2e057ce4476cb3ac150174bf9585e2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vendor-specific inverter diagnostic flags (set 3).  <a href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bc">More...</a><br /></td></tr>
 <tr class="separator:a2e057ce4476cb3ac150174bf9585e2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a328049381f2ae6ea9798488587882154" id="r_a328049381f2ae6ea9798488587882154"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">RegisterMap</a> { <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df">SUNSPEC</a>
 , <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8">PROPRIETARY</a>
@@ -296,24 +296,24 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a701e40dd176af7ebcd2c372d85fad6b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an EnergyDirection to its string representation.  <br /></td></tr>
 <tr class="separator:a701e40dd176af7ebcd2c372d85fad6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a954dc831b47011673a9b04ca82266a97" id="r_a954dc831b47011673a9b04ca82266a97"><td class="memItemLeft" align="right" valign="top">static constexpr std::optional&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a954dc831b47011673a9b04ca82266a97">toString</a> (<a class="el" href="struct_fronius_types.html#a82125527cea5b559ef64289e1de34511">State</a> state)</td></tr>
-<tr class="memdesc:a954dc831b47011673a9b04ca82266a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an inverter status code to its string representation.  <br /></td></tr>
+<tr class="memdesc:a954dc831b47011673a9b04ca82266a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an inverter state code to a human-readable description.  <br /></td></tr>
 <tr class="separator:a954dc831b47011673a9b04ca82266a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8957dd29be2853c9435e291ad11ac152" id="r_a8957dd29be2853c9435e291ad11ac152"><td class="memItemLeft" align="right" valign="top">static constexpr std::optional&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a8957dd29be2853c9435e291ad11ac152">toString</a> (<a class="el" href="struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01">Event_1</a> event1)</td></tr>
-<tr class="memdesc:a8957dd29be2853c9435e291ad11ac152"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a Event_1 event flag to a human-readable string.  <br /></td></tr>
+<tr class="memdesc:a8957dd29be2853c9435e291ad11ac152"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a single Event_1 flag to a human-readable string.  <br /></td></tr>
 <tr class="separator:a8957dd29be2853c9435e291ad11ac152"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bdc2d7733f5b6b7040d68b7601a5f4c" id="r_a0bdc2d7733f5b6b7040d68b7601a5f4c"><td class="memItemLeft" align="right" valign="top">static constexpr std::optional&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#a0bdc2d7733f5b6b7040d68b7601a5f4c">toString</a> (<a class="el" href="struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cf">Event_2</a> event2)</td></tr>
-<tr class="memdesc:a0bdc2d7733f5b6b7040d68b7601a5f4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a Event_2 event flag to a human-readable string.  <br /></td></tr>
+<tr class="memdesc:a0bdc2d7733f5b6b7040d68b7601a5f4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a single Event_2 flag to a human-readable string.  <br /></td></tr>
 <tr class="separator:a0bdc2d7733f5b6b7040d68b7601a5f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afaea87d09e178bb2504d06cffb16d165" id="r_afaea87d09e178bb2504d06cffb16d165"><td class="memItemLeft" align="right" valign="top">static constexpr std::optional&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#afaea87d09e178bb2504d06cffb16d165">toString</a> (<a class="el" href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bc">Event_3</a> event3)</td></tr>
-<tr class="memdesc:afaea87d09e178bb2504d06cffb16d165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a Event_3 event flag to a human-readable string.  <br /></td></tr>
+<tr class="memdesc:afaea87d09e178bb2504d06cffb16d165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a single Event_3 flag to a human-readable string.  <br /></td></tr>
 <tr class="separator:afaea87d09e178bb2504d06cffb16d165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae98ff55bc8340036c9c916e5ca3495fa" id="r_ae98ff55bc8340036c9c916e5ca3495fa"><td class="memItemLeft" align="right" valign="top">static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_types.html#ae98ff55bc8340036c9c916e5ca3495fa">toString</a> (<a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">RegisterMap</a> map)</td></tr>
 <tr class="memdesc:ae98ff55bc8340036c9c916e5ca3495fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a RegisterMap value to a human-readable string.  <br /></td></tr>
 <tr class="separator:ae98ff55bc8340036c9c916e5ca3495fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Container for project enums and their string conversion helpers. </p>
-<p>This struct holds all related enums and provides static constexpr <code><a class="el" href="struct_fronius_types.html#a29a97cb4acc694719bc02e62c3668b08" title="Get a string representation of a Phase enum.">toString()</a></code> functions to convert enum values to human-readable strings, useful for logging, error messages, and debugging. </p>
+<div class="textblock"><p>Container for shared enumerations and their <code><a class="el" href="struct_fronius_types.html#a29a97cb4acc694719bc02e62c3668b08" title="Get a string representation of a Phase enum.">toString()</a></code> helpers. </p>
+<p>Grouping the enums under a struct gives them a common namespace prefix (<code><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4" title="Represents AC or DC phases.">FroniusTypes::Phase</a></code>, <code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7" title="Types of power output reported by the inverter.">FroniusTypes::Output</a></code>, …) without polluting the global namespace. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a8e5073aa91d91d9443e4101cf2117f01" name="a8e5073aa91d91d9443e4101cf2117f01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e5073aa91d91d9443e4101cf2117f01">&#9670;&#160;</a></span>Event_1</h2>
@@ -335,8 +335,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Vendor-specific inverter fault and event flags. </p>
-<p>This enumeration represents 32-bit bitmask flags for various fault conditions and events reported by a specific inverter vendor. Each enumerator corresponds to a specific hardware or operational fault condition. Multiple flags can be active simultaneously, allowing them to be combined using bitwise operations. </p>
+<p>Vendor-specific inverter fault and event flags (set 1). </p>
+<p>32-bit bitmask. Multiple flags can be active simultaneously and are combined with bitwise OR. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8e5073aa91d91d9443e4101cf2117f01a7dff71a68cd79c7b740627b45ffa508b" name="a8e5073aa91d91d9443e4101cf2117f01a7dff71a68cd79c7b740627b45ffa508b"></a>INSULATION_FAULT&#160;</td><td class="fielddoc"><p>Insulation fault detected on the DC side. </p>
 </td></tr>
@@ -426,9 +426,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Vendor-specific inverter warning and diagnostic flags (Set 2). </p>
-<p>This enumeration defines a 32-bit bitmask of vendor-specific warning and diagnostic conditions. Each bit corresponds to a specific fault or issue that may be reported by the inverter firmware.</p>
-<p>Multiple flags can be combined using bitwise operations to represent concurrent issues. Use helper functions such as <code>hasFlag()</code> or bitwise tests to check individual flags. </p>
+<p>Vendor-specific inverter warning and diagnostic flags (set 2). </p>
+<p>32-bit bitmask. Multiple flags can be active simultaneously. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7cbd6dd6f60e3350fb871a6345ee14cfab2ba3dee9f724c0291ec7e9ae15edfa6" name="a7cbd6dd6f60e3350fb871a6345ee14cfab2ba3dee9f724c0291ec7e9ae15edfa6"></a>NO_SOLARNET_COMM&#160;</td><td class="fielddoc"><p>No communication with SolarNet or datalogger. </p>
 </td></tr>
@@ -518,9 +517,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Vendor-specific inverter diagnostic flags (Set 3). </p>
-<p>This enumeration defines an additional set of vendor-specific fault and diagnostic flags reported by the inverter. Unlike <code>Event_1</code> and <code>Event_2</code>, this set typically represents less common or auxiliary faults.</p>
-<p>Each bit corresponds to an independent fault condition and may be combined as a bitfield. Use bitwise operations to check for specific flags. </p>
+<p>Vendor-specific inverter diagnostic flags (set 3). </p>
+<p>Auxiliary fault flags not covered by <code>Event_1</code> or <code>Event_2</code>. Combine with bitwise OR. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2e057ce4476cb3ac150174bf9585e2bcab31dc7655a11698b2181fefd1014f4e6" name="a2e057ce4476cb3ac150174bf9585e2bcab31dc7655a11698b2181fefd1014f4e6"></a>TIME_FAULT&#160;</td><td class="fielddoc"><p>Real-time clock or system time synchronization fault. </p>
 </td></tr>
@@ -674,7 +672,7 @@ Static Public Member Functions</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df" name="a328049381f2ae6ea9798488587882154a12e0736f366218fd290d7a90ebf213df"></a>SUNSPEC&#160;</td><td class="fielddoc"><p>SunSpec block present at 0x9C40 (inverters, TCP gateway) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8" name="a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8"></a>PROPRIETARY&#160;</td><td class="fielddoc"><p><a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU proprietary map (TS 65A-3 direct RTU) </p>
+<tr><td class="fieldname"><a id="a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8" name="a328049381f2ae6ea9798488587882154a52007af7f158dd25984cfd33425e52c8"></a>PROPRIETARY&#160;</td><td class="fielddoc"><p>Fronius RTU proprietary map (TS 65A-3 direct RTU) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead" name="a328049381f2ae6ea9798488587882154a084f4ca2c0fe703e46514a144b4d6ead"></a>UNAVAILABLE&#160;</td><td class="fielddoc"><p>Device responded but no recognised register map found. </p>
 </td></tr>
@@ -702,8 +700,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Operating state codes of the inverter. </p>
-<p>This enumeration defines the possible runtime states of a <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverter. The values correspond to Modbus status codes reported by the device and represent various operational, standby, and fault conditions. </p>
+<p><a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> operating state codes. </p>
+<p>Values match the Modbus status codes reported by the device. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a82125527cea5b559ef64289e1de34511aa15cea80d926d7282b831d451ba8aee8" name="a82125527cea5b559ef64289e1de34511aa15cea80d926d7282b831d451ba8aee8"></a>POWER_OFF&#160;</td><td class="fielddoc"><p><a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> is turned off and not producing power. </p>
 </td></tr>
@@ -795,15 +793,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert a Event_1 event flag to a human-readable string. </p>
+<p>Convert a single Event_1 flag to a human-readable string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">event1</td><td>The Event_1 flag to convert. </td></tr>
+    <tr><td class="paramname">event1</td><td>A single flag value (not a combined bitmask). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A constant string describing the event, suitable for logging or debugging.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Only a single flag should be passed at a time. Multiple flags should be tested individually using bitwise operations. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The string for the flag, or <code>std::nullopt</code> for unknown values. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Test combined bitmasks one bit at a time before calling. </dd></dl>
 
 </div>
 </div>
@@ -831,15 +829,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert a Event_2 event flag to a human-readable string. </p>
+<p>Convert a single Event_2 flag to a human-readable string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">event2</td><td>The Event_2 event flag to convert. </td></tr>
+    <tr><td class="paramname">event2</td><td>A single flag value (not a combined bitmask). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A string representing the given event flag.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is intended for single flag values only. If multiple flags are combined, test each one individually using bitwise logic before calling this function. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The string for the flag, or <code>std::nullopt</code> for unknown values. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Test combined bitmasks one bit at a time before calling. </dd></dl>
 
 </div>
 </div>
@@ -867,15 +865,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert a Event_3 event flag to a human-readable string. </p>
+<p>Convert a single Event_3 flag to a human-readable string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">event3</td><td>The Event_3 event flag to convert. </td></tr>
+    <tr><td class="paramname">event3</td><td>A single flag value (not a combined bitmask). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A descriptive string corresponding to the given event flag.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is intended for single flag values only. If multiple flags are combined, test each individually before calling this function. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The string for the flag, or <code>std::nullopt</code> for unknown values. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Test combined bitmasks one bit at a time before calling. </dd></dl>
 
 </div>
 </div>
@@ -1043,15 +1041,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert an inverter status code to its string representation. </p>
-<p>This helper function returns a human-readable string for a given <code>InverterStatus</code> value, allowing convenient logging or debugging of inverter operating states.</p>
+<p>Convert an inverter state code to a human-readable description. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>The inverter status code. </td></tr>
+    <tr><td class="paramname">state</td><td>The inverter state. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A constant string corresponding to the provided status </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A descriptive string, or "Invalid inverter operating state" for unknown values. </dd></dl>
 
 </div>
 </div>

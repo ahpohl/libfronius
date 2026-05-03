@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['w_5fsf_0',['W_SF',['../meter__registers_8h.html#ae18211e61ccbd0636094423d2fe8b815',1,'REG']]]
+  ['v_5fsf_0',['V_SF',['../namespace_r_e_g.html#ac226b0c8a749ff502300b7f58b66309e',1,'REG']]],
+  ['va_5fsf_1',['VA_SF',['../namespace_r_e_g.html#a3502ceeeb5bd84b23927b0837b17058a',1,'REG']]],
+  ['var_5fsf_2',['VAR_SF',['../namespace_r_e_g.html#a74d1a01562608ec3b444af18c01c7e14',1,'REG']]]
 ];

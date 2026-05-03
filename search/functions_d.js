@@ -1,20 +1,8 @@
 var searchData=
 [
-  ['setconnectcallback_0',['setConnectCallback',['../class_fronius.html#a296a790e31a80456ee1de52c2ef36c5c',1,'Fronius']]],
-  ['setdisconnectcallback_1',['setDisconnectCallback',['../class_fronius.html#ac4b2baadc5516d9d07f30b2e75d7bbb7',1,'Fronius']]],
-  ['seterrorcallback_2',['setErrorCallback',['../class_fronius.html#a36588f4ae24f16f3ef86c7faa015efc8',1,'Fronius']]],
-  ['sid_3',['SID',['../namespace_c001.html#a1586ab4e0a22d06ae1e81b1abf6d4e5a',1,'C001']]],
-  ['site_5fenergy_5fday_4',['SITE_ENERGY_DAY',['../namespace_f.html#af60bba11ffac92840644745d37aaa652',1,'F']]],
-  ['site_5fenergy_5ftotal_5',['SITE_ENERGY_TOTAL',['../namespace_f.html#a70168be602179a924ce7a9369a9f4e41',1,'F']]],
-  ['site_5fenergy_5fyear_6',['SITE_ENERGY_YEAR',['../namespace_f.html#a7cf0c0eaa1ed74936d9254811402807a',1,'F']]],
-  ['site_5fpower_7',['SITE_POWER',['../namespace_f.html#aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec',1,'F']]],
-  ['sn_8',['sn',['../namespace_c001.html#a986511c0eb8f7dd5c908ae7f969c8175',1,'C001::SN()'],['../meter__registers_8h.html#af599d8433b28a9ef60bded1d029680ef',1,'REG::SN()']]],
-  ['st_9',['st',['../namespace_i10_x.html#a26864a50be390151817e9a6ef6ff62b7',1,'I10X::ST()'],['../namespace_i11_x.html#a13b5a0de367761e4e10a3282013c03dc',1,'I11X::ST()']]],
-  ['stactctl_10',['STACTCTL',['../namespace_i122.html#a33f26aabae23ea78d8d74f2b8de2a487',1,'I122']]],
-  ['storage_5frestrictions_5fview_5fmode_11',['STORAGE_RESTRICTIONS_VIEW_MODE',['../namespace_f.html#a38e3a3fbeac21042bd14a17915d4eae7',1,'F']]],
-  ['storconn_12',['STORCONN',['../namespace_i122.html#ae205fd531e78bbbdd9d949e991585394',1,'I122']]],
-  ['storctl_5fmod_13',['STORCTL_MOD',['../namespace_i124.html#a1e297b8a567d43b8fda3da2b9bd810a0',1,'I124']]],
-  ['store_5fdata_14',['STORE_DATA',['../namespace_f.html#a92255b6816a3aed976d7c52ba088479b',1,'F']]],
-  ['stvnd_15',['stvnd',['../namespace_i10_x.html#adb7086936ae9afab67f37f922f347d81',1,'I10X::STVND()'],['../namespace_i11_x.html#a573150b263ebfb39524260a8edb6d58a',1,'I11X::STVND()']]],
-  ['swapbytes16_16',['swapBytes16',['../namespace_modbus_utils.html#adf290f16ed82ea3738a584e8b5cdedc5',1,'ModbusUtils']]]
+  ['register_0',['register',['../struct_register.html#a9884d3fa0349d25a36ae4f7c4ced9fe6',1,'Register::Register(uint16_t addr, uint16_t nb, Type type)'],['../struct_register.html#a917191e40d81c4b7155b1529bf5ba729',1,'Register::Register()=default']]],
+  ['registerdevice_1',['registerDevice',['../class_fronius_bus.html#a00fc780c16ee7eabb0a18ec8edf8ae92',1,'FroniusBus']]],
+  ['reporterror_2',['reportError',['../class_fronius_device.html#a28d7c6dfe345291fc2e4cd3f08018a82',1,'FroniusDevice']]],
+  ['reset_5fall_5fevent_5fflags_3',['RESET_ALL_EVENT_FLAGS',['../namespace_f.html#a9c2cfa27acd73c8976ceb3ce2b2b417c',1,'F']]],
+  ['rtu_4',['rtu',['../struct_modbus_bus_config.html#a3c69f8453a12ae78edd183a2907c4607',1,'ModbusBusConfig']]]
 ];

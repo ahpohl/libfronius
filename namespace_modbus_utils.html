@@ -127,7 +127,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a559e877cb9556e621237890b939fee42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a 16-bit value to a hexadecimal string.  <br /></td></tr>
 <tr class="separator:a559e877cb9556e621237890b939fee42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeeb08a4372f04601e8b780fc491047ac" id="r_aeeb08a4372f04601e8b780fc491047ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#aeeb08a4372f04601e8b780fc491047ac">getSocketInfo</a> (int socket)</td></tr>
-<tr class="memdesc:aeeb08a4372f04601e8b780fc491047ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the remote peer's IP address and port from a connected socket.  <br /></td></tr>
+<tr class="memdesc:aeeb08a4372f04601e8b780fc491047ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the remote IP and port of a connected socket.  <br /></td></tr>
 <tr class="separator:aeeb08a4372f04601e8b780fc491047ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91e99f0fd32ffdd5b8fddad2f7b6fadf" id="r_a91e99f0fd32ffdd5b8fddad2f7b6fadf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a91e99f0fd32ffdd5b8fddad2f7b6fadf"><td class="memTemplItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf">packToModbus</a> (modbus_mapping_t *dest, <a class="el" href="struct_register.html">Register</a> reg, T value)</td></tr>
@@ -164,19 +164,15 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Retrieves the remote peer's IP address and port from a connected socket. </p>
-<p>Extracts peer connection information from a socket file descriptor, supporting both IPv4 and IPv6 protocols. Protocol-independent and works for both client (master) and server (slave) socket roles.</p>
+<p>Get the remote IP and port of a connected socket. </p>
+<p>Works with IPv4 and IPv6, on either client or server sockets.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">socket</td><td>Connected socket file descriptor (e.g., returned by accept() or after a successful connect()).</td></tr>
+    <tr><td class="paramname">socket</td><td>Connected socket file descriptor. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="struct_fronius_types_1_1_remote_endpoint.html" title="Information about a remote Modbus TCP endpoint.">FroniusTypes::RemoteEndpoint</a> with:<ul>
-<li><code>ip:</code> Remote IP address as a string (dotted-decimal IPv4 or colon-separated IPv6 format).</li>
-<li><code>port:</code> Remote port number as an integer. Returns {"unknown", 0} if the socket is invalid or peer information cannot be retrieved. </li>
-</ul>
-</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>{ip, port}</code> or <code>{"unknown", 0}</code> if peer info is unavailable. </dd></dl>
 
 </div>
 </div>
@@ -445,29 +441,25 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Encode a floating-point value into an integer register plus a SunSpec scale-factor register. </p>
-<p>Scales <code>realValue</code> by 10^<code>decimals</code>, rounds to the nearest integer, and writes the result into the register at <code>reg.ADDR</code>. The corresponding scale factor register at <code>sf.ADDR</code> is written as <code>-decimals</code> (a signed INT16), following the SunSpec convention where the reconstructed value equals <code>register_value</code> × 10^sf.</p>
-<p>Supported register types for <code>reg:</code> INT16, UINT16, UINT32, UINT64.</p>
-<p>Example — storing 230.5 V with 1 decimal place into a UINT16 voltage register and its SF register: </p><div class="fragment"><div class="line"><a class="code hl_function" href="namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf">packToModbus</a>(mapping, <a class="code hl_function" href="namespace_m20_x.html#ac1a69c859c8969994b078c2ccd2c4d03">M20X::PHVPHA</a>, <a class="code hl_function" href="namespace_m20_x.html#a544c7ce2ae07d8ebfbd1ac5b01e0164d">M20X::V_SF</a>, 230.5, 1);</div>
+<p>Scales <code>realValue</code> by <code>10^decimals</code>, rounds to the nearest integer, and writes the result into <code>reg</code>. Writes <code>-decimals</code> (as INT16) into <code>sf</code>, matching the SunSpec convention <code>value = register × 10^sf</code>.</p>
+<p>Supported <code>reg.TYPE</code>: <code>INT16</code>, <code>UINT16</code>, <code>UINT32</code>, <code>UINT64</code>.</p>
+<p>Example — store 230.5 V with 1 decimal place: </p><div class="fragment"><div class="line"><a class="code hl_function" href="namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf">packToModbus</a>(mapping, <a class="code hl_function" href="namespace_m20_x.html#ac1a69c859c8969994b078c2ccd2c4d03">M20X::PHVPHA</a>, <a class="code hl_function" href="namespace_m20_x.html#a544c7ce2ae07d8ebfbd1ac5b01e0164d">M20X::V_SF</a>, 230.5, 1);</div>
 <div class="line"><span class="comment">// tab_registers[PHVPHA.ADDR] = 2305</span></div>
 <div class="line"><span class="comment">// tab_registers[V_SF.ADDR]   = 0xFFFF  (-1 as INT16)</span></div>
 <div class="ttc" id="anamespace_m20_x_html_a544c7ce2ae07d8ebfbd1ac5b01e0164d"><div class="ttname"><a href="namespace_m20_x.html#a544c7ce2ae07d8ebfbd1ac5b01e0164d">M20X::V_SF</a></div><div class="ttdeci">constexpr Register V_SF(40084, 1, Register::Type::INT16)</div><div class="ttdoc">Voltage scale factor.</div></div>
 <div class="ttc" id="anamespace_m20_x_html_ac1a69c859c8969994b078c2ccd2c4d03"><div class="ttname"><a href="namespace_m20_x.html#ac1a69c859c8969994b078c2ccd2c4d03">M20X::PHVPHA</a></div><div class="ttdeci">constexpr Register PHVPHA(40077, 1, Register::Type::INT16)</div><div class="ttdoc">AC voltage phase A to neutral Unit: Volts [V].</div></div>
-<div class="ttc" id="anamespace_modbus_utils_html_a91e99f0fd32ffdd5b8fddad2f7b6fadf"><div class="ttname"><a href="namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf">ModbusUtils::packToModbus</a></div><div class="ttdeci">std::expected&lt; void, ModbusError &gt; packToModbus(modbus_mapping_t *dest, Register reg, T value)</div><div class="ttdoc">Write a typed value into a Modbus register mapping.</div><div class="ttdef"><b>Definition</b> modbus_utils.h:248</div></div>
+<div class="ttc" id="anamespace_modbus_utils_html_a91e99f0fd32ffdd5b8fddad2f7b6fadf"><div class="ttname"><a href="namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf">ModbusUtils::packToModbus</a></div><div class="ttdeci">std::expected&lt; void, ModbusError &gt; packToModbus(modbus_mapping_t *dest, Register reg, T value)</div><div class="ttdoc">Write a typed value into a Modbus register mapping.</div><div class="ttdef"><b>Definition</b> modbus_utils.h:218</div></div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dest</td><td>Target Modbus mapping. Must not be null. </td></tr>
-    <tr><td class="paramname">reg</td><td><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> definition for the scaled integer value. </td></tr>
-    <tr><td class="paramname">sf</td><td><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> definition for the INT16 scale factor. </td></tr>
-    <tr><td class="paramname">realValue</td><td>The physical value to encode (e.g. watts, volts). </td></tr>
-    <tr><td class="paramname">decimals</td><td>Number of decimal places to preserve (i.e. the negated SunSpec scale factor). Must be ≥ 0.</td></tr>
+    <tr><td class="paramname">dest</td><td>Target mapping (must not be null). </td></tr>
+    <tr><td class="paramname">reg</td><td><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> for the scaled integer value. </td></tr>
+    <tr><td class="paramname">sf</td><td><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> for the INT16 scale factor. </td></tr>
+    <tr><td class="paramname">realValue</td><td>Physical value to encode. </td></tr>
+    <tr><td class="paramname">decimals</td><td>Decimal places to preserve (≥ 0).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An empty expected on success, or an unexpected <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a> if:<ul>
-<li><code>dest</code> or its <code>tab_registers</code> pointer is null (<code>EINVAL</code>)</li>
-<li><code>reg.TYPE</code> is unsupported (<code>EINVAL</code>) </li>
-</ul>
-</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Empty on success, or <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> (<code>EINVAL</code>) if <code>dest</code> is null or <code>reg.TYPE</code> is unsupported. </dd></dl>
 
 </div>
 </div>
@@ -506,14 +498,14 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Write a typed value into a Modbus register mapping. </p>
-<p>Encodes <code>value</code> into the register(s) starting at <code>reg.ADDR</code> inside <code>dest</code>, using the encoding implied by <code>reg.TYPE:</code> </p>
+<p>Encodes <code>value</code> into the register(s) starting at <code>reg.ADDR</code> inside <code>dest-&gt;tab_registers</code>, using the encoding implied by <code>reg.TYPE</code>:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4" title="Enumerates the possible types of values stored in Modbus registers.">Register::Type</a>   </th><th class="markdownTableHeadNone">Accepted T   </th><th class="markdownTableHeadNone">Encoding    </th></tr>
+<th class="markdownTableHeadNone">reg.TYPE   </th><th class="markdownTableHeadNone">Accepted T   </th><th class="markdownTableHeadNone">Encoding    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">INT16   </td><td class="markdownTableBodyNone">integral   </td><td class="markdownTableBodyNone">cast to int16_t, stored as 1 register    </td></tr>
+<td class="markdownTableBodyNone">INT16   </td><td class="markdownTableBodyNone">integral   </td><td class="markdownTableBodyNone">cast to <code>int16_t</code>, 1 register    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">UINT16   </td><td class="markdownTableBodyNone">integral   </td><td class="markdownTableBodyNone">stored as 1 register    </td></tr>
+<td class="markdownTableBodyNone">UINT16   </td><td class="markdownTableBodyNone">integral   </td><td class="markdownTableBodyNone">1 register    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">UINT32   </td><td class="markdownTableBodyNone">integral   </td><td class="markdownTableBodyNone">big-endian word order, 2 registers    </td></tr>
 <tr class="markdownTableRowEven">
@@ -521,29 +513,24 @@ template&lt;typename T &gt; </div>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">FLOAT   </td><td class="markdownTableBodyNone">floating-point   </td><td class="markdownTableBodyNone">IEEE 754 ABCD byte order, 2 registers    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">STRING   </td><td class="markdownTableBodyNone">std::string   </td><td class="markdownTableBodyNone">ASCII, high byte first per register, zero-padded to reg.NB registers   </td></tr>
+<td class="markdownTableBodyNone">STRING   </td><td class="markdownTableBodyNone"><code>std::string</code>   </td><td class="markdownTableBodyNone">ASCII, hi-byte first, zero-padded to NB   </td></tr>
 </table>
-<p>The template is intentionally permissive — mismatched combinations (e.g. passing a float for an INT16 register) compile but are no-ops at runtime. Prefer using the correct type for the register's declared type.</p>
+<p>Mismatched type combinations (e.g. a float for an INT16 register) compile but are silent no-ops at runtime — pass the type that matches <code>reg.TYPE</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>Type of the value to encode. Must be integral, floating-point, or <code>std::string</code>, matching the register's declared type. </td></tr>
+    <tr><td class="paramname">T</td><td>Integral, floating-point, or <code>std::string</code>. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dest</td><td>Target Modbus mapping. Must not be null. </td></tr>
-    <tr><td class="paramname">reg</td><td><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> definition specifying the address, width, and type. </td></tr>
+    <tr><td class="paramname">dest</td><td>Target Modbus mapping (must not be null). </td></tr>
+    <tr><td class="paramname">reg</td><td><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> definition. </td></tr>
     <tr><td class="paramname">value</td><td>Value to encode.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An empty expected on success, or an unexpected <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a> if:<ul>
-<li><code>dest</code> or its <code>tab_registers</code> pointer is null (<code>EINVAL</code>)</li>
-<li><code>reg.TYPE</code> is UNKNOWN or unsupported (<code>EINVAL</code>)</li>
-<li>A STRING value exceeds the register's declared capacity (<code>EINVAL</code>) </li>
-</ul>
-</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Empty on success, or <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> (<code>EINVAL</code>) if <code>dest</code> is null, <code>reg.TYPE</code> is unsupported, or a STRING value exceeds <code>reg.NB * 2</code>. </dd></dl>
 
 </div>
 </div>

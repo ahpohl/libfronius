@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('namespacedetail.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 
-<p>Internal implementation helpers — do not use directly.  
+<p>Internal implementation helpers — not part of the public API.  
 <a href="namespacedetail.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -114,8 +114,7 @@ Functions</h2></td></tr>
 <tr class="separator:a8b32eeff9e0cf30cb28cb0c56b03d7a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Internal implementation helpers — do not use directly. </p>
-<p>Contains low-level packing primitives used by the <a class="el" href="namespace_modbus_utils.html" title="Contains helper functions for Modbus register manipulation.">ModbusUtils</a> public API. These functions are not part of the stable interface and may change without notice. </p>
+<div class="textblock"><p>Internal implementation helpers — not part of the public API. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a8b32eeff9e0cf30cb28cb0c56b03d7a3" name="a8b32eeff9e0cf30cb28cb0c56b03d7a3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b32eeff9e0cf30cb28cb0c56b03d7a3">&#9670;&#160;</a></span>packInteger()</h2>
@@ -146,17 +145,16 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Pack an integral value into consecutive 16-bit Modbus registers in big-endian word order. </p>
-<p>Splits <code>value</code> into 16-bit words, byte-swaps each word from native little-endian to big-endian, and writes them into <code>dest</code> in most-significant word-first order, matching the SunSpec / Modbus-over-TCP wire format.</p>
-<p>This is an internal helper. Callers should use <a class="el" href="namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf" title="Write a typed value into a Modbus register mapping.">ModbusUtils::packToModbus</a> instead.</p>
+<p>Splits <code>value</code> into 16-bit words, byte-swaps each word from native little-endian to big-endian, and writes them most-significant-word first — the SunSpec / Modbus-over-TCP wire format.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>Integral type to encode (e.g. <code>uint32_t</code>, <code>uint64_t</code>). Must satisfy <code>std::is_integral_v&lt;T&gt;</code>. </td></tr>
+    <tr><td class="paramname">T</td><td>Integral type (e.g. <code>uint32_t</code>, <code>uint64_t</code>). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dest</td><td>Pointer to the first of <code>sizeof(T)/2</code> consecutive <code>uint16_t</code> registers to write into. Must not be null and must have room for <code>sizeof(T)/2</code> words. </td></tr>
+    <tr><td class="paramname">dest</td><td>Pointer to <code>sizeof(T)/2</code> consecutive registers. </td></tr>
     <tr><td class="paramname">value</td><td>Value to encode. </td></tr>
   </table>
   </dd>

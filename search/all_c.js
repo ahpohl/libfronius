@@ -5,5 +5,7 @@ var searchData=
   ['no_5fbusinit_2',['NO_BUSINIT',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a7e3e356d63f69f823203bc63720a3dc5',1,'FroniusTypes']]],
   ['no_5fcomm_5finv_3',['NO_COMM_INV',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511aabeeff8f72991f1098195ededb7ec775',1,'FroniusTypes']]],
   ['no_5ffeed_5fin_5f24h_4',['NO_FEED_IN_24H',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa1ca4faeac442f2000d23e8d92a57dcd1',1,'FroniusTypes']]],
-  ['no_5fsolarnet_5fcomm_5',['NO_SOLARNET_COMM',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfab2ba3dee9f724c0291ec7e9ae15edfa6',1,'FroniusTypes']]]
+  ['no_5fsolarnet_5fcomm_5',['NO_SOLARNET_COMM',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfab2ba3dee9f724c0291ec7e9ae15edfa6',1,'FroniusTypes']]],
+  ['notifydevicesconnected_6',['notifyDevicesConnected',['../class_fronius_bus.html#ac21f11a2bfb2a77581ce18b216c8a1e5',1,'FroniusBus']]],
+  ['notifydevicesdisconnected_7',['notifyDevicesDisconnected',['../class_fronius_bus.html#af663d7becc371ce0fe5c3b80a40f4051',1,'FroniusBus']]]
 ];

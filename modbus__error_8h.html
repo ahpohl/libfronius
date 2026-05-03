@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('modbus__error_8h.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 
-<p>Defines Modbus error representation and severity classification.  
+<p>Modbus error type with severity classification.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cerrno&gt;</code><br />
 <code>#include &lt;expected&gt;</code><br />
@@ -120,8 +120,8 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines Modbus error representation and severity classification. </p>
-<p>Provides a struct to encapsulate Modbus errors, including the numeric error code, human-readable message, and severity (transient vs. fatal). Factory methods allow creation from system errno or custom error codes, and automatic translation via modbus_strerror() ensures clear diagnostic output. </p>
+<div class="textblock"><p>Modbus error type with severity classification. </p>
+<p><code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> carries a numeric error code (errno or libmodbus code), a formatted context message, and a severity (<code>TRANSIENT</code>, <code>FATAL</code>, or <code>SHUTDOWN</code>). Factory methods build instances from <code>errno</code> or from a caller-supplied code, with <code>std::format</code>-based message templates. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

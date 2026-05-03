@@ -104,13 +104,13 @@ $(document).ready(function(){initNavTree('namespace_m21_x.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 
-<p>Contains floating-point SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> registers for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters.  
+<p>SunSpec meter model — float variant (211–213).  
 <a href="namespace_m21_x.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a41705fcf933d59f8251415da4b89b391" id="r_a41705fcf933d59f8251415da4b89b391"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m21_x.html#a41705fcf933d59f8251415da4b89b391">ID</a> (40069, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a41705fcf933d59f8251415da4b89b391"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec meter model identifier (float).  <br /></td></tr>
+<tr class="memdesc:a41705fcf933d59f8251415da4b89b391"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec meter model identifier (float variant).  <br /></td></tr>
 <tr class="separator:a41705fcf933d59f8251415da4b89b391"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6137f62889d1a1cb0a9b0d6a75904404" id="r_a6137f62889d1a1cb0a9b0d6a75904404"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m21_x.html#a6137f62889d1a1cb0a9b0d6a75904404">L</a> (40070, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
 <tr class="memdesc:a6137f62889d1a1cb0a9b0d6a75904404"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of meter model block.  <br /></td></tr>
@@ -308,8 +308,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 <tr class="separator:abcdd1262140bf564fcbbc7c4ff21fdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Contains floating-point SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> registers for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters. </p>
-<p>All measurements in this namespace are represented as 32-bit IEEE floating-point values. <a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> addresses follow the standard SunSpec float model layout. </p>
+<div class="textblock"><p>SunSpec meter model — float variant (211–213). </p>
+<p>Measurements are 32-bit IEEE floats; no scale factors required. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a41705fcf933d59f8251415da4b89b391" name="a41705fcf933d59f8251415da4b89b391"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a41705fcf933d59f8251415da4b89b391">&#9670;&#160;</a></span>ID()</h2>
@@ -351,13 +351,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 </table>
 </div><div class="memdoc">
 
-<p>SunSpec meter model identifier (float). </p>
-<dl class="section return"><dt>Returns</dt><dd><ul>
-<li>211: Single-phase</li>
-<li>212: Split-phase</li>
-<li>213: Three-phase </li>
-</ul>
-</dd></dl>
+<p>SunSpec meter model identifier (float variant). </p>
+<dl class="section return"><dt>Returns</dt><dd>211 (single-phase), 212 (split-phase), or 213 (three-phase). </dd></dl>
 
 </div>
 </div>

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['v_5fsf_0',['V_SF',['../meter__registers_8h.html#ac226b0c8a749ff502300b7f58b66309e',1,'REG']]],
-  ['va_5fsf_1',['VA_SF',['../meter__registers_8h.html#a3502ceeeb5bd84b23927b0837b17058a',1,'REG']]],
-  ['var_5fsf_2',['VAR_SF',['../meter__registers_8h.html#a74d1a01562608ec3b444af18c01c7e14',1,'REG']]]
+  ['usectimeout_0',['usectimeout',['../struct_fronius_bus_1_1_transaction.html#ac07fa99a730562d5a450075b58309555',1,'FroniusBus::Transaction::usecTimeout'],['../struct_modbus_device_config.html#addece41d263369f886c98bce0726a5ec',1,'ModbusDeviceConfig::usecTimeout']]],
+  ['usefloatregisters_5f_1',['usefloatregisters_',['../class_inverter.html#a4f32f3bab0b498a5ed75d91a61f7a48c',1,'Inverter::useFloatRegisters_'],['../class_meter.html#a8bf8da3d6912f3416b61655f88888a14',1,'Meter::useFloatRegisters_']]]
 ];

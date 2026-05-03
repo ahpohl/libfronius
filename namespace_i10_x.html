@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('namespace_i10_x.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 
-<p>SunSpec <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> (Integer + Scale Factor) Model registers.  
+<p>SunSpec inverter model — integer + scale factor variant.  
 <a href="namespace_i10_x.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -276,12 +276,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 <tr class="separator:a68b2a8d7476bc1a7fba4eb61cea8c573"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>SunSpec <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> (Integer + Scale Factor) Model registers. </p>
-<p>Provides register mappings for SunSpec inverter models 101–103, which encode physical quantities as integers combined with scale-factor registers. These models cover AC/DC electrical data, power and energy values, temperatures, inverter operating state, and event flags. They correspond to:</p><ul>
-<li>101 – Single-phase inverter</li>
-<li>102 – Split-phase inverter</li>
-<li>103 – Three-phase inverter </li>
-</ul>
+<div class="textblock"><p>SunSpec inverter model — integer + scale factor variant. </p>
+<p>Models 101 (single-phase), 102 (split-phase), and 103 (three-phase). Physical quantities are 16-bit integers paired with scale-factor registers (<code>*_SF</code>). </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a21ed20d98293fdef673e7999fd714900" name="a21ed20d98293fdef673e7999fd714900"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a21ed20d98293fdef673e7999fd714900">&#9670;&#160;</a></span>ID()</h2>

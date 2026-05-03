@@ -104,9 +104,9 @@ $(document).ready(function(){initNavTree('modbus__utils_8h.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 
-<p>Utility functions for working with Modbus registers and data.  
+<p>Utility helpers for Modbus register encoding and decoding.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;fronius_types.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="fronius__types_8h_source.html">fronius_types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="modbus__error_8h_source.html">modbus_error.h</a>&quot;</code><br />
 <code>#include &lt;arpa/inet.h&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
@@ -121,7 +121,7 @@ $(document).ready(function(){initNavTree('modbus__utils_8h.html',''); initResiza
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacedetail" id="r_namespacedetail"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetail.html">detail</a></td></tr>
-<tr class="memdesc:namespacedetail"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal implementation helpers — do not use directly. <br /></td></tr>
+<tr class="memdesc:namespacedetail"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal implementation helpers — not part of the public API. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespace_modbus_utils" id="r_namespace_modbus_utils"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html">ModbusUtils</a></td></tr>
 <tr class="memdesc:namespace_modbus_utils"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains helper functions for Modbus register manipulation. <br /></td></tr>
@@ -152,7 +152,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a559e877cb9556e621237890b939fee42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a 16-bit value to a hexadecimal string.  <br /></td></tr>
 <tr class="separator:a559e877cb9556e621237890b939fee42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeeb08a4372f04601e8b780fc491047ac" id="r_aeeb08a4372f04601e8b780fc491047ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#aeeb08a4372f04601e8b780fc491047ac">ModbusUtils::getSocketInfo</a> (int socket)</td></tr>
-<tr class="memdesc:aeeb08a4372f04601e8b780fc491047ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the remote peer's IP address and port from a connected socket.  <br /></td></tr>
+<tr class="memdesc:aeeb08a4372f04601e8b780fc491047ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the remote IP and port of a connected socket.  <br /></td></tr>
 <tr class="separator:aeeb08a4372f04601e8b780fc491047ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91e99f0fd32ffdd5b8fddad2f7b6fadf" id="r_a91e99f0fd32ffdd5b8fddad2f7b6fadf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a91e99f0fd32ffdd5b8fddad2f7b6fadf"><td class="memTemplItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_modbus_utils.html#a91e99f0fd32ffdd5b8fddad2f7b6fadf">ModbusUtils::packToModbus</a> (modbus_mapping_t *dest, <a class="el" href="struct_register.html">Register</a> reg, T value)</td></tr>
@@ -163,9 +163,8 @@ Functions</h2></td></tr>
 <tr class="separator:a444e9dc8daffd180317021eb0560460e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Utility functions for working with Modbus registers and data. </p>
-<p>Provides helper functions to extract integer, floating-point, and string values from Modbus register arrays, handle byte and word swaps, and convert values to hex strings. Also provides packToModbus() for encoding typed values and scaled floating-point values into Modbus register mappings.</p>
-<p>These functions are commonly used with <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> SunSpec Modbus maps. </p>
+<div class="textblock"><p>Utility helpers for Modbus register encoding and decoding. </p>
+<p>Free functions that read 32- and 64-bit integers from register arrays (with optional word/byte swap), produce hex strings, retrieve TCP peer info, and pack typed or scaled-floating-point values into a <code>modbus_mapping_t</code> (server-side write helpers). </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

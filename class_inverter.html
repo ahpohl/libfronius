@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('class_inverter.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 
-<p>Represents a <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Modbus-compatible inverter.  
+<p>Represents a Fronius Modbus-compatible inverter.  
  <a href="class_inverter.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="inverter_8h_source.html">inverter.h</a>&gt;</code></p>
@@ -115,242 +115,297 @@ Inheritance diagram for Inverter:</div>
  <div class="center">
   <img src="class_inverter.png" usemap="#Inverter_map" alt=""/>
   <map id="Inverter_map" name="Inverter_map">
-<area href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices." alt="Fronius" shape="rect" coords="0,0,56,24"/>
+<area href="class_fronius_device.html" title="Abstract base class for all Modbus slave devices on a Fronius bus." alt="FroniusDevice" shape="rect" coords="0,56,283,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8cfc0c7eb7b40e5e9a9c315d7701480c" id="r_a8cfc0c7eb7b40e5e9a9c315d7701480c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a8cfc0c7eb7b40e5e9a9c315d7701480c">Inverter</a> (const <a class="el" href="struct_modbus_config.html">ModbusConfig</a> &amp;cfg)</td></tr>
-<tr class="memdesc:a8cfc0c7eb7b40e5e9a9c315d7701480c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> instance.  <br /></td></tr>
-<tr class="separator:a8cfc0c7eb7b40e5e9a9c315d7701480c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7fb600fbe8b54801ad2342070c84188" id="r_aa7fb600fbe8b54801ad2342070c84188"><td class="memItemLeft" align="right" valign="top"><a id="aa7fb600fbe8b54801ad2342070c84188" name="aa7fb600fbe8b54801ad2342070c84188"></a>
-virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Inverter</b> ()</td></tr>
-<tr class="memdesc:aa7fb600fbe8b54801ad2342070c84188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> instance. <br /></td></tr>
-<tr class="separator:aa7fb600fbe8b54801ad2342070c84188"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7de9eab8e71640b2abf7fc3cdf2b431b" id="r_a7de9eab8e71640b2abf7fc3cdf2b431b"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a7de9eab8e71640b2abf7fc3cdf2b431b">validateDevice</a> ()</td></tr>
-<tr class="memdesc:a7de9eab8e71640b2abf7fc3cdf2b431b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the inverter's register data.  <br /></td></tr>
-<tr class="separator:a7de9eab8e71640b2abf7fc3cdf2b431b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7d65aadecabeff8a4b243c96fbcdec5" id="r_af7d65aadecabeff8a4b243c96fbcdec5"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#af7d65aadecabeff8a4b243c96fbcdec5">fetchInverterRegisters</a> (void)</td></tr>
-<tr class="memdesc:af7d65aadecabeff8a4b243c96fbcdec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch the complete <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> <a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> Map from the device.  <br /></td></tr>
-<tr class="separator:af7d65aadecabeff8a4b243c96fbcdec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e2879ce5cc232b9632022f5596b30b7" id="r_a8e2879ce5cc232b9632022f5596b30b7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a8e2879ce5cc232b9632022f5596b30b7">getUseFloatRegisters</a> (void) const</td></tr>
-<tr class="memdesc:a8e2879ce5cc232b9632022f5596b30b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current register model type.  <br /></td></tr>
-<tr class="separator:a8e2879ce5cc232b9632022f5596b30b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa424c80527e408841490d4b38f590b8f" id="r_aa424c80527e408841490d4b38f590b8f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#aa424c80527e408841490d4b38f590b8f">getPhases</a> (void) const</td></tr>
-<tr class="memdesc:aa424c80527e408841490d4b38f590b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of active phases.  <br /></td></tr>
-<tr class="separator:aa424c80527e408841490d4b38f590b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e22797ab48f144df6963b23e40e0156" id="r_a5e22797ab48f144df6963b23e40e0156"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a5e22797ab48f144df6963b23e40e0156">getInputs</a> (void) const</td></tr>
-<tr class="memdesc:a5e22797ab48f144df6963b23e40e0156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of DC input strings (MPPT inputs).  <br /></td></tr>
-<tr class="separator:a5e22797ab48f144df6963b23e40e0156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dcc55bd4a9884f45ec65b72d96101be" id="r_a7dcc55bd4a9884f45ec65b72d96101be"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a7dcc55bd4a9884f45ec65b72d96101be">isHybrid</a> (void) const</td></tr>
-<tr class="memdesc:a7dcc55bd4a9884f45ec65b72d96101be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the inverter is a hybrid system.  <br /></td></tr>
-<tr class="separator:a7dcc55bd4a9884f45ec65b72d96101be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84100e283ee6db25bf208e3fdec32a4a" id="r_a84100e283ee6db25bf208e3fdec32a4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a84100e283ee6db25bf208e3fdec32a4a">getId</a> (void) const</td></tr>
-<tr class="memdesc:a84100e283ee6db25bf208e3fdec32a4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the inverter's device ID.  <br /></td></tr>
-<tr class="separator:a84100e283ee6db25bf208e3fdec32a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a308493a1a9939b93fce97f1632cbde2a" id="r_a308493a1a9939b93fce97f1632cbde2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a308493a1a9939b93fce97f1632cbde2a">Inverter</a> (std::shared_ptr&lt; <a class="el" href="class_fronius_bus.html">FroniusBus</a> &gt; bus, const <a class="el" href="struct_modbus_device_config.html">ModbusDeviceConfig</a> &amp;cfg)</td></tr>
+<tr class="memdesc:a308493a1a9939b93fce97f1632cbde2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> and register it with the given bus.  <br /></td></tr>
+<tr class="separator:a308493a1a9939b93fce97f1632cbde2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ba488b247dd6bc7d2071b6c53d448d4" id="r_a5ba488b247dd6bc7d2071b6c53d448d4"><td class="memItemLeft" align="right" valign="top"><a id="a5ba488b247dd6bc7d2071b6c53d448d4" name="a5ba488b247dd6bc7d2071b6c53d448d4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~Inverter</b> () override=default</td></tr>
+<tr class="memdesc:a5ba488b247dd6bc7d2071b6c53d448d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="separator:a5ba488b247dd6bc7d2071b6c53d448d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60ef605eb58d502cbc67564592c3f791" id="r_a60ef605eb58d502cbc67564592c3f791"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a60ef605eb58d502cbc67564592c3f791">onBusConnected</a> () override</td></tr>
+<tr class="memdesc:a60ef605eb58d502cbc67564592c3f791"><td class="mdescLeft">&#160;</td><td class="mdescRight">Probe and validate the inverter when the bus comes up.  <br /></td></tr>
+<tr class="separator:a60ef605eb58d502cbc67564592c3f791"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a223965b76d7907a4d3cfe2246724ff25" id="r_a223965b76d7907a4d3cfe2246724ff25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a223965b76d7907a4d3cfe2246724ff25">onBusDisconnected</a> () override</td></tr>
+<tr class="memdesc:a223965b76d7907a4d3cfe2246724ff25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset all detected state and mark the device unavailable.  <br /></td></tr>
+<tr class="separator:a223965b76d7907a4d3cfe2246724ff25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01d23e6f384207f84dd11dc78d929796" id="r_a01d23e6f384207f84dd11dc78d929796"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a01d23e6f384207f84dd11dc78d929796">fetchInverterRegisters</a> ()</td></tr>
+<tr class="memdesc:a01d23e6f384207f84dd11dc78d929796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch the complete inverter register map from the device.  <br /></td></tr>
+<tr class="separator:a01d23e6f384207f84dd11dc78d929796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93b9fd7f8741960decea3a99543c31aa" id="r_a93b9fd7f8741960decea3a99543c31aa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a93b9fd7f8741960decea3a99543c31aa">getUseFloatRegisters</a> () const</td></tr>
+<tr class="memdesc:a93b9fd7f8741960decea3a99543c31aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the inverter uses float-based register encoding.  <br /></td></tr>
+<tr class="separator:a93b9fd7f8741960decea3a99543c31aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac616ea26756f2fab4c04d0c7f46e954e" id="r_ac616ea26756f2fab4c04d0c7f46e954e"><td class="memItemLeft" align="right" valign="top"><a id="ac616ea26756f2fab4c04d0c7f46e954e" name="ac616ea26756f2fab4c04d0c7f46e954e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>getPhases</b> () const</td></tr>
+<tr class="memdesc:ac616ea26756f2fab4c04d0c7f46e954e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of active AC phases (derived from model ID). <br /></td></tr>
+<tr class="separator:ac616ea26756f2fab4c04d0c7f46e954e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b7bf0c55a4ae29444f9344868c9c821" id="r_a5b7bf0c55a4ae29444f9344868c9c821"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a5b7bf0c55a4ae29444f9344868c9c821">getInputs</a> () const</td></tr>
+<tr class="memdesc:a5b7bf0c55a4ae29444f9344868c9c821"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of DC input strings (MPPT inputs).  <br /></td></tr>
+<tr class="separator:a5b7bf0c55a4ae29444f9344868c9c821"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9438db197239c6c499ff071968a322b" id="r_af9438db197239c6c499ff071968a322b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#af9438db197239c6c499ff071968a322b">isHybrid</a> () const</td></tr>
+<tr class="memdesc:af9438db197239c6c499ff071968a322b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the inverter has hybrid storage capability.  <br /></td></tr>
+<tr class="separator:af9438db197239c6c499ff071968a322b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8669de785e7cdb2d83d27d2bd142d4aa" id="r_a8669de785e7cdb2d83d27d2bd142d4aa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a8669de785e7cdb2d83d27d2bd142d4aa">getId</a> () const</td></tr>
+<tr class="memdesc:a8669de785e7cdb2d83d27d2bd142d4aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the detected inverter model ID (e.g. 101, 113).  <br /></td></tr>
+<tr class="separator:a8669de785e7cdb2d83d27d2bd142d4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8da32cad600a016e82e6718ced48c6d4" id="r_a8da32cad600a016e82e6718ced48c6d4"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a8da32cad600a016e82e6718ced48c6d4">getAcPowerRating</a> (<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a> output) const</td></tr>
-<tr class="memdesc:a8da32cad600a016e82e6718ced48c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the AC power rating for the specified output type.  <br /></td></tr>
+<tr class="memdesc:a8da32cad600a016e82e6718ced48c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the AC power rating for the specified output type.  <br /></td></tr>
 <tr class="separator:a8da32cad600a016e82e6718ced48c6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a015eb48b2e24ab1aaaaba6846a9abb84" id="r_a015eb48b2e24ab1aaaaba6846a9abb84"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a015eb48b2e24ab1aaaaba6846a9abb84">getAcCurrent</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
-<tr class="memdesc:a015eb48b2e24ab1aaaaba6846a9abb84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC current in amperes.  <br /></td></tr>
-<tr class="separator:a015eb48b2e24ab1aaaaba6846a9abb84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e82d2be55f92a32a02d4eeff1110b05" id="r_a4e82d2be55f92a32a02d4eeff1110b05"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a4e82d2be55f92a32a02d4eeff1110b05">getAcVoltage</a> (const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a7fc56270e7a70fa81a5935b72eacbe29">FroniusTypes::Phase::A</a>) const</td></tr>
-<tr class="memdesc:a4e82d2be55f92a32a02d4eeff1110b05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC voltage in volts.  <br /></td></tr>
-<tr class="separator:a4e82d2be55f92a32a02d4eeff1110b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a042bc2bb8c6dea33a77b40f4f1e51d78" id="r_a042bc2bb8c6dea33a77b40f4f1e51d78"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a042bc2bb8c6dea33a77b40f4f1e51d78">getAcCurrent</a> (<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a>) const</td></tr>
+<tr class="memdesc:a042bc2bb8c6dea33a77b40f4f1e51d78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC current in amperes.  <br /></td></tr>
+<tr class="separator:a042bc2bb8c6dea33a77b40f4f1e51d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb861ee07db029b80ccb0ce464985137" id="r_afb861ee07db029b80ccb0ce464985137"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#afb861ee07db029b80ccb0ce464985137">getAcVoltage</a> (<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a> ph=<a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a7fc56270e7a70fa81a5935b72eacbe29">FroniusTypes::Phase::A</a>) const</td></tr>
+<tr class="memdesc:afb861ee07db029b80ccb0ce464985137"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC voltage in volts.  <br /></td></tr>
+<tr class="separator:afb861ee07db029b80ccb0ce464985137"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af35cc8642f1fb0e9294c8cf8e563d8e6" id="r_af35cc8642f1fb0e9294c8cf8e563d8e6"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#af35cc8642f1fb0e9294c8cf8e563d8e6">getAcPower</a> (<a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a> output) const</td></tr>
-<tr class="memdesc:af35cc8642f1fb0e9294c8cf8e563d8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the AC power value from the inverter.  <br /></td></tr>
+<tr class="memdesc:af35cc8642f1fb0e9294c8cf8e563d8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an AC power value by output type.  <br /></td></tr>
 <tr class="separator:af35cc8642f1fb0e9294c8cf8e563d8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90ef50f108f8cc748ed0fd8db1abb6d0" id="r_a90ef50f108f8cc748ed0fd8db1abb6d0"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a90ef50f108f8cc748ed0fd8db1abb6d0">getAcFrequency</a> (void) const</td></tr>
-<tr class="memdesc:a90ef50f108f8cc748ed0fd8db1abb6d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC frequency in hertz.  <br /></td></tr>
-<tr class="separator:a90ef50f108f8cc748ed0fd8db1abb6d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2ff86c22b9597b8e20c8cce926e8645" id="r_ac2ff86c22b9597b8e20c8cce926e8645"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#ac2ff86c22b9597b8e20c8cce926e8645">getAcEnergy</a> (void) const</td></tr>
-<tr class="memdesc:ac2ff86c22b9597b8e20c8cce926e8645"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total lifetime energy production.  <br /></td></tr>
-<tr class="separator:ac2ff86c22b9597b8e20c8cce926e8645"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace787fc815bf1857e7576671c7327ff4" id="r_ace787fc815bf1857e7576671c7327ff4"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#ace787fc815bf1857e7576671c7327ff4">getDcPower</a> (const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
-<tr class="memdesc:ace787fc815bf1857e7576671c7327ff4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get DC power of a specific input in watts.  <br /></td></tr>
-<tr class="separator:ace787fc815bf1857e7576671c7327ff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a633f4c62bbcae26e3b8645a9078800c4" id="r_a633f4c62bbcae26e3b8645a9078800c4"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a633f4c62bbcae26e3b8645a9078800c4">getDcCurrent</a> (const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
-<tr class="memdesc:a633f4c62bbcae26e3b8645a9078800c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get DC current of a specific input in amperes.  <br /></td></tr>
-<tr class="separator:a633f4c62bbcae26e3b8645a9078800c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4352bbaf75c0fd43eb8feeff69c906b7" id="r_a4352bbaf75c0fd43eb8feeff69c906b7"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a4352bbaf75c0fd43eb8feeff69c906b7">getDcVoltage</a> (const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
-<tr class="memdesc:a4352bbaf75c0fd43eb8feeff69c906b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get DC voltage of a specific input in volts.  <br /></td></tr>
-<tr class="separator:a4352bbaf75c0fd43eb8feeff69c906b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d1965340ac1f34a7bf4aa4dfc8bc1d2" id="r_a4d1965340ac1f34a7bf4aa4dfc8bc1d2"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a4d1965340ac1f34a7bf4aa4dfc8bc1d2">getDcEnergy</a> (const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
-<tr class="memdesc:a4d1965340ac1f34a7bf4aa4dfc8bc1d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the DC energy for a specific input string of the inverter.  <br /></td></tr>
-<tr class="separator:a4d1965340ac1f34a7bf4aa4dfc8bc1d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56d096dd1664337b522426ea2bafccbb" id="r_a56d096dd1664337b522426ea2bafccbb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a56d096dd1664337b522426ea2bafccbb">getActiveStateCode</a> (void) const</td></tr>
-<tr class="memdesc:a56d096dd1664337b522426ea2bafccbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the active state code of the inverter.  <br /></td></tr>
-<tr class="separator:a56d096dd1664337b522426ea2bafccbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdc11aa68a57a2fce8886542787c7535" id="r_abdc11aa68a57a2fce8886542787c7535"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#abdc11aa68a57a2fce8886542787c7535">getState</a> (void) const</td></tr>
-<tr class="memdesc:abdc11aa68a57a2fce8886542787c7535"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the current operational state of the inverter.  <br /></td></tr>
-<tr class="separator:abdc11aa68a57a2fce8886542787c7535"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2d1e741cfd7b3addb4927a0731f9a24" id="r_aa2d1e741cfd7b3addb4927a0731f9a24"><td class="memItemLeft" align="right" valign="top"><a id="aa2d1e741cfd7b3addb4927a0731f9a24" name="aa2d1e741cfd7b3addb4927a0731f9a24"></a>
+std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getAcFrequency</b> () const</td></tr>
+<tr class="memdesc:aa2d1e741cfd7b3addb4927a0731f9a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get AC frequency in hertz. <br /></td></tr>
+<tr class="separator:aa2d1e741cfd7b3addb4927a0731f9a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a612577a6971b3654ad5be852965794b2" id="r_a612577a6971b3654ad5be852965794b2"><td class="memItemLeft" align="right" valign="top"><a id="a612577a6971b3654ad5be852965794b2" name="a612577a6971b3654ad5be852965794b2"></a>
+std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getAcEnergy</b> () const</td></tr>
+<tr class="memdesc:a612577a6971b3654ad5be852965794b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total lifetime AC energy production in watt-hours (Wh). <br /></td></tr>
+<tr class="separator:a612577a6971b3654ad5be852965794b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7981164c5ebf6d70871686d8916a26e6" id="r_a7981164c5ebf6d70871686d8916a26e6"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a7981164c5ebf6d70871686d8916a26e6">getDcPower</a> (<a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
+<tr class="memdesc:a7981164c5ebf6d70871686d8916a26e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get DC power for a specific input string in watts.  <br /></td></tr>
+<tr class="separator:a7981164c5ebf6d70871686d8916a26e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad047d27307601b528d2e692c842ac462" id="r_ad047d27307601b528d2e692c842ac462"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#ad047d27307601b528d2e692c842ac462">getDcCurrent</a> (<a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
+<tr class="memdesc:ad047d27307601b528d2e692c842ac462"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get DC current for a specific input string in amperes.  <br /></td></tr>
+<tr class="separator:ad047d27307601b528d2e692c842ac462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f698f6235ea230d47daf7bad257f52" id="r_a28f698f6235ea230d47daf7bad257f52"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a28f698f6235ea230d47daf7bad257f52">getDcVoltage</a> (<a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
+<tr class="memdesc:a28f698f6235ea230d47daf7bad257f52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get DC voltage for a specific input string in volts.  <br /></td></tr>
+<tr class="separator:a28f698f6235ea230d47daf7bad257f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95fd7f67fa56cee2e3dc52207d0b1d6c" id="r_a95fd7f67fa56cee2e3dc52207d0b1d6c"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a95fd7f67fa56cee2e3dc52207d0b1d6c">getDcEnergy</a> (<a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a> input) const</td></tr>
+<tr class="memdesc:a95fd7f67fa56cee2e3dc52207d0b1d6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get cumulative DC energy for a specific input string in watt-hours (Wh).  <br /></td></tr>
+<tr class="separator:a95fd7f67fa56cee2e3dc52207d0b1d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06809076cdc89751128769babb5215fb" id="r_a06809076cdc89751128769babb5215fb"><td class="memItemLeft" align="right" valign="top"><a id="a06809076cdc89751128769babb5215fb" name="a06809076cdc89751128769babb5215fb"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>getActiveStateCode</b> () const</td></tr>
+<tr class="memdesc:a06809076cdc89751128769babb5215fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the raw active state code from the inverter status register. <br /></td></tr>
+<tr class="separator:a06809076cdc89751128769babb5215fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea45bf3063cd53e971f7cacd585325a7" id="r_aea45bf3063cd53e971f7cacd585325a7"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#aea45bf3063cd53e971f7cacd585325a7">getState</a> () const</td></tr>
+<tr class="memdesc:aea45bf3063cd53e971f7cacd585325a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current operational state as a human-readable string.  <br /></td></tr>
+<tr class="separator:aea45bf3063cd53e971f7cacd585325a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d5c6a2d2d9cecece66997e683e6d6f5" id="r_a6d5c6a2d2d9cecece66997e683e6d6f5"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::vector&lt; std::string &gt;, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a6d5c6a2d2d9cecece66997e683e6d6f5">getEvents</a> () const</td></tr>
-<tr class="memdesc:a6d5c6a2d2d9cecece66997e683e6d6f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves all active inverter events as human-readable strings.  <br /></td></tr>
+<tr class="memdesc:a6d5c6a2d2d9cecece66997e683e6d6f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all active inverter events as human-readable strings.  <br /></td></tr>
 <tr class="separator:a6d5c6a2d2d9cecece66997e683e6d6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_fronius"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_fronius')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_fronius.html">Fronius</a></td></tr>
-<tr class="memitem:aabc618a08184fe3382886ae471c51389 inherit pub_methods_class_fronius" id="r_aabc618a08184fe3382886ae471c51389"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aabc618a08184fe3382886ae471c51389">Fronius</a> (const <a class="el" href="struct_modbus_config.html">ModbusConfig</a> &amp;cfg)</td></tr>
-<tr class="memdesc:aabc618a08184fe3382886ae471c51389 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> instance.  <br /></td></tr>
-<tr class="separator:aabc618a08184fe3382886ae471c51389 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac56a053f68d532837fe79950b657d9b2 inherit pub_methods_class_fronius" id="r_ac56a053f68d532837fe79950b657d9b2"><td class="memItemLeft" align="right" valign="top">
-virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Fronius</b> ()</td></tr>
-<tr class="memdesc:ac56a053f68d532837fe79950b657d9b2 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> instance and stop any running connection threads. <br /></td></tr>
-<tr class="separator:ac56a053f68d532837fe79950b657d9b2 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a296a790e31a80456ee1de52c2ef36c5c inherit pub_methods_class_fronius" id="r_a296a790e31a80456ee1de52c2ef36c5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a296a790e31a80456ee1de52c2ef36c5c">setConnectCallback</a> (std::function&lt; void(<a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>)&gt; cb)</td></tr>
-<tr class="memdesc:a296a790e31a80456ee1de52c2ef36c5c inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be invoked when a connection is established.  <br /></td></tr>
-<tr class="separator:a296a790e31a80456ee1de52c2ef36c5c inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3670455f70be612f36c2d068f57483b9 inherit pub_methods_class_fronius" id="r_a3670455f70be612f36c2d068f57483b9"><td class="memItemLeft" align="right" valign="top">
+<tr class="inherit_header pub_methods_class_fronius_device"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_fronius_device')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_fronius_device.html">FroniusDevice</a></td></tr>
+<tr class="memitem:a8f49e65d3ef3522e707c6130cb0b9c66 inherit pub_methods_class_fronius_device" id="r_a8f49e65d3ef3522e707c6130cb0b9c66"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a8f49e65d3ef3522e707c6130cb0b9c66">FroniusDevice</a> (const <a class="el" href="struct_modbus_device_config.html">ModbusDeviceConfig</a> &amp;cfg)</td></tr>
+<tr class="memdesc:a8f49e65d3ef3522e707c6130cb0b9c66 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_fronius_device.html" title="Abstract base class for all Modbus slave devices on a Fronius bus.">FroniusDevice</a> with the given per-device configuration.  <br /></td></tr>
+<tr class="separator:a8f49e65d3ef3522e707c6130cb0b9c66 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9502672a63706a7e44eb772af839081c inherit pub_methods_class_fronius_device" id="r_a9502672a63706a7e44eb772af839081c"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FroniusDevice</b> ()=default</td></tr>
+<tr class="memdesc:a9502672a63706a7e44eb772af839081c inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor. <br /></td></tr>
+<tr class="separator:a9502672a63706a7e44eb772af839081c inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4a05aebb13ed0c76a27586febc06b13 inherit pub_methods_class_fronius_device" id="r_af4a05aebb13ed0c76a27586febc06b13"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>FroniusDevice</b> (const <a class="el" href="class_fronius_device.html">FroniusDevice</a> &amp;)=delete</td></tr>
+<tr class="separator:af4a05aebb13ed0c76a27586febc06b13 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29673038ccb52ac9529562fcfe6dd303 inherit pub_methods_class_fronius_device" id="r_a29673038ccb52ac9529562fcfe6dd303"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="class_fronius_device.html">FroniusDevice</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="class_fronius_device.html">FroniusDevice</a> &amp;)=delete</td></tr>
+<tr class="separator:a29673038ccb52ac9529562fcfe6dd303 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb4569a45f227a92f2a0cbf4ca90176a inherit pub_methods_class_fronius_device" id="r_acb4569a45f227a92f2a0cbf4ca90176a"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>FroniusDevice</b> (<a class="el" href="class_fronius_device.html">FroniusDevice</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:acb4569a45f227a92f2a0cbf4ca90176a inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a731b86ecf600d3554499abb66f9ea68a inherit pub_methods_class_fronius_device" id="r_a731b86ecf600d3554499abb66f9ea68a"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="class_fronius_device.html">FroniusDevice</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="class_fronius_device.html">FroniusDevice</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:a731b86ecf600d3554499abb66f9ea68a inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab5a89a152b5a8fe9e16df8ec02fb3e9 inherit pub_methods_class_fronius_device" id="r_aab5a89a152b5a8fe9e16df8ec02fb3e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#aab5a89a152b5a8fe9e16df8ec02fb3e9">setDeviceReadyCallback</a> (std::function&lt; void(<a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>)&gt; cb)</td></tr>
+<tr class="memdesc:aab5a89a152b5a8fe9e16df8ec02fb3e9 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback invoked when the device has been validated.  <br /></td></tr>
+<tr class="separator:aab5a89a152b5a8fe9e16df8ec02fb3e9 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473a64e0ed134c050259edb6ebc795c6 inherit pub_methods_class_fronius_device" id="r_a473a64e0ed134c050259edb6ebc795c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a473a64e0ed134c050259edb6ebc795c6">setDeviceUnavailableCallback</a> (std::function&lt; void()&gt; cb)</td></tr>
+<tr class="memdesc:a473a64e0ed134c050259edb6ebc795c6 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback invoked when the device becomes unavailable.  <br /></td></tr>
+<tr class="separator:a473a64e0ed134c050259edb6ebc795c6 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa40253e78da50285955d4c6006a5b1d inherit pub_methods_class_fronius_device" id="r_aaa40253e78da50285955d4c6006a5b1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#aaa40253e78da50285955d4c6006a5b1d">setDeviceErrorCallback</a> (std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt; cb)</td></tr>
+<tr class="memdesc:aaa40253e78da50285955d4c6006a5b1d inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to report device-level Modbus errors.  <br /></td></tr>
+<tr class="separator:aaa40253e78da50285955d4c6006a5b1d inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab044292b908639c7d50e1d825ca1747a inherit pub_methods_class_fronius_device" id="r_ab044292b908639c7d50e1d825ca1747a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#ab044292b908639c7d50e1d825ca1747a">setDeviceRetryCallback</a> (std::function&lt; void(int)&gt; cb)</td></tr>
+<tr class="memdesc:ab044292b908639c7d50e1d825ca1747a inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback invoked before each per-device reconnect delay.  <br /></td></tr>
+<tr class="separator:ab044292b908639c7d50e1d825ca1747a inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3382644dc9433a2172e145b79032a2f9 inherit pub_methods_class_fronius_device" id="r_a3382644dc9433a2172e145b79032a2f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a3382644dc9433a2172e145b79032a2f9">fireDeviceRetry</a> (int delay)</td></tr>
+<tr class="memdesc:a3382644dc9433a2172e145b79032a2f9 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fire the retry callback before a per-device reconnect delay.  <br /></td></tr>
+<tr class="separator:a3382644dc9433a2172e145b79032a2f9 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a493d91b7f2a0da85bd7ca6bfc61de91b inherit pub_methods_class_fronius_device" id="r_a493d91b7f2a0da85bd7ca6bfc61de91b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a493d91b7f2a0da85bd7ca6bfc61de91b">isReady</a> () const</td></tr>
+<tr class="memdesc:a493d91b7f2a0da85bd7ca6bfc61de91b inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the device has been successfully validated and is ready to serve data.  <br /></td></tr>
+<tr class="separator:a493d91b7f2a0da85bd7ca6bfc61de91b inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d35ebf764193f5e9ad180c6eb2696e4 inherit pub_methods_class_fronius_device" id="r_a3d35ebf764193f5e9ad180c6eb2696e4"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getRegisterMap</b> () const</td></tr>
-<tr class="memdesc:a3670455f70be612f36c2d068f57483b9 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the register map detected during the last successful connection. <br /></td></tr>
-<tr class="separator:a3670455f70be612f36c2d068f57483b9 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4b2baadc5516d9d07f30b2e75d7bbb7 inherit pub_methods_class_fronius" id="r_ac4b2baadc5516d9d07f30b2e75d7bbb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#ac4b2baadc5516d9d07f30b2e75d7bbb7">setDisconnectCallback</a> (std::function&lt; void(int)&gt; cb)</td></tr>
-<tr class="memdesc:ac4b2baadc5516d9d07f30b2e75d7bbb7 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to be invoked when the connection is lost.  <br /></td></tr>
-<tr class="separator:ac4b2baadc5516d9d07f30b2e75d7bbb7 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36588f4ae24f16f3ef86c7faa015efc8 inherit pub_methods_class_fronius" id="r_a36588f4ae24f16f3ef86c7faa015efc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a36588f4ae24f16f3ef86c7faa015efc8">setErrorCallback</a> (std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt; cb)</td></tr>
-<tr class="memdesc:a36588f4ae24f16f3ef86c7faa015efc8 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback to report Modbus communication errors.  <br /></td></tr>
-<tr class="separator:a36588f4ae24f16f3ef86c7faa015efc8 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff58e486ffbe7b303efe3230f13375cb inherit pub_methods_class_fronius" id="r_aff58e486ffbe7b303efe3230f13375cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aff58e486ffbe7b303efe3230f13375cb">connect</a> (void)</td></tr>
-<tr class="memdesc:aff58e486ffbe7b303efe3230f13375cb inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the asynchronous connection loop in a separate thread.  <br /></td></tr>
-<tr class="separator:aff58e486ffbe7b303efe3230f13375cb inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee3c52900dbad7a415f62481b905956d inherit pub_methods_class_fronius" id="r_aee3c52900dbad7a415f62481b905956d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aee3c52900dbad7a415f62481b905956d">isConnected</a> () const</td></tr>
-<tr class="memdesc:aee3c52900dbad7a415f62481b905956d inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the device is currently connected.  <br /></td></tr>
-<tr class="separator:aee3c52900dbad7a415f62481b905956d inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab26425a518c1917d8353689a96928103 inherit pub_methods_class_fronius" id="r_ab26425a518c1917d8353689a96928103"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#ab26425a518c1917d8353689a96928103">triggerReconnect</a> (void)</td></tr>
-<tr class="memdesc:ab26425a518c1917d8353689a96928103 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the Modbus device as disconnected and triggers a reconnection attempt.  <br /></td></tr>
-<tr class="separator:ab26425a518c1917d8353689a96928103 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac062b6119749a8b53b64601cc23ec5b9 inherit pub_methods_class_fronius" id="r_ac062b6119749a8b53b64601cc23ec5b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types_1_1_remote_endpoint.html">FroniusTypes::RemoteEndpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#ac062b6119749a8b53b64601cc23ec5b9">getRemoteEndpoint</a> (void)</td></tr>
-<tr class="memdesc:ac062b6119749a8b53b64601cc23ec5b9 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the IP address and port of the remote Modbus TCP endpoint.  <br /></td></tr>
-<tr class="separator:ac062b6119749a8b53b64601cc23ec5b9 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa03910dbad885dc87be0b13c6b932262 inherit pub_methods_class_fronius" id="r_aa03910dbad885dc87be0b13c6b932262"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aa03910dbad885dc87be0b13c6b932262">getManufacturer</a> (void)</td></tr>
-<tr class="memdesc:aa03910dbad885dc87be0b13c6b932262 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the manufacturer name from the device.  <br /></td></tr>
-<tr class="separator:aa03910dbad885dc87be0b13c6b932262 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadf20431bee2d2cb4f6defb2eeeb39f9 inherit pub_methods_class_fronius" id="r_aadf20431bee2d2cb4f6defb2eeeb39f9"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aadf20431bee2d2cb4f6defb2eeeb39f9">getDeviceModel</a> (void)</td></tr>
-<tr class="memdesc:aadf20431bee2d2cb4f6defb2eeeb39f9 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the device model name.  <br /></td></tr>
-<tr class="separator:aadf20431bee2d2cb4f6defb2eeeb39f9 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba29f69c3de5ec3f54b22fe204daa218 inherit pub_methods_class_fronius" id="r_aba29f69c3de5ec3f54b22fe204daa218"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#aba29f69c3de5ec3f54b22fe204daa218">getOptions</a> (void)</td></tr>
-<tr class="memdesc:aba29f69c3de5ec3f54b22fe204daa218 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the software version of any installed option (e.g., Datamanager).  <br /></td></tr>
-<tr class="separator:aba29f69c3de5ec3f54b22fe204daa218 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85d695fc4c9b7429fc99f639c5563385 inherit pub_methods_class_fronius" id="r_a85d695fc4c9b7429fc99f639c5563385"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a85d695fc4c9b7429fc99f639c5563385">getFwVersion</a> (void)</td></tr>
-<tr class="memdesc:a85d695fc4c9b7429fc99f639c5563385 inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the main device firmware version.  <br /></td></tr>
-<tr class="separator:a85d695fc4c9b7429fc99f639c5563385 inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7b91bc23e6cf2e35f0915308228f87c inherit pub_methods_class_fronius" id="r_ac7b91bc23e6cf2e35f0915308228f87c"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#ac7b91bc23e6cf2e35f0915308228f87c">getSerialNumber</a> (void)</td></tr>
-<tr class="memdesc:ac7b91bc23e6cf2e35f0915308228f87c inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the serial number of the connected device.  <br /></td></tr>
-<tr class="separator:ac7b91bc23e6cf2e35f0915308228f87c inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc813425e8d61357a82d68e84e6cf27c inherit pub_methods_class_fronius" id="r_adc813425e8d61357a82d68e84e6cf27c"><td class="memItemLeft" align="right" valign="top">std::expected&lt; uint16_t, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#adc813425e8d61357a82d68e84e6cf27c">getModbusDeviceAddress</a> (void)</td></tr>
-<tr class="memdesc:adc813425e8d61357a82d68e84e6cf27c inherit pub_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Modbus slave address reported by the remote device.  <br /></td></tr>
-<tr class="separator:adc813425e8d61357a82d68e84e6cf27c inherit pub_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a3d35ebf764193f5e9ad180c6eb2696e4 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the register map detected during the last successful validation, or <code>RegisterMap::UNAVAILABLE</code> if not yet validated. <br /></td></tr>
+<tr class="separator:a3d35ebf764193f5e9ad180c6eb2696e4 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a7654381b429b77d013bf4a4c601746 inherit pub_methods_class_fronius_device" id="r_a5a7654381b429b77d013bf4a4c601746"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="struct_modbus_device_config.html">ModbusDeviceConfig</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getDeviceConfig</b> () const</td></tr>
+<tr class="memdesc:a5a7654381b429b77d013bf4a4c601746 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the per-device Modbus configuration (slave ID, timeouts). <br /></td></tr>
+<tr class="separator:a5a7654381b429b77d013bf4a4c601746 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a024123098e650a2a70846de0138baf33 inherit pub_methods_class_fronius_device" id="r_a024123098e650a2a70846de0138baf33"><td class="memItemLeft" align="right" valign="top">
+std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getManufacturer</b> (void)</td></tr>
+<tr class="memdesc:a024123098e650a2a70846de0138baf33 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the manufacturer name from the device (typically "Fronius"). <br /></td></tr>
+<tr class="separator:a024123098e650a2a70846de0138baf33 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907612f028042d959cfe9dc297a7b49d inherit pub_methods_class_fronius_device" id="r_a907612f028042d959cfe9dc297a7b49d"><td class="memItemLeft" align="right" valign="top">
+std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getDeviceModel</b> (void)</td></tr>
+<tr class="memdesc:a907612f028042d959cfe9dc297a7b49d inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the device model name (e.g. "IG+150V [3p]"). <br /></td></tr>
+<tr class="separator:a907612f028042d959cfe9dc297a7b49d inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e3b716ac56a92c663f9675fe4b321ef inherit pub_methods_class_fronius_device" id="r_a4e3b716ac56a92c663f9675fe4b321ef"><td class="memItemLeft" align="right" valign="top">
+std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getOptions</b> (void)</td></tr>
+<tr class="memdesc:a4e3b716ac56a92c663f9675fe4b321ef inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the firmware version of any installed option (e.g. Datamanager). <br /></td></tr>
+<tr class="separator:a4e3b716ac56a92c663f9675fe4b321ef inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a629d8a64a4d93186c0c8b4d8bc3886e3 inherit pub_methods_class_fronius_device" id="r_a629d8a64a4d93186c0c8b4d8bc3886e3"><td class="memItemLeft" align="right" valign="top">
+std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getFwVersion</b> (void)</td></tr>
+<tr class="memdesc:a629d8a64a4d93186c0c8b4d8bc3886e3 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the main device firmware version. <br /></td></tr>
+<tr class="separator:a629d8a64a4d93186c0c8b4d8bc3886e3 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa95adfcaf2c36b7e1cf8f7f99ef26b40 inherit pub_methods_class_fronius_device" id="r_aa95adfcaf2c36b7e1cf8f7f99ef26b40"><td class="memItemLeft" align="right" valign="top">
+std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getSerialNumber</b> (void)</td></tr>
+<tr class="memdesc:aa95adfcaf2c36b7e1cf8f7f99ef26b40 inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the serial number of the connected device. <br /></td></tr>
+<tr class="separator:aa95adfcaf2c36b7e1cf8f7f99ef26b40 inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f30c0903dbe5fe4b23a64a862015bdb inherit pub_methods_class_fronius_device" id="r_a6f30c0903dbe5fe4b23a64a862015bdb"><td class="memItemLeft" align="right" valign="top">
+std::expected&lt; uint16_t, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getModbusDeviceAddress</b> (void)</td></tr>
+<tr class="memdesc:a6f30c0903dbe5fe4b23a64a862015bdb inherit pub_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Modbus slave address reported by the device (1-247). <br /></td></tr>
+<tr class="separator:a6f30c0903dbe5fe4b23a64a862015bdb inherit pub_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:ab7206121c1c1fafc933d70659498b866" id="r_ab7206121c1c1fafc933d70659498b866"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#ab7206121c1c1fafc933d70659498b866">detectFloatOrIntRegisters</a> (void)</td></tr>
-<tr class="memdesc:ab7206121c1c1fafc933d70659498b866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect the register map type (float vs. integer) and initialize the inverter.  <br /></td></tr>
-<tr class="separator:ab7206121c1c1fafc933d70659498b866"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc7c124610da8251ae650c4f054832c4" id="r_afc7c124610da8251ae650c4f054832c4"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#afc7c124610da8251ae650c4f054832c4">validateMultiMpptRegisters</a> (void)</td></tr>
-<tr class="memdesc:afc7c124610da8251ae650c4f054832c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate and identify the Multi MPPT (Multiple Maximum Power Point Tracker) register map.  <br /></td></tr>
-<tr class="separator:afc7c124610da8251ae650c4f054832c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16e7ae468f666a2261b1c254082dedcf" id="r_a16e7ae468f666a2261b1c254082dedcf"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a16e7ae468f666a2261b1c254082dedcf">validateStorageRegisters</a> (void)</td></tr>
-<tr class="memdesc:a16e7ae468f666a2261b1c254082dedcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the storage-related Modbus registers on the inverter.  <br /></td></tr>
-<tr class="separator:a16e7ae468f666a2261b1c254082dedcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c41e2d0e5bcd48b80ea68cc092f204a" id="r_a1c41e2d0e5bcd48b80ea68cc092f204a"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a1c41e2d0e5bcd48b80ea68cc092f204a">validateNameplateRegisters</a> (void)</td></tr>
-<tr class="memdesc:a1c41e2d0e5bcd48b80ea68cc092f204a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validates the inverter's nameplate register map.  <br /></td></tr>
-<tr class="separator:a1c41e2d0e5bcd48b80ea68cc092f204a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaef14cfbc839181ad2ee3c7465455495" id="r_aaef14cfbc839181ad2ee3c7465455495"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#aaef14cfbc839181ad2ee3c7465455495">validateConnection</a> () override</td></tr>
-<tr class="memdesc:aaef14cfbc839181ad2ee3c7465455495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identify the inverter's register map after connection.  <br /></td></tr>
-<tr class="separator:aaef14cfbc839181ad2ee3c7465455495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7de9eab8e71640b2abf7fc3cdf2b431b" id="r_a7de9eab8e71640b2abf7fc3cdf2b431b"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a7de9eab8e71640b2abf7fc3cdf2b431b">validateDevice</a> ()</td></tr>
+<tr class="memdesc:a7de9eab8e71640b2abf7fc3cdf2b431b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run all validation steps to identify the inverter.  <br /></td></tr>
+<tr class="separator:a7de9eab8e71640b2abf7fc3cdf2b431b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe536a53c0ed7db3addbff1b6f43b2e3" id="r_abe536a53c0ed7db3addbff1b6f43b2e3"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#abe536a53c0ed7db3addbff1b6f43b2e3">validateCommonRegisters</a> ()</td></tr>
+<tr class="memdesc:abe536a53c0ed7db3addbff1b6f43b2e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the SunSpec common block (<a class="el" href="namespace_c001.html" title="SunSpec Common Model (ID 1) registers.">C001</a>).  <br /></td></tr>
+<tr class="separator:abe536a53c0ed7db3addbff1b6f43b2e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af72f626cbb025f8e09f2945abcd1e0e6" id="r_af72f626cbb025f8e09f2945abcd1e0e6"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#af72f626cbb025f8e09f2945abcd1e0e6">validateInverterRegisters</a> ()</td></tr>
+<tr class="memdesc:af72f626cbb025f8e09f2945abcd1e0e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the inverter model block (I101–103 / I111–113).  <br /></td></tr>
+<tr class="separator:af72f626cbb025f8e09f2945abcd1e0e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e1cc86d8320ff3c698d115ee23144fd" id="r_a3e1cc86d8320ff3c698d115ee23144fd"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a3e1cc86d8320ff3c698d115ee23144fd">validateMultiMpptRegisters</a> ()</td></tr>
+<tr class="memdesc:a3e1cc86d8320ff3c698d115ee23144fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the Multi-MPPT extension block (<a class="el" href="namespace_i160.html" title="SunSpec Multiple MPPT Extension Model (ID 160).">I160</a>).  <br /></td></tr>
+<tr class="separator:a3e1cc86d8320ff3c698d115ee23144fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0caa612cda02bf0a606b18840149b1f5" id="r_a0caa612cda02bf0a606b18840149b1f5"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a0caa612cda02bf0a606b18840149b1f5">validateStorageRegisters</a> ()</td></tr>
+<tr class="memdesc:a0caa612cda02bf0a606b18840149b1f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the basic storage control block (<a class="el" href="namespace_i124.html" title="SunSpec Basic Storage Controls Model (ID 124).">I124</a>).  <br /></td></tr>
+<tr class="separator:a0caa612cda02bf0a606b18840149b1f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacca599b22680649ff9c34afdb6b91a3" id="r_aacca599b22680649ff9c34afdb6b91a3"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#aacca599b22680649ff9c34afdb6b91a3">validateNameplateRegisters</a> ()</td></tr>
+<tr class="memdesc:aacca599b22680649ff9c34afdb6b91a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the nameplate block (<a class="el" href="namespace_i120.html" title="SunSpec Nameplate Model (ID 120).">I120</a>).  <br /></td></tr>
+<tr class="separator:aacca599b22680649ff9c34afdb6b91a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af247953ef2b2e2e83ef0cc31b1d0627b" id="r_af247953ef2b2e2e83ef0cc31b1d0627b"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#af247953ef2b2e2e83ef0cc31b1d0627b">validateEndRegisters</a> ()</td></tr>
+<tr class="memdesc:af247953ef2b2e2e83ef0cc31b1d0627b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the SunSpec end-of-map block.  <br /></td></tr>
+<tr class="separator:af247953ef2b2e2e83ef0cc31b1d0627b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42820b6c8d03901705dc00619a96c029" id="r_a42820b6c8d03901705dc00619a96c029"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_bus_1_1_transaction.html">FroniusBus::Transaction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a42820b6c8d03901705dc00619a96c029">makeTransaction</a> (int startAddr, int count, uint16_t *dest)</td></tr>
+<tr class="memdesc:a42820b6c8d03901705dc00619a96c029"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a Transaction targeting this device's slave ID and timeouts.  <br /></td></tr>
+<tr class="separator:a42820b6c8d03901705dc00619a96c029"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:aff8bead548d0667beb34d2d097ca1b80" id="r_aff8bead548d0667beb34d2d097ca1b80"><td class="memItemLeft" align="right" valign="top"><a id="aff8bead548d0667beb34d2d097ca1b80" name="aff8bead548d0667beb34d2d097ca1b80"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>connectedAndValid_</b> {false}</td></tr>
-<tr class="memdesc:aff8bead548d0667beb34d2d097ca1b80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates whether the inverter connection and register data are valid. <br /></td></tr>
-<tr class="separator:aff8bead548d0667beb34d2d097ca1b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d652b3736a31cb904522068c9921968" id="r_a5d652b3736a31cb904522068c9921968"><td class="memItemLeft" align="right" valign="top"><a id="a5d652b3736a31cb904522068c9921968" name="a5d652b3736a31cb904522068c9921968"></a>
+std::shared_ptr&lt; <a class="el" href="class_fronius_bus.html">FroniusBus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>bus_</b></td></tr>
+<tr class="memdesc:a5d652b3736a31cb904522068c9921968"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared bus this device communicates over. <br /></td></tr>
+<tr class="separator:a5d652b3736a31cb904522068c9921968"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f32f3bab0b498a5ed75d91a61f7a48c" id="r_a4f32f3bab0b498a5ed75d91a61f7a48c"><td class="memItemLeft" align="right" valign="top"><a id="a4f32f3bab0b498a5ed75d91a61f7a48c" name="a4f32f3bab0b498a5ed75d91a61f7a48c"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>useFloatRegisters_</b> {false}</td></tr>
-<tr class="memdesc:a4f32f3bab0b498a5ed75d91a61f7a48c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating if the inverter uses float-based register encoding. <br /></td></tr>
+<tr class="memdesc:a4f32f3bab0b498a5ed75d91a61f7a48c"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the inverter uses float-based (<a class="el" href="namespace_i11_x.html" title="SunSpec inverter model — float variant.">I11X</a>) register encoding. <br /></td></tr>
 <tr class="separator:a4f32f3bab0b498a5ed75d91a61f7a48c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a489656b01ab2c56ec600719f99dcacc2" id="r_a489656b01ab2c56ec600719f99dcacc2"><td class="memItemLeft" align="right" valign="top"><a id="a489656b01ab2c56ec600719f99dcacc2" name="a489656b01ab2c56ec600719f99dcacc2"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>id_</b> {0}</td></tr>
-<tr class="memdesc:a489656b01ab2c56ec600719f99dcacc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detected <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverter ID (e.g., 111, 112, 113, etc.). <br /></td></tr>
+<tr class="memdesc:a489656b01ab2c56ec600719f99dcacc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detected inverter model ID (101-103 integer, 111-113 float, 0 = unknown). <br /></td></tr>
 <tr class="separator:a489656b01ab2c56ec600719f99dcacc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ce2eb0a300ee47fc77a2b7185c5989d" id="r_a8ce2eb0a300ee47fc77a2b7185c5989d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#a8ce2eb0a300ee47fc77a2b7185c5989d">inputs_</a> {0}</td></tr>
-<tr class="memdesc:a8ce2eb0a300ee47fc77a2b7185c5989d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of DC input strings (MPPT inputs) supported by the inverter.  <br /></td></tr>
+<tr class="memitem:a8ce2eb0a300ee47fc77a2b7185c5989d" id="r_a8ce2eb0a300ee47fc77a2b7185c5989d"><td class="memItemLeft" align="right" valign="top"><a id="a8ce2eb0a300ee47fc77a2b7185c5989d" name="a8ce2eb0a300ee47fc77a2b7185c5989d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>inputs_</b> {0}</td></tr>
+<tr class="memdesc:a8ce2eb0a300ee47fc77a2b7185c5989d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of DC input strings (1 or 2). Set by <a class="el" href="class_inverter.html#a3e1cc86d8320ff3c698d115ee23144fd" title="Validate the Multi-MPPT extension block (I160).">validateMultiMpptRegisters()</a>. <br /></td></tr>
 <tr class="separator:a8ce2eb0a300ee47fc77a2b7185c5989d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca1e6d03f505210d02b832244d884322" id="r_aca1e6d03f505210d02b832244d884322"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_inverter.html#aca1e6d03f505210d02b832244d884322">hybrid_</a> {false}</td></tr>
-<tr class="memdesc:aca1e6d03f505210d02b832244d884322"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates whether the inverter has hybrid storage capability.  <br /></td></tr>
+<tr class="memitem:aca1e6d03f505210d02b832244d884322" id="r_aca1e6d03f505210d02b832244d884322"><td class="memItemLeft" align="right" valign="top"><a id="aca1e6d03f505210d02b832244d884322" name="aca1e6d03f505210d02b832244d884322"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hybrid_</b> {false}</td></tr>
+<tr class="memdesc:aca1e6d03f505210d02b832244d884322"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the inverter has hybrid storage registers. <br /></td></tr>
 <tr class="separator:aca1e6d03f505210d02b832244d884322"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_class_fronius"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_fronius')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_fronius.html">Fronius</a></td></tr>
-<tr class="memitem:a6b229007bf3c213ae65dd61d95231cc6 inherit pro_methods_class_fronius" id="r_a6b229007bf3c213ae65dd61d95231cc6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a6b229007bf3c213ae65dd61d95231cc6 inherit pro_methods_class_fronius"><td class="memTemplItemLeft" align="right" valign="top">std::expected&lt; T, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_fronius.html#a6b229007bf3c213ae65dd61d95231cc6">reportError</a> (std::expected&lt; T, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; res) const</td></tr>
-<tr class="memdesc:a6b229007bf3c213ae65dd61d95231cc6 inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report a Modbus error via the registered error callback.  <br /></td></tr>
-<tr class="separator:a6b229007bf3c213ae65dd61d95231cc6 inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b4bc0f95083ec6468a3916e5d6eeb95 inherit pro_methods_class_fronius" id="r_a6b4bc0f95083ec6468a3916e5d6eeb95"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a6b4bc0f95083ec6468a3916e5d6eeb95">getModbusString</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg) const</td></tr>
-<tr class="memdesc:a6b4bc0f95083ec6468a3916e5d6eeb95 inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode a Modbus register range into a printable ASCII string.  <br /></td></tr>
-<tr class="separator:a6b4bc0f95083ec6468a3916e5d6eeb95 inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22c4f80b66e9f017b0829596f8ba191f inherit pro_methods_class_fronius" id="r_a22c4f80b66e9f017b0829596f8ba191f"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a22c4f80b66e9f017b0829596f8ba191f">getModbusDouble</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg, std::optional&lt; <a class="el" href="struct_register.html">Register</a> &gt; sf=std::nullopt) const</td></tr>
-<tr class="memdesc:a22c4f80b66e9f017b0829596f8ba191f inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a scaled double value from Modbus registers.  <br /></td></tr>
-<tr class="separator:a22c4f80b66e9f017b0829596f8ba191f inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af964ecea9f105b16fd07c3eb911be837 inherit pro_methods_class_fronius" id="r_af964ecea9f105b16fd07c3eb911be837"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#af964ecea9f105b16fd07c3eb911be837">getModbusDouble</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg, double sf) const</td></tr>
-<tr class="memdesc:af964ecea9f105b16fd07c3eb911be837 inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a scaled double value using a compile-time scale factor.  <br /></td></tr>
-<tr class="separator:af964ecea9f105b16fd07c3eb911be837 inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17388530ef44a1c8d625897542f5c257 inherit pro_methods_class_fronius" id="r_a17388530ef44a1c8d625897542f5c257"><td class="memItemLeft" align="right" valign="top">std::expected&lt; bool, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a17388530ef44a1c8d625897542f5c257">validateSunSpecRegisters</a> (void)</td></tr>
-<tr class="memdesc:a17388530ef44a1c8d625897542f5c257 inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate that the connected device is SunSpec-compliant.  <br /></td></tr>
-<tr class="separator:a17388530ef44a1c8d625897542f5c257 inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a761b3c0a352503a318f3b3392b61e162 inherit pro_methods_class_fronius" id="r_a761b3c0a352503a318f3b3392b61e162"><td class="memItemLeft" align="right" valign="top">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a761b3c0a352503a318f3b3392b61e162">fetchCommonRegisters</a> (void)</td></tr>
-<tr class="memdesc:a761b3c0a352503a318f3b3392b61e162 inherit pro_methods_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch the complete <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Common <a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> Map from the device.  <br /></td></tr>
-<tr class="separator:a761b3c0a352503a318f3b3392b61e162 inherit pro_methods_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_class_fronius"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_fronius')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_fronius.html">Fronius</a></td></tr>
-<tr class="memitem:a943d81fb0a575e02e98f98440ab2d652 inherit pro_attribs_class_fronius" id="r_a943d81fb0a575e02e98f98440ab2d652"><td class="memItemLeft" align="right" valign="top">
-modbus_t *&#160;</td><td class="memItemRight" valign="bottom"><b>ctx_</b> {nullptr}</td></tr>
-<tr class="memdesc:a943d81fb0a575e02e98f98440ab2d652 inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle for the libmodbus connection context. <br /></td></tr>
-<tr class="separator:a943d81fb0a575e02e98f98440ab2d652 inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a965f0c137a73cadd38c346fb45f4f5c5 inherit pro_attribs_class_fronius" id="r_a965f0c137a73cadd38c346fb45f4f5c5"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="struct_modbus_config.html">ModbusConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cfg_</b></td></tr>
-<tr class="memdesc:a965f0c137a73cadd38c346fb45f4f5c5 inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration object defining Modbus parameters. <br /></td></tr>
-<tr class="separator:a965f0c137a73cadd38c346fb45f4f5c5 inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af81f361049013f9c49b8aee98d7db41e inherit pro_attribs_class_fronius" id="r_af81f361049013f9c49b8aee98d7db41e"><td class="memItemLeft" align="right" valign="top">
-std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>regs_</b></td></tr>
-<tr class="memdesc:af81f361049013f9c49b8aee98d7db41e inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer storing the complete device register map. <br /></td></tr>
-<tr class="separator:af81f361049013f9c49b8aee98d7db41e inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80455b80a62929e31e0b640044329160 inherit pro_attribs_class_fronius" id="r_a80455b80a62929e31e0b640044329160"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius.html#a80455b80a62929e31e0b640044329160">registerMap_</a></td></tr>
-<tr class="memdesc:a80455b80a62929e31e0b640044329160 inherit pro_attribs_class_fronius"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> map type detected during the last successful validateDevice() call. Defaults to UNAVAILABLE until detection has completed.  <br /></td></tr>
-<tr class="separator:a80455b80a62929e31e0b640044329160 inherit pro_attribs_class_fronius"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_class_fronius_device"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_fronius_device')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_fronius_device.html">FroniusDevice</a></td></tr>
+<tr class="memitem:a73172a467fdc2d486c3e77b555c85027 inherit pro_methods_class_fronius_device" id="r_a73172a467fdc2d486c3e77b555c85027"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a73172a467fdc2d486c3e77b555c85027">setReady</a> (<a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a> map)</td></tr>
+<tr class="memdesc:a73172a467fdc2d486c3e77b555c85027 inherit pro_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark the device as ready and fire <code>onDeviceReady_</code>.  <br /></td></tr>
+<tr class="separator:a73172a467fdc2d486c3e77b555c85027 inherit pro_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b66027eef374192d9f522e8321a098f inherit pro_methods_class_fronius_device" id="r_a7b66027eef374192d9f522e8321a098f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a7b66027eef374192d9f522e8321a098f">setUnavailable</a> ()</td></tr>
+<tr class="memdesc:a7b66027eef374192d9f522e8321a098f inherit pro_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark the device as not ready and fire <code>onDeviceUnavailable_</code>.  <br /></td></tr>
+<tr class="separator:a7b66027eef374192d9f522e8321a098f inherit pro_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28d7c6dfe345291fc2e4cd3f08018a82 inherit pro_methods_class_fronius_device" id="r_a28d7c6dfe345291fc2e4cd3f08018a82"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a28d7c6dfe345291fc2e4cd3f08018a82 inherit pro_methods_class_fronius_device"><td class="memTemplItemLeft" align="right" valign="top">std::expected&lt; T, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a28d7c6dfe345291fc2e4cd3f08018a82">reportError</a> (std::expected&lt; T, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; res) const</td></tr>
+<tr class="memdesc:a28d7c6dfe345291fc2e4cd3f08018a82 inherit pro_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report a Modbus error via the registered device error callback.  <br /></td></tr>
+<tr class="separator:a28d7c6dfe345291fc2e4cd3f08018a82 inherit pro_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d94bd918075da695dfefa9f3ee0044d inherit pro_methods_class_fronius_device" id="r_a2d94bd918075da695dfefa9f3ee0044d"><td class="memItemLeft" align="right" valign="top">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a2d94bd918075da695dfefa9f3ee0044d">getModbusString</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg) const</td></tr>
+<tr class="memdesc:a2d94bd918075da695dfefa9f3ee0044d inherit pro_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode a Modbus register range into a printable ASCII string.  <br /></td></tr>
+<tr class="separator:a2d94bd918075da695dfefa9f3ee0044d inherit pro_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b4a5ceb104c66b6c7150eb14bbbf2da inherit pro_methods_class_fronius_device" id="r_a4b4a5ceb104c66b6c7150eb14bbbf2da"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a4b4a5ceb104c66b6c7150eb14bbbf2da">getModbusDouble</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg, std::optional&lt; <a class="el" href="struct_register.html">Register</a> &gt; sf=std::nullopt) const</td></tr>
+<tr class="memdesc:a4b4a5ceb104c66b6c7150eb14bbbf2da inherit pro_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a scaled double value from Modbus registers.  <br /></td></tr>
+<tr class="separator:a4b4a5ceb104c66b6c7150eb14bbbf2da inherit pro_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d9f91fcb5162777a6da8bc2535d3174 inherit pro_methods_class_fronius_device" id="r_a9d9f91fcb5162777a6da8bc2535d3174"><td class="memItemLeft" align="right" valign="top">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a9d9f91fcb5162777a6da8bc2535d3174">getModbusDouble</a> (const std::vector&lt; uint16_t &gt; &amp;regs, const <a class="el" href="struct_register.html">Register</a> &amp;reg, double sf) const</td></tr>
+<tr class="memdesc:a9d9f91fcb5162777a6da8bc2535d3174 inherit pro_methods_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a scaled double from an INT32 register using a compile-time scale factor.  <br /></td></tr>
+<tr class="separator:a9d9f91fcb5162777a6da8bc2535d3174 inherit pro_methods_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_class_fronius_device"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_fronius_device')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_fronius_device.html">FroniusDevice</a></td></tr>
+<tr class="memitem:a246a035376ebce316300d5b91bdeb2a3 inherit pro_attribs_class_fronius_device" id="r_a246a035376ebce316300d5b91bdeb2a3"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="struct_modbus_device_config.html">ModbusDeviceConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cfg_</b></td></tr>
+<tr class="memdesc:a246a035376ebce316300d5b91bdeb2a3 inherit pro_attribs_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device Modbus configuration (slave ID, response timeout). <br /></td></tr>
+<tr class="separator:a246a035376ebce316300d5b91bdeb2a3 inherit pro_attribs_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abddf1c5c5f771086f99a2cc9e217623b inherit pro_attribs_class_fronius_device" id="r_abddf1c5c5f771086f99a2cc9e217623b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#abddf1c5c5f771086f99a2cc9e217623b">regs_</a></td></tr>
+<tr class="memdesc:abddf1c5c5f771086f99a2cc9e217623b inherit pro_attribs_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device register buffer.  <br /></td></tr>
+<tr class="separator:abddf1c5c5f771086f99a2cc9e217623b inherit pro_attribs_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a564d6cd7910c5f3141f1a4312075e27f inherit pro_attribs_class_fronius_device" id="r_a564d6cd7910c5f3141f1a4312075e27f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_device.html#a564d6cd7910c5f3141f1a4312075e27f">registerMap_</a></td></tr>
+<tr class="memdesc:a564d6cd7910c5f3141f1a4312075e27f inherit pro_attribs_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> map type detected during the last successful validation.  <br /></td></tr>
+<tr class="separator:a564d6cd7910c5f3141f1a4312075e27f inherit pro_attribs_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a044228b42012c1a31639970f813658cf inherit pro_attribs_class_fronius_device" id="r_a044228b42012c1a31639970f813658cf"><td class="memItemLeft" align="right" valign="top">
+std::function&lt; void(<a class="el" href="struct_fronius_types.html#a328049381f2ae6ea9798488587882154">FroniusTypes::RegisterMap</a>)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onDeviceReady_</b></td></tr>
+<tr class="memdesc:a044228b42012c1a31639970f813658cf inherit pro_attribs_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired when device validation succeeds. Carries the register map. <br /></td></tr>
+<tr class="separator:a044228b42012c1a31639970f813658cf inherit pro_attribs_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2f448dccf2ac5d191e641f93d43273f inherit pro_attribs_class_fronius_device" id="r_ae2f448dccf2ac5d191e641f93d43273f"><td class="memItemLeft" align="right" valign="top">
+std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onDeviceUnavailable_</b></td></tr>
+<tr class="memdesc:ae2f448dccf2ac5d191e641f93d43273f inherit pro_attribs_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired when the device is unavailable (bus down or validation failed). <br /></td></tr>
+<tr class="separator:ae2f448dccf2ac5d191e641f93d43273f inherit pro_attribs_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1629458d7c556755baa442f21027a18 inherit pro_attribs_class_fronius_device" id="r_aa1629458d7c556755baa442f21027a18"><td class="memItemLeft" align="right" valign="top">
+std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onDeviceError_</b></td></tr>
+<tr class="memdesc:aa1629458d7c556755baa442f21027a18 inherit pro_attribs_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired when a device-level Modbus error occurs. <br /></td></tr>
+<tr class="separator:aa1629458d7c556755baa442f21027a18 inherit pro_attribs_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6233f75d36d4d3249be02bcb9db3616 inherit pro_attribs_class_fronius_device" id="r_aa6233f75d36d4d3249be02bcb9db3616"><td class="memItemLeft" align="right" valign="top">
+std::function&lt; void(int)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onDeviceRetry_</b></td></tr>
+<tr class="memdesc:aa6233f75d36d4d3249be02bcb9db3616 inherit pro_attribs_class_fronius_device"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired before each per-device reconnect delay. <br /></td></tr>
+<tr class="separator:aa6233f75d36d4d3249be02bcb9db3616 inherit pro_attribs_class_fronius_device"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents a <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Modbus-compatible inverter. </p>
-<p>The <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> class extends the <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Modbus base class to handle Fronius-specific inverter register layouts. It supports automatic detection of float- and integer-based register maps, validation of inverter data, and retrieval of key electrical measurements such as current, voltage, power, frequency, and energy.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> </dd></dl>
+<div class="textblock"><p>Represents a Fronius Modbus-compatible inverter. </p>
+<p><code><a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a></code> communicates over a shared <code><a class="el" href="class_fronius_bus.html" title="Owns and manages one shared Modbus bus (RTU or TCP).">FroniusBus</a></code> and supports automatic detection of float- and integer-based SunSpec register maps. Validation identifies the inverter model, the number of MPPT inputs, hybrid storage capability, and the nameplate block.</p>
+<p>Typical construction: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> bus      = std::make_shared&lt;FroniusBus&gt;(busConfig);</div>
+<div class="line"><span class="keyword">auto</span> inverter = std::make_shared&lt;Inverter&gt;(bus, deviceConfig);</div>
+<div class="line">inverter-&gt;setDeviceReadyCallback([](<span class="keyword">auto</span> map){ ... });</div>
+<div class="line">bus-&gt;connect();</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Must always be heap-allocated via <code>std::shared_ptr</code>. The constructor registers the instance with the bus via <code>weak_from_this()</code>. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8cfc0c7eb7b40e5e9a9c315d7701480c" name="a8cfc0c7eb7b40e5e9a9c315d7701480c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cfc0c7eb7b40e5e9a9c315d7701480c">&#9670;&#160;</a></span>Inverter()</h2>
+<a id="a308493a1a9939b93fce97f1632cbde2a" name="a308493a1a9939b93fce97f1632cbde2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a308493a1a9939b93fce97f1632cbde2a">&#9670;&#160;</a></span>Inverter()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Inverter::Inverter </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_modbus_config.html">ModbusConfig</a> &amp;&#160;</td>
-          <td class="paramname"><em>cfg</em></td><td>)</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_fronius_bus.html">FroniusBus</a> &gt;&#160;</td>
+          <td class="paramname"><em>bus</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="struct_modbus_device_config.html">ModbusDeviceConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Construct a new <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> instance. </p>
+<p>Construct an <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> and register it with the given bus. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cfg</td><td>Modbus configuration parameters. </td></tr>
+    <tr><td class="paramname">bus</td><td>Shared bus this inverter communicates over. </td></tr>
+    <tr><td class="paramname">cfg</td><td>Per-device configuration (slave ID, response timeout). </td></tr>
   </table>
   </dd>
 </dl>
@@ -358,52 +413,8 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab7206121c1c1fafc933d70659498b866" name="ab7206121c1c1fafc933d70659498b866"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7206121c1c1fafc933d70659498b866">&#9670;&#160;</a></span>detectFloatOrIntRegisters()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::detectFloatOrIntRegisters </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Detect the register map type (float vs. integer) and initialize the inverter. </p>
-<p>Must be called after establishing a connection. Determines the register model based on the inverter ID:</p><ul>
-<li><b>Float model:</b><ul>
-<li>111: single-phase</li>
-<li>112: split-phase</li>
-<li>113: three-phase</li>
-</ul>
-</li>
-<li><b>Integer model:</b><ul>
-<li>101: single-phase</li>
-<li>102: split-phase</li>
-<li>103: three-phase</li>
-</ul>
-</li>
-</ul>
-<dl class="section return"><dt>Returns</dt><dd><code>std::expected&lt;void, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;</code> indicating success or failure. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Automatically sets <code>useFloatRegisters_</code> and <code>id_</code> based on the device response. </dd></dl>
-
-</div>
-</div>
-<a id="af7d65aadecabeff8a4b243c96fbcdec5" name="af7d65aadecabeff8a4b243c96fbcdec5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7d65aadecabeff8a4b243c96fbcdec5">&#9670;&#160;</a></span>fetchInverterRegisters()</h2>
+<a id="a01d23e6f384207f84dd11dc78d929796" name="a01d23e6f384207f84dd11dc78d929796"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01d23e6f384207f84dd11dc78d929796">&#9670;&#160;</a></span>fetchInverterRegisters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -411,21 +422,19 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::fetchInverterRegisters </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Fetch the complete <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> <a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a> <a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> Map from the device. </p>
-<p>Reads all registers relevant to the inverter, including voltage, current, power, frequency, and energy values.</p>
-<dl class="section return"><dt>Returns</dt><dd><code>std::expected&lt;void, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;</code> indicating success or failure. </dd></dl>
+<p>Fetch the complete inverter register map from the device. </p>
+<p>Submits the necessary register-read transactions and blocks until they complete. After a successful call, all <code>getXxx()</code> accessors reflect fresh values. </p>
 
 </div>
 </div>
-<a id="a015eb48b2e24ab1aaaaba6846a9abb84" name="a015eb48b2e24ab1aaaaba6846a9abb84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a015eb48b2e24ab1aaaaba6846a9abb84">&#9670;&#160;</a></span>getAcCurrent()</h2>
+<a id="a042bc2bb8c6dea33a77b40f4f1e51d78" name="a042bc2bb8c6dea33a77b40f4f1e51d78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a042bc2bb8c6dea33a77b40f4f1e51d78">&#9670;&#160;</a></span>getAcCurrent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -433,7 +442,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcCurrent </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a>&#160;</td>
           <td class="paramname"><em>ph</em> = <code><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a3af22b59f4641bc5501998297f9ac70d">FroniusTypes::Phase::TOTAL</a></code></td><td>)</td>
           <td> const</td>
         </tr>
@@ -447,49 +456,6 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Current value in amperes (A). </dd></dl>
-
-</div>
-</div>
-<a id="ac2ff86c22b9597b8e20c8cce926e8645" name="ac2ff86c22b9597b8e20c8cce926e8645"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2ff86c22b9597b8e20c8cce926e8645">&#9670;&#160;</a></span>getAcEnergy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcEnergy </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get total lifetime energy production. </p>
-<dl class="section return"><dt>Returns</dt><dd>Exported energy in watt-hours (Wh). </dd></dl>
-
-</div>
-</div>
-<a id="a90ef50f108f8cc748ed0fd8db1abb6d0" name="a90ef50f108f8cc748ed0fd8db1abb6d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90ef50f108f8cc748ed0fd8db1abb6d0">&#9670;&#160;</a></span>getAcFrequency()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcFrequency </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get AC frequency in hertz. </p>
-<dl class="section return"><dt>Returns</dt><dd>Frequency value in hertz (Hz). </dd></dl>
 
 </div>
 </div>
@@ -509,27 +475,13 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
       </table>
 </div><div class="memdoc">
 
-<p>Retrieve the AC power value from the inverter. </p>
-<p>This function reads the AC power of the inverter for a specified output type. It supports both floating-point and scaled integer Modbus registers depending on the <code>useFloatRegisters_</code> flag.</p>
+<p>Get an AC power value by output type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">output</td><td>The type of AC power to retrieve. Possible values are:<ul>
-<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a18ff74f43da410c5529f7d6fca84f115" title="Active (real) power in watts (W)">FroniusTypes::Output::ACTIVE</a></code> – Active power (W)</li>
-<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7a7270a8c3299d1e0dd046b38b95a51773" title="Apparent power in volt-amperes (VA)">FroniusTypes::Output::APPARENT</a></code> – Apparent power (VA)</li>
-<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aedb093b511ddda91e008aacf5db8fd48" title="Reactive power in vars (VAr)">FroniusTypes::Output::REACTIVE</a></code> – Reactive power (VAR)</li>
-<li><code><a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7aec66d48bdd7a5171d7eb5d60840db165" title="Power factor in (%)">FroniusTypes::Output::FACTOR</a></code> – Power factor (unitless, 0..1)</li>
-</ul>
-</td></tr>
+    <tr><td class="paramname">output</td><td><code>ACTIVE</code> (W), <code>APPARENT</code> (VA), <code>REACTIVE</code> (VAr), or <code>FACTOR</code> (dimensionless). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::expected&lt;double, ModbusError&gt;<ul>
-<li>On success: The AC power value corresponding to the requested output type.</li>
-<li>On failure: A <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> describing why the value could not be read, e.g., invalid output type or communication error.</li>
-</ul>
-</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If <code>useFloatRegisters_</code> is true, the function reads floating-point Modbus registers (<a class="el" href="namespace_i11_x.html" title="SunSpec Inverter (Float) Model registers.">I11X</a>). Otherwise, it reads scaled integer registers (<a class="el" href="namespace_i10_x.html" title="SunSpec Inverter (Integer + Scale Factor) Model registers.">I10X</a>) and applies the corresponding scale factor.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Passing an invalid <code>output</code> value will result in a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code>. </dd></dl>
 
 </div>
 </div>
@@ -549,47 +501,13 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
       </table>
 </div><div class="memdoc">
 
-<p>Returns the AC power rating for the specified output type. </p>
-<p>Reads and scales the corresponding Modbus registers from the inverter’s nameplate register map to compute the requested power value. The function supports both integer and float-based register mappings.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">output</td><td>The AC power output type to read (see <a class="el" href="struct_fronius_types.html#aa00ef3ece9924874f05a61f843a208a7">FroniusTypes::Output</a>).</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::expected&lt;double, ModbusError&gt;<ul>
-<li>The measured AC power value on success.</li>
-<li>A <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> if register access or scaling fails. </li>
-</ul>
-</dd></dl>
+<p>Get the AC power rating for the specified output type. </p>
+<p>Reads from the nameplate register block (<a class="el" href="namespace_i120.html" title="SunSpec Nameplate Model (ID 120).">I120</a>). Supports <code>ACTIVE</code>, <code>APPARENT</code>, <code>Q1_REACTIVE</code>, and <code>Q4_REACTIVE</code>. </p>
 
 </div>
 </div>
-<a id="a56d096dd1664337b522426ea2bafccbb" name="a56d096dd1664337b522426ea2bafccbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56d096dd1664337b522426ea2bafccbb">&#9670;&#160;</a></span>getActiveStateCode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Inverter::getActiveStateCode </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Reads the active state code of the inverter. </p>
-<p>This function returns the current active state code from the inverter's Modbus registers. The active state code represents the inverter's operational state, such as running, standby, or fault conditions. The raw register value is cast to an <code>int</code> for convenience.</p>
-<dl class="section return"><dt>Returns</dt><dd>Contains the active state code if the register</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The returned integer corresponds directly to the inverter's internal state codes. Users should refer to the <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverter documentation for the mapping of codes to human-readable states. </dd></dl>
-
-</div>
-</div>
-<a id="a4e82d2be55f92a32a02d4eeff1110b05" name="a4e82d2be55f92a32a02d4eeff1110b05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e82d2be55f92a32a02d4eeff1110b05">&#9670;&#160;</a></span>getAcVoltage()</h2>
+<a id="afb861ee07db029b80ccb0ce464985137" name="afb861ee07db029b80ccb0ce464985137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb861ee07db029b80ccb0ce464985137">&#9670;&#160;</a></span>getAcVoltage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -597,7 +515,7 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getAcVoltage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4">FroniusTypes::Phase</a>&#160;</td>
           <td class="paramname"><em>ph</em> = <code><a class="el" href="struct_fronius_types.html#a62058489a09a820de5c9e68c7c6db9d4a7fc56270e7a70fa81a5935b72eacbe29">FroniusTypes::Phase::A</a></code></td><td>)</td>
           <td> const</td>
         </tr>
@@ -607,16 +525,15 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <p>Get AC voltage in volts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ph</td><td>Phase to read (<code>A</code>, <code>B</code>, or <code>C</code>). </td></tr>
+    <tr><td class="paramname">ph</td><td>Phase to read (<code>A</code>, <code>B</code>, <code>C</code>, <code>AB</code>, <code>BC</code>, or <code>CA</code>). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Voltage value in volts (V). </dd></dl>
 
 </div>
 </div>
-<a id="a633f4c62bbcae26e3b8645a9078800c4" name="a633f4c62bbcae26e3b8645a9078800c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a633f4c62bbcae26e3b8645a9078800c4">&#9670;&#160;</a></span>getDcCurrent()</h2>
+<a id="ad047d27307601b528d2e692c842ac462" name="ad047d27307601b528d2e692c842ac462"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad047d27307601b528d2e692c842ac462">&#9670;&#160;</a></span>getDcCurrent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -624,31 +541,25 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getDcCurrent </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
           <td class="paramname"><em>input</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get DC current of a specific input in amperes. </p>
+<p>Get DC current for a specific input string in amperes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>The input for which to retrieve DC current. Valid options are:<ul>
-<li>TOTAL : total DC current of all inputs</li>
-<li>A : DC current of input string A</li>
-<li>B : DC current of input string B </li>
-</ul>
-</td></tr>
+    <tr><td class="paramname">input</td><td><code>TOTAL</code>, <code>A</code>, or <code>B</code>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Current value in amperes (A). </dd></dl>
 
 </div>
 </div>
-<a id="a4d1965340ac1f34a7bf4aa4dfc8bc1d2" name="a4d1965340ac1f34a7bf4aa4dfc8bc1d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d1965340ac1f34a7bf4aa4dfc8bc1d2">&#9670;&#160;</a></span>getDcEnergy()</h2>
+<a id="a95fd7f67fa56cee2e3dc52207d0b1d6c" name="a95fd7f67fa56cee2e3dc52207d0b1d6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95fd7f67fa56cee2e3dc52207d0b1d6c">&#9670;&#160;</a></span>getDcEnergy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -656,36 +567,25 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getDcEnergy </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
           <td class="paramname"><em>input</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get the DC energy for a specific input string of the inverter. </p>
-<p>This function reads the cumulative DC energy (in watt-hours) from the inverter for the selected input string (A or B). The function handles both float-based and scaled integer Modbus registers, depending on the <code>useFloatRegisters_</code> flag.</p>
+<p>Get cumulative DC energy for a specific input string in watt-hours (Wh). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>The input string for which to read DC energy. Valid values are:<ul>
-<li><code><a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0ba7fc56270e7a70fa81a5935b72eacbe29">FroniusTypes::Input::A</a></code></li>
-<li><code><a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0ba9d5ed678fe57bcca610140957afab571">FroniusTypes::Input::B</a></code></li>
-</ul>
-</td></tr>
+    <tr><td class="paramname">input</td><td><code>A</code> or <code>B</code> only — <code>TOTAL</code> is not supported. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::expected&lt;double, ModbusError&gt;<ul>
-<li>On success: the DC energy in watt-hours (Wh) as a <code>double</code>.</li>
-<li>On failure: a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> indicating the cause of the failure, for example if an invalid input is provided or a Modbus read fails.</li>
-</ul>
-</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If an invalid input is provided, the function returns a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> with code <code>EINVAL</code> and a descriptive message. </dd></dl>
 
 </div>
 </div>
-<a id="ace787fc815bf1857e7576671c7327ff4" name="ace787fc815bf1857e7576671c7327ff4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace787fc815bf1857e7576671c7327ff4">&#9670;&#160;</a></span>getDcPower()</h2>
+<a id="a7981164c5ebf6d70871686d8916a26e6" name="a7981164c5ebf6d70871686d8916a26e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7981164c5ebf6d70871686d8916a26e6">&#9670;&#160;</a></span>getDcPower()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -693,31 +593,25 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getDcPower </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
           <td class="paramname"><em>input</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get DC power of a specific input in watts. </p>
+<p>Get DC power for a specific input string in watts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>The input for which to retrieve DC power. Valid options are:<ul>
-<li>TOTAL : total DC power of all inputs</li>
-<li>A : DC power of input string A</li>
-<li>B : DC power of input string B </li>
-</ul>
-</td></tr>
+    <tr><td class="paramname">input</td><td><code>TOTAL</code>, <code>A</code>, or <code>B</code>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Power value in watts (W). </dd></dl>
 
 </div>
 </div>
-<a id="a4352bbaf75c0fd43eb8feeff69c906b7" name="a4352bbaf75c0fd43eb8feeff69c906b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4352bbaf75c0fd43eb8feeff69c906b7">&#9670;&#160;</a></span>getDcVoltage()</h2>
+<a id="a28f698f6235ea230d47daf7bad257f52" name="a28f698f6235ea230d47daf7bad257f52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28f698f6235ea230d47daf7bad257f52">&#9670;&#160;</a></span>getDcVoltage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -725,26 +619,20 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
         <tr>
           <td class="memname">std::expected&lt; double, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getDcVoltage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_fronius_types.html#a5318e1afe8a8b5a72977df4deb9bee0b">FroniusTypes::Input</a>&#160;</td>
           <td class="paramname"><em>input</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get DC voltage of a specific input in volts. </p>
+<p>Get DC voltage for a specific input string in volts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>The input for which to retrieve DC voltage. Valid options are:<ul>
-<li>TOTAL : total DC voltage of all inputs</li>
-<li>A : DC voltage of input string A</li>
-<li>B : DC voltage of input string B </li>
-</ul>
-</td></tr>
+    <tr><td class="paramname">input</td><td><code>TOTAL</code>, <code>A</code>, or <code>B</code>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Voltage value in volts (V). </dd></dl>
 
 </div>
 </div>
@@ -763,26 +651,13 @@ std::vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"
       </table>
 </div><div class="memdoc">
 
-<p>Retrieves all active inverter events as human-readable strings. </p>
-<p>This function reads the raw event registers from the inverter and converts the set bits into descriptive event names. The inverter has three event groups, each represented by a 32-bit Modbus register:</p><ul>
-<li>Event group 1: <a class="el" href="struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01" title="Vendor-specific inverter fault and event flags.">FroniusTypes::Event_1</a></li>
-<li>Event group 2: <a class="el" href="struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cf" title="Vendor-specific inverter warning and diagnostic flags (Set 2).">FroniusTypes::Event_2</a></li>
-<li>Event group 3: <a class="el" href="struct_fronius_types.html#a2e057ce4476cb3ac150174bf9585e2bc" title="Vendor-specific inverter diagnostic flags (Set 3).">FroniusTypes::Event_3</a></li>
-</ul>
-<p>Each bit in these registers indicates a specific event. Only bits that map to known events are converted; unknown bits result in a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code>.</p>
-<dl class="section return"><dt>Returns</dt><dd>std::expected&lt;std::vector&lt;std::string&gt;, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;<ul>
-<li>On success: a vector of strings describing the active events.</li>
-<li>On failure: a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> describing unknown bits or Modbus read issues.</li>
-</ul>
-</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The function reads the event registers directly from <code>regs_</code>. If <code>useFloatRegisters_</code> is true, it reads the corresponding float register addresses. </dd>
-<dd>
-Event group numbers in the error message are 1-based. </dd></dl>
+<p>Get all active inverter events as human-readable strings. </p>
+<p>Reads the three 32-bit event registers (EVT1, EVT2, EVT3) and converts each set bit to a descriptive string via <code><a class="el" href="struct_fronius_types.html#a29a97cb4acc694719bc02e62c3668b08" title="Get a string representation of a Phase enum.">FroniusTypes::toString()</a></code>. </p>
 
 </div>
 </div>
-<a id="a84100e283ee6db25bf208e3fdec32a4a" name="a84100e283ee6db25bf208e3fdec32a4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84100e283ee6db25bf208e3fdec32a4a">&#9670;&#160;</a></span>getId()</h2>
+<a id="a8669de785e7cdb2d83d27d2bd142d4aa" name="a8669de785e7cdb2d83d27d2bd142d4aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8669de785e7cdb2d83d27d2bd142d4aa">&#9670;&#160;</a></span>getId()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -793,7 +668,6 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">int Inverter::getId </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
@@ -805,13 +679,13 @@ Event group numbers in the error message are 1-based. </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Get the inverter's device ID. </p>
-<dl class="section return"><dt>Returns</dt><dd>Integer representing the detected inverter ID. </dd></dl>
+<p>Get the detected inverter model ID (e.g. 101, 113). </p>
+<p>Returns 0 if the device has not been validated yet. </p>
 
 </div>
 </div>
-<a id="a5e22797ab48f144df6963b23e40e0156" name="a5e22797ab48f144df6963b23e40e0156"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e22797ab48f144df6963b23e40e0156">&#9670;&#160;</a></span>getInputs()</h2>
+<a id="a5b7bf0c55a4ae29444f9344868c9c821" name="a5b7bf0c55a4ae29444f9344868c9c821"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b7bf0c55a4ae29444f9344868c9c821">&#9670;&#160;</a></span>getInputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -822,7 +696,6 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">int Inverter::getInputs </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
@@ -835,42 +708,12 @@ Event group numbers in the error message are 1-based. </dd></dl>
 </div><div class="memdoc">
 
 <p>Get the number of DC input strings (MPPT inputs). </p>
-<p>This function returns the number of DC inputs detected on the inverter. The value is determined by reading and validating the Multi MPPT register block using <a class="el" href="class_inverter.html#afc7c124610da8251ae650c4f054832c4" title="Validate and identify the Multi MPPT (Multiple Maximum Power Point Tracker) register map.">validateMultiMpptRegisters()</a>.</p>
-<dl class="section return"><dt>Returns</dt><dd>Number of DC inputs (1 or 2). </dd></dl>
+<p>Returns 1 or 2. Determined during validation by <code><a class="el" href="class_inverter.html#a3e1cc86d8320ff3c698d115ee23144fd" title="Validate the Multi-MPPT extension block (I160).">validateMultiMpptRegisters()</a></code>. </p>
 
 </div>
 </div>
-<a id="aa424c80527e408841490d4b38f590b8f" name="aa424c80527e408841490d4b38f590b8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa424c80527e408841490d4b38f590b8f">&#9670;&#160;</a></span>getPhases()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Inverter::getPhases </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the number of active phases. </p>
-<dl class="section return"><dt>Returns</dt><dd>Number of phases (1, 2, or 3). </dd></dl>
-
-</div>
-</div>
-<a id="abdc11aa68a57a2fce8886542787c7535" name="abdc11aa68a57a2fce8886542787c7535"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abdc11aa68a57a2fce8886542787c7535">&#9670;&#160;</a></span>getState()</h2>
+<a id="aea45bf3063cd53e971f7cacd585325a7" name="aea45bf3063cd53e971f7cacd585325a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea45bf3063cd53e971f7cacd585325a7">&#9670;&#160;</a></span>getState()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -878,26 +721,19 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">std::expected&lt; std::string, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::getState </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Retrieves the current operational state of the inverter. </p>
-<p>This function reads the inverter status register (<code>STVND</code>) and converts the raw status code into a human-readable string representation using <code><a class="el" href="struct_fronius_types.html#a954dc831b47011673a9b04ca82266a97" title="Convert an inverter status code to its string representation.">FroniusTypes::toString(FroniusTypes::State)</a></code>.</p>
-<p>The register address depends on whether floating-point register mapping is used (<code>useFloatRegisters_</code>).</p>
-<dl class="section return"><dt>Returns</dt><dd>A <code>std::expected&lt;std::string, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;</code> containing:<ul>
-<li><b>value</b>: the string representation of the inverter state, if recognized.</li>
-<li><b>error</b>: a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> with code <code>EINVAL</code> if the state code is unknown or cannot be converted to a string. </li>
-</ul>
-</dd></dl>
+<p>Get the current operational state as a human-readable string. </p>
+<p>Reads the STVND register and maps it through <code><a class="el" href="struct_fronius_types.html#a29a97cb4acc694719bc02e62c3668b08" title="Get a string representation of a Phase enum.">FroniusTypes::toString()</a></code>. </p>
 
 </div>
 </div>
-<a id="a8e2879ce5cc232b9632022f5596b30b7" name="a8e2879ce5cc232b9632022f5596b30b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e2879ce5cc232b9632022f5596b30b7">&#9670;&#160;</a></span>getUseFloatRegisters()</h2>
+<a id="a93b9fd7f8741960decea3a99543c31aa" name="a93b9fd7f8741960decea3a99543c31aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93b9fd7f8741960decea3a99543c31aa">&#9670;&#160;</a></span>getUseFloatRegisters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -908,7 +744,6 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">bool Inverter::getUseFloatRegisters </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
@@ -920,13 +755,13 @@ Event group numbers in the error message are 1-based. </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Get the current register model type. </p>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if using float-based registers, <code>false</code> if using integer/scaled registers. </dd></dl>
+<p>Returns true if the inverter uses float-based register encoding. </p>
+<p>Float model IDs: 111 (single-phase), 112 (split-phase), 113 (three-phase). Integer model IDs: 101, 102, 103. </p>
 
 </div>
 </div>
-<a id="a7dcc55bd4a9884f45ec65b72d96101be" name="a7dcc55bd4a9884f45ec65b72d96101be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dcc55bd4a9884f45ec65b72d96101be">&#9670;&#160;</a></span>isHybrid()</h2>
+<a id="af9438db197239c6c499ff071968a322b" name="af9438db197239c6c499ff071968a322b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9438db197239c6c499ff071968a322b">&#9670;&#160;</a></span>isHybrid()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -937,7 +772,6 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">bool Inverter::isHybrid </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
@@ -949,13 +783,13 @@ Event group numbers in the error message are 1-based. </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Check whether the inverter is a hybrid system. </p>
-<dl class="section return"><dt>Returns</dt><dd>true if the inverter has valid hybrid storage registers (as determined by <code><a class="el" href="class_inverter.html#a16e7ae468f666a2261b1c254082dedcf" title="Validate the storage-related Modbus registers on the inverter.">validateStorageRegisters()</a></code>), false otherwise. </dd></dl>
+<p>Returns true if the inverter has hybrid storage capability. </p>
+<p>Determined during validation by <code><a class="el" href="class_inverter.html#a0caa612cda02bf0a606b18840149b1f5" title="Validate the basic storage control block (I124).">validateStorageRegisters()</a></code>. </p>
 
 </div>
 </div>
-<a id="aaef14cfbc839181ad2ee3c7465455495" name="aaef14cfbc839181ad2ee3c7465455495"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaef14cfbc839181ad2ee3c7465455495">&#9670;&#160;</a></span>validateConnection()</h2>
+<a id="a42820b6c8d03901705dc00619a96c029" name="a42820b6c8d03901705dc00619a96c029"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42820b6c8d03901705dc00619a96c029">&#9670;&#160;</a></span>makeTransaction()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -964,7 +798,59 @@ Event group numbers in the error message are 1-based. </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateConnection </td>
+          <td class="memname"><a class="el" href="struct_fronius_bus_1_1_transaction.html">FroniusBus::Transaction</a> Inverter::makeTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>startAddr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t *&#160;</td>
+          <td class="paramname"><em>dest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Build a Transaction targeting this device's slave ID and timeouts. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">startAddr</td><td>Starting Modbus register address. </td></tr>
+    <tr><td class="paramname">count</td><td>Number of registers to read. </td></tr>
+    <tr><td class="paramname">dest</td><td>Pointer into <code>regs_</code> where results are written. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a60ef605eb58d502cbc67564592c3f791" name="a60ef605eb58d502cbc67564592c3f791"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60ef605eb58d502cbc67564592c3f791">&#9670;&#160;</a></span>onBusConnected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Inverter::onBusConnected </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -972,16 +858,72 @@ Event group numbers in the error message are 1-based. </dd></dl>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Identify the inverter's register map after connection. </p>
-<p>Overrides <a class="el" href="class_fronius.html#aa11a915e587c38439f8e3fad0ef14b48" title="Validate the device after a physical connection has been established.">Fronius::validateConnection()</a>. Validates the SunSpec signature and fetches the common register block to confirm the device is a supported <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverter.</p>
-<p>Called automatically by <a class="el" href="class_fronius.html#a4793cba62689a9e70aa0bdb8509a4a3f" title="Attempt a single connection to the Modbus device.">tryConnect()</a> — do not call directly. </p>
+<p>Probe and validate the inverter when the bus comes up. </p>
+<p>Runs the full validation sequence (common, inverter, multi-MPPT, storage, nameplate, end blocks). Calls <code><a class="el" href="class_fronius_device.html#a73172a467fdc2d486c3e77b555c85027" title="Mark the device as ready and fire onDeviceReady_.">setReady()</a></code> on success or <code><a class="el" href="class_fronius_device.html#a7b66027eef374192d9f522e8321a098f" title="Mark the device as not ready and fire onDeviceUnavailable_.">setUnavailable()</a></code> on failure. </p>
 
-<p>Reimplemented from <a class="el" href="class_fronius.html#aa11a915e587c38439f8e3fad0ef14b48">Fronius</a>.</p>
+<p>Implements <a class="el" href="class_fronius_device.html#aa1ef7f63e960f9c6e502c9ff4248eb59">FroniusDevice</a>.</p>
+
+</div>
+</div>
+<a id="a223965b76d7907a4d3cfe2246724ff25" name="a223965b76d7907a4d3cfe2246724ff25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a223965b76d7907a4d3cfe2246724ff25">&#9670;&#160;</a></span>onBusDisconnected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Inverter::onBusDisconnected </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reset all detected state and mark the device unavailable. </p>
+
+<p>Implements <a class="el" href="class_fronius_device.html#a3afffc0dc5a7eba305c5ebddff7e079a">FroniusDevice</a>.</p>
+
+</div>
+</div>
+<a id="abe536a53c0ed7db3addbff1b6f43b2e3" name="abe536a53c0ed7db3addbff1b6f43b2e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe536a53c0ed7db3addbff1b6f43b2e3">&#9670;&#160;</a></span>validateCommonRegisters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateCommonRegisters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Validate the SunSpec common block (<a class="el" href="namespace_c001.html" title="SunSpec Common Model (ID 1) registers.">C001</a>). </p>
+<p>Reads the common block, verifies the SunSpec identifier ("SunS"), and checks that the model ID and length match the SunSpec spec. </p>
 
 </div>
 </div>
@@ -990,6 +932,9 @@ Event group numbers in the error message are 1-based. </dd></dl>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateDevice </td>
@@ -998,16 +943,76 @@ Event group numbers in the error message are 1-based. </dd></dl>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Validate the inverter's register data. </p>
-<p>Performs internal checks to ensure that the connected inverter is responding correctly and that its register layout is supported.</p>
-<dl class="section return"><dt>Returns</dt><dd><code>std::expected&lt;void, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;</code> indicating success or failure. </dd></dl>
+<p>Run all validation steps to identify the inverter. </p>
+<p>Probes the SunSpec common, inverter, multi-MPPT, storage, nameplate, and end blocks in sequence. On success, sets <code>id_</code>, <code>useFloatRegisters_</code>, <code>inputs_</code>, and <code>hybrid_</code>. </p>
 
 </div>
 </div>
-<a id="afc7c124610da8251ae650c4f054832c4" name="afc7c124610da8251ae650c4f054832c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc7c124610da8251ae650c4f054832c4">&#9670;&#160;</a></span>validateMultiMpptRegisters()</h2>
+<a id="af247953ef2b2e2e83ef0cc31b1d0627b" name="af247953ef2b2e2e83ef0cc31b1d0627b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af247953ef2b2e2e83ef0cc31b1d0627b">&#9670;&#160;</a></span>validateEndRegisters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateEndRegisters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Validate the SunSpec end-of-map block. </p>
+<p>Confirms that the end-block ID is <code>0xFFFF</code> and length is <code>0</code> at the address that corresponds to the detected register encoding (integer vs. float) and storage variant (hybrid vs. non-hybrid). </p>
+
+</div>
+</div>
+<a id="af72f626cbb025f8e09f2945abcd1e0e6" name="af72f626cbb025f8e09f2945abcd1e0e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af72f626cbb025f8e09f2945abcd1e0e6">&#9670;&#160;</a></span>validateInverterRegisters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateInverterRegisters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Validate the inverter model block (I101–103 / I111–113). </p>
+<p>Reads the model ID register and rejects anything outside the known SunSpec inverter IDs. Sets <code>id_</code> and <code>useFloatRegisters_</code>. </p>
+
+</div>
+</div>
+<a id="a3e1cc86d8320ff3c698d115ee23144fd" name="a3e1cc86d8320ff3c698d115ee23144fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e1cc86d8320ff3c698d115ee23144fd">&#9670;&#160;</a></span>validateMultiMpptRegisters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1018,7 +1023,6 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateMultiMpptRegisters </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -1030,28 +1034,13 @@ Event group numbers in the error message are 1-based. </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Validate and identify the Multi MPPT (Multiple Maximum Power Point Tracker) register map. </p>
-<p>This function verifies that the inverter’s Modbus register map supports multiple DC input strings (MPPTs). It performs the following checks:</p><ul>
-<li>Validates that the Modbus context is available.</li>
-<li>Reads and verifies the Multi MPPT register map ID and size.</li>
-<li>Reads the second input string identifier (IDSTR_2) to determine whether a second MPPT input is present.</li>
-</ul>
-<p>Depending on the Modbus response, the internal member <a class="el" href="class_inverter.html#a8ce2eb0a300ee47fc77a2b7185c5989d">inputs_</a> is set:</p><ul>
-<li><code>inputs_ = 2</code> if the inverter reports <code>"String 2"</code>.</li>
-<li><code>inputs_ = 1</code> otherwise (e.g., <code>"Not supported"</code> or missing entry).</li>
-</ul>
-<dl class="section return"><dt>Returns</dt><dd><ul>
-<li><code>std::expected&lt;void, <a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a>&gt;</code> containing no value on success.</li>
-<li><code>std::unexpected(ModbusError)</code> if a Modbus communication or validation error occurs.</li>
-</ul>
-</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function must be called after establishing a valid Modbus connection. If the context is null, an ENOTCONN error is returned.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_inverter.html#a5e22797ab48f144df6963b23e40e0156" title="Get the number of DC input strings (MPPT inputs).">getInputs()</a> </dd></dl>
+<p>Validate the Multi-MPPT extension block (<a class="el" href="namespace_i160.html" title="SunSpec Multiple MPPT Extension Model (ID 160).">I160</a>). </p>
+<p>Verifies block ID and size, then reads the second input string name to decide whether <code>inputs_</code> is 1 or 2. </p>
 
 </div>
 </div>
-<a id="a1c41e2d0e5bcd48b80ea68cc092f204a" name="a1c41e2d0e5bcd48b80ea68cc092f204a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c41e2d0e5bcd48b80ea68cc092f204a">&#9670;&#160;</a></span>validateNameplateRegisters()</h2>
+<a id="aacca599b22680649ff9c34afdb6b91a3" name="aacca599b22680649ff9c34afdb6b91a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacca599b22680649ff9c34afdb6b91a3">&#9670;&#160;</a></span>validateNameplateRegisters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1062,7 +1051,6 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateNameplateRegisters </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -1074,24 +1062,13 @@ Event group numbers in the error message are 1-based. </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Validates the inverter's nameplate register map. </p>
-<p>This function performs a Modbus read operation on the inverter’s nameplate registers to verify that the register map ID and map size match the expected <a class="el" href="namespace_i120.html" title="SunSpec Nameplate Model (ID 120) register definitions.">I120</a> register definition.</p>
-<p>The function checks:</p><ul>
-<li>That the Modbus context (<code>ctx_</code>) is valid.</li>
-<li>That the nameplate register map ID matches the expected value (120).</li>
-<li>That the map size corresponds to <code><a class="el" href="namespace_i120.html#a7a88f9517338b40096e1906c79e67fa3" title="Total number of registers in the nameplate model.">I120::SIZE</a></code>.</li>
-</ul>
-<p>If any of these checks fail, a descriptive <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> is returned via <code>std::unexpected</code>.</p>
-<dl class="section return"><dt>Returns</dt><dd>std::expected&lt;void, ModbusError&gt;<ul>
-<li>An empty expected value on success.</li>
-<li>A <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> describing the failure if validation fails. </li>
-</ul>
-</dd></dl>
+<p>Validate the nameplate block (<a class="el" href="namespace_i120.html" title="SunSpec Nameplate Model (ID 120).">I120</a>). </p>
+<p>Verifies the block ID (120) and size. Nameplate data is available via <code><a class="el" href="class_inverter.html#a8da32cad600a016e82e6718ced48c6d4" title="Get the AC power rating for the specified output type.">getAcPowerRating()</a></code> once this succeeds. </p>
 
 </div>
 </div>
-<a id="a16e7ae468f666a2261b1c254082dedcf" name="a16e7ae468f666a2261b1c254082dedcf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16e7ae468f666a2261b1c254082dedcf">&#9670;&#160;</a></span>validateStorageRegisters()</h2>
+<a id="a0caa612cda02bf0a606b18840149b1f5" name="a0caa612cda02bf0a606b18840149b1f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0caa612cda02bf0a606b18840149b1f5">&#9670;&#160;</a></span>validateStorageRegisters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1102,7 +1079,6 @@ Event group numbers in the error message are 1-based. </dd></dl>
         <tr>
           <td class="memname">std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; Inverter::validateStorageRegisters </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -1114,73 +1090,8 @@ Event group numbers in the error message are 1-based. </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Validate the storage-related Modbus registers on the inverter. </p>
-<p>This function reads and checks the storage control registers of the inverter to ensure they match the expected register map ID and size for a basic storage system. It sets the <code>hybrid_</code> member to <code>true</code> if the storage registers are valid and indicate a hybrid system, or <code>false</code> otherwise.</p>
-<p>The function handles both float-based and standard Modbus registers depending on the <code>useFloatRegisters_</code> flag. It returns an error if:</p><ul>
-<li>The Modbus context (<code>ctx_</code>) is null.</li>
-<li>Reading the registers fails.</li>
-<li>The registers contain an unexpected ID or size.</li>
-</ul>
-<dl class="section return"><dt>Returns</dt><dd>std::expected&lt;void, ModbusError&gt;<ul>
-<li>On success: an empty <code>std::expected</code> indicating the storage registers are valid.</li>
-<li>On failure: a <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> describing the specific validation failure. </li>
-</ul>
-</dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Field Documentation</h2>
-<a id="aca1e6d03f505210d02b832244d884322" name="aca1e6d03f505210d02b832244d884322"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca1e6d03f505210d02b832244d884322">&#9670;&#160;</a></span>hybrid_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Inverter::hybrid_ {false}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Indicates whether the inverter has hybrid storage capability. </p>
-<p>This member is set to <code>true</code> by <code><a class="el" href="class_inverter.html#a16e7ae468f666a2261b1c254082dedcf" title="Validate the storage-related Modbus registers on the inverter.">validateStorageRegisters()</a></code> if the inverter contains valid hybrid storage registers, otherwise it remains <code>false</code>. </p>
-
-</div>
-</div>
-<a id="a8ce2eb0a300ee47fc77a2b7185c5989d" name="a8ce2eb0a300ee47fc77a2b7185c5989d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ce2eb0a300ee47fc77a2b7185c5989d">&#9670;&#160;</a></span>inputs_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Inverter::inputs_ {0}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Number of DC input strings (MPPT inputs) supported by the inverter. </p>
-<p>This member is determined dynamically from the inverter’s Multi MPPT register map. Possible values are:</p><ul>
-<li>1: Single string input or Multi MPPT not supported.</li>
-<li>2: Dual string (Multi MPPT) input supported.</li>
-</ul>
-<p>Initialized to 0 until validated by <a class="el" href="class_inverter.html#afc7c124610da8251ae650c4f054832c4" title="Validate and identify the Multi MPPT (Multiple Maximum Power Point Tracker) register map.">validateMultiMpptRegisters()</a>. </p>
+<p>Validate the basic storage control block (<a class="el" href="namespace_i124.html" title="SunSpec Basic Storage Controls Model (ID 124).">I124</a>). </p>
+<p>Sets <code>hybrid_ = true</code> if the block is present and valid; sets <code>hybrid_ = false</code> if the SunSpec end-of-map marker is found at this address instead. </p>
 
 </div>
 </div>

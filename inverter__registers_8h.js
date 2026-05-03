@@ -43,7 +43,7 @@ var inverter__registers_8h =
     [ "DCW_SF", "inverter__registers_8h.html#a5b7c2dde7866ffef72be001d2d71f94f", null ],
     [ "DCW_SF", "inverter__registers_8h.html#a5f64eb9501415231e789a5ca517498d6", null ],
     [ "DCWH_1", "inverter__registers_8h.html#a881e9ec9bb3d623cdcf057f985293979", null ],
-    [ "DCWH_2", "inverter__registers_8h.html#a60c769b1c60115fb609d0ba2a027b4fe", null ],
+    [ "DCWH_2", "inverter__registers_8h.html#a99c8089ff7fdb5a2e10676893c52477c", null ],
     [ "DCWH_SF", "inverter__registers_8h.html#ada6aa2a45100f593ffcfdfd6c775e9cd", null ],
     [ "DELETE_DATA", "inverter__registers_8h.html#a5eaceccdd150d329875f02c19cdce18a", null ],
     [ "DERTYP", "inverter__registers_8h.html#ac51ae0d51f5858b9988b79dd6ae73704", null ],

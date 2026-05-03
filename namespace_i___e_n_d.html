@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('namespace_i___e_n_d.html',''); initRes
 </div><!--header-->
 <div class="contents">
 
-<p>SunSpec end-of-block registers.  
+<p>SunSpec end-of-map marker.  
 <a href="namespace_i___e_n_d.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -118,17 +118,17 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a3894a70f4b49a302b823d64afa6f6efe" id="r_a3894a70f4b49a302b823d64afa6f6efe"><td class="memItemLeft" align="right" valign="top">constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i___e_n_d.html#a3894a70f4b49a302b823d64afa6f6efe">FLOAT_OFFSET</a> = 10</td></tr>
-<tr class="memdesc:a3894a70f4b49a302b823d64afa6f6efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset to convert integer+scale factor register addresses to float addresses.  <br /></td></tr>
+<tr class="memitem:a3894a70f4b49a302b823d64afa6f6efe" id="r_a3894a70f4b49a302b823d64afa6f6efe"><td class="memItemLeft" align="right" valign="top"><a id="a3894a70f4b49a302b823d64afa6f6efe" name="a3894a70f4b49a302b823d64afa6f6efe"></a>
+constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>FLOAT_OFFSET</b> = 10</td></tr>
+<tr class="memdesc:a3894a70f4b49a302b823d64afa6f6efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset to derive the float-map address from the integer-map address. See file overview. <br /></td></tr>
 <tr class="separator:a3894a70f4b49a302b823d64afa6f6efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa14509b2f81611f2229588ab2955d7d" id="r_afa14509b2f81611f2229588ab2955d7d"><td class="memItemLeft" align="right" valign="top">constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i___e_n_d.html#afa14509b2f81611f2229588ab2955d7d">STORAGE_OFFSET</a> = 26</td></tr>
-<tr class="memdesc:afa14509b2f81611f2229588ab2955d7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset for storage-enabled (hybrid) inverter register maps.  <br /></td></tr>
+<tr class="memdesc:afa14509b2f81611f2229588ab2955d7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address shift applied on storage-enabled (hybrid) inverters.  <br /></td></tr>
 <tr class="separator:afa14509b2f81611f2229588ab2955d7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>SunSpec end-of-block registers. </p>
-<p>This namespace defines the SunSpec "end model" block that marks the end of a SunSpec register map within <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices. It is typically composed of two registers — an identifier (<code>ID</code>) with a constant value of 0xFFFF and a length field (<code>L</code>) that is always 0.</p>
-<p><a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters, including hybrid models, follow this pattern at the end of each SunSpec model block. However, when a Basic Storage Control (BSC) model is present, the end-of-block position is shifted by 26 registers to account for the storage model length. When parsing or iterating over SunSpec model blocks, this offset must be considered to correctly locate the next model. </p>
+<div class="textblock"><p>SunSpec end-of-map marker. </p>
+<p>Two registers (<code>ID = 0xFFFF</code>, <code>L = 0</code>) that mark the end of the SunSpec register map. Defines <code>FLOAT_OFFSET</code> (see file overview) and a <code>STORAGE_OFFSET</code> that shifts the end-block address on hybrid inverters which include the BSC (<a class="el" href="namespace_i124.html" title="SunSpec Basic Storage Controls Model (ID 124).">I124</a>) block. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a35f107c5f01bf783a8e11f084575e6f6" name="a35f107c5f01bf783a8e11f084575e6f6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a35f107c5f01bf783a8e11f084575e6f6">&#9670;&#160;</a></span>ID()</h2>
@@ -171,8 +171,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>End-of-block identifier. </p>
-<p>This register indicates the end of the SunSpec inverter model block. </p><dl class="section return"><dt>Returns</dt><dd>Always returns 0xFFFF.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>For hybrid inverters that include a Basic Storage Control (BSC) register map, the end register address is offset by 26 registers. Take this into account when iterating over SunSpec blocks or calculating the next model's start address. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Always <code>0xFFFF</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The actual address depends on integer/float encoding (<code>FLOAT_OFFSET</code>) and on hybrid storage presence (<code>STORAGE_OFFSET</code>). </dd></dl>
 
 </div>
 </div>
@@ -217,36 +217,11 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>End-of-block length field. </p>
-<p>This register contains the length of the end-of-block segment. </p><dl class="section return"><dt>Returns</dt><dd>Always returns 0. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Always <code>0</code>. </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a3894a70f4b49a302b823d64afa6f6efe" name="a3894a70f4b49a302b823d64afa6f6efe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3894a70f4b49a302b823d64afa6f6efe">&#9670;&#160;</a></span>FLOAT_OFFSET</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint16_t I_END::FLOAT_OFFSET = 10</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Offset to convert integer+scale factor register addresses to float addresses. </p>
-<p>In <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices, certain SunSpec float registers are implemented as integer registers with associated scale factors. To obtain the float register address corresponding to an integer+scale register, add this offset to the integer+scale register address (<code>ADDR</code>). </p>
-
-</div>
-</div>
 <a id="afa14509b2f81611f2229588ab2955d7d" name="afa14509b2f81611f2229588ab2955d7d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afa14509b2f81611f2229588ab2955d7d">&#9670;&#160;</a></span>STORAGE_OFFSET</h2>
 
@@ -267,13 +242,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Offset for storage-enabled (hybrid) inverter register maps. </p>
-<p>Some <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters, specifically hybrid models that include a Basic Storage Control (BSC) register map, have their <a class="el" href="namespace_e_n_d.html" title="SunSpec end-of-block registers.">END</a> register block shifted by a fixed number of registers compared to non-hybrid models.</p>
-<p>This constant defines that address offset. For example:</p><ul>
-<li>On <b>non-hybrid</b> inverters (no storage map), the END::ID register starts at address <b>40303</b>.</li>
-<li>On <b>hybrid</b> inverters (with storage map), the END::ID register starts at address <b>40329</b>.</li>
-</ul>
-<p>Thus, the address difference between hybrid and non-hybrid models is 26 registers. </p>
+<p>Address shift applied on storage-enabled (hybrid) inverters. </p>
+<p>Hybrid inverters with a Basic Storage Control (BSC) block place the end-of-map marker 26 registers later than non-hybrid models. For example, with the integer map: non-hybrid at 40303, hybrid at 40329. </p>
 
 </div>
 </div>

@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('modbus__config_8h.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 
-<p>Type-safe configuration for Modbus connections (TCP/RTU)  
+<p>Configuration types for Modbus bus and device connections.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -119,13 +119,21 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_rtu_transport.html">ModbusRtuTransport</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a Modbus RTU serial connection.  <a href="struct_modbus_rtu_transport.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_config.html">ModbusConfig</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Complete configuration for one Modbus device.  <a href="struct_modbus_config.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_bus_config.html">ModbusBusConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for a shared Modbus bus.  <a href="struct_modbus_bus_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_device_config.html">ModbusDeviceConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for a single Modbus slave device.  <a href="struct_modbus_device_config.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Type-safe configuration for Modbus connections (TCP/RTU) </p>
-<p>Provides convenient structures for storing all parameters needed to configure a Modbus client, including TCP/RTU connection settings, slave ID, debugging, and automatic reconnect parameters. The active transport type is encoded in the type system: holding a <code><a class="el" href="struct_modbus_tcp_transport.html" title="Parameters for a Modbus TCP connection.">ModbusTcpTransport</a></code> is unambiguous. Includes a <code>validate()</code> method to ensure all parameters are within allowed ranges before use. </p>
+<div class="textblock"><p>Configuration types for Modbus bus and device connections. </p>
+<p>Provides two distinct configuration structures matching the two levels of the shared-bus architecture:</p>
+<ul>
+<li><code><a class="el" href="struct_modbus_bus_config.html" title="Configuration for a shared Modbus bus.">ModbusBusConfig</a></code> — physical bus parameters (transport, reconnect policy, debug). One per serial port or TCP endpoint. Passed to <code><a class="el" href="class_fronius_bus.html" title="Owns and manages one shared Modbus bus (RTU or TCP).">FroniusBus</a></code>.</li>
+<li><code><a class="el" href="struct_modbus_device_config.html" title="Configuration for a single Modbus slave device.">ModbusDeviceConfig</a></code> — per-slave parameters (slave ID, response timeout, reconnect policy). One per device. Passed to <code><a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a></code>, <code><a class="el" href="class_inverter.html" title="Represents a Fronius Modbus-compatible inverter.">Inverter</a></code>, etc.</li>
+</ul>
+<p>The active transport is encoded as a <code>std::variant</code> so RTU and TCP parameters cannot be mixed up. Both configs expose <code>validate()</code> to catch out-of-range parameters at construction time. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

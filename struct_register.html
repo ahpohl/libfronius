@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('struct_register.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 
-<p>Represents a Modbus register definition.  
+<p>Describes one Modbus register or a contiguous register range.  
  <a href="struct_register.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="register__base_8h_source.html">register_base.h</a>&gt;</code></p>
@@ -125,7 +125,7 @@ Public Types</h2></td></tr>
 , <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3">UNKNOWN</a>
 <br />
  }</td></tr>
-<tr class="memdesc:ae15379f39ed468afb25f0d3c367b7fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible types of values stored in Modbus registers.  <a href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4">More...</a><br /></td></tr>
+<tr class="memdesc:ae15379f39ed468afb25f0d3c367b7fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tags the encoding of a register value.  <a href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4">More...</a><br /></td></tr>
 <tr class="separator:ae15379f39ed468afb25f0d3c367b7fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -135,19 +135,20 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9884d3fa0349d25a36ae4f7c4ced9fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a917191e40d81c4b7155b1529bf5ba729" id="r_a917191e40d81c4b7155b1529bf5ba729"><td class="memItemLeft" align="right" valign="top"><a id="a917191e40d81c4b7155b1529bf5ba729" name="a917191e40d81c4b7155b1529bf5ba729"></a>
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><b>Register</b> ()=default</td></tr>
-<tr class="memdesc:a917191e40d81c4b7155b1529bf5ba729"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default-construct a register with address 0, width 0, and type <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3">Type::UNKNOWN</a>. <br /></td></tr>
+<tr class="memdesc:a917191e40d81c4b7155b1529bf5ba729"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default-construct a register: addr 0, width 0, <code><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3">Type::UNKNOWN</a></code>. <br /></td></tr>
 <tr class="separator:a917191e40d81c4b7155b1529bf5ba729"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63ede74afd148f371ccce306795998bc" id="r_a63ede74afd148f371ccce306795998bc"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_register.html#a63ede74afd148f371ccce306795998bc">withOffset</a> (int16_t offset) const</td></tr>
-<tr class="memdesc:a63ede74afd148f371ccce306795998bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a copy of this register with an address offset applied.  <br /></td></tr>
+<tr class="memdesc:a63ede74afd148f371ccce306795998bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a copy of this register with <code>offset</code> added to the address.  <br /></td></tr>
 <tr class="separator:a63ede74afd148f371ccce306795998bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d4215c9a7b1168c89ad9f5a358225e9" id="r_a6d4215c9a7b1168c89ad9f5a358225e9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9">describe</a> () const</td></tr>
-<tr class="memdesc:a6d4215c9a7b1168c89ad9f5a358225e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a human-readable string representation of the register.  <br /></td></tr>
+<tr class="memdesc:a6d4215c9a7b1168c89ad9f5a358225e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format the register as <code>"[ADDR=..., NB=..., TYPE=...]"</code>.  <br /></td></tr>
 <tr class="separator:a6d4215c9a7b1168c89ad9f5a358225e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a32c62912e004d2e03893de681adaa2d4" id="r_a32c62912e004d2e03893de681adaa2d4"><td class="memItemLeft" align="right" valign="top">static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_register.html#a32c62912e004d2e03893de681adaa2d4">typeToString</a> (<a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4">Type</a> type)</td></tr>
-<tr class="memdesc:a32c62912e004d2e03893de681adaa2d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a register Type enum value to a human-readable string.  <br /></td></tr>
+<tr class="memitem:a32c62912e004d2e03893de681adaa2d4" id="r_a32c62912e004d2e03893de681adaa2d4"><td class="memItemLeft" align="right" valign="top"><a id="a32c62912e004d2e03893de681adaa2d4" name="a32c62912e004d2e03893de681adaa2d4"></a>
+static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><b>typeToString</b> (<a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4">Type</a> type)</td></tr>
+<tr class="memdesc:a32c62912e004d2e03893de681adaa2d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a <code>Type</code> value to its name as a C-string. <br /></td></tr>
 <tr class="separator:a32c62912e004d2e03893de681adaa2d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -160,8 +161,8 @@ Data Fields</h2></td></tr>
 <tr class="separator:a6dbf7cb765d7f022d4337420d693b7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents a Modbus register definition. </p>
-<p>Each instance of <code><a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a></code> specifies the register address (<code>ADDR</code>), the number of consecutive 16-bit registers (<code>NB</code>) used to store the value, and the type of data (<code>TYPE</code>). This allows higher-level functions to interpret raw Modbus data correctly, whether it is integer, floating-point, or string data. </p>
+<div class="textblock"><p>Describes one Modbus register or a contiguous register range. </p>
+<p>Each <code><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a></code> carries a starting address (<code>ADDR</code>), the number of consecutive 16-bit registers (<code>NB</code>) used to store the value, and a type (<code>TYPE</code>) that tells decoding helpers how to interpret the bytes. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="ae15379f39ed468afb25f0d3c367b7fe4" name="ae15379f39ed468afb25f0d3c367b7fe4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae15379f39ed468afb25f0d3c367b7fe4">&#9670;&#160;</a></span>Type</h2>
@@ -183,8 +184,7 @@ Data Fields</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Enumerates the possible types of values stored in Modbus registers. </p>
-<p>This enum allows the code to explicitly distinguish between different kinds of register contents, such as signed vs. unsigned integers, floating-point values, or strings. It improves type safety and readability. </p>
+<p>Tags the encoding of a register value. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62" name="ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62"></a>UINT16&#160;</td><td class="fielddoc"><p>16-bit unsigned integer </p>
 </td></tr>
@@ -196,11 +196,11 @@ Data Fields</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f" name="ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f"></a>UINT64&#160;</td><td class="fielddoc"><p>64-bit unsigned integer (four consecutive 16-bit registers) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4ae738c26bf4ce1037fa81b039a915cbf6" name="ae15379f39ed468afb25f0d3c367b7fe4ae738c26bf4ce1037fa81b039a915cbf6"></a>FLOAT&#160;</td><td class="fielddoc"><p>32-bit floating-point value (single-precision) </p>
+<tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4ae738c26bf4ce1037fa81b039a915cbf6" name="ae15379f39ed468afb25f0d3c367b7fe4ae738c26bf4ce1037fa81b039a915cbf6"></a>FLOAT&#160;</td><td class="fielddoc"><p>32-bit IEEE 754 single-precision </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949" name="ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949"></a>STRING&#160;</td><td class="fielddoc"><p>ASCII string stored across multiple 16-bit registers </p>
+<tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949" name="ae15379f39ed468afb25f0d3c367b7fe4a63b588d5559f64f89a416e656880b949"></a>STRING&#160;</td><td class="fielddoc"><p>ASCII string spanning multiple 16-bit registers </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3" name="ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3"></a>UNKNOWN&#160;</td><td class="fielddoc"><p>RegType not specified or unknown </p>
+<tr><td class="fieldname"><a id="ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3" name="ae15379f39ed468afb25f0d3c367b7fe4a696b031073e74bf2cb98e5ef201d4aa3"></a>UNKNOWN&#160;</td><td class="fielddoc"><p>Type not specified or unrecognised </p>
 </td></tr>
 </table>
 
@@ -251,8 +251,8 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">addr</td><td>Starting register address. </td></tr>
-    <tr><td class="paramname">nb</td><td>Number of consecutive 16-bit registers used for this value. </td></tr>
-    <tr><td class="paramname">type</td><td>RegType of value stored in the register. </td></tr>
+    <tr><td class="paramname">nb</td><td>Number of consecutive 16-bit registers. </td></tr>
+    <tr><td class="paramname">type</td><td>Encoding of the value. </td></tr>
   </table>
   </dd>
 </dl>
@@ -283,44 +283,8 @@ Data Fields</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return a human-readable string representation of the register. </p>
-<p>The returned string includes the register address, number of consecutive registers, and the type as a string. Useful for logging and error messages.</p>
-<dl class="section return"><dt>Returns</dt><dd>std::string in the format: "[ADDR=..., NB=..., TYPE=...]" </dd></dl>
-
-</div>
-</div>
-<a id="a32c62912e004d2e03893de681adaa2d4" name="a32c62912e004d2e03893de681adaa2d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32c62912e004d2e03893de681adaa2d4">&#9670;&#160;</a></span>typeToString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static constexpr const char * Register::typeToString </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4">Type</a>&#160;</td>
-          <td class="paramname"><em>type</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Convert a register Type enum value to a human-readable string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The Type value to convert. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A C-string representing the enum name. </dd></dl>
+<p>Format the register as <code>"[ADDR=..., NB=..., TYPE=...]"</code>. </p>
+<p>Useful for logging and error messages. </p>
 
 </div>
 </div>
@@ -348,14 +312,13 @@ Data Fields</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return a copy of this register with an address offset applied. </p>
+<p>Return a copy of this register with <code>offset</code> added to the address. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">offset</td><td>Offset to add to the register address (can be negative). </td></tr>
+    <tr><td class="paramname">offset</td><td>Offset to add to <code>ADDR</code> (may be negative). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> instance with the adjusted address. </dd></dl>
 
 </div>
 </div>
@@ -371,7 +334,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Modbus register address (0-based or device-specific) </p>
+<p>Modbus register address. </p>
 
 </div>
 </div>
@@ -386,7 +349,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Number of consecutive registers used for this value </p>
+<p>Number of consecutive 16-bit registers. </p>
 
 </div>
 </div>
@@ -401,7 +364,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>RegType of value stored in the register </p>
+<p>Encoding of the register value. </p>
 
 </div>
 </div>

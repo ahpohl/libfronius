@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['reconnectdelay_0',['reconnectDelay',['../struct_modbus_config.html#af0da5a6af47ab7d4ceadf3fcec531486',1,'ModbusConfig']]],
-  ['reconnectdelaymax_1',['reconnectDelayMax',['../struct_modbus_config.html#ac0429960c9d70b621168df130dbebdde',1,'ModbusConfig']]],
-  ['registermap_5f_2',['registerMap_',['../class_fronius.html#a80455b80a62929e31e0b640044329160',1,'Fronius']]],
-  ['regs_5f_3',['regs_',['../class_fronius.html#af81f361049013f9c49b8aee98d7db41e',1,'Fronius']]],
-  ['remoteendpoint_5f_4',['remoteEndpoint_',['../class_fronius.html#a39bef571e883389cb6b603c0cb29ea43',1,'Fronius']]],
-  ['running_5f_5',['running_',['../class_fronius.html#abfa2622c7575dde83dbd48818275b7e6',1,'Fronius']]]
+  ['parity_0',['parity',['../struct_modbus_rtu_transport.html#a1b7141097b66e944e2789aba3fe53248',1,'ModbusRtuTransport']]],
+  ['pf_5fsf_1',['PF_SF',['../namespace_r_e_g.html#a275e39535dc0e8c88af59625cc40a0a0',1,'REG']]],
+  ['port_2',['port',['../struct_fronius_types_1_1_remote_endpoint.html#ada7ca13397f2b034bf4962370b7ae4fb',1,'FroniusTypes::RemoteEndpoint::port'],['../struct_modbus_tcp_transport.html#a6323bc3122f79af9376bebadaf57220c',1,'ModbusTcpTransport::port']]],
+  ['promise_3',['promise',['../struct_fronius_bus_1_1_transaction.html#a8ace2b17290d6355358c57c6af8d6a08',1,'FroniusBus::Transaction']]]
 ];

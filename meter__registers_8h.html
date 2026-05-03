@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('meter__registers_8h.html',''); initRes
 </div><!--header-->
 <div class="contents">
 
-<p>SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> Model registers (Integer + Scale Factor and Float) for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices.  
+<p>SunSpec and proprietary meter register definitions for Fronius meters.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;register_base.h&quot;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -115,13 +115,16 @@ $(document).ready(function(){initNavTree('meter__registers_8h.html',''); initRes
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespace_m20_x" id="r_namespace_m20_x"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m20_x.html">M20X</a></td></tr>
-<tr class="memdesc:namespace_m20_x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains integer + scale factor SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> registers for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters. <br /></td></tr>
+<tr class="memdesc:namespace_m20_x"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec meter model — integer + scale factor variant (201–203). <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespace_m21_x" id="r_namespace_m21_x"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m21_x.html">M21X</a></td></tr>
-<tr class="memdesc:namespace_m21_x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains floating-point SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> registers for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters. <br /></td></tr>
+<tr class="memdesc:namespace_m21_x"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec meter model — float variant (211–213). <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespace_e_n_d" id="r_namespace_e_n_d"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_e_n_d.html">END</a></td></tr>
-<tr class="memdesc:namespace_e_n_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec end-of-block registers. <br /></td></tr>
+<tr class="memitem:namespace_m___e_n_d" id="r_namespace_m___e_n_d"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m___e_n_d.html">M_END</a></td></tr>
+<tr class="memdesc:namespace_m___e_n_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec end-of-map marker for the meter map. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespace_r_e_g" id="r_namespace_r_e_g"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_e_g.html">REG</a></td></tr>
+<tr class="memdesc:namespace_r_e_g"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fronius proprietary RTU register map for the Smart <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> TS 65A-3. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -353,7 +356,7 @@ constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td c
 <tr class="memdesc:a0eaad4810e47addbc12543532783df9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event flags. <br /></td></tr>
 <tr class="separator:a0eaad4810e47addbc12543532783df9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41705fcf933d59f8251415da4b89b391" id="r_a41705fcf933d59f8251415da4b89b391"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m21_x.html#a41705fcf933d59f8251415da4b89b391">M21X::ID</a> (40069, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a41705fcf933d59f8251415da4b89b391"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec meter model identifier (float).  <br /></td></tr>
+<tr class="memdesc:a41705fcf933d59f8251415da4b89b391"><td class="mdescLeft">&#160;</td><td class="mdescRight">SunSpec meter model identifier (float variant).  <br /></td></tr>
 <tr class="separator:a41705fcf933d59f8251415da4b89b391"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6137f62889d1a1cb0a9b0d6a75904404" id="r_a6137f62889d1a1cb0a9b0d6a75904404"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m21_x.html#a6137f62889d1a1cb0a9b0d6a75904404">M21X::L</a> (40070, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
 <tr class="memdesc:a6137f62889d1a1cb0a9b0d6a75904404"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of meter model block.  <br /></td></tr>
@@ -542,23 +545,24 @@ constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td c
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>M21X::EVT</b> (40193, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
 <tr class="memdesc:a9b77fded469e9a9d9af868b5010bf510"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event flags. <br /></td></tr>
 <tr class="separator:a9b77fded469e9a9d9af868b5010bf510"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc1b4a618c8246cc309c2dfec03f0f73" id="r_afc1b4a618c8246cc309c2dfec03f0f73"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#afc1b4a618c8246cc309c2dfec03f0f73">M_END::ID</a> (40176, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:afc1b4a618c8246cc309c2dfec03f0f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">End block identifier.  <br /></td></tr>
+<tr class="memitem:afc1b4a618c8246cc309c2dfec03f0f73" id="r_afc1b4a618c8246cc309c2dfec03f0f73"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m___e_n_d.html#afc1b4a618c8246cc309c2dfec03f0f73">M_END::ID</a> (40176, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
+<tr class="memdesc:afc1b4a618c8246cc309c2dfec03f0f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">End-of-block identifier.  <br /></td></tr>
 <tr class="separator:afc1b4a618c8246cc309c2dfec03f0f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e14778b66af867eb2e83c5921ce4a25" id="r_a6e14778b66af867eb2e83c5921ce4a25"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#a6e14778b66af867eb2e83c5921ce4a25">M_END::L</a> (40177, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a6e14778b66af867eb2e83c5921ce4a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">End block length.  <br /></td></tr>
+<tr class="memitem:a6e14778b66af867eb2e83c5921ce4a25" id="r_a6e14778b66af867eb2e83c5921ce4a25"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m___e_n_d.html#a6e14778b66af867eb2e83c5921ce4a25">M_END::L</a> (40177, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
+<tr class="memdesc:a6e14778b66af867eb2e83c5921ce4a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">End-of-block length field.  <br /></td></tr>
 <tr class="separator:a6e14778b66af867eb2e83c5921ce4a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a067ce7f33906ae4f8feeac18a5ea5c33" id="r_a067ce7f33906ae4f8feeac18a5ea5c33"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#a067ce7f33906ae4f8feeac18a5ea5c33">REG::ID</a> (11, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a067ce7f33906ae4f8feeac18a5ea5c33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Proprietary meter register model identifier 1.  <br /></td></tr>
+<tr class="memitem:a067ce7f33906ae4f8feeac18a5ea5c33" id="r_a067ce7f33906ae4f8feeac18a5ea5c33"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_e_g.html#a067ce7f33906ae4f8feeac18a5ea5c33">REG::ID</a> (11, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
+<tr class="memdesc:a067ce7f33906ae4f8feeac18a5ea5c33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Proprietary device-type identifier.  <br /></td></tr>
 <tr class="separator:a067ce7f33906ae4f8feeac18a5ea5c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af599d8433b28a9ef60bded1d029680ef" id="r_af599d8433b28a9ef60bded1d029680ef"><td class="memItemLeft" align="right" valign="top"><a id="af599d8433b28a9ef60bded1d029680ef" name="af599d8433b28a9ef60bded1d029680ef"></a>
-constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::SN</b> (20487, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:af599d8433b28a9ef60bded1d029680ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Device serial number. <br /></td></tr>
-<tr class="separator:af599d8433b28a9ef60bded1d029680ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afed0296ea8b7841c97e750f8dd80f209" id="r_afed0296ea8b7841c97e750f8dd80f209"><td class="memItemLeft" align="right" valign="top"><a id="afed0296ea8b7841c97e750f8dd80f209" name="afed0296ea8b7841c97e750f8dd80f209"></a>
-constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::VR</b> (770, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:afed0296ea8b7841c97e750f8dd80f209"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> firmware version. <br /></td></tr>
-<tr class="separator:afed0296ea8b7841c97e750f8dd80f209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5d2960b0fc8d837c2f26a89c30d05b" id="r_a9c5d2960b0fc8d837c2f26a89c30d05b"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_e_g.html#a9c5d2960b0fc8d837c2f26a89c30d05b">REG::SN</a> (20487, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
+<tr class="memdesc:a9c5d2960b0fc8d837c2f26a89c30d05b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Device serial number.  <br /></td></tr>
+<tr class="separator:a9c5d2960b0fc8d837c2f26a89c30d05b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9b42cad3c2d3214c9b1a13e9784b2e" id="r_abf9b42cad3c2d3214c9b1a13e9784b2e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_e_g.html#abf9b42cad3c2d3214c9b1a13e9784b2e">REG::VR_MAJOR</a> (770, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
+<tr class="memdesc:abf9b42cad3c2d3214c9b1a13e9784b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> firmware version — major component.  <br /></td></tr>
+<tr class="separator:abf9b42cad3c2d3214c9b1a13e9784b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac0a5c634979eb1bbe676c4f9039aa6" id="r_a4ac0a5c634979eb1bbe676c4f9039aa6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_e_g.html#a4ac0a5c634979eb1bbe676c4f9039aa6">REG::VR_MINOR</a> (771, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
+<tr class="memdesc:a4ac0a5c634979eb1bbe676c4f9039aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> firmware version — minor component.  <br /></td></tr>
+<tr class="separator:a4ac0a5c634979eb1bbe676c4f9039aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a146907014052b3bd8f67f7f9cb3babc8" id="r_a146907014052b3bd8f67f7f9cb3babc8"><td class="memItemLeft" align="right" valign="top"><a id="a146907014052b3bd8f67f7f9cb3babc8" name="a146907014052b3bd8f67f7f9cb3babc8"></a>
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::A</b> (270, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
 <tr class="memdesc:a146907014052b3bd8f67f7f9cb3babc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total AC current <b>Unit:</b> Amperes [A]. <br /></td></tr>
@@ -675,29 +679,36 @@ constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td c
 constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::PFPHC</b> (326, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
 <tr class="memdesc:a577df9532b1a6cf623144b17164fe301"><td class="mdescLeft">&#160;</td><td class="mdescRight">Power factor phase C <b>Unit:</b> Percent [%]. <br /></td></tr>
 <tr class="separator:a577df9532b1a6cf623144b17164fe301"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b5ca80d72b68e8ffdbd2ee601822a30" id="r_a9b5ca80d72b68e8ffdbd2ee601822a30"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#a9b5ca80d72b68e8ffdbd2ee601822a30">REG::TOT_KWH_IMP</a> (1024, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:a9b5ca80d72b68e8ffdbd2ee601822a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total imported active energy — kilowatt-hours component.  <br /></td></tr>
+<tr class="memitem:a9b5ca80d72b68e8ffdbd2ee601822a30" id="r_a9b5ca80d72b68e8ffdbd2ee601822a30"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_e_g.html#a9b5ca80d72b68e8ffdbd2ee601822a30">REG::TOT_KWH_IMP</a> (1024, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:a9b5ca80d72b68e8ffdbd2ee601822a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Imported active energy — kWh component.  <br /></td></tr>
 <tr class="separator:a9b5ca80d72b68e8ffdbd2ee601822a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a42c87bcb819d2bfb1b7b334ed849a5" id="r_a7a42c87bcb819d2bfb1b7b334ed849a5"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#a7a42c87bcb819d2bfb1b7b334ed849a5">REG::TOT_WH_IMP</a> (1026, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:a7a42c87bcb819d2bfb1b7b334ed849a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total imported active energy — watt-hours remainder.  <br /></td></tr>
+<tr class="memitem:a7a42c87bcb819d2bfb1b7b334ed849a5" id="r_a7a42c87bcb819d2bfb1b7b334ed849a5"><td class="memItemLeft" align="right" valign="top"><a id="a7a42c87bcb819d2bfb1b7b334ed849a5" name="a7a42c87bcb819d2bfb1b7b334ed849a5"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::TOT_WH_IMP</b> (1026, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:a7a42c87bcb819d2bfb1b7b334ed849a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Imported active energy — Wh remainder. Combine with <code>TOT_KWH_IMP</code>. <b>Unit:</b> Watt-hour [Wh]. <br /></td></tr>
 <tr class="separator:a7a42c87bcb819d2bfb1b7b334ed849a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabf5980a01ae4a4650f36ed00b7c98a4" id="r_aabf5980a01ae4a4650f36ed00b7c98a4"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#aabf5980a01ae4a4650f36ed00b7c98a4">REG::TOT_KVARH_IMP</a> (1028, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:aabf5980a01ae4a4650f36ed00b7c98a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total imported reactive energy — kilovolt-ampere-reactive-hours component.  <br /></td></tr>
+<tr class="memitem:aabf5980a01ae4a4650f36ed00b7c98a4" id="r_aabf5980a01ae4a4650f36ed00b7c98a4"><td class="memItemLeft" align="right" valign="top"><a id="aabf5980a01ae4a4650f36ed00b7c98a4" name="aabf5980a01ae4a4650f36ed00b7c98a4"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::TOT_KVARH_IMP</b> (1028, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:aabf5980a01ae4a4650f36ed00b7c98a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Imported reactive energy — kVArh component. Combine with <code>TOT_VARH_IMP</code>. <b>Unit:</b> Kilovolt-ampere-reactive-hour [kVArh]. <br /></td></tr>
 <tr class="separator:aabf5980a01ae4a4650f36ed00b7c98a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5813413d3243aa9be1acce95de6c7db" id="r_af5813413d3243aa9be1acce95de6c7db"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#af5813413d3243aa9be1acce95de6c7db">REG::TOT_VARH_IMP</a> (1030, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:af5813413d3243aa9be1acce95de6c7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total imported reactive energy — volt-ampere-reactive-hours remainder.  <br /></td></tr>
+<tr class="memitem:af5813413d3243aa9be1acce95de6c7db" id="r_af5813413d3243aa9be1acce95de6c7db"><td class="memItemLeft" align="right" valign="top"><a id="af5813413d3243aa9be1acce95de6c7db" name="af5813413d3243aa9be1acce95de6c7db"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::TOT_VARH_IMP</b> (1030, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:af5813413d3243aa9be1acce95de6c7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Imported reactive energy — VArh remainder. Combine with <code>TOT_KVARH_IMP</code>. <b>Unit:</b> Volt-ampere-reactive-hour [VArh]. <br /></td></tr>
 <tr class="separator:af5813413d3243aa9be1acce95de6c7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76314d202f55f81f0d07f80ddc8408ee" id="r_a76314d202f55f81f0d07f80ddc8408ee"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#a76314d202f55f81f0d07f80ddc8408ee">REG::TOT_KWH_EXP</a> (1032, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:a76314d202f55f81f0d07f80ddc8408ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total exported active energy — kilowatt-hours component.  <br /></td></tr>
+<tr class="memitem:a76314d202f55f81f0d07f80ddc8408ee" id="r_a76314d202f55f81f0d07f80ddc8408ee"><td class="memItemLeft" align="right" valign="top"><a id="a76314d202f55f81f0d07f80ddc8408ee" name="a76314d202f55f81f0d07f80ddc8408ee"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::TOT_KWH_EXP</b> (1032, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:a76314d202f55f81f0d07f80ddc8408ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exported active energy — kWh component. Combine with <code>TOT_WH_EXP</code>. <b>Unit:</b> Kilowatt-hour [kWh]. <br /></td></tr>
 <tr class="separator:a76314d202f55f81f0d07f80ddc8408ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5177095bada8856ea9cbb3e5e18af7b5" id="r_a5177095bada8856ea9cbb3e5e18af7b5"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#a5177095bada8856ea9cbb3e5e18af7b5">REG::TOT_WH_EXP</a> (1034, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:a5177095bada8856ea9cbb3e5e18af7b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total exported active energy — watt-hours remainder.  <br /></td></tr>
+<tr class="memitem:a5177095bada8856ea9cbb3e5e18af7b5" id="r_a5177095bada8856ea9cbb3e5e18af7b5"><td class="memItemLeft" align="right" valign="top"><a id="a5177095bada8856ea9cbb3e5e18af7b5" name="a5177095bada8856ea9cbb3e5e18af7b5"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::TOT_WH_EXP</b> (1034, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:a5177095bada8856ea9cbb3e5e18af7b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exported active energy — Wh remainder. Combine with <code>TOT_KWH_EXP</code>. <b>Unit:</b> Watt-hour [Wh]. <br /></td></tr>
 <tr class="separator:a5177095bada8856ea9cbb3e5e18af7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabe559ec98c5710ccc2a44a1df322876" id="r_aabe559ec98c5710ccc2a44a1df322876"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#aabe559ec98c5710ccc2a44a1df322876">REG::TOT_KVARH_EXP</a> (1036, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:aabe559ec98c5710ccc2a44a1df322876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total exported reactive energy — kilovolt-ampere-reactive-hours component.  <br /></td></tr>
+<tr class="memitem:aabe559ec98c5710ccc2a44a1df322876" id="r_aabe559ec98c5710ccc2a44a1df322876"><td class="memItemLeft" align="right" valign="top"><a id="aabe559ec98c5710ccc2a44a1df322876" name="aabe559ec98c5710ccc2a44a1df322876"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::TOT_KVARH_EXP</b> (1036, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:aabe559ec98c5710ccc2a44a1df322876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exported reactive energy — kVArh component. Combine with <code>TOT_VARH_EXP</code>. <b>Unit:</b> Kilovolt-ampere-reactive-hour [kVArh]. <br /></td></tr>
 <tr class="separator:aabe559ec98c5710ccc2a44a1df322876"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab49724af1de962eea5b4e4019aef9b04" id="r_ab49724af1de962eea5b4e4019aef9b04"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#ab49724af1de962eea5b4e4019aef9b04">REG::TOT_VARH_EXP</a> (1038, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
-<tr class="memdesc:ab49724af1de962eea5b4e4019aef9b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total exported reactive energy — volt-ampere-reactive-hours remainder.  <br /></td></tr>
+<tr class="memitem:ab49724af1de962eea5b4e4019aef9b04" id="r_ab49724af1de962eea5b4e4019aef9b04"><td class="memItemLeft" align="right" valign="top"><a id="ab49724af1de962eea5b4e4019aef9b04" name="ab49724af1de962eea5b4e4019aef9b04"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>REG::TOT_VARH_EXP</b> (1038, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>)</td></tr>
+<tr class="memdesc:ab49724af1de962eea5b4e4019aef9b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exported reactive energy — VArh remainder. Combine with <code>TOT_KVARH_EXP</code>. <b>Unit:</b> Volt-ampere-reactive-hour [VArh]. <br /></td></tr>
 <tr class="separator:ab49724af1de962eea5b4e4019aef9b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -710,8 +721,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>M20X::S
 constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>M21X::SIZE</b> = 124</td></tr>
 <tr class="memdesc:abcdd1262140bf564fcbbc7c4ff21fdd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total number of registers in the meter model (float). <br /></td></tr>
 <tr class="separator:abcdd1262140bf564fcbbc7c4ff21fdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91109401fb9ff27119b9cbbeba0de697" id="r_a91109401fb9ff27119b9cbbeba0de697"><td class="memItemLeft" align="right" valign="top">constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#a91109401fb9ff27119b9cbbeba0de697">M_END::FLOAT_OFFSET</a> = 19</td></tr>
-<tr class="memdesc:a91109401fb9ff27119b9cbbeba0de697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset to convert integer and scale factor register addresses to float addresses.  <br /></td></tr>
+<tr class="memitem:a91109401fb9ff27119b9cbbeba0de697" id="r_a91109401fb9ff27119b9cbbeba0de697"><td class="memItemLeft" align="right" valign="top">constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_m___e_n_d.html#a91109401fb9ff27119b9cbbeba0de697">M_END::FLOAT_OFFSET</a> = 19</td></tr>
+<tr class="memdesc:a91109401fb9ff27119b9cbbeba0de697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset between integer-map and float-map end-block addresses.  <br /></td></tr>
 <tr class="separator:a91109401fb9ff27119b9cbbeba0de697"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a3d813a00693bc6ba3cd3b535fb3ff6" id="r_a3a3d813a00693bc6ba3cd3b535fb3ff6"><td class="memItemLeft" align="right" valign="top"><a id="a3a3d813a00693bc6ba3cd3b535fb3ff6" name="a3a3d813a00693bc6ba3cd3b535fb3ff6"></a>
 constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>REG::A_SF</b> = 0.001</td></tr>
@@ -741,594 +752,20 @@ constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>REG::VAR_
 constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>REG::PF_SF</b> = 0.1</td></tr>
 <tr class="memdesc:a275e39535dc0e8c88af59625cc40a0a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Power factor scale factor. <br /></td></tr>
 <tr class="separator:a275e39535dc0e8c88af59625cc40a0a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2f523d53b92a35824977f0ce5497e97" id="r_ae2f523d53b92a35824977f0ce5497e97"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="meter__registers_8h.html#ae2f523d53b92a35824977f0ce5497e97">REG::TOT_SF</a> = 1.0</td></tr>
-<tr class="memdesc:ae2f523d53b92a35824977f0ce5497e97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scale factor applied to all kWh/kVArh energy register pairs.  <br /></td></tr>
+<tr class="memitem:ae2f523d53b92a35824977f0ce5497e97" id="r_ae2f523d53b92a35824977f0ce5497e97"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_e_g.html#ae2f523d53b92a35824977f0ce5497e97">REG::TOT_SF</a> = 1.0</td></tr>
+<tr class="memdesc:ae2f523d53b92a35824977f0ce5497e97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved scale factor for the energy-pair sum.  <br /></td></tr>
 <tr class="separator:ae2f523d53b92a35824977f0ce5497e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> Model registers (Integer + Scale Factor and Float) for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices. </p>
-<p>This header consolidates the symbolic register definitions for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> SunSpec meters, supporting both floating-point (<a class="el" href="namespace_m21_x.html" title="Contains floating-point SunSpec Meter registers for Fronius inverters.">M21X</a>) and integer + scale factor (<a class="el" href="namespace_m20_x.html" title="Contains integer + scale factor SunSpec Meter registers for Fronius inverters.">M20X</a>) models.</p>
-<p>The two namespaces represent the two different representations:</p>
+<div class="textblock"><p>SunSpec and proprietary meter register definitions for Fronius meters. </p>
+<p>Three register namespaces:</p>
 <ul>
-<li><b><a class="el" href="namespace_m21_x.html" title="Contains floating-point SunSpec Meter registers for Fronius inverters.">M21X</a>::</b> Floating-point registers (<a class="el" href="namespace_m21_x.html" title="Contains floating-point SunSpec Meter registers for Fronius inverters.">M21X</a>)<ul>
-<li>Measurements are 32-bit IEEE floats and can generally be used directly as physical values.</li>
-<li>Supported meter model IDs:<ul>
-<li>211 – Single-phase</li>
-<li>212 – Split-phase</li>
-<li>213 – Three-phase</li>
+<li><b><a class="el" href="namespace_m20_x.html" title="SunSpec meter model — integer + scale factor variant (201–203).">M20X</a></b> – SunSpec integer + scale-factor meter models (201–203): measurements as 16-bit integers paired with <code>*_SF</code> scale factors. IDs: 201 = single-phase, 202 = split-phase, 203 = three-phase.</li>
+<li><b><a class="el" href="namespace_m21_x.html" title="SunSpec meter model — float variant (211–213).">M21X</a></b> – SunSpec float meter models (211–213): measurements as 32-bit IEEE floats; no scale factors needed. IDs: 211 = single-phase, 212 = split-phase, 213 = three-phase.</li>
+<li><b><a class="el" href="namespace_r_e_g.html" title="Fronius proprietary RTU register map for the Smart Meter TS 65A-3.">REG</a></b> – Fronius proprietary RTU register map for the Smart <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> TS 65A-3 (INT32 values with compile-time scale factors).</li>
 </ul>
-</li>
-</ul>
-</li>
-<li><b><a class="el" href="namespace_m20_x.html" title="Contains integer + scale factor SunSpec Meter registers for Fronius inverters.">M20X</a>::</b> Integer + scale factor registers (<a class="el" href="namespace_m20_x.html" title="Contains integer + scale factor SunSpec Meter registers for Fronius inverters.">M20X</a>)<ul>
-<li>Measurements are stored as 16-bit integers and require the associated scale factor registers (e.g., A_SF, V_SF) to convert to physical units.</li>
-<li>Supported meter model IDs:<ul>
-<li>201 – Single-phase</li>
-<li>202 – Split-phase</li>
-<li>203 – Three-phase</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<dl class="section note"><dt>Note</dt><dd>Many registers in the integer + scale factor model require applying the scale factor to obtain correct physical values, while float registers do not. </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a067ce7f33906ae4f8feeac18a5ea5c33" name="a067ce7f33906ae4f8feeac18a5ea5c33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a067ce7f33906ae4f8feeac18a5ea5c33">&#9670;&#160;</a></span>ID() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::ID </td>
-          <td>(</td>
-          <td class="paramtype">11&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">1&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Proprietary meter register model identifier 1. </p>
-<dl class="section return"><dt>Returns</dt><dd>731 </dd></dl>
-
-</div>
-</div>
-<a id="afc1b4a618c8246cc309c2dfec03f0f73" name="afc1b4a618c8246cc309c2dfec03f0f73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc1b4a618c8246cc309c2dfec03f0f73">&#9670;&#160;</a></span>ID() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> M_END::ID </td>
-          <td>(</td>
-          <td class="paramtype">40176&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">1&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>End block identifier. </p>
-<dl class="section return"><dt>Returns</dt><dd>Always 0xFFFF </dd></dl>
-
-</div>
-</div>
-<a id="a6e14778b66af867eb2e83c5921ce4a25" name="a6e14778b66af867eb2e83c5921ce4a25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e14778b66af867eb2e83c5921ce4a25">&#9670;&#160;</a></span>L()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> M_END::L </td>
-          <td>(</td>
-          <td class="paramtype">40177&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">1&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>End block length. </p>
-<dl class="section return"><dt>Returns</dt><dd>Always 0 </dd></dl>
-
-</div>
-</div>
-<a id="aabe559ec98c5710ccc2a44a1df322876" name="aabe559ec98c5710ccc2a44a1df322876"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabe559ec98c5710ccc2a44a1df322876">&#9670;&#160;</a></span>TOT_KVARH_EXP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_KVARH_EXP </td>
-          <td>(</td>
-          <td class="paramtype">1036&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total exported reactive energy — kilovolt-ampere-reactive-hours component. </p>
-<p>The proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map stores reactive energy as two separate INT32 register pairs. Multiply this value by 1000 and add TOT_VARH_EXP to obtain the total exported reactive energy in volt-ampere-reactive-hours.</p>
-<p><b>Unit:</b> Kilovolt-ampere-reactive-hours [kVArh] </p>
-
-</div>
-</div>
-<a id="aabf5980a01ae4a4650f36ed00b7c98a4" name="aabf5980a01ae4a4650f36ed00b7c98a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabf5980a01ae4a4650f36ed00b7c98a4">&#9670;&#160;</a></span>TOT_KVARH_IMP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_KVARH_IMP </td>
-          <td>(</td>
-          <td class="paramtype">1028&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total imported reactive energy — kilovolt-ampere-reactive-hours component. </p>
-<p>The proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map stores reactive energy as two separate INT32 register pairs. Multiply this value by 1000 and add TOT_VARH_IMP to obtain the total imported reactive energy in volt-ampere-reactive-hours.</p>
-<p><b>Unit:</b> Kilovolt-ampere-reactive-hours [kVArh] </p>
-
-</div>
-</div>
-<a id="a76314d202f55f81f0d07f80ddc8408ee" name="a76314d202f55f81f0d07f80ddc8408ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76314d202f55f81f0d07f80ddc8408ee">&#9670;&#160;</a></span>TOT_KWH_EXP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_KWH_EXP </td>
-          <td>(</td>
-          <td class="paramtype">1032&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total exported active energy — kilowatt-hours component. </p>
-<p>The proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map stores energy as two separate INT32 register pairs. Multiply this value by 1000 and add TOT_WH_EXP to obtain the total exported active energy in watt-hours.</p>
-<p><b>Unit:</b> Kilowatt-hours [kWh] </p>
-
-</div>
-</div>
-<a id="a9b5ca80d72b68e8ffdbd2ee601822a30" name="a9b5ca80d72b68e8ffdbd2ee601822a30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b5ca80d72b68e8ffdbd2ee601822a30">&#9670;&#160;</a></span>TOT_KWH_IMP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_KWH_IMP </td>
-          <td>(</td>
-          <td class="paramtype">1024&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total imported active energy — kilowatt-hours component. </p>
-<p>The proprietary <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> RTU map stores energy as two separate INT32 register pairs. Multiply this value by 1000 and add TOT_WH_IMP to obtain the total imported active energy in watt-hours.</p>
-<p><b>Unit:</b> Kilowatt-hours [kWh] </p>
-
-</div>
-</div>
-<a id="ab49724af1de962eea5b4e4019aef9b04" name="ab49724af1de962eea5b4e4019aef9b04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab49724af1de962eea5b4e4019aef9b04">&#9670;&#160;</a></span>TOT_VARH_EXP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_VARH_EXP </td>
-          <td>(</td>
-          <td class="paramtype">1038&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total exported reactive energy — volt-ampere-reactive-hours remainder. </p>
-<p>The volt-ampere-reactive-hours component of the exported reactive energy counter. Add to TOT_KVARH_EXP × 1000 to obtain the total exported reactive energy in volt-ampere-reactive-hours.</p>
-<p><b>Unit:</b> Volt-ampere-reactive-hours [VArh] </p>
-
-</div>
-</div>
-<a id="af5813413d3243aa9be1acce95de6c7db" name="af5813413d3243aa9be1acce95de6c7db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5813413d3243aa9be1acce95de6c7db">&#9670;&#160;</a></span>TOT_VARH_IMP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_VARH_IMP </td>
-          <td>(</td>
-          <td class="paramtype">1030&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total imported reactive energy — volt-ampere-reactive-hours remainder. </p>
-<p>The volt-ampere-reactive-hours component of the imported reactive energy counter. Add to TOT_KVARH_IMP × 1000 to obtain the total imported reactive energy in volt-ampere-reactive-hours.</p>
-<p><b>Unit:</b> Volt-ampere-reactive-hours [VArh] </p>
-
-</div>
-</div>
-<a id="a5177095bada8856ea9cbb3e5e18af7b5" name="a5177095bada8856ea9cbb3e5e18af7b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5177095bada8856ea9cbb3e5e18af7b5">&#9670;&#160;</a></span>TOT_WH_EXP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_WH_EXP </td>
-          <td>(</td>
-          <td class="paramtype">1034&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total exported active energy — watt-hours remainder. </p>
-<p>The watt-hours component of the exported active energy counter. Add to TOT_KWH_EXP × 1000 to obtain the total exported active energy in watt-hours.</p>
-<p><b>Unit:</b> Watt-hours [Wh] </p>
-
-</div>
-</div>
-<a id="a7a42c87bcb819d2bfb1b7b334ed849a5" name="a7a42c87bcb819d2bfb1b7b334ed849a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a42c87bcb819d2bfb1b7b334ed849a5">&#9670;&#160;</a></span>TOT_WH_IMP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> REG::TOT_WH_IMP </td>
-          <td>(</td>
-          <td class="paramtype">1026&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6495adba09844fac8eeb0aba86e6f1bf">Register::Type::INT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total imported active energy — watt-hours remainder. </p>
-<p>The watt-hours component of the imported active energy counter. Add to TOT_KWH_IMP × 1000 to obtain the total imported active energy in watt-hours.</p>
-<p><b>Unit:</b> Watt-hours [Wh] </p>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a91109401fb9ff27119b9cbbeba0de697" name="a91109401fb9ff27119b9cbbeba0de697"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91109401fb9ff27119b9cbbeba0de697">&#9670;&#160;</a></span>FLOAT_OFFSET</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint16_t M_END::FLOAT_OFFSET = 19</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Offset to convert integer and scale factor register addresses to float addresses. </p>
-<p>In <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> devices, certain SunSpec float registers are implemented as integer registers with associated scale factors. To obtain the integer register address corresponding to a float register, add this offset to the integer register address (<code>ADDR</code>). </p>
-
-</div>
-</div>
-<a id="ae2f523d53b92a35824977f0ce5497e97" name="ae2f523d53b92a35824977f0ce5497e97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2f523d53b92a35824977f0ce5497e97">&#9670;&#160;</a></span>TOT_SF</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr double REG::TOT_SF = 1.0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Scale factor applied to all kWh/kVArh energy register pairs. </p>
-<p>Converts the kilowatt-hours (or kilovolt-ampere-reactive-hours) component to watt-hours before summing with the watt-hours remainder: total_Wh = (TOT_K{W,VAr}H_{IMP,EXP} × 1000) + TOT_{W,VAr}H_{IMP,EXP}</p>
-<p>The factor of 1000 is applied in code when combining the register pair; this constant is reserved for any additional scaling beyond that conversion. </p>
-
-</div>
-</div>
-</div><!-- contents -->
+<p>The <b><a class="el" href="namespace_m___e_n_d.html" title="SunSpec end-of-map marker for the meter map.">M_END</a></b> namespace defines the end-of-map marker shared by both SunSpec variants, and provides <code>FLOAT_OFFSET</code> to derive the float-map end address from the integer-map end address. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

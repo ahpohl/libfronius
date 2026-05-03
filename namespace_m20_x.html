@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('namespace_m20_x.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 
-<p>Contains integer + scale factor SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> registers for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters.  
+<p>SunSpec meter model — integer + scale factor variant (201–203).  
 <a href="namespace_m20_x.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -344,8 +344,8 @@ constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE</b
 <tr class="separator:a609423ec5c0f55dabc0fcbcc99a3598c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Contains integer + scale factor SunSpec <a class="el" href="class_meter.html" title="Represents a Fronius Modbus-compatible power meter.">Meter</a> registers for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> inverters. </p>
-<p>All measurements in this namespace are represented as 16-bit integers. Scale factors must be applied to convert raw register values into physical units. <a class="el" href="struct_register.html" title="Represents a Modbus register definition.">Register</a> addresses follow the standard SunSpec integer + scale factor model layout. </p>
+<div class="textblock"><p>SunSpec meter model — integer + scale factor variant (201–203). </p>
+<p>Measurements are 16-bit integers; apply the corresponding <code>*_SF</code> scale-factor register to obtain physical units. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="ad86af2305f714b3d7c94e48908cf672d" name="ad86af2305f714b3d7c94e48908cf672d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad86af2305f714b3d7c94e48908cf672d">&#9670;&#160;</a></span>ID()</h2>

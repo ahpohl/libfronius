@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('namespace_f.html',''); initResizable()
 </div><!--header-->
 <div class="contents">
 
-<p>Fronius-specific Modbus register definitions.  
+<p>Fronius proprietary Modbus extensions.  
 <a href="namespace_f.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -112,36 +112,40 @@ Functions</h2></td></tr>
 <tr class="memdesc:a5eaceccdd150d329875f02c19cdce18a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete stored rating data of the current inverter.  <br /></td></tr>
 <tr class="separator:a5eaceccdd150d329875f02c19cdce18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92255b6816a3aed976d7c52ba088479b" id="r_a92255b6816a3aed976d7c52ba088479b"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#a92255b6816a3aed976d7c52ba088479b">STORE_DATA</a> (212, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a92255b6816a3aed976d7c52ba088479b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store rating data persistently.  <br /></td></tr>
+<tr class="memdesc:a92255b6816a3aed976d7c52ba088479b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Persistently store rating data.  <br /></td></tr>
 <tr class="separator:a92255b6816a3aed976d7c52ba088479b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1a5d09fea9ef641c9748f4c72b98fa9" id="r_af1a5d09fea9ef641c9748f4c72b98fa9"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#af1a5d09fea9ef641c9748f4c72b98fa9">ACTIVE_STATE_CODE</a> (213, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:af1a5d09fea9ef641c9748f4c72b98fa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current active inverter state code.  <br /></td></tr>
+<tr class="memdesc:af1a5d09fea9ef641c9748f4c72b98fa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current vendor-specific inverter state code.  <br /></td></tr>
 <tr class="separator:af1a5d09fea9ef641c9748f4c72b98fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c2cfa27acd73c8976ceb3ce2b2b417c" id="r_a9c2cfa27acd73c8976ceb3ce2b2b417c"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#a9c2cfa27acd73c8976ceb3ce2b2b417c">RESET_ALL_EVENT_FLAGS</a> (214, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a9c2cfa27acd73c8976ceb3ce2b2b417c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset all event flags and active state code.  <br /></td></tr>
+<tr class="memdesc:a9c2cfa27acd73c8976ceb3ce2b2b417c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset all event flags and the active state code.  <br /></td></tr>
 <tr class="separator:a9c2cfa27acd73c8976ceb3ce2b2b417c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac316e7d507c8d6207e52d804af0ddcc3" id="r_ac316e7d507c8d6207e52d804af0ddcc3"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#ac316e7d507c8d6207e52d804af0ddcc3">MODEL_TYPE</a> (215, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:ac316e7d507c8d6207e52d804af0ddcc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select SunSpec model type used for inverter and meter data.  <br /></td></tr>
+<tr class="memdesc:ac316e7d507c8d6207e52d804af0ddcc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select SunSpec model encoding for inverter and meter data.  <br /></td></tr>
 <tr class="separator:ac316e7d507c8d6207e52d804af0ddcc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38e3a3fbeac21042bd14a17915d4eae7" id="r_a38e3a3fbeac21042bd14a17915d4eae7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#a38e3a3fbeac21042bd14a17915d4eae7">STORAGE_RESTRICTIONS_VIEW_MODE</a> (216, 1, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a48d8f1a723d44ff4a87db1bb6c551c62">Register::Type::UINT16</a>)</td></tr>
-<tr class="memdesc:a38e3a3fbeac21042bd14a17915d4eae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines scope of storage restriction reporting.  <br /></td></tr>
+<tr class="memdesc:a38e3a3fbeac21042bd14a17915d4eae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scope of storage restriction reporting in <a class="el" href="namespace_i124.html" title="SunSpec Basic Storage Controls Model (ID 124).">I124</a>.  <br /></td></tr>
 <tr class="separator:a38e3a3fbeac21042bd14a17915d4eae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec" id="r_aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec">SITE_POWER</a> (499, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
-<tr class="memdesc:aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total site power of all connected inverters. <b>Unit:</b> Watt [W].  <br /></td></tr>
+<tr class="memitem:aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec" id="r_aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec"><td class="memItemLeft" align="right" valign="top"><a id="aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec" name="aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SITE_POWER</b> (499, 2, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>)</td></tr>
+<tr class="memdesc:aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total instantaneous active power across all connected inverters. <b>Unit:</b> Watt [W]. <br /></td></tr>
 <tr class="separator:aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af60bba11ffac92840644745d37aaa652" id="r_af60bba11ffac92840644745d37aaa652"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#af60bba11ffac92840644745d37aaa652">SITE_ENERGY_DAY</a> (501, 4, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>)</td></tr>
-<tr class="memdesc:af60bba11ffac92840644745d37aaa652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total energy produced today by all connected inverters. <b>Unit:</b> Watt-hour [Wh].  <br /></td></tr>
+<tr class="memitem:af60bba11ffac92840644745d37aaa652" id="r_af60bba11ffac92840644745d37aaa652"><td class="memItemLeft" align="right" valign="top"><a id="af60bba11ffac92840644745d37aaa652" name="af60bba11ffac92840644745d37aaa652"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SITE_ENERGY_DAY</b> (501, 4, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>)</td></tr>
+<tr class="memdesc:af60bba11ffac92840644745d37aaa652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total energy produced today across all connected inverters (since midnight). <b>Unit:</b> Watt-hour [Wh]. <br /></td></tr>
 <tr class="separator:af60bba11ffac92840644745d37aaa652"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cf0c0eaa1ed74936d9254811402807a" id="r_a7cf0c0eaa1ed74936d9254811402807a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#a7cf0c0eaa1ed74936d9254811402807a">SITE_ENERGY_YEAR</a> (505, 4, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>)</td></tr>
-<tr class="memdesc:a7cf0c0eaa1ed74936d9254811402807a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total energy produced during the current year. <b>Unit:</b> Watt-hour [Wh].  <br /></td></tr>
+<tr class="memitem:a7cf0c0eaa1ed74936d9254811402807a" id="r_a7cf0c0eaa1ed74936d9254811402807a"><td class="memItemLeft" align="right" valign="top"><a id="a7cf0c0eaa1ed74936d9254811402807a" name="a7cf0c0eaa1ed74936d9254811402807a"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SITE_ENERGY_YEAR</b> (505, 4, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>)</td></tr>
+<tr class="memdesc:a7cf0c0eaa1ed74936d9254811402807a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total energy produced this calendar year across all connected inverters. <b>Unit:</b> Watt-hour [Wh]. <br /></td></tr>
 <tr class="separator:a7cf0c0eaa1ed74936d9254811402807a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70168be602179a924ce7a9369a9f4e41" id="r_a70168be602179a924ce7a9369a9f4e41"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_f.html#a70168be602179a924ce7a9369a9f4e41">SITE_ENERGY_TOTAL</a> (509, 4, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>)</td></tr>
-<tr class="memdesc:a70168be602179a924ce7a9369a9f4e41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lifetime total energy produced by all connected inverters. <b>Unit:</b> Watt-hour [Wh].  <br /></td></tr>
+<tr class="memitem:a70168be602179a924ce7a9369a9f4e41" id="r_a70168be602179a924ce7a9369a9f4e41"><td class="memItemLeft" align="right" valign="top"><a id="a70168be602179a924ce7a9369a9f4e41" name="a70168be602179a924ce7a9369a9f4e41"></a>
+constexpr <a class="el" href="struct_register.html">Register</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SITE_ENERGY_TOTAL</b> (509, 4, <a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>)</td></tr>
+<tr class="memdesc:a70168be602179a924ce7a9369a9f4e41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lifetime total energy produced across all connected inverters. <b>Unit:</b> Watt-hour [Wh]. <br /></td></tr>
 <tr class="separator:a70168be602179a924ce7a9369a9f4e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Fronius-specific Modbus register definitions. </p>
-<p>Contains <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> proprietary Modbus registers that extend or complement the SunSpec register maps. These registers provide device management functions, inverter status reporting, and access to site-level power and energy data. </p>
+<div class="textblock"><p>Fronius proprietary Modbus extensions. </p>
+<p>Vendor registers that complement the SunSpec maps: device management triggers, vendor inverter state, and site-level totals. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="af1a5d09fea9ef641c9748f4c72b98fa9" name="af1a5d09fea9ef641c9748f4c72b98fa9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af1a5d09fea9ef641c9748f4c72b98fa9">&#9670;&#160;</a></span>ACTIVE_STATE_CODE()</h2>
@@ -183,9 +187,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Current active inverter state code. </p>
-<p>Reports the current operational state of the inverter. Refer to the inverter manual for detailed state descriptions.</p>
-<dl class="section note"><dt>Note</dt><dd>Not supported for <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Hybrid inverters. Status may differ during night-time operation compared to other inverter models. </dd></dl>
+<p>Current vendor-specific inverter state code. </p>
+<p>Refer to the inverter manual for state-code details.</p>
+<dl class="section note"><dt>Note</dt><dd>Not supported for Fronius Hybrid inverters. Behaviour can differ at night vs. daytime on some models. </dd></dl>
 
 </div>
 </div>
@@ -230,7 +234,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Delete stored rating data of the current inverter. </p>
-<p>Writing the value <code>0xFFFF</code> deletes stored rating data for the currently addressed inverter. </p>
+<p>Writing <code>0xFFFF</code> deletes the stored rating data for the addressed inverter. </p>
 
 </div>
 </div>
@@ -274,11 +278,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Select SunSpec model type used for inverter and meter data. </p>
-<p>Defines whether the SunSpec data is represented using floating-point or integer &amp; scale-factor models. After setting, the value <code>6</code> must be written to confirm the change.</p>
+<p>Select SunSpec model encoding for inverter and meter data. </p>
+<p>After writing the desired value, write <code>6</code> to confirm the change.</p>
 <ul>
-<li><code>1</code>: Floating point model</li>
-<li><code>2</code>: Integer &amp; scale factor model </li>
+<li><code>1</code>: floating-point models</li>
+<li><code>2</code>: integer + scale-factor models </li>
 </ul>
 
 </div>
@@ -323,188 +327,8 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reset all event flags and active state code. </p>
-<p>Writing the value <code>0xFFFF</code> resets all event flags and clears the active state code register. </p>
-
-</div>
-</div>
-<a id="af60bba11ffac92840644745d37aaa652" name="af60bba11ffac92840644745d37aaa652"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af60bba11ffac92840644745d37aaa652">&#9670;&#160;</a></span>SITE_ENERGY_DAY()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> F::SITE_ENERGY_DAY </td>
-          <td>(</td>
-          <td class="paramtype">501&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">4&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total energy produced today by all connected inverters. <b>Unit:</b> Watt-hour [Wh]. </p>
-<p>Accumulates the total daily energy production across all connected inverters since midnight. </p>
-
-</div>
-</div>
-<a id="a70168be602179a924ce7a9369a9f4e41" name="a70168be602179a924ce7a9369a9f4e41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70168be602179a924ce7a9369a9f4e41">&#9670;&#160;</a></span>SITE_ENERGY_TOTAL()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> F::SITE_ENERGY_TOTAL </td>
-          <td>(</td>
-          <td class="paramtype">509&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">4&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Lifetime total energy produced by all connected inverters. <b>Unit:</b> Watt-hour [Wh]. </p>
-<p>Indicates the total lifetime energy yield of all connected inverters in the system. </p>
-
-</div>
-</div>
-<a id="a7cf0c0eaa1ed74936d9254811402807a" name="a7cf0c0eaa1ed74936d9254811402807a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7cf0c0eaa1ed74936d9254811402807a">&#9670;&#160;</a></span>SITE_ENERGY_YEAR()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> F::SITE_ENERGY_YEAR </td>
-          <td>(</td>
-          <td class="paramtype">505&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">4&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a6de7acf711860176ba606e9aa2b85d5f">Register::Type::UINT64</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total energy produced during the current year. <b>Unit:</b> Watt-hour [Wh]. </p>
-<p>Represents the cumulative energy produced by all connected inverters since January 1st of the current year. </p>
-
-</div>
-</div>
-<a id="aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec" name="aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb0bb74dd2e7c1aa9a3db8b9ddb0a3ec">&#9670;&#160;</a></span>SITE_POWER()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="struct_register.html">Register</a> F::SITE_POWER </td>
-          <td>(</td>
-          <td class="paramtype">499&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">2&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4a17266551181f69a1b4a3ad5c9e270afc">Register::Type::UINT32</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Total site power of all connected inverters. <b>Unit:</b> Watt [W]. </p>
-<p>Reports the instantaneous total active power output across all connected inverters in the system. </p>
+<p>Reset all event flags and the active state code. </p>
+<p>Writing <code>0xFFFF</code> clears the event flag registers and the active state code register. </p>
 
 </div>
 </div>
@@ -548,11 +372,10 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Defines scope of storage restriction reporting. </p>
-<p>Selects which type of restriction data is reported by the BasicStorageControl model (IC124).</p>
+<p>Scope of storage restriction reporting in <a class="el" href="namespace_i124.html" title="SunSpec Basic Storage Controls Model (ID 124).">I124</a>. </p>
 <ul>
-<li><code>0</code>: Local restrictions (default, set by Modbus interface)</li>
-<li><code>1</code>: Global restrictions (system-wide) </li>
+<li><code>0</code>: local restrictions (default; set via Modbus)</li>
+<li><code>1</code>: global restrictions (system-wide) </li>
 </ul>
 
 </div>
@@ -597,8 +420,8 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Store rating data persistently. </p>
-<p>Writing <code>0xFFFF</code> stores the rating data of all inverters connected to the <a class="el" href="class_fronius.html" title="Provides a Modbus communication interface for Fronius devices.">Fronius</a> Datamanager persistently. </p>
+<p>Persistently store rating data. </p>
+<p>Writing <code>0xFFFF</code> stores rating data of all inverters connected to the Fronius Datamanager. </p>
 
 </div>
 </div>
