@@ -15,7 +15,7 @@
 #include <cerrno>
 #include <expected>
 #include <format>
-#include <modbus/modbus.h>
+#include <modbus.h>
 #include <string>
 
 /**

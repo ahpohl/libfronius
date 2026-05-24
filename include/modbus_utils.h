@@ -18,7 +18,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
-#include <modbus/modbus.h>
+#include <modbus.h>
 #include <netinet/in.h>
 #include <string>
 

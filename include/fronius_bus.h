@@ -37,7 +37,7 @@
 #include <functional>
 #include <future>
 #include <memory>
-#include <modbus/modbus.h>
+#include <modbus.h>
 #include <mutex>
 #include <queue>
 #include <set>

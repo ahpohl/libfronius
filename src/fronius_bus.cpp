@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <cerrno>
 #include <chrono>
-#include <modbus/modbus.h>
+#include <modbus.h>
 #include <mutex>
 #include <thread>
 

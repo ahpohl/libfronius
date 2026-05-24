@@ -5,7 +5,7 @@
 #include "register_base.h"
 #include <cmath>
 #include <expected>
-#include <modbus/modbus.h>
+#include <modbus.h>
 #include <optional>
 #include <string>
 #include <vector>
