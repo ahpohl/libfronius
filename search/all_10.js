@@ -14,9 +14,11 @@ var searchData=
   ['relay_5ffault_11',['RELAY_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01aea2bbd74ea97dcf2de90e6416c3c2607',1,'FroniusTypes']]],
   ['remoteendpoint_12',['RemoteEndpoint',['../struct_fronius_types_1_1_remote_endpoint.html',1,'FroniusTypes']]],
   ['remoteendpoint_5f_13',['remoteEndpoint_',['../class_fronius_bus.html#a3633e7f63a65467a4cc8e9ad9978fc8a',1,'FroniusBus']]],
-  ['reporterror_14',['reportError',['../class_fronius_device.html#a28d7c6dfe345291fc2e4cd3f08018a82',1,'FroniusDevice']]],
-  ['reset_5fall_5fevent_5fflags_15',['RESET_ALL_EVENT_FLAGS',['../namespace_f.html#a9c2cfa27acd73c8976ceb3ce2b2b417c',1,'F']]],
-  ['retriesinprogress_5f_16',['retriesInProgress_',['../class_fronius_bus.html#abc87428ae35ad80ffac4521f666eb1fd',1,'FroniusBus']]],
-  ['rtu_17',['rtu',['../struct_modbus_bus_config.html#a3c69f8453a12ae78edd183a2907c4607',1,'ModbusBusConfig']]],
-  ['running_5f_18',['running_',['../class_fronius_bus.html#af7095bc3f9bf1267e35c9b9bab05d7bc',1,'FroniusBus']]]
+  ['removebuscallback_14',['removeBusCallback',['../class_fronius_bus.html#ab3e32deae85977c2a027f0005dbef8c9',1,'FroniusBus']]],
+  ['reporterror_15',['reportError',['../class_fronius_device.html#a28d7c6dfe345291fc2e4cd3f08018a82',1,'FroniusDevice']]],
+  ['reset_5fall_5fevent_5fflags_16',['RESET_ALL_EVENT_FLAGS',['../namespace_f.html#a9c2cfa27acd73c8976ceb3ce2b2b417c',1,'F']]],
+  ['retries_5f_17',['retries_',['../class_fronius_bus.html#ae03164b483ec33af5d01545e9aecf610',1,'FroniusBus']]],
+  ['retryentry_18',['RetryEntry',['../struct_fronius_bus_1_1_retry_entry.html',1,'FroniusBus']]],
+  ['rtu_19',['rtu',['../struct_modbus_bus_config.html#a3c69f8453a12ae78edd183a2907c4607',1,'ModbusBusConfig']]],
+  ['running_5f_20',['running_',['../class_fronius_bus.html#af7095bc3f9bf1267e35c9b9bab05d7bc',1,'FroniusBus']]]
 ];

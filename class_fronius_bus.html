@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('class_fronius_bus.html',''); initResiz
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a>  </div>
@@ -113,9 +114,21 @@ $(document).ready(function(){initNavTree('class_fronius_bus.html',''); initResiz
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_bus_1_1_callback_entry.html">CallbackEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A registered callback together with its identifier.  <a href="struct_fronius_bus_1_1_callback_entry.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_bus_1_1_retry_entry.html">RetryEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device retry tracking entry.  <a href="struct_fronius_bus_1_1_retry_entry.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_bus_1_1_transaction.html">Transaction</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A single Modbus register-read request submitted to the bus queue.  <a href="struct_fronius_bus_1_1_transaction.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aa1cdfec244d1cc0294c8f316b3e0c03e" id="r_aa1cdfec244d1cc0294c8f316b3e0c03e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a> = uint64_t</td></tr>
+<tr class="memdesc:aa1cdfec244d1cc0294c8f316b3e0c03e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opaque identifier for a registered bus-level callback.  <br /></td></tr>
+<tr class="separator:aa1cdfec244d1cc0294c8f316b3e0c03e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -156,18 +169,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00fc780c16ee7eabb0a18ec8edf8ae92" id="r_a00fc780c16ee7eabb0a18ec8edf8ae92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a00fc780c16ee7eabb0a18ec8edf8ae92">registerDevice</a> (std::weak_ptr&lt; <a class="el" href="class_fronius_device.html">FroniusDevice</a> &gt; device)</td></tr>
 <tr class="memdesc:a00fc780c16ee7eabb0a18ec8edf8ae92"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a device so it receives bus lifecycle notifications.  <br /></td></tr>
 <tr class="separator:a00fc780c16ee7eabb0a18ec8edf8ae92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d5177970503f696f4d783b66570b187" id="r_a6d5177970503f696f4d783b66570b187"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a6d5177970503f696f4d783b66570b187">unregisterDevice</a> (<a class="el" href="class_fronius_device.html">FroniusDevice</a> *device)</td></tr>
+<tr class="memdesc:a6d5177970503f696f4d783b66570b187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a device from the bus registry.  <br /></td></tr>
+<tr class="separator:a6d5177970503f696f4d783b66570b187"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74bd658815956625181fad54a52b2ca0" id="r_a74bd658815956625181fad54a52b2ca0"><td class="memItemLeft" align="right" valign="top">std::future&lt; std::expected&lt; void, <a class="el" href="struct_modbus_error.html">ModbusError</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a74bd658815956625181fad54a52b2ca0">submit</a> (<a class="el" href="struct_fronius_bus_1_1_transaction.html">Transaction</a> t)</td></tr>
 <tr class="memdesc:a74bd658815956625181fad54a52b2ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Submit a register-read transaction to the bus queue.  <br /></td></tr>
 <tr class="separator:a74bd658815956625181fad54a52b2ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b2efac0b5ecb795893a9657a27f9caf" id="r_a3b2efac0b5ecb795893a9657a27f9caf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a3b2efac0b5ecb795893a9657a27f9caf">addBusConnectCallback</a> (std::function&lt; void()&gt; cb)</td></tr>
-<tr class="memdesc:a3b2efac0b5ecb795893a9657a27f9caf"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked when the physical bus connects.  <br /></td></tr>
-<tr class="separator:a3b2efac0b5ecb795893a9657a27f9caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3db6c7ca591d6c224aae59edbac97563" id="r_a3db6c7ca591d6c224aae59edbac97563"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a3db6c7ca591d6c224aae59edbac97563">addBusDisconnectCallback</a> (std::function&lt; void(int reconnectDelay)&gt; cb)</td></tr>
-<tr class="memdesc:a3db6c7ca591d6c224aae59edbac97563"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked when the bus connection is lost.  <br /></td></tr>
-<tr class="separator:a3db6c7ca591d6c224aae59edbac97563"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a609604d9a8c0fedb9d185c83193e22a0" id="r_a609604d9a8c0fedb9d185c83193e22a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a609604d9a8c0fedb9d185c83193e22a0">addBusErrorCallback</a> (std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt; cb)</td></tr>
-<tr class="memdesc:a609604d9a8c0fedb9d185c83193e22a0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked on bus-level Modbus errors.  <br /></td></tr>
-<tr class="separator:a609604d9a8c0fedb9d185c83193e22a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b63210783403a2d9ad3a3640164476b" id="r_a4b63210783403a2d9ad3a3640164476b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a4b63210783403a2d9ad3a3640164476b">addBusConnectCallback</a> (std::function&lt; void()&gt; cb)</td></tr>
+<tr class="memdesc:a4b63210783403a2d9ad3a3640164476b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked when the physical bus connects.  <br /></td></tr>
+<tr class="separator:a4b63210783403a2d9ad3a3640164476b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8c29fa773ed04d12022eb6a03d83fba" id="r_aa8c29fa773ed04d12022eb6a03d83fba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#aa8c29fa773ed04d12022eb6a03d83fba">addBusDisconnectCallback</a> (std::function&lt; void(int reconnectDelay)&gt; cb)</td></tr>
+<tr class="memdesc:aa8c29fa773ed04d12022eb6a03d83fba"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked when the bus connection is lost.  <br /></td></tr>
+<tr class="separator:aa8c29fa773ed04d12022eb6a03d83fba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef7e7311e673640396205a08a5746724" id="r_aef7e7311e673640396205a08a5746724"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#aef7e7311e673640396205a08a5746724">addBusErrorCallback</a> (std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt; cb)</td></tr>
+<tr class="memdesc:aef7e7311e673640396205a08a5746724"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked on bus-level Modbus errors.  <br /></td></tr>
+<tr class="separator:aef7e7311e673640396205a08a5746724"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e32deae85977c2a027f0005dbef8c9" id="r_ab3e32deae85977c2a027f0005dbef8c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#ab3e32deae85977c2a027f0005dbef8c9">removeBusCallback</a> (<a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a> id)</td></tr>
+<tr class="memdesc:ab3e32deae85977c2a027f0005dbef8c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a previously-registered bus-level callback.  <br /></td></tr>
+<tr class="separator:ab3e32deae85977c2a027f0005dbef8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a507b1da34d44edb65948518350b2a4b5" id="r_a507b1da34d44edb65948518350b2a4b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a507b1da34d44edb65948518350b2a4b5">addBusLogCallback</a> (std::function&lt; void(const std::string &amp;)&gt; cb)</td></tr>
 <tr class="memdesc:a507b1da34d44edb65948518350b2a4b5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a single callback for internal bus diagnostic messages.  <br /></td></tr>
 <tr class="separator:a507b1da34d44edb65948518350b2a4b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,9 +222,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>busLoop</b> ()</td></
 void&#160;</td><td class="memItemRight" valign="bottom"><b>notifyDevicesDisconnected</b> ()</td></tr>
 <tr class="memdesc:af663d7becc371ce0fe5c3b80a40f4051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify all registered devices that the bus has disconnected. <br /></td></tr>
 <tr class="separator:af663d7becc371ce0fe5c3b80a40f4051"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac62d922cc2a174d78d502a3e8c8552c2" id="r_ac62d922cc2a174d78d502a3e8c8552c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#ac62d922cc2a174d78d502a3e8c8552c2">deviceConnectLoop</a> (std::shared_ptr&lt; <a class="el" href="class_fronius_device.html">FroniusDevice</a> &gt; device)</td></tr>
-<tr class="memdesc:ac62d922cc2a174d78d502a3e8c8552c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device reconnect loop (runs in a detached background thread).  <br /></td></tr>
-<tr class="separator:ac62d922cc2a174d78d502a3e8c8552c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfbc395e17e3f942cf7b8297e4b7c12f" id="r_abfbc395e17e3f942cf7b8297e4b7c12f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#abfbc395e17e3f942cf7b8297e4b7c12f">deviceConnectLoop</a> (std::shared_ptr&lt; <a class="el" href="class_fronius_device.html">FroniusDevice</a> &gt; device, <a class="el" href="struct_fronius_bus_1_1_retry_entry.html">RetryEntry</a> &amp;entry)</td></tr>
+<tr class="memdesc:abfbc395e17e3f942cf7b8297e4b7c12f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device reconnect loop, executed by a tracked jthread.  <br /></td></tr>
+<tr class="separator:abfbc395e17e3f942cf7b8297e4b7c12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ba3a2ec915ec0d0acd92da822bc30da" id="r_a1ba3a2ec915ec0d0acd92da822bc30da"><td class="memTemplParams" colspan="2"><a id="a1ba3a2ec915ec0d0acd92da822bc30da" name="a1ba3a2ec915ec0d0acd92da822bc30da"></a>
 template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:a1ba3a2ec915ec0d0acd92da822bc30da"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>busLog</b> (std::format_string&lt; Args... &gt; fmt, Args &amp;&amp;...args)</td></tr>
@@ -248,27 +267,33 @@ std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>
 <tr class="memitem:a816b90ca66bd5b746f2ec4aafb07bd4b" id="r_a816b90ca66bd5b746f2ec4aafb07bd4b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::weak_ptr&lt; <a class="el" href="class_fronius_device.html">FroniusDevice</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a816b90ca66bd5b746f2ec4aafb07bd4b">devices_</a></td></tr>
 <tr class="memdesc:a816b90ca66bd5b746f2ec4aafb07bd4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak pointers to all registered devices.  <br /></td></tr>
 <tr class="separator:a816b90ca66bd5b746f2ec4aafb07bd4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc87428ae35ad80ffac4521f666eb1fd" id="r_abc87428ae35ad80ffac4521f666eb1fd"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="class_fronius_device.html">FroniusDevice</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#abc87428ae35ad80ffac4521f666eb1fd">retriesInProgress_</a></td></tr>
-<tr class="memdesc:abc87428ae35ad80ffac4521f666eb1fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set of devices currently undergoing a per-device retry loop.  <br /></td></tr>
-<tr class="separator:abc87428ae35ad80ffac4521f666eb1fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae03164b483ec33af5d01545e9aecf610" id="r_ae03164b483ec33af5d01545e9aecf610"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::unique_ptr&lt; <a class="el" href="struct_fronius_bus_1_1_retry_entry.html">RetryEntry</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#ae03164b483ec33af5d01545e9aecf610">retries_</a></td></tr>
+<tr class="memdesc:ae03164b483ec33af5d01545e9aecf610"><td class="mdescLeft">&#160;</td><td class="mdescRight">All retry entries — both running and finished-but-not-reaped.  <br /></td></tr>
+<tr class="separator:ae03164b483ec33af5d01545e9aecf610"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4be8a9f29579ae9cb3e67bbabe47256" id="r_aa4be8a9f29579ae9cb3e67bbabe47256"><td class="memItemLeft" align="right" valign="top">std::queue&lt; <a class="el" href="struct_fronius_bus_1_1_transaction.html">Transaction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#aa4be8a9f29579ae9cb3e67bbabe47256">txQueue_</a></td></tr>
 <tr class="memdesc:aa4be8a9f29579ae9cb3e67bbabe47256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue of pending read transactions.  <br /></td></tr>
 <tr class="separator:aa4be8a9f29579ae9cb3e67bbabe47256"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a454c19dcc8f1ce24f4becda11f324dab" id="r_a454c19dcc8f1ce24f4becda11f324dab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a454c19dcc8f1ce24f4becda11f324dab">lastSlaveId_</a> {0}</td></tr>
 <tr class="memdesc:a454c19dcc8f1ce24f4becda11f324dab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slave ID of the most recently executed transaction.  <br /></td></tr>
 <tr class="separator:a454c19dcc8f1ce24f4becda11f324dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab20aa95378ea66ba79973997e70fde1" id="r_aab20aa95378ea66ba79973997e70fde1"><td class="memItemLeft" align="right" valign="top"><a id="aab20aa95378ea66ba79973997e70fde1" name="aab20aa95378ea66ba79973997e70fde1"></a>
-std::vector&lt; std::function&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onBusConnect_</b></td></tr>
-<tr class="memdesc:aab20aa95378ea66ba79973997e70fde1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired when the physical bus connects. <br /></td></tr>
-<tr class="separator:aab20aa95378ea66ba79973997e70fde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0121b5b077f4c40f3725e666aef7fd7" id="r_ac0121b5b077f4c40f3725e666aef7fd7"><td class="memItemLeft" align="right" valign="top"><a id="ac0121b5b077f4c40f3725e666aef7fd7" name="ac0121b5b077f4c40f3725e666aef7fd7"></a>
-std::vector&lt; std::function&lt; void(int)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onBusDisconnect_</b></td></tr>
-<tr class="memdesc:ac0121b5b077f4c40f3725e666aef7fd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired when the physical bus disconnects. Carries reconnect delay in seconds. <br /></td></tr>
-<tr class="separator:ac0121b5b077f4c40f3725e666aef7fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdf86fd481650a2f563e8ab1bd4f8122" id="r_afdf86fd481650a2f563e8ab1bd4f8122"><td class="memItemLeft" align="right" valign="top"><a id="afdf86fd481650a2f563e8ab1bd4f8122" name="afdf86fd481650a2f563e8ab1bd4f8122"></a>
-std::vector&lt; std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onBusError_</b></td></tr>
-<tr class="memdesc:afdf86fd481650a2f563e8ab1bd4f8122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired on bus-level Modbus errors. <br /></td></tr>
-<tr class="separator:afdf86fd481650a2f563e8ab1bd4f8122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa51e1a9a952382e93e699468a5047aa6" id="r_aa51e1a9a952382e93e699468a5047aa6"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; <a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#aa51e1a9a952382e93e699468a5047aa6">nextCallbackId_</a> {1}</td></tr>
+<tr class="memdesc:aa51e1a9a952382e93e699468a5047aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source of fresh <code>CallbackId</code>s.  <br /></td></tr>
+<tr class="separator:aa51e1a9a952382e93e699468a5047aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a353773f2135ae2245887bca84c659e0e" id="r_a353773f2135ae2245887bca84c659e0e"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a353773f2135ae2245887bca84c659e0e">cbMutex_</a></td></tr>
+<tr class="memdesc:a353773f2135ae2245887bca84c659e0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex guarding the three callback vectors below.  <br /></td></tr>
+<tr class="separator:a353773f2135ae2245887bca84c659e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd3a4582030efee53136fccbc6d90e6f" id="r_acd3a4582030efee53136fccbc6d90e6f"><td class="memItemLeft" align="right" valign="top"><a id="acd3a4582030efee53136fccbc6d90e6f" name="acd3a4582030efee53136fccbc6d90e6f"></a>
+std::vector&lt; <a class="el" href="struct_fronius_bus_1_1_callback_entry.html">CallbackEntry</a>&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onBusConnect_</b></td></tr>
+<tr class="memdesc:acd3a4582030efee53136fccbc6d90e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired when the physical bus connects. <br /></td></tr>
+<tr class="separator:acd3a4582030efee53136fccbc6d90e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83e60d5217aead5ff44aba4f2ff1a256" id="r_a83e60d5217aead5ff44aba4f2ff1a256"><td class="memItemLeft" align="right" valign="top"><a id="a83e60d5217aead5ff44aba4f2ff1a256" name="a83e60d5217aead5ff44aba4f2ff1a256"></a>
+std::vector&lt; <a class="el" href="struct_fronius_bus_1_1_callback_entry.html">CallbackEntry</a>&lt; void(int)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onBusDisconnect_</b></td></tr>
+<tr class="memdesc:a83e60d5217aead5ff44aba4f2ff1a256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired when the physical bus disconnects. Carries reconnect delay in seconds. <br /></td></tr>
+<tr class="separator:a83e60d5217aead5ff44aba4f2ff1a256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71da9625212de961ce75559c0da3972d" id="r_a71da9625212de961ce75559c0da3972d"><td class="memItemLeft" align="right" valign="top"><a id="a71da9625212de961ce75559c0da3972d" name="a71da9625212de961ce75559c0da3972d"></a>
+std::vector&lt; <a class="el" href="struct_fronius_bus_1_1_callback_entry.html">CallbackEntry</a>&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onBusError_</b></td></tr>
+<tr class="memdesc:a71da9625212de961ce75559c0da3972d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired on bus-level Modbus errors. <br /></td></tr>
+<tr class="separator:a71da9625212de961ce75559c0da3972d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51076d2f6c93b122ff4c2274604e2641" id="r_a51076d2f6c93b122ff4c2274604e2641"><td class="memItemLeft" align="right" valign="top"><a id="a51076d2f6c93b122ff4c2274604e2641" name="a51076d2f6c93b122ff4c2274604e2641"></a>
 std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onBusLog_</b></td></tr>
 <tr class="memdesc:a51076d2f6c93b122ff4c2274604e2641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fired on bus log messages. <br /></td></tr>
@@ -277,7 +302,26 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Owns and manages one shared Modbus bus (RTU or TCP). </p>
 <p>Construct one instance per physical serial port or TCP endpoint and share it among every <code><a class="el" href="class_fronius_device.html" title="Abstract base class for all Modbus slave devices on a Fronius bus.">FroniusDevice</a></code> that communicates over it. Must be heap-allocated via <code>std::shared_ptr</code>. Non-copyable, non-movable. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="aa1cdfec244d1cc0294c8f316b3e0c03e" name="aa1cdfec244d1cc0294c8f316b3e0c03e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1cdfec244d1cc0294c8f316b3e0c03e">&#9670;&#160;</a></span>CallbackId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">FroniusBus::CallbackId</a> =  uint64_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Opaque identifier for a registered bus-level callback. </p>
+<p>Returned by <code>addBusConnectCallback</code>, <code>addBusDisconnectCallback</code>, and <code>addBusErrorCallback</code>. Pass it to <code>removeBusCallback</code> to deregister the callback before the captured state is torn down.</p>
+<p>Zero is reserved as a sentinel meaning "no callback". </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad47bd94f9572a7b85ed9932b39f8105d" name="ad47bd94f9572a7b85ed9932b39f8105d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad47bd94f9572a7b85ed9932b39f8105d">&#9670;&#160;</a></span>FroniusBus()</h2>
 
@@ -320,64 +364,50 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3b2efac0b5ecb795893a9657a27f9caf" name="a3b2efac0b5ecb795893a9657a27f9caf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b2efac0b5ecb795893a9657a27f9caf">&#9670;&#160;</a></span>addBusConnectCallback()</h2>
+<a id="a4b63210783403a2d9ad3a3640164476b" name="a4b63210783403a2d9ad3a3640164476b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b63210783403a2d9ad3a3640164476b">&#9670;&#160;</a></span>addBusConnectCallback()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void FroniusBus::addBusConnectCallback </td>
+          <td class="memname"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">FroniusBus::CallbackId</a> FroniusBus::addBusConnectCallback </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void()&gt;&#160;</td>
           <td class="paramname"><em>cb</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked when the physical bus connects. </p>
 <p>Fired after a successful <code>modbus_connect()</code> and before any device validation begins. Multiple callbacks may be registered and are invoked in registration order, so a <code><a class="el" href="class_fronius_bus.html" title="Owns and manages one shared Modbus bus (RTU or TCP).">FroniusBus</a></code> shared between several application masters can notify each of them.</p>
+<p>Returns a <code>CallbackId</code> that can be passed to <code>removeBusCallback</code> to deregister the callback before its captured state is destroyed. Callers that never need to deregister may ignore the returned value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cb</td><td>Callback to invoke on bus connect. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Opaque identifier for use with <code>removeBusCallback</code>. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Invoked from the bus thread; keep the handler lightweight. </dd></dl>
 
 </div>
 </div>
-<a id="a3db6c7ca591d6c224aae59edbac97563" name="a3db6c7ca591d6c224aae59edbac97563"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3db6c7ca591d6c224aae59edbac97563">&#9670;&#160;</a></span>addBusDisconnectCallback()</h2>
+<a id="aa8c29fa773ed04d12022eb6a03d83fba" name="aa8c29fa773ed04d12022eb6a03d83fba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8c29fa773ed04d12022eb6a03d83fba">&#9670;&#160;</a></span>addBusDisconnectCallback()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void FroniusBus::addBusDisconnectCallback </td>
+          <td class="memname"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">FroniusBus::CallbackId</a> FroniusBus::addBusDisconnectCallback </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(int reconnectDelay)&gt;&#160;</td>
           <td class="paramname"><em>cb</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked when the bus connection is lost. </p>
@@ -388,32 +418,25 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Opaque identifier for use with <code>removeBusCallback</code>. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Invoked from the bus thread; keep the handler lightweight. </dd></dl>
 
 </div>
 </div>
-<a id="a609604d9a8c0fedb9d185c83193e22a0" name="a609604d9a8c0fedb9d185c83193e22a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a609604d9a8c0fedb9d185c83193e22a0">&#9670;&#160;</a></span>addBusErrorCallback()</h2>
+<a id="aef7e7311e673640396205a08a5746724" name="aef7e7311e673640396205a08a5746724"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef7e7311e673640396205a08a5746724">&#9670;&#160;</a></span>addBusErrorCallback()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void FroniusBus::addBusErrorCallback </td>
+          <td class="memname"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">FroniusBus::CallbackId</a> FroniusBus::addBusErrorCallback </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(const <a class="el" href="struct_modbus_error.html">ModbusError</a> &amp;)&gt;&#160;</td>
           <td class="paramname"><em>cb</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked on bus-level Modbus errors. </p>
@@ -424,6 +447,7 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Opaque identifier for use with <code>removeBusCallback</code>. </dd></dl>
 
 </div>
 </div>
@@ -623,8 +647,8 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 
 </div>
 </div>
-<a id="ac62d922cc2a174d78d502a3e8c8552c2" name="ac62d922cc2a174d78d502a3e8c8552c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac62d922cc2a174d78d502a3e8c8552c2">&#9670;&#160;</a></span>deviceConnectLoop()</h2>
+<a id="abfbc395e17e3f942cf7b8297e4b7c12f" name="abfbc395e17e3f942cf7b8297e4b7c12f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfbc395e17e3f942cf7b8297e4b7c12f">&#9670;&#160;</a></span>deviceConnectLoop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -636,8 +660,18 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
           <td class="memname">void FroniusBus::deviceConnectLoop </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_fronius_device.html">FroniusDevice</a> &gt;&#160;</td>
-          <td class="paramname"><em>device</em></td><td>)</td>
+          <td class="paramname"><em>device</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="struct_fronius_bus_1_1_retry_entry.html">RetryEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>entry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -647,11 +681,12 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 </table>
 </div><div class="memdoc">
 
-<p>Per-device reconnect loop (runs in a detached background thread). </p>
-<p>Calls <code>device-&gt;onBusConnected()</code> and retries with exponential backoff until the device becomes ready or the bus drops. Removes the device from <code>retriesInProgress_</code> on exit.</p>
+<p>Per-device reconnect loop, executed by a tracked jthread. </p>
+<p>Calls <code>device-&gt;onBusConnected()</code> and retries with exponential backoff until the device becomes ready, its <code>cancelled</code> flag is set, or the bus drops. On exit sets <code>entry.finished = true</code>; it does <em>not</em> remove itself from <code>retries_</code> (a self-running jthread cannot join itself). Finished entries are reaped opportunistically by <code>scheduleDeviceRetry</code> and <code>unregisterDevice</code>, and unconditionally by <code>~FroniusBus</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">device</td><td>The device to re-validate. </td></tr>
+    <tr><td class="paramname">device</td><td>The device to re-validate. The shared_ptr is captured by the jthread to keep the device alive for the loop's lifetime. </td></tr>
+    <tr><td class="paramname">entry</td><td>Reference to the retry entry that owns this jthread. </td></tr>
   </table>
   </dd>
 </dl>
@@ -832,6 +867,35 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 
 </div>
 </div>
+<a id="ab3e32deae85977c2a027f0005dbef8c9" name="ab3e32deae85977c2a027f0005dbef8c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e32deae85977c2a027f0005dbef8c9">&#9670;&#160;</a></span>removeBusCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FroniusBus::removeBusCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove a previously-registered bus-level callback. </p>
+<p>Synchronously removes the callback with the given <code>id</code>. If the bus thread is currently iterating the relevant callback list at the time of the call, this method blocks until the iteration completes — so after <code>removeBusCallback</code> returns, the callback is guaranteed not to run again, and state captured by the callback's lambda can safely be destroyed.</p>
+<p>No-op if the id is zero, was never returned by an <code>addBusXxxCallback</code>, or has already been removed.</p>
+<dl class="section warning"><dt>Warning</dt><dd>Must not be called from inside a bus callback — that would attempt to re-acquire the callback mutex held by the bus thread's fire loop and deadlock.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The identifier returned by an <code>addBusXxxCallback</code> call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a045a85238fa856d51ad4a5df654e7dd7" name="a045a85238fa856d51ad4a5df654e7dd7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a045a85238fa856d51ad4a5df654e7dd7">&#9670;&#160;</a></span>scheduleDeviceRetry()</h2>
 
@@ -938,7 +1002,61 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 
 </div>
 </div>
+<a id="a6d5177970503f696f4d783b66570b187" name="a6d5177970503f696f4d783b66570b187"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d5177970503f696f4d783b66570b187">&#9670;&#160;</a></span>unregisterDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FroniusBus::unregisterDevice </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_fronius_device.html">FroniusDevice</a> *&#160;</td>
+          <td class="paramname"><em>device</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove a device from the bus registry. </p>
+<p>Removes the weak pointer for <code>device</code> from the registry and signals any in-flight per-device retry loop for that device to exit at its next wake. Safe to call even if the device is not currently registered or has no retry in flight. Does not block on the retry loop's actual exit; the retry thread, which holds its own <code>shared_ptr&lt;<a class="el" href="class_fronius_device.html" title="Abstract base class for all Modbus slave devices on a Fronius bus.">FroniusDevice</a>&gt;</code>, will unwind on its own and is joined by <code>~FroniusBus</code>.</p>
+<p>Intended use is in derived-master destructors so a soon-to-die device stops generating retry work and log noise.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">device</td><td>Raw pointer used as the registry key (matches the identity captured in <code>registerDevice</code>'s weak_ptr). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Field Documentation</h2>
+<a id="a353773f2135ae2245887bca84c659e0e" name="a353773f2135ae2245887bca84c659e0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a353773f2135ae2245887bca84c659e0e">&#9670;&#160;</a></span>cbMutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex FroniusBus::cbMutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mutex guarding the three callback vectors below. </p>
+<p>Held by <code>addBusXxxCallback</code> and <code>removeBusCallback</code> during list mutation, and by the bus thread for the duration of each fire loop. Holding it across the fire loop is what gives <code>removeBusCallback</code> its synchronous-with-in-flight-invocation guarantee.</p>
+<p>Distinct from <code>mtx_</code> so the bus's queue, retry, and connection state are not held hostage by a slow callback. </p>
+
+</div>
+</div>
 <a id="a13de941305bd3f90c1cc94e3f5f7dcd2" name="a13de941305bd3f90c1cc94e3f5f7dcd2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a13de941305bd3f90c1cc94e3f5f7dcd2">&#9670;&#160;</a></span>ctx_</h2>
 
@@ -1014,8 +1132,8 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 
 </div>
 </div>
-<a id="abc87428ae35ad80ffac4521f666eb1fd" name="abc87428ae35ad80ffac4521f666eb1fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc87428ae35ad80ffac4521f666eb1fd">&#9670;&#160;</a></span>retriesInProgress_</h2>
+<a id="aa51e1a9a952382e93e699468a5047aa6" name="aa51e1a9a952382e93e699468a5047aa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa51e1a9a952382e93e699468a5047aa6">&#9670;&#160;</a></span>nextCallbackId_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1024,7 +1142,7 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::set&lt;<a class="el" href="class_fronius_device.html">FroniusDevice</a> *&gt; FroniusBus::retriesInProgress_</td>
+          <td class="memname">std::atomic&lt;<a class="el" href="class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e">CallbackId</a>&gt; FroniusBus::nextCallbackId_ {1}</td>
         </tr>
       </table>
   </td>
@@ -1034,8 +1152,33 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 </table>
 </div><div class="memdoc">
 
-<p>Set of devices currently undergoing a per-device retry loop. </p>
-<p>Protected by <code>mtx_</code>. Prevents concurrent <code>onBusConnected()</code> calls for the same device when multiple error callbacks fire in quick succession. </p>
+<p>Source of fresh <code>CallbackId</code>s. </p>
+<p>Starts at 1; zero is reserved as a sentinel. Incremented atomically inside the cbMutex_-protected registration methods, but kept atomic defensively so reading the next id outside the lock is safe. </p>
+
+</div>
+</div>
+<a id="ae03164b483ec33af5d01545e9aecf610" name="ae03164b483ec33af5d01545e9aecf610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae03164b483ec33af5d01545e9aecf610">&#9670;&#160;</a></span>retries_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;std::unique_ptr&lt;<a class="el" href="struct_fronius_bus_1_1_retry_entry.html">RetryEntry</a>&gt; &gt; FroniusBus::retries_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>All retry entries — both running and finished-but-not-reaped. </p>
+<p>Protected by <code>mtx_</code>. We use <code>std::list</code> so iterators and <code><a class="el" href="struct_fronius_bus_1_1_retry_entry.html" title="Per-device retry tracking entry.">RetryEntry</a></code> references remain valid across insertions and erasures of other elements; this matters because the running jthread holds a reference to its own entry's <code>cancelled</code> flag and we must not invalidate it while reaping other finished entries. </p>
 
 </div>
 </div>

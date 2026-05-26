@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "FroniusBus::CallbackEntry< F >", "struct_fronius_bus_1_1_callback_entry.html", null ],
     [ "std::enable_shared_from_this", null, [
       [ "FroniusDevice", "class_fronius_device.html", [
         [ "Inverter", "class_inverter.html", null ],
@@ -15,5 +16,6 @@ var hierarchy =
     [ "ModbusTcpTransport", "struct_modbus_tcp_transport.html", null ],
     [ "Register", "struct_register.html", null ],
     [ "FroniusTypes::RemoteEndpoint", "struct_fronius_types_1_1_remote_endpoint.html", null ],
+    [ "FroniusBus::RetryEntry", "struct_fronius_bus_1_1_retry_entry.html", null ],
     [ "FroniusBus::Transaction", "struct_fronius_bus_1_1_transaction.html", null ]
 ];

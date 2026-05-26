@@ -114,11 +114,11 @@ $(document).ready(function(){initNavTree('fronius__bus_8h.html',''); initResizab
 <code>#include &lt;expected&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;future&gt;</code><br />
+<code>#include &lt;list&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;modbus.h&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;queue&gt;</code><br />
-<code>#include &lt;set&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;thread&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -132,6 +132,12 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_bus_1_1_transaction.html">FroniusBus::Transaction</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A single Modbus register-read request submitted to the bus queue.  <a href="struct_fronius_bus_1_1_transaction.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_bus_1_1_retry_entry.html">FroniusBus::RetryEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device retry tracking entry.  <a href="struct_fronius_bus_1_1_retry_entry.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fronius_bus_1_1_callback_entry.html">FroniusBus::CallbackEntry&lt; F &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A registered callback together with its identifier.  <a href="struct_fronius_bus_1_1_callback_entry.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

@@ -25,6 +25,6 @@ var searchData=
   ['dertyp_22',['DERTYP',['../namespace_i120.html#ac51ae0d51f5858b9988b79dd6ae73704',1,'I120']]],
   ['describe_23',['describe',['../struct_register.html#a6d4215c9a7b1168c89ad9f5a358225e9',1,'Register::describe()'],['../struct_modbus_error.html#a0a4edf63d3f2dc60c87b9213a62c7ef7',1,'ModbusError::describe()']]],
   ['detectfloatorintregisters_24',['detectFloatOrIntRegisters',['../class_meter.html#a01f934f2b251de6d842570ac88237959',1,'Meter']]],
-  ['deviceconnectloop_25',['deviceConnectLoop',['../class_fronius_bus.html#ac62d922cc2a174d78d502a3e8c8552c2',1,'FroniusBus']]],
+  ['deviceconnectloop_25',['deviceConnectLoop',['../class_fronius_bus.html#abfbc395e17e3f942cf7b8297e4b7c12f',1,'FroniusBus']]],
   ['drainqueue_26',['drainQueue',['../class_fronius_bus.html#aaea7c83e92fcbe78ae17ff2de26e4337',1,'FroniusBus']]]
 ];

@@ -322,7 +322,7 @@ std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>
 </div><div class="memdoc">
 
 <p>Fire the retry callback before a per-device reconnect delay. </p>
-<p>Called by <code><a class="el" href="class_fronius_bus.html#ac62d922cc2a174d78d502a3e8c8552c2" title="Per-device reconnect loop (runs in a detached background thread).">FroniusBus::deviceConnectLoop</a></code> — not part of the application API; exposed publicly because <code><a class="el" href="class_fronius_bus.html" title="Owns and manages one shared Modbus bus (RTU or TCP).">FroniusBus</a></code> is not a friend.</p>
+<p>Called by <code><a class="el" href="class_fronius_bus.html#abfbc395e17e3f942cf7b8297e4b7c12f" title="Per-device reconnect loop, executed by a tracked jthread.">FroniusBus::deviceConnectLoop</a></code> — not part of the application API; exposed publicly because <code><a class="el" href="class_fronius_bus.html" title="Owns and manages one shared Modbus bus (RTU or TCP).">FroniusBus</a></code> is not a friend.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">delay</td><td>Seconds until the next <code><a class="el" href="class_fronius_device.html#aa1ef7f63e960f9c6e502c9ff4248eb59" title="Called by FroniusBus when the physical bus connection is established.">onBusConnected()</a></code> attempt. </td></tr>
