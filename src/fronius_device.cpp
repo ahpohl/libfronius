@@ -201,7 +201,15 @@ std::expected<uint16_t, ModbusError> FroniusDevice::getModbusDeviceAddress() {
 
   if ((val < 1) || (val > 247))
     return reportError<uint16_t>(std::unexpected(
-        ModbusError::custom(EINVAL,
+        // EPROTO (not EINVAL): an out-of-range slave ID read from the wire
+        // is a protocol-level fault, not a programmer error. EINVAL would
+        // be classified as FATAL by deduceSeverity() and trigger a process
+        // shutdown via the master's error callback; EPROTO falls through
+        // to TRANSIENT, which correctly causes a per-device revalidation
+        // attempt instead. This typically happens transiently during
+        // device boot, when stale RTU bytes preceded the response, or
+        // when a Fronius inverter has briefly stopped responding.
+        ModbusError::custom(EPROTO,
                             "getModbusDeviceAddress(): Invalid Modbus slave "
                             "address: received {}, expected 1-247",
                             val)));

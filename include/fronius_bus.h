@@ -36,11 +36,11 @@
 #include <expected>
 #include <functional>
 #include <future>
+#include <list>
 #include <memory>
 #include <modbus.h>
 #include <mutex>
 #include <queue>
-#include <set>
 #include <string>
 #include <thread>
 #include <vector>
@@ -208,6 +208,24 @@ public:
    */
   void registerDevice(std::weak_ptr<FroniusDevice> device);
 
+  /**
+   * @brief Remove a device from the bus registry.
+   *
+   * Removes the weak pointer for `device` from the registry and signals any
+   * in-flight per-device retry loop for that device to exit at its next
+   * wake. Safe to call even if the device is not currently registered or
+   * has no retry in flight. Does not block on the retry loop's actual exit;
+   * the retry thread, which holds its own `shared_ptr<FroniusDevice>`, will
+   * unwind on its own and is joined by `~FroniusBus`.
+   *
+   * Intended use is in derived-master destructors so a soon-to-die device
+   * stops generating retry work and log noise.
+   *
+   * @param device  Raw pointer used as the registry key (matches the
+   *                identity captured in `registerDevice`'s weak_ptr).
+   */
+  void unregisterDevice(FroniusDevice *device);
+
   // -------------------------------------------------------------------------
   // Transaction queue
   // -------------------------------------------------------------------------
@@ -233,6 +251,21 @@ public:
   // Bus-level callback setters
   // -------------------------------------------------------------------------
 
+  // -------------------------------------------------------------------------
+  // Bus-level callback identity
+  // -------------------------------------------------------------------------
+
+  /**
+   * @brief Opaque identifier for a registered bus-level callback.
+   *
+   * Returned by `addBusConnectCallback`, `addBusDisconnectCallback`, and
+   * `addBusErrorCallback`. Pass it to `removeBusCallback` to deregister
+   * the callback before the captured state is torn down.
+   *
+   * Zero is reserved as a sentinel meaning "no callback".
+   */
+  using CallbackId = uint64_t;
+
   /**
    * @brief Register a callback invoked when the physical bus connects.
    *
@@ -241,12 +274,15 @@ public:
    * invoked in registration order, so a `FroniusBus` shared between
    * several application masters can notify each of them.
    *
+   * Returns a `CallbackId` that can be passed to `removeBusCallback` to
+   * deregister the callback before its captured state is destroyed.
+   * Callers that never need to deregister may ignore the returned value.
+   *
    * @param cb  Callback to invoke on bus connect.
+   * @return    Opaque identifier for use with `removeBusCallback`.
    * @note Invoked from the bus thread; keep the handler lightweight.
    */
-  void addBusConnectCallback(std::function<void()> cb) {
-    onBusConnect_.push_back(std::move(cb));
-  }
+  CallbackId addBusConnectCallback(std::function<void()> cb);
 
   /**
    * @brief Register a callback invoked when the bus connection is lost.
@@ -256,11 +292,11 @@ public:
    * exponential backoff applied if configured).
    *
    * @param cb  Callback receiving the reconnect delay in seconds.
+   * @return    Opaque identifier for use with `removeBusCallback`.
    * @note Invoked from the bus thread; keep the handler lightweight.
    */
-  void addBusDisconnectCallback(std::function<void(int reconnectDelay)> cb) {
-    onBusDisconnect_.push_back(std::move(cb));
-  }
+  CallbackId
+  addBusDisconnectCallback(std::function<void(int reconnectDelay)> cb);
 
   /**
    * @brief Register a callback invoked on bus-level Modbus errors.
@@ -270,10 +306,30 @@ public:
    * errors are reported separately via `FroniusDevice::setDeviceErrorCallback`.
    *
    * @param cb  Callback receiving a `ModbusError` describing the failure.
+   * @return    Opaque identifier for use with `removeBusCallback`.
    */
-  void addBusErrorCallback(std::function<void(const ModbusError &)> cb) {
-    onBusError_.push_back(std::move(cb));
-  }
+  CallbackId addBusErrorCallback(std::function<void(const ModbusError &)> cb);
+
+  /**
+   * @brief Remove a previously-registered bus-level callback.
+   *
+   * Synchronously removes the callback with the given `id`. If the bus
+   * thread is currently iterating the relevant callback list at the time
+   * of the call, this method blocks until the iteration completes — so
+   * after `removeBusCallback` returns, the callback is guaranteed not to
+   * run again, and state captured by the callback's lambda can safely be
+   * destroyed.
+   *
+   * No-op if the id is zero, was never returned by an `addBusXxxCallback`,
+   * or has already been removed.
+   *
+   * @warning Must not be called from inside a bus callback — that would
+   *          attempt to re-acquire the callback mutex held by the bus
+   *          thread's fire loop and deadlock.
+   *
+   * @param id  The identifier returned by an `addBusXxxCallback` call.
+   */
+  void removeBusCallback(CallbackId id);
 
   /**
    * @brief Register a single callback for internal bus diagnostic messages.
@@ -344,12 +400,38 @@ private:
   std::vector<std::weak_ptr<FroniusDevice>> devices_;
 
   /**
-   * @brief Set of devices currently undergoing a per-device retry loop.
+   * @brief Per-device retry tracking entry.
    *
-   * Protected by `mtx_`. Prevents concurrent `onBusConnected()` calls for
-   * the same device when multiple error callbacks fire in quick succession.
+   * One entry is created every time `scheduleDeviceRetry` launches a new
+   * `deviceConnectLoop`. `device` is the raw pointer used to match the
+   * entry against the device that owns the retry; `thread` is the jthread
+   * executing the loop; `cancelled` is set when the device has been
+   * unregistered (or the bus is tearing down) so the loop exits at its
+   * next wake without calling `onBusConnected()` again.
+   *
+   * Entries are never removed by the loop itself — self-removal would
+   * require joining the running thread. Instead, finished entries are
+   * reaped opportunistically by `scheduleDeviceRetry` and
+   * `unregisterDevice` (so the list does not grow unboundedly) and the
+   * destructor of `FroniusBus` joins any that are still in flight.
    */
-  std::set<FroniusDevice *> retriesInProgress_;
+  struct RetryEntry {
+    FroniusDevice *device{nullptr};
+    std::atomic<bool> cancelled{false};
+    std::atomic<bool> finished{false};
+    std::jthread thread;
+  };
+
+  /**
+   * @brief All retry entries — both running and finished-but-not-reaped.
+   *
+   * Protected by `mtx_`. We use `std::list` so iterators and `RetryEntry`
+   * references remain valid across insertions and erasures of other
+   * elements; this matters because the running jthread holds a reference
+   * to its own entry's `cancelled` flag and we must not invalidate it
+   * while reaping other finished entries.
+   */
+  std::list<std::unique_ptr<RetryEntry>> retries_;
 
   // -------------------------------------------------------------------------
   // Transaction queue
@@ -375,15 +457,49 @@ private:
   // Bus-level callbacks
   // -------------------------------------------------------------------------
 
+  /**
+   * @brief A registered callback together with its identifier.
+   *
+   * `id` is opaque to the bus thread; it exists so external callers can
+   * later remove the callback via `removeBusCallback`. `fn` is the actual
+   * callable.
+   */
+  template <typename F> struct CallbackEntry {
+    CallbackId id;
+    std::function<F> fn;
+  };
+
+  /**
+   * @brief Source of fresh `CallbackId`s.
+   *
+   * Starts at 1; zero is reserved as a sentinel. Incremented atomically
+   * inside the cbMutex_-protected registration methods, but kept atomic
+   * defensively so reading the next id outside the lock is safe.
+   */
+  std::atomic<CallbackId> nextCallbackId_{1};
+
+  /**
+   * @brief Mutex guarding the three callback vectors below.
+   *
+   * Held by `addBusXxxCallback` and `removeBusCallback` during list
+   * mutation, and by the bus thread for the duration of each fire loop.
+   * Holding it across the fire loop is what gives `removeBusCallback`
+   * its synchronous-with-in-flight-invocation guarantee.
+   *
+   * Distinct from `mtx_` so the bus's queue, retry, and connection
+   * state are not held hostage by a slow callback.
+   */
+  mutable std::mutex cbMutex_;
+
   /** @brief Fired when the physical bus connects. */
-  std::vector<std::function<void()>> onBusConnect_;
+  std::vector<CallbackEntry<void()>> onBusConnect_;
 
   /** @brief Fired when the physical bus disconnects. Carries reconnect delay
    *         in seconds. */
-  std::vector<std::function<void(int)>> onBusDisconnect_;
+  std::vector<CallbackEntry<void(int)>> onBusDisconnect_;
 
   /** @brief Fired on bus-level Modbus errors. */
-  std::vector<std::function<void(const ModbusError &)>> onBusError_;
+  std::vector<CallbackEntry<void(const ModbusError &)>> onBusError_;
 
   /** @brief Fired on bus log messages */
   std::vector<std::function<void(const std::string &)>> onBusLog_;
@@ -470,15 +586,22 @@ private:
   void notifyDevicesDisconnected();
 
   /**
-   * @brief Per-device reconnect loop (runs in a detached background thread).
+   * @brief Per-device reconnect loop, executed by a tracked jthread.
    *
    * Calls `device->onBusConnected()` and retries with exponential backoff
-   * until the device becomes ready or the bus drops. Removes the device
-   * from `retriesInProgress_` on exit.
+   * until the device becomes ready, its `cancelled` flag is set, or the
+   * bus drops. On exit sets `entry.finished = true`; it does *not* remove
+   * itself from `retries_` (a self-running jthread cannot join itself).
+   * Finished entries are reaped opportunistically by `scheduleDeviceRetry`
+   * and `unregisterDevice`, and unconditionally by `~FroniusBus`.
    *
-   * @param device  The device to re-validate.
+   * @param device  The device to re-validate. The shared_ptr is captured by
+   *                the jthread to keep the device alive for the loop's
+   *                lifetime.
+   * @param entry   Reference to the retry entry that owns this jthread.
    */
-  void deviceConnectLoop(std::shared_ptr<FroniusDevice> device);
+  void deviceConnectLoop(std::shared_ptr<FroniusDevice> device,
+                         RetryEntry &entry);
 
   /**
    * @brief Format a log message and dispatch it to the registered log sink.

@@ -13,3 +13,6 @@ docs/html/
 .cproject
 .settings/
 .metadata/
+
+# patch files
+*.patch
