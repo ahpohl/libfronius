@@ -131,20 +131,34 @@ private:
    * `EINTR` is mapped to `SHUTDOWN` (used to unwind blocking calls during
    * shutdown). A fixed list of well-known fatal `errno`/libmodbus codes is
    * mapped to `FATAL`; everything else is treated as `TRANSIENT`.
+   *
+   * Note on transport hiccups: `ENOENT`, `ENODEV`, `EBADF`, and `EIO` are
+   * deliberately *not* in the FATAL list. On an RTU bus these are the
+   * typical errno values when a USB-to-serial adapter momentarily
+   * disappears (device unplug, kernel re-enumeration, udev settle race,
+   * adapter firmware glitch). Classifying them as FATAL would tear down
+   * the bus thread and, via `onBusError` callbacks at the application
+   * layer, the whole process — even though a simple reconnect almost
+   * always recovers. `busLoop()`'s Phase 1 already implements that
+   * reconnect with exponential backoff, so TRANSIENT is the correct
+   * classification.
+   *
+   * A genuinely-misconfigured RTU device path (typo in YAML) also
+   * surfaces as `ENOENT`, but here TRANSIENT is still the right call: it
+   * produces a repeated, visible warning every backoff cycle rather than
+   * a silent startup exit during a boot-time enumeration race.
    */
   static Severity deduceSeverity(int c) {
     switch (c) {
     case EINVAL:       // Invalid argument
     case ENODATA:      // No data available
     case ENOMEM:       // Out of memory
-    case ENOENT:       // No such file or directory
     case EMBMDATA:     // Too many registers requested
     case EMBXILFUN:    // Illegal function
     case EMBXILADD:    // Illegal data address
     case EMBXILVAL:    // Illegal data value
     case EMBXSFAIL:    // Slave device or server failure
     case EMBXGTAR:     // Gateway target device failed to respond
-    case ENODEV:       // No such device
     case ENXIO:        // No such device or address
     case EACCES:       // Permission denied
     case EPERM:        // Operation not permitted
@@ -155,9 +169,7 @@ private:
     case EMFILE:       // Process limit for file descriptors reached
     case ENFILE:       // System-wide file descriptor table full
     case ENOTTY:       // Not a terminal
-    case EBADF:        // Bad file descriptor
     case EAGAIN:       // Resource temporarily unavailable
-    case EIO:          // Low-level I/O error
     case EBUSY:        // Device or resource busy
     case EADDRINUSE:   // Address already in use
     case ENOTSUP:      // Not supported
@@ -165,6 +177,9 @@ private:
     case EINTR: // Call was interrupted by a signal
       return Severity::SHUTDOWN;
     default:
+      // Transport-hiccup transients (ENOENT, ENODEV, EBADF, EIO) and
+      // everything else (ETIMEDOUT, ECONNRESET, EPIPE, EPROTO, ...) land
+      // here. See the function-level comment for the rationale.
       return Severity::TRANSIENT;
     }
   }
