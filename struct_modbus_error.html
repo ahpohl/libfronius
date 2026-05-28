@@ -336,7 +336,9 @@ template&lt;typename... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Map an error code to a <code>Severity</code>. </p>
-<p><code>EINTR</code> is mapped to <code>SHUTDOWN</code> (used to unwind blocking calls during shutdown). A fixed list of well-known fatal <code>errno</code>/libmodbus codes is mapped to <code>FATAL</code>; everything else is treated as <code>TRANSIENT</code>. </p>
+<p><code>EINTR</code> is mapped to <code>SHUTDOWN</code> (used to unwind blocking calls during shutdown). A fixed list of well-known fatal <code>errno</code>/libmodbus codes is mapped to <code>FATAL</code>; everything else is treated as <code>TRANSIENT</code>.</p>
+<p>Note on transport hiccups: <code>ENOENT</code>, <code>ENODEV</code>, <code>EBADF</code>, and <code>EIO</code> are deliberately <em>not</em> in the FATAL list. On an RTU bus these are the typical errno values when a USB-to-serial adapter momentarily disappears (device unplug, kernel re-enumeration, udev settle race, adapter firmware glitch). Classifying them as FATAL would tear down the bus thread and, via <code>onBusError</code> callbacks at the application layer, the whole process — even though a simple reconnect almost always recovers. <code>busLoop()</code>'s Phase 1 already implements that reconnect with exponential backoff, so TRANSIENT is the correct classification.</p>
+<p>A genuinely-misconfigured RTU device path (typo in YAML) also surfaces as <code>ENOENT</code>, but here TRANSIENT is still the right call: it produces a repeated, visible warning every backoff cycle rather than a silent startup exit during a boot-time enumeration race. </p>
 
 </div>
 </div>
