@@ -402,6 +402,14 @@ void FroniusBus::executeTransaction(Transaction &t) {
   busLog("[tx] slave={} addr={} count={} -> sending", t.slaveId, t.startAddr,
          t.count);
 
+  // RTU receive-buffer hygiene: stale bytes from a glitched or timed-out read
+  // desync the bus by one frame (every reply reads as the previous request's),
+  // and a transient error never reconnects to clear them. Flush before the send
+  // -- not after the failed read, which only shifts the lag -- so the read
+  // blocks for this request's own reply. On a healthy bus this is a no-op.
+  if (cfg_.isRtu())
+    modbus_flush(ctx_);
+
   auto tStart = std::chrono::steady_clock::now();
 
   int rc =
