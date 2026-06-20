@@ -248,6 +248,9 @@ const <a class="el" href="struct_modbus_bus_config.html">ModbusBusConfig</a>&#16
 std::thread&#160;</td><td class="memItemRight" valign="bottom"><b>busThread_</b></td></tr>
 <tr class="memdesc:a6c8cfb6b2e934ea98bf16db5f82e8c86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background thread running the connection loop and queue drainer. <br /></td></tr>
 <tr class="separator:a6c8cfb6b2e934ea98bf16db5f82e8c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d95140a51c5e82f762b050810f31aee" id="r_a9d95140a51c5e82f762b050810f31aee"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fronius_bus.html#a9d95140a51c5e82f762b050810f31aee">notifyConnectThread_</a></td></tr>
+<tr class="memdesc:a9d95140a51c5e82f762b050810f31aee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs onBusConnected() for all devices off the bus thread after each successful connect.  <br /></td></tr>
+<tr class="separator:a9d95140a51c5e82f762b050810f31aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27059861af098d0bb1e89397592112e5" id="r_a27059861af098d0bb1e89397592112e5"><td class="memItemLeft" align="right" valign="top"><a id="a27059861af098d0bb1e89397592112e5" name="a27059861af098d0bb1e89397592112e5"></a>
 std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>mtx_</b></td></tr>
 <tr class="memdesc:a27059861af098d0bb1e89397592112e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex protecting <code>cv_</code>, <code>connected_</code>, and the transaction queue. <br /></td></tr>
@@ -1154,6 +1157,31 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 
 <p>Source of fresh <code>CallbackId</code>s. </p>
 <p>Starts at 1; zero is reserved as a sentinel. Incremented atomically inside the cbMutex_-protected registration methods, but kept atomic defensively so reading the next id outside the lock is safe. </p>
+
+</div>
+</div>
+<a id="a9d95140a51c5e82f762b050810f31aee" name="a9d95140a51c5e82f762b050810f31aee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d95140a51c5e82f762b050810f31aee">&#9670;&#160;</a></span>notifyConnectThread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread FroniusBus::notifyConnectThread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Runs onBusConnected() for all devices off the bus thread after each successful connect. </p>
+<p>onBusConnected() submits transactions and blocks on future.get(), so it cannot run on the bus thread. Tracked (not detached) so the destructor can join it before tearing down <code>mtx_</code>/<code>retries_</code>; otherwise it can outlive the bus and lock a destroyed mutex on shutdown. </p>
 
 </div>
 </div>

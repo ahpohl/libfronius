@@ -8,7 +8,7 @@ var searchData=
   ['setdeviceunavailablecallback_5',['setDeviceUnavailableCallback',['../class_fronius_device.html#a473a64e0ed134c050259edb6ebc795c6',1,'FroniusDevice']]],
   ['setready_6',['setReady',['../class_fronius_device.html#a73172a467fdc2d486c3e77b555c85027',1,'FroniusDevice']]],
   ['setunavailable_7',['setUnavailable',['../class_fronius_device.html#a7b66027eef374192d9f522e8321a098f',1,'FroniusDevice']]],
-  ['severity_8',['severity',['../struct_modbus_error.html#a556737c1c6d3ced2ccdc9c4dedbd6955',1,'ModbusError::severity'],['../struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da',1,'ModbusError::Severity']]],
+  ['severity_8',['severity',['../struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da',1,'ModbusError::Severity'],['../struct_modbus_error.html#a556737c1c6d3ced2ccdc9c4dedbd6955',1,'ModbusError::severity']]],
   ['shutdown_9',['SHUTDOWN',['../struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112',1,'ModbusError']]],
   ['shutting_5fdown_10',['SHUTTING_DOWN',['../struct_fronius_types.html#a82125527cea5b559ef64289e1de34511a89e5325b1f9acbf5dde5c70b84bbdcb1',1,'FroniusTypes']]],
   ['sid_11',['SID',['../namespace_c001.html#a1586ab4e0a22d06ae1e81b1abf6d4e5a',1,'C001']]],

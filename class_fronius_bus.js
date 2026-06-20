@@ -40,6 +40,7 @@ var class_fronius_bus =
     [ "lastSlaveId_", "class_fronius_bus.html#a454c19dcc8f1ce24f4becda11f324dab", null ],
     [ "mtx_", "class_fronius_bus.html#a27059861af098d0bb1e89397592112e5", null ],
     [ "nextCallbackId_", "class_fronius_bus.html#aa51e1a9a952382e93e699468a5047aa6", null ],
+    [ "notifyConnectThread_", "class_fronius_bus.html#a9d95140a51c5e82f762b050810f31aee", null ],
     [ "onBusConnect_", "class_fronius_bus.html#acd3a4582030efee53136fccbc6d90e6f", null ],
     [ "onBusDisconnect_", "class_fronius_bus.html#a83e60d5217aead5ff44aba4f2ff1a256", null ],
     [ "onBusError_", "class_fronius_bus.html#a71da9625212de961ce75559c0da3972d", null ],
