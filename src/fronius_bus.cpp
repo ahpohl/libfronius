@@ -35,6 +35,15 @@ FroniusBus::~FroniusBus() {
   if (busThread_.joinable())
     busThread_.join();
 
+  // Join the connect-notify thread before touching retries_ or freeing this
+  // object. With running_ already false, any scheduleDeviceRetry() it runs
+  // returns without queuing new work, so the join is quick; without it the
+  // detached thread could lock mtx_ after it is destroyed (use-after-free at
+  // shutdown). Joined before the retries_ move below so any retries it did
+  // schedule are captured and joined too.
+  if (notifyConnectThread_.joinable())
+    notifyConnectThread_.join();
+
   // Move the retry list out so jthread destructors join while no member
   // lock is held. The retry loops never modify retries_ themselves, so
   // there is no race between this move and an in-flight loop. The loops
@@ -194,7 +203,12 @@ void FroniusBus::busLoop() {
         // Notify devices on a separate thread so the bus thread proceeds
         // directly to drainQueue(). onBusConnected() submits transactions
         // and blocks on future.get() — it must not run on the bus thread.
-        std::thread([this] { notifyDevicesConnected(); }).detach();
+        // Tracked (not detached) so ~FroniusBus can join it; a reconnect
+        // joins the previous one first.
+        if (notifyConnectThread_.joinable())
+          notifyConnectThread_.join();
+        notifyConnectThread_ =
+            std::thread([this] { notifyDevicesConnected(); });
 
       } else {
         // Connection failed

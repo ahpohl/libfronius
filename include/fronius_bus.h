@@ -376,6 +376,17 @@ private:
   /** @brief Background thread running the connection loop and queue drainer. */
   std::thread busThread_;
 
+  /**
+   * @brief Runs onBusConnected() for all devices off the bus thread after
+   *        each successful connect.
+   *
+   * onBusConnected() submits transactions and blocks on future.get(), so it
+   * cannot run on the bus thread. Tracked (not detached) so the destructor can
+   * join it before tearing down `mtx_`/`retries_`; otherwise it can outlive
+   * the bus and lock a destroyed mutex on shutdown.
+   */
+  std::thread notifyConnectThread_;
+
   /** @brief Mutex protecting `cv_`, `connected_`, and the transaction queue. */
   mutable std::mutex mtx_;
 
