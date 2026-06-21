@@ -427,10 +427,10 @@ private:
    * destructor of `FroniusBus` joins any that are still in flight.
    */
   struct RetryEntry {
-    FroniusDevice *device{nullptr};
-    std::atomic<bool> cancelled{false};
-    std::atomic<bool> finished{false};
-    std::jthread thread;
+    FroniusDevice *device{nullptr};      ///< Owning device (match key).
+    std::atomic<bool> cancelled{false};  ///< Request the loop to stop.
+    std::atomic<bool> finished{false};   ///< Loop has exited; reapable.
+    std::jthread thread;                 ///< Runs deviceConnectLoop().
   };
 
   /**
@@ -476,8 +476,8 @@ private:
    * callable.
    */
   template <typename F> struct CallbackEntry {
-    CallbackId id;
-    std::function<F> fn;
+    CallbackId id;        ///< Handle for removeBusCallback().
+    std::function<F> fn;  ///< The registered callable.
   };
 
   /**
