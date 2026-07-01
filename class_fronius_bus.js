@@ -1,7 +1,7 @@
 var class_fronius_bus =
 [
-    [ "CallbackEntry", "struct_fronius_bus_1_1_callback_entry.html", null ],
-    [ "RetryEntry", "struct_fronius_bus_1_1_retry_entry.html", null ],
+    [ "CallbackEntry", "struct_fronius_bus_1_1_callback_entry.html", "struct_fronius_bus_1_1_callback_entry" ],
+    [ "RetryEntry", "struct_fronius_bus_1_1_retry_entry.html", "struct_fronius_bus_1_1_retry_entry" ],
     [ "Transaction", "struct_fronius_bus_1_1_transaction.html", "struct_fronius_bus_1_1_transaction" ],
     [ "CallbackId", "class_fronius_bus.html#aa1cdfec244d1cc0294c8f316b3e0c03e", null ],
     [ "FroniusBus", "class_fronius_bus.html#ad47bd94f9572a7b85ed9932b39f8105d", null ],

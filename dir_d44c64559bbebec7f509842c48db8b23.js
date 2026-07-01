@@ -1,6 +1,7 @@
 var dir_d44c64559bbebec7f509842c48db8b23 =
 [
     [ "common_registers.h", "common__registers_8h.html", "common__registers_8h" ],
+    [ "fronius.h", "fronius_8h.html", null ],
     [ "fronius_bus.h", "fronius__bus_8h.html", "fronius__bus_8h" ],
     [ "fronius_device.h", "fronius__device_8h.html", "fronius__device_8h" ],
     [ "fronius_types.h", "fronius__types_8h.html", "fronius__types_8h" ],
@@ -11,5 +12,6 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "modbus_config.h", "modbus__config_8h.html", "modbus__config_8h" ],
     [ "modbus_error.h", "modbus__error_8h.html", "modbus__error_8h" ],
     [ "modbus_utils.h", "modbus__utils_8h.html", "modbus__utils_8h" ],
-    [ "register_base.h", "register__base_8h_source.html", null ]
+    [ "register_base.h", "register__base_8h_source.html", null ],
+    [ "registers.h", "registers_8h.html", null ]
 ];

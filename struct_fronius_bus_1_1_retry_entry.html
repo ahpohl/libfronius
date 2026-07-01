@@ -110,15 +110,19 @@ $(document).ready(function(){initNavTree('struct_fronius_bus_1_1_retry_entry.htm
 Data Fields</h2></td></tr>
 <tr class="memitem:a7a236f368536b3a2bdfcf562cfbfd500" id="r_a7a236f368536b3a2bdfcf562cfbfd500"><td class="memItemLeft" align="right" valign="top"><a id="a7a236f368536b3a2bdfcf562cfbfd500" name="a7a236f368536b3a2bdfcf562cfbfd500"></a>
 <a class="el" href="class_fronius_device.html">FroniusDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>device</b> {nullptr}</td></tr>
+<tr class="memdesc:a7a236f368536b3a2bdfcf562cfbfd500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Owning device (match key). <br /></td></tr>
 <tr class="separator:a7a236f368536b3a2bdfcf562cfbfd500"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3d5391a11b466a4fc067fdfea7fb922" id="r_ad3d5391a11b466a4fc067fdfea7fb922"><td class="memItemLeft" align="right" valign="top"><a id="ad3d5391a11b466a4fc067fdfea7fb922" name="ad3d5391a11b466a4fc067fdfea7fb922"></a>
 std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>cancelled</b> {false}</td></tr>
+<tr class="memdesc:ad3d5391a11b466a4fc067fdfea7fb922"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request the loop to stop. <br /></td></tr>
 <tr class="separator:ad3d5391a11b466a4fc067fdfea7fb922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5e127e40932ac3c315abefe9348214f" id="r_ae5e127e40932ac3c315abefe9348214f"><td class="memItemLeft" align="right" valign="top"><a id="ae5e127e40932ac3c315abefe9348214f" name="ae5e127e40932ac3c315abefe9348214f"></a>
 std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>finished</b> {false}</td></tr>
+<tr class="memdesc:ae5e127e40932ac3c315abefe9348214f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop has exited; reapable. <br /></td></tr>
 <tr class="separator:ae5e127e40932ac3c315abefe9348214f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae95bab0e3eb32e81a1d54badf0f1178d" id="r_ae95bab0e3eb32e81a1d54badf0f1178d"><td class="memItemLeft" align="right" valign="top"><a id="ae95bab0e3eb32e81a1d54badf0f1178d" name="ae95bab0e3eb32e81a1d54badf0f1178d"></a>
 std::jthread&#160;</td><td class="memItemRight" valign="bottom"><b>thread</b></td></tr>
+<tr class="memdesc:ae95bab0e3eb32e81a1d54badf0f1178d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs <a class="el" href="class_fronius_bus.html#abfbc395e17e3f942cf7b8297e4b7c12f" title="Per-device reconnect loop, executed by a tracked jthread.">deviceConnectLoop()</a>. <br /></td></tr>
 <tr class="separator:ae95bab0e3eb32e81a1d54badf0f1178d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
