@@ -27,11 +27,21 @@
  */
 struct ModbusError {
 public:
-  /** @brief Error severity classification. */
+  /**
+   * @brief Error severity classification.
+   *
+   * `RECONNECT` is declared last, out of severity order, deliberately:
+   * `ModbusError` is header-only, so these values are compiled into every
+   * consumer. Inserting it mid-enum would renumber `FATAL` and `SHUTDOWN`
+   * and silently change their meaning for any binary built against an older
+   * header. Nothing orders severities — all comparisons are `==` — so the
+   * declaration order carries no meaning beyond the numbering.
+   */
   enum class Severity {
     TRANSIENT, /**< Temporary error — may succeed on retry. */
     FATAL,     /**< Fatal error — requires intervention. */
-    SHUTDOWN   /**< Operation interrupted by a shutdown signal. */
+    SHUTDOWN,  /**< Operation interrupted by a shutdown signal. */
+    RECONNECT  /**< Endpoint lost — retry needs a fresh connection. */
   };
 
   /** @brief Modbus or system error code (as set in `errno`). */
@@ -130,23 +140,33 @@ private:
    *
    * `EINTR` is mapped to `SHUTDOWN` (used to unwind blocking calls during
    * shutdown). A fixed list of well-known fatal `errno`/libmodbus codes is
-   * mapped to `FATAL`; everything else is treated as `TRANSIENT`.
+   * mapped to `FATAL`; codes meaning the endpoint is gone map to
+   * `RECONNECT`; everything else is treated as `TRANSIENT`.
    *
-   * Note on transport hiccups: `ENOENT`, `ENODEV`, `EBADF`, and `EIO` are
-   * deliberately *not* in the FATAL list. On an RTU bus these are the
-   * typical errno values when a USB-to-serial adapter momentarily
-   * disappears (device unplug, kernel re-enumeration, udev settle race,
-   * adapter firmware glitch). Classifying them as FATAL would tear down
-   * the bus thread and, via `onBusError` callbacks at the application
-   * layer, the whole process — even though a simple reconnect almost
-   * always recovers. `busLoop()`'s Phase 1 already implements that
-   * reconnect with exponential backoff, so TRANSIENT is the correct
-   * classification.
+   * `RECONNECT` ranks between the two: retrying the same descriptor can
+   * never succeed, but the fault is routine and needs no intervention
+   * (`FATAL` exits the process via the application's error callback). It is
+   * declared last in the enum for ABI reasons; see `Severity`.
    *
-   * A genuinely-misconfigured RTU device path (typo in YAML) also
-   * surfaces as `ENOENT`, but here TRANSIENT is still the right call: it
-   * produces a repeated, visible warning every backoff cycle rather than
-   * a silent startup exit during a boot-time enumeration race.
+   * It is transport-independent. `ECONNRESET` reaches RTU too, since
+   * libmodbus sets it when `recv()` returns 0 and the RTU `recv()` is a
+   * `read()` on the tty; with `O_NONBLOCK` and a preceding `select()`, a
+   * zero return can only be a hangup. `ETIMEDOUT` is excluded: it is the
+   * ordinary silent-slave transient, and a dropped peer follows it with
+   * `ECONNRESET`/`EPIPE`.
+   *
+   * `EIO`, `ENODEV` and `EBADF` are `RECONNECT`, not `TRANSIENT`. On an
+   * established descriptor they mean the device is gone — an unplugged
+   * USB-to-serial adapter fails reads with `EIO`, not with EOF — and every
+   * retry on that descriptor then fails instantly forever. They are not
+   * `FATAL` either: a reconnect almost always recovers, so tearing down the
+   * process would be wrong.
+   *
+   * `ENOENT` stays `TRANSIENT`. It can only come from `open()`, so it means
+   * the connection was never established rather than lost, and Phase 1
+   * retries it with backoff whatever the severity. Keeping it `TRANSIENT`
+   * also preserves the visible warning each cycle for a mistyped device
+   * path, rather than a silent exit during a boot-time enumeration race.
    */
   static Severity deduceSeverity(int c) {
     switch (c) {
@@ -174,12 +194,26 @@ private:
     case EADDRINUSE:   // Address already in use
     case ENOTSUP:      // Not supported
       return Severity::FATAL;
+    // Endpoint lost: only a fresh connect() recovers.
+    case EPIPE:        // Broken pipe (wrote to an endpoint the peer closed)
+    case ECONNRESET:   // Connection reset by peer; also a hung-up tty (EOF)
+    case ENOTCONN:     // Transport endpoint is not connected
+    case ESHUTDOWN:    // Cannot send after transport endpoint shutdown
+    case ECONNABORTED: // Software caused connection abort
+    case EIO:          // I/O error: serial device unplugged or tty hung up
+    case ENODEV:       // Device removed
+    case EBADF:        // Descriptor no longer valid
+    case ENETDOWN:     // Network is down
+    case ENETRESET:    // Connection aborted by the network
+    case ENETUNREACH:  // Network is unreachable
+    case EHOSTUNREACH: // No route to host
+    case EHOSTDOWN:    // Host is down
+      return Severity::RECONNECT;
     case EINTR: // Call was interrupted by a signal
       return Severity::SHUTDOWN;
     default:
-      // Transport-hiccup transients (ENOENT, ENODEV, EBADF, EIO) and
-      // everything else (ETIMEDOUT, ECONNRESET, EPIPE, EPROTO, ...) land
-      // here. See the function-level comment for the rationale.
+      // Connect-time transients (ENOENT) and everything else (ETIMEDOUT,
+      // EPROTO, ...) land here. See the function-level comment.
       return Severity::TRANSIENT;
     }
   }

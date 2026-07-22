@@ -450,8 +450,13 @@ void FroniusBus::executeTransaction(Transaction &t) {
         "[slave={}, addr={}, count={}]",
         t.slaveId, t.startAddr, t.count);
 
+    // RECONNECT joins FATAL/SHUTDOWN: Phase 1 is the only place that
+    // reopens the transport, so without this the bus spins on a dead fd.
+    // No transport gate — a hung-up tty needs this as much as a reset
+    // socket.
     if (err.severity == ModbusError::Severity::FATAL ||
-        err.severity == ModbusError::Severity::SHUTDOWN) {
+        err.severity == ModbusError::Severity::SHUTDOWN ||
+        err.severity == ModbusError::Severity::RECONNECT) {
       connected_.store(false);
       cv_.notify_all();
     }
