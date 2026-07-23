@@ -194,6 +194,15 @@ set(CPACK_DEBIAN_RUNTIME_PACKAGE_NAME "lib${PROJECT_NAME}${FRONIUS_ABI}")
 set(CPACK_DEBIAN_RUNTIME_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_RUNTIME_PACKAGE_SHLIBDEPS ON)
 
+# Ship a shlibs control file so dpkg-shlibdeps can resolve libfronius.so.N
+# for downstream packages. Without it dpkg has no dependency information for
+# this SONAME and a consumer build aborts instead of emitting a Depends.
+# The default policy is an exact-version match, which would tie every
+# consumer to the libfronius release it was built against; >= keeps the
+# runtime upgradable within the ABI the SOVERSION already guards.
+set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
+set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY ">=")
+
 set(CPACK_DEBIAN_DEVEL_PACKAGE_NAME "lib${PROJECT_NAME}-dev")
 set(CPACK_DEBIAN_DEVEL_PACKAGE_SECTION "libdevel")
 # Make -dev depend on the exact same runtime version
