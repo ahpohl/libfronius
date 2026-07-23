@@ -414,7 +414,8 @@ std::vector&lt; std::function&lt; void(const std::string &amp;)&gt; &gt;&#160;</
 </div><div class="memdoc">
 
 <p><a class="el" href="struct_register.html" title="Describes one Modbus register or a contiguous register range.">Register</a> a callback invoked when the bus connection is lost. </p>
-<p>Fired when a connection attempt fails or after <code><a class="el" href="class_fronius_bus.html#a5a36a39bf9ad0d79626a27e1bc6570e6" title="Force a reconnection attempt.">triggerReconnect()</a></code>. Receives the seconds until the next reconnection attempt (with exponential backoff applied if configured).</p>
+<p>Fired when a connection attempt fails, including the attempts that follow a dropped bus or <code><a class="el" href="class_fronius_bus.html#a5a36a39bf9ad0d79626a27e1bc6570e6" title="Force a reconnection attempt.">triggerReconnect()</a></code>. Receives the seconds until the next reconnection attempt (with exponential backoff applied if configured).</p>
+<p>Not fired at the moment the bus drops: the delay would be a prediction rather than a wait that is about to happen, and Phase 1 reports the same value as soon as its attempt fails. An outage that recovers on the first attempt therefore produces no disconnect report — the drop is reported through <code><a class="el" href="class_fronius_bus.html#aef7e7311e673640396205a08a5746724" title="Register a callback invoked on bus-level Modbus errors.">addBusErrorCallback()</a></code> and the device-level unavailable callbacks instead.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cb</td><td>Callback receiving the reconnect delay in seconds. </td></tr>

@@ -117,6 +117,7 @@ Public Types</h2></td></tr>
 <tr class="memitem:ae809e381b12257b9524d271685f2a5da" id="r_ae809e381b12257b9524d271685f2a5da"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da">Severity</a> { <a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386">TRANSIENT</a>
 , <a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc">FATAL</a>
 , <a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112">SHUTDOWN</a>
+, <a class="el" href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa435d743b35551ea7106af41c4a308c01">RECONNECT</a>
  }</td></tr>
 <tr class="memdesc:ae809e381b12257b9524d271685f2a5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error severity classification.  <a href="struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da">More...</a><br /></td></tr>
 <tr class="separator:ae809e381b12257b9524d271685f2a5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,12 +195,15 @@ Static Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Error severity classification. </p>
+<p><code>RECONNECT</code> is declared last, out of severity order, deliberately: <code><a class="el" href="struct_modbus_error.html" title="Encapsulates a Modbus error with code, message, and severity.">ModbusError</a></code> is header-only, so these values are compiled into every consumer. Inserting it mid-enum would renumber <code>FATAL</code> and <code>SHUTDOWN</code> and silently change their meaning for any binary built against an older header. Nothing orders severities — all comparisons are <code>==</code> — so the declaration order carries no meaning beyond the numbering. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386" name="ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386"></a>TRANSIENT&#160;</td><td class="fielddoc"><p>Temporary error — may succeed on retry. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc" name="ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc"></a>FATAL&#160;</td><td class="fielddoc"><p>Fatal error — requires intervention. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112" name="ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112"></a>SHUTDOWN&#160;</td><td class="fielddoc"><p>Operation interrupted by a shutdown signal. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae809e381b12257b9524d271685f2a5daa435d743b35551ea7106af41c4a308c01" name="ae809e381b12257b9524d271685f2a5daa435d743b35551ea7106af41c4a308c01"></a>RECONNECT&#160;</td><td class="fielddoc"><p>Endpoint lost — retry needs a fresh connection. </p>
 </td></tr>
 </table>
 
@@ -336,9 +340,11 @@ template&lt;typename... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Map an error code to a <code>Severity</code>. </p>
-<p><code>EINTR</code> is mapped to <code>SHUTDOWN</code> (used to unwind blocking calls during shutdown). A fixed list of well-known fatal <code>errno</code>/libmodbus codes is mapped to <code>FATAL</code>; everything else is treated as <code>TRANSIENT</code>.</p>
-<p>Note on transport hiccups: <code>ENOENT</code>, <code>ENODEV</code>, <code>EBADF</code>, and <code>EIO</code> are deliberately <em>not</em> in the FATAL list. On an RTU bus these are the typical errno values when a USB-to-serial adapter momentarily disappears (device unplug, kernel re-enumeration, udev settle race, adapter firmware glitch). Classifying them as FATAL would tear down the bus thread and, via <code>onBusError</code> callbacks at the application layer, the whole process — even though a simple reconnect almost always recovers. <code>busLoop()</code>'s Phase 1 already implements that reconnect with exponential backoff, so TRANSIENT is the correct classification.</p>
-<p>A genuinely-misconfigured RTU device path (typo in YAML) also surfaces as <code>ENOENT</code>, but here TRANSIENT is still the right call: it produces a repeated, visible warning every backoff cycle rather than a silent startup exit during a boot-time enumeration race. </p>
+<p><code>EINTR</code> is mapped to <code>SHUTDOWN</code> (used to unwind blocking calls during shutdown). A fixed list of well-known fatal <code>errno</code>/libmodbus codes is mapped to <code>FATAL</code>; codes meaning the endpoint is gone map to <code>RECONNECT</code>; everything else is treated as <code>TRANSIENT</code>.</p>
+<p><code>RECONNECT</code> ranks between the two: retrying the same descriptor can never succeed, but the fault is routine and needs no intervention (<code>FATAL</code> exits the process via the application's error callback). It is declared last in the enum for ABI reasons; see <code>Severity</code>.</p>
+<p>It is transport-independent. <code>ECONNRESET</code> reaches RTU too, since libmodbus sets it when <code>recv()</code> returns 0 and the RTU <code>recv()</code> is a <code>read()</code> on the tty; with <code>O_NONBLOCK</code> and a preceding <code>select()</code>, a zero return can only be a hangup. <code>ETIMEDOUT</code> is excluded: it is the ordinary silent-slave transient, and a dropped peer follows it with <code>ECONNRESET</code>/<code>EPIPE</code>.</p>
+<p><code>EIO</code>, <code>ENODEV</code> and <code>EBADF</code> are <code>RECONNECT</code>, not <code>TRANSIENT</code>. On an established descriptor they mean the device is gone — an unplugged USB-to-serial adapter fails reads with <code>EIO</code>, not with EOF — and every retry on that descriptor then fails instantly forever. They are not <code>FATAL</code> either: a reconnect almost always recovers, so tearing down the process would be wrong.</p>
+<p><code>ENOENT</code> stays <code>TRANSIENT</code>. It can only come from <code>open()</code>, so it means the connection was never established rather than lost, and Phase 1 retries it with backoff whatever the severity. Keeping it <code>TRANSIENT</code> also preserves the visible warning each cycle for a mistyped device path, rather than a silent exit during a boot-time enumeration race. </p>
 
 </div>
 </div>
@@ -456,7 +462,7 @@ template&lt;typename... Args&gt; </div>
 </dl>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> err = <a class="code hl_function" href="struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac">ModbusError::fromErrno</a>(<span class="stringliteral">&quot;read register {} on slave {}&quot;</span>,</div>
 <div class="line">                                  40261, 1);</div>
-<div class="ttc" id="astruct_modbus_error_html_a8ee0a18c7b54598998e9755b440d7bac"><div class="ttname"><a href="struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac">ModbusError::fromErrno</a></div><div class="ttdeci">static ModbusError fromErrno(const std::string &amp;msg)</div><div class="ttdoc">Create a ModbusError from the current errno with a plain message.</div><div class="ttdef"><b>Definition</b> modbus_error.h:50</div></div>
+<div class="ttc" id="astruct_modbus_error_html_a8ee0a18c7b54598998e9755b440d7bac"><div class="ttname"><a href="struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac">ModbusError::fromErrno</a></div><div class="ttdeci">static ModbusError fromErrno(const std::string &amp;msg)</div><div class="ttdoc">Create a ModbusError from the current errno with a plain message.</div><div class="ttdef"><b>Definition</b> modbus_error.h:60</div></div>
 </div><!-- fragment --> 
 </div>
 </div>

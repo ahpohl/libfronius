@@ -183,6 +183,7 @@ var NAVTREEINDEX4 =
 "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5da":[1,0,7,0],
 "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa18a0316e7c30cc56acf083d96de6c386":[1,0,7,0,0],
 "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa19da7170bea36556dde582519795f3fc":[1,0,7,0,1],
+"struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daa435d743b35551ea7106af41c4a308c01":[1,0,7,0,3],
 "struct_modbus_error.html#ae809e381b12257b9524d271685f2a5daab9984206799a7f9fe4bd1b6c18db8112":[1,0,7,0,2],
 "struct_modbus_error.html#afbb17e4c67217fb75da19606ba25fc14":[1,0,7,6],
 "struct_modbus_rtu_transport.html":[1,0,8],
