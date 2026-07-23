@@ -287,9 +287,17 @@ public:
   /**
    * @brief Register a callback invoked when the bus connection is lost.
    *
-   * Fired when a connection attempt fails or after `triggerReconnect()`.
-   * Receives the seconds until the next reconnection attempt (with
-   * exponential backoff applied if configured).
+   * Fired when a connection attempt fails, including the attempts that
+   * follow a dropped bus or `triggerReconnect()`. Receives the seconds
+   * until the next reconnection attempt (with exponential backoff applied
+   * if configured).
+   *
+   * Not fired at the moment the bus drops: the delay would be a prediction
+   * rather than a wait that is about to happen, and Phase 1 reports the
+   * same value as soon as its attempt fails. An outage that recovers on
+   * the first attempt therefore produces no disconnect report — the drop
+   * is reported through `addBusErrorCallback()` and the device-level
+   * unavailable callbacks instead.
    *
    * @param cb  Callback receiving the reconnect delay in seconds.
    * @return    Opaque identifier for use with `removeBusCallback`.

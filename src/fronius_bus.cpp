@@ -255,13 +255,14 @@ void FroniusBus::busLoop() {
       cancelPendingTransactions();
       notifyDevicesDisconnected();
 
-      // Fire the disconnect callbacks under cbMutex_ so removeBusCallback()
-      // synchronizes against the iteration. An empty list is fine — the
-      // disconnect-then-reconnect contract is independent of whether any
-      // application-level callback is registered.
-      std::lock_guard<std::mutex> lock(cbMutex_);
-      for (auto &entry : onBusDisconnect_)
-        entry.fn(reconnectDelay);
+      // onBusDisconnect_ is deliberately not fired here. Phase 1 fires it
+      // with this same reconnectDelay the moment its tryConnect() fails,
+      // so firing here produced two identical reports per outage. The
+      // delay named at this point is also only a prediction: the attempt
+      // it refers to has not run yet, and if it succeeds the wait never
+      // happens. The drop itself stays visible — whatever cleared
+      // connected_ reported it through onBusError_, and the devices have
+      // just been told they are unavailable.
     }
   }
 
