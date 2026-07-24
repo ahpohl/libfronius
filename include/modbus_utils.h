@@ -14,6 +14,8 @@
 
 #include "fronius_types.h"
 #include "modbus_error.h"
+#include "register_base.h"
+#include <algorithm>
 #include <arpa/inet.h>
 #include <cmath>
 #include <cstdint>

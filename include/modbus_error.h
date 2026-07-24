@@ -31,11 +31,9 @@ public:
    * @brief Error severity classification.
    *
    * `RECONNECT` is declared last, out of severity order, deliberately:
-   * `ModbusError` is header-only, so these values are compiled into every
-   * consumer. Inserting it mid-enum would renumber `FATAL` and `SHUTDOWN`
-   * and silently change their meaning for any binary built against an older
-   * header. Nothing orders severities — all comparisons are `==` — so the
-   * declaration order carries no meaning beyond the numbering.
+   * `ModbusError` is header-only, so inserting it mid-enum would renumber
+   * `FATAL` and `SHUTDOWN` for any binary built against an older header.
+   * All comparisons are `==`, so declaration order carries no meaning.
    */
   enum class Severity {
     TRANSIENT, /**< Temporary error — may succeed on retry. */
@@ -138,35 +136,26 @@ private:
   /**
    * @brief Map an error code to a `Severity`.
    *
-   * `EINTR` is mapped to `SHUTDOWN` (used to unwind blocking calls during
-   * shutdown). A fixed list of well-known fatal `errno`/libmodbus codes is
-   * mapped to `FATAL`; codes meaning the endpoint is gone map to
-   * `RECONNECT`; everything else is treated as `TRANSIENT`.
+   * `EINTR` maps to `SHUTDOWN` (used to unwind blocking calls during
+   * shutdown). A fixed list of well-known fatal `errno`/libmodbus codes maps
+   * to `FATAL`; codes meaning the endpoint is gone map to `RECONNECT`;
+   * everything else is `TRANSIENT`.
    *
-   * `RECONNECT` ranks between the two: retrying the same descriptor can
-   * never succeed, but the fault is routine and needs no intervention
-   * (`FATAL` exits the process via the application's error callback). It is
-   * declared last in the enum for ABI reasons; see `Severity`.
+   * `RECONNECT` ranks between the two: retrying the same descriptor can never
+   * succeed, but the fault is routine and needs no intervention, whereas
+   * `FATAL` exits the process via the application's error callback. It is
+   * transport-independent — `ECONNRESET` reaches RTU too, since libmodbus
+   * sets it when the tty `read()` returns 0, which after a `select()` can
+   * only be a hangup. `EIO`, `ENODEV` and `EBADF` belong here rather than in
+   * `TRANSIENT`: on an established descriptor they mean the device is gone
+   * (an unplugged USB-serial adapter fails reads with `EIO`), so every
+   * further retry fails instantly.
    *
-   * It is transport-independent. `ECONNRESET` reaches RTU too, since
-   * libmodbus sets it when `recv()` returns 0 and the RTU `recv()` is a
-   * `read()` on the tty; with `O_NONBLOCK` and a preceding `select()`, a
-   * zero return can only be a hangup. `ETIMEDOUT` is excluded: it is the
-   * ordinary silent-slave transient, and a dropped peer follows it with
-   * `ECONNRESET`/`EPIPE`.
-   *
-   * `EIO`, `ENODEV` and `EBADF` are `RECONNECT`, not `TRANSIENT`. On an
-   * established descriptor they mean the device is gone — an unplugged
-   * USB-to-serial adapter fails reads with `EIO`, not with EOF — and every
-   * retry on that descriptor then fails instantly forever. They are not
-   * `FATAL` either: a reconnect almost always recovers, so tearing down the
-   * process would be wrong.
-   *
-   * `ENOENT` stays `TRANSIENT`. It can only come from `open()`, so it means
-   * the connection was never established rather than lost, and Phase 1
-   * retries it with backoff whatever the severity. Keeping it `TRANSIENT`
-   * also preserves the visible warning each cycle for a mistyped device
-   * path, rather than a silent exit during a boot-time enumeration race.
+   * `ETIMEDOUT` stays `TRANSIENT`, correct for RTU and for an unanswered TCP
+   * `connect()`, but not for a read on an established TCP socket — see the
+   * escalation in `FroniusBus::executeTransaction()`, the only site that
+   * observes that case. `ENOENT` stays `TRANSIENT` as well: it can only come
+   * from `open()`, so the connection was never established rather than lost.
    */
   static Severity deduceSeverity(int c) {
     switch (c) {

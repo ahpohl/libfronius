@@ -214,9 +214,9 @@ public:
    * Removes the weak pointer for `device` from the registry and signals any
    * in-flight per-device retry loop for that device to exit at its next
    * wake. Safe to call even if the device is not currently registered or
-   * has no retry in flight. Does not block on the retry loop's actual exit;
-   * the retry thread, which holds its own `shared_ptr<FroniusDevice>`, will
-   * unwind on its own and is joined by `~FroniusBus`.
+   * has no retry in flight. Does not block on the retry loop's exit; that
+   * thread holds its own `shared_ptr<FroniusDevice>` and is joined by
+   * `~FroniusBus`.
    *
    * Intended use is in derived-master destructors so a soon-to-die device
    * stops generating retry work and log noise.
@@ -248,19 +248,16 @@ public:
   std::future<std::expected<void, ModbusError>> submit(Transaction t);
 
   // -------------------------------------------------------------------------
-  // Bus-level callback setters
-  // -------------------------------------------------------------------------
-
-  // -------------------------------------------------------------------------
   // Bus-level callback identity
   // -------------------------------------------------------------------------
 
   /**
    * @brief Opaque identifier for a registered bus-level callback.
    *
-   * Returned by `addBusConnectCallback`, `addBusDisconnectCallback`, and
-   * `addBusErrorCallback`. Pass it to `removeBusCallback` to deregister
-   * the callback before the captured state is torn down.
+   * Returned by `addBusConnectCallback`, `addBusDisconnectCallback`,
+   * `addBusRetryCallback` and `addBusErrorCallback`. Pass it to
+   * `removeBusCallback` to deregister the callback before the captured
+   * state is torn down.
    *
    * Zero is reserved as a sentinel meaning "no callback".
    */
@@ -285,26 +282,48 @@ public:
   CallbackId addBusConnectCallback(std::function<void()> cb);
 
   /**
-   * @brief Register a callback invoked when the bus connection is lost.
+   * @brief Register a callback invoked when an established bus is lost.
    *
-   * Fired when a connection attempt fails, including the attempts that
-   * follow a dropped bus or `triggerReconnect()`. Receives the seconds
-   * until the next reconnection attempt (with exponential backoff applied
-   * if configured).
+   * The counterpart of `addBusConnectCallback()`, and the bus-level analogue
+   * of `FroniusDevice::setDeviceUnavailableCallback()`: it reports the state
+   * transition, not an attempt to undo it. Fires exactly once per outage,
+   * whatever its duration and whether or not the first reconnection attempt
+   * succeeds. Every path that clears the connection while the bus is running
+   * reaches it — a `RECONNECT` error from a transaction, or an application
+   * `triggerReconnect()`.
    *
-   * Not fired at the moment the bus drops: the delay would be a prediction
-   * rather than a wait that is about to happen, and Phase 1 reports the
-   * same value as soon as its attempt fails. An outage that recovers on
-   * the first attempt therefore produces no disconnect report — the drop
-   * is reported through `addBusErrorCallback()` and the device-level
-   * unavailable callbacks instead.
+   * Carries no argument: naming a reconnect delay here would be a prediction,
+   * since the attempt it refers to has not run yet and may never wait at all.
+   * Use `addBusRetryCallback()` for the per-attempt delay and
+   * `addBusErrorCallback()` for the cause.
+   *
+   * Not fired for a bus that never connected, nor during shutdown, where it
+   * would race with the `removeBusCallback()` calls consumers' destructors
+   * are making.
+   *
+   * @param cb  Callback invoked on the loss.
+   * @return    Opaque identifier for use with `removeBusCallback`.
+   * @note Invoked from the bus thread; keep the handler lightweight.
+   */
+  CallbackId addBusDisconnectCallback(std::function<void()> cb);
+
+  /**
+   * @brief Register a callback invoked when a reconnection attempt fails.
+   *
+   * The bus-level analogue of `FroniusDevice::setDeviceRetryCallback()`.
+   * Fires once per failed `tryConnect()`, receiving the seconds until the
+   * next attempt with exponential backoff applied if configured — a wait
+   * that is about to happen rather than one that might.
+   *
+   * A bus that recovers on its first attempt fires `addBusDisconnectCallback`
+   * and never this one. A bus that stays down fires this once per attempt,
+   * with the delay climbing to `reconnectDelayMax`.
    *
    * @param cb  Callback receiving the reconnect delay in seconds.
    * @return    Opaque identifier for use with `removeBusCallback`.
    * @note Invoked from the bus thread; keep the handler lightweight.
    */
-  CallbackId
-  addBusDisconnectCallback(std::function<void(int reconnectDelay)> cb);
+  CallbackId addBusRetryCallback(std::function<void(int reconnectDelay)> cb);
 
   /**
    * @brief Register a callback invoked on bus-level Modbus errors.
@@ -389,9 +408,8 @@ private:
    *        each successful connect.
    *
    * onBusConnected() submits transactions and blocks on future.get(), so it
-   * cannot run on the bus thread. Tracked (not detached) so the destructor can
-   * join it before tearing down `mtx_`/`retries_`; otherwise it can outlive
-   * the bus and lock a destroyed mutex on shutdown.
+   * cannot run on the bus thread. Tracked rather than detached so the
+   * destructor can join it before tearing down `mtx_` and `retries_`.
    */
   std::thread notifyConnectThread_;
 
@@ -422,33 +440,24 @@ private:
    * @brief Per-device retry tracking entry.
    *
    * One entry is created every time `scheduleDeviceRetry` launches a new
-   * `deviceConnectLoop`. `device` is the raw pointer used to match the
-   * entry against the device that owns the retry; `thread` is the jthread
-   * executing the loop; `cancelled` is set when the device has been
-   * unregistered (or the bus is tearing down) so the loop exits at its
-   * next wake without calling `onBusConnected()` again.
-   *
-   * Entries are never removed by the loop itself — self-removal would
-   * require joining the running thread. Instead, finished entries are
-   * reaped opportunistically by `scheduleDeviceRetry` and
-   * `unregisterDevice` (so the list does not grow unboundedly) and the
-   * destructor of `FroniusBus` joins any that are still in flight.
+   * `deviceConnectLoop`. Entries are never removed by the loop itself —
+   * self-removal would require joining the running thread. Finished entries
+   * are reaped by `scheduleDeviceRetry` and `unregisterDevice`; `~FroniusBus`
+   * joins any still in flight.
    */
   struct RetryEntry {
-    FroniusDevice *device{nullptr};      ///< Owning device (match key).
-    std::atomic<bool> cancelled{false};  ///< Request the loop to stop.
-    std::atomic<bool> finished{false};   ///< Loop has exited; reapable.
-    std::jthread thread;                 ///< Runs deviceConnectLoop().
+    FroniusDevice *device{nullptr};     ///< Owning device (match key).
+    std::atomic<bool> cancelled{false}; ///< Request the loop to stop.
+    std::atomic<bool> finished{false};  ///< Loop has exited; reapable.
+    std::jthread thread;                ///< Runs deviceConnectLoop().
   };
 
   /**
    * @brief All retry entries — both running and finished-but-not-reaped.
    *
-   * Protected by `mtx_`. We use `std::list` so iterators and `RetryEntry`
-   * references remain valid across insertions and erasures of other
-   * elements; this matters because the running jthread holds a reference
-   * to its own entry's `cancelled` flag and we must not invalidate it
-   * while reaping other finished entries.
+   * Protected by `mtx_`. `std::list` because a running jthread holds a
+   * reference to its own entry, which reaping other entries must not
+   * invalidate.
    */
   std::list<std::unique_ptr<RetryEntry>> retries_;
 
@@ -478,27 +487,22 @@ private:
 
   /**
    * @brief A registered callback together with its identifier.
-   *
-   * `id` is opaque to the bus thread; it exists so external callers can
-   * later remove the callback via `removeBusCallback`. `fn` is the actual
-   * callable.
    */
   template <typename F> struct CallbackEntry {
-    CallbackId id;        ///< Handle for removeBusCallback().
-    std::function<F> fn;  ///< The registered callable.
+    CallbackId id;       ///< Handle for removeBusCallback().
+    std::function<F> fn; ///< The registered callable.
   };
 
   /**
    * @brief Source of fresh `CallbackId`s.
    *
-   * Starts at 1; zero is reserved as a sentinel. Incremented atomically
-   * inside the cbMutex_-protected registration methods, but kept atomic
-   * defensively so reading the next id outside the lock is safe.
+   * Starts at 1; zero is reserved as a sentinel. Atomic so the next id can
+   * safely be read outside `cbMutex_`.
    */
   std::atomic<CallbackId> nextCallbackId_{1};
 
   /**
-   * @brief Mutex guarding the three callback vectors below.
+   * @brief Mutex guarding the four callback vectors below.
    *
    * Held by `addBusXxxCallback` and `removeBusCallback` during list
    * mutation, and by the bus thread for the duration of each fire loop.
@@ -513,14 +517,17 @@ private:
   /** @brief Fired when the physical bus connects. */
   std::vector<CallbackEntry<void()>> onBusConnect_;
 
-  /** @brief Fired when the physical bus disconnects. Carries reconnect delay
-   *         in seconds. */
-  std::vector<CallbackEntry<void(int)>> onBusDisconnect_;
+  /** @brief Fired once when an established bus is lost. */
+  std::vector<CallbackEntry<void()>> onBusDisconnect_;
+
+  /** @brief Fired per failed reconnection attempt. Carries the seconds until
+   *         the next one. */
+  std::vector<CallbackEntry<void(int)>> onBusRetry_;
 
   /** @brief Fired on bus-level Modbus errors. */
   std::vector<CallbackEntry<void(const ModbusError &)>> onBusError_;
 
-  /** @brief Fired on bus log messages */
+  /** @brief Fired on bus log messages. */
   std::vector<std::function<void(const std::string &)>> onBusLog_;
 
   // -------------------------------------------------------------------------
@@ -609,10 +616,8 @@ private:
    *
    * Calls `device->onBusConnected()` and retries with exponential backoff
    * until the device becomes ready, its `cancelled` flag is set, or the
-   * bus drops. On exit sets `entry.finished = true`; it does *not* remove
-   * itself from `retries_` (a self-running jthread cannot join itself).
-   * Finished entries are reaped opportunistically by `scheduleDeviceRetry`
-   * and `unregisterDevice`, and unconditionally by `~FroniusBus`.
+   * bus drops. On exit sets `entry.finished = true` rather than removing
+   * itself — a jthread cannot join itself. See `RetryEntry` for reaping.
    *
    * @param device  The device to re-validate. The shared_ptr is captured by
    *                the jthread to keep the device alive for the loop's

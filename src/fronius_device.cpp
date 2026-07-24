@@ -17,11 +17,7 @@
 FroniusDevice::FroniusDevice(const ModbusDeviceConfig &cfg) : cfg_(cfg) {
   cfg.validate();
 
-  // Size the register buffer to cover the full 16-bit Modbus address space.
-  // Every address from 0x0000 to 0xFFFE is pre-zeroed. Fetch functions write
-  // directly into this buffer via pointer arithmetic; accessor functions read
-  // from it. The buffer belongs exclusively to this device instance and is
-  // never shared with other devices on the same bus.
+  // Pre-zeroed to cover the full 16-bit Modbus address space; see `regs_`.
   regs_.resize(0xFFFF, 0);
 }
 
@@ -74,17 +70,15 @@ FroniusDevice::getModbusString(const std::vector<uint16_t> &regs,
       char hi = static_cast<char>((word >> 8) & 0xFF);
       char lo = static_cast<char>(word & 0xFF);
 
-      // Null bytes are treated as string terminators — skip them rather
-      // than inserting them, so the result is a clean C++ string.
+      // Null bytes are padding — skip rather than embed them.
       if (hi != '\0')
         str.push_back(hi);
       if (lo != '\0')
         str.push_back(lo);
     }
 
-    // All characters must be printable ASCII (spaces are allowed).
-    // Unprintable characters indicate a register map mismatch or
-    // a device that has not yet been validated.
+    // Unprintable characters mean a register map mismatch or an
+    // unvalidated device.
     for (unsigned char c : str) {
       if (!std::isprint(c)) {
         throw ModbusError::custom(
@@ -110,9 +104,7 @@ FroniusDevice::getModbusDouble(const std::vector<uint16_t> &regs,
   double value = 0.0;
 
   try {
-    // Compute the scale factor. When a scale-factor register is present,
-    // its raw value is interpreted as a signed 16-bit exponent: scale = 10^SF.
-    // When absent, scale is 1.0 (no scaling).
+    // A scale-factor register holds a signed 16-bit exponent: scale = 10^SF.
     double scale = 1.0;
     if (sf.has_value())
       scale = std::pow(
@@ -157,10 +149,9 @@ FroniusDevice::getModbusDouble(const std::vector<uint16_t> &regs,
 std::expected<double, ModbusError>
 FroniusDevice::getModbusDouble(const std::vector<uint16_t> &regs,
                                const Register &reg, double sf) const {
-  // This overload is used exclusively with the proprietary Fronius RTU
-  // register map, where scale factors are fixed compile-time constants
-  // rather than separate scale-factor registers. The register type must
-  // always be INT32 in that map, stored in little-endian word order.
+  // The proprietary Fronius RTU map fixes its scale factors at compile time
+  // instead of carrying scale-factor registers, and stores values as INT32
+  // in little-endian word order.
   if (reg.TYPE != Register::Type::INT32) {
     return reportError<double>(std::unexpected(ModbusError::custom(
         EINVAL, "getModbusDouble(): Unsupported register {}", reg.describe())));
@@ -199,16 +190,12 @@ std::expected<std::string, ModbusError> FroniusDevice::getSerialNumber() {
 std::expected<uint16_t, ModbusError> FroniusDevice::getModbusDeviceAddress() {
   uint16_t val = regs_[C001::DA.ADDR];
 
+  // EPROTO, not EINVAL: an out-of-range slave ID off the wire is a protocol
+  // fault, not a programmer error. EINVAL deduces to FATAL and would tear
+  // down the process; EPROTO deduces to TRANSIENT and revalidates the device
+  // instead, which is what a booting or briefly silent slave needs.
   if ((val < 1) || (val > 247))
     return reportError<uint16_t>(std::unexpected(
-        // EPROTO (not EINVAL): an out-of-range slave ID read from the wire
-        // is a protocol-level fault, not a programmer error. EINVAL would
-        // be classified as FATAL by deduceSeverity() and trigger a process
-        // shutdown via the master's error callback; EPROTO falls through
-        // to TRANSIENT, which correctly causes a per-device revalidation
-        // attempt instead. This typically happens transiently during
-        // device boot, when stale RTU bytes preceded the response, or
-        // when a Fronius inverter has briefly stopped responding.
         ModbusError::custom(EPROTO,
                             "getModbusDeviceAddress(): Invalid Modbus slave "
                             "address: received {}, expected 1-247",

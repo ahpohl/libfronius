@@ -702,6 +702,11 @@ constexpr Register L(40177, 1, Register::Type::UINT16);
  * Total energy counters are split across two INT32 register pairs (a
  * kWh/kVArh component plus a Wh/VArh remainder) — see the per-register
  * notes for how to combine them.
+ *
+ * Unlike the SunSpec models, this map defines no system-level current: it
+ * carries the three phase currents and (on some variants) a neutral current,
+ * but nothing equivalent to M20X::A. `Phase::TOTAL` is therefore unsupported
+ * on this map rather than mapped to a register.
  */
 namespace REG {
 
@@ -716,28 +721,34 @@ constexpr Register ID(11, 1, Register::Type::UINT16);
  * @brief Device serial number.
  *
  * Two consecutive registers; read as a 32-bit unsigned integer (decimal).
+ * Word order is LSW first, as for every 32-bit value in this map.
  */
-constexpr Register SN(20487, 1, Register::Type::UINT32);
+constexpr Register SN(20487, 2, Register::Type::UINT32);
 
 /**
- * @brief Meter firmware version — major component.
+ * @brief Meter firmware version code.
  *
- * Read together with `VR_MINOR` (the immediately following register) and
- * formatted as `"<major>.<minor>"`.
+ * Not a numeric major component: the Carlo Gavazzi EM/ET300 protocol this map
+ * derives from defines it as a letter index, 0 meaning "A", 1 meaning "B" and
+ * so on. Read together with `FWREV` (the immediately following register) and
+ * formatted as `"<letter><revision>"`.
  */
-constexpr Register VR_MAJOR(770, 1, Register::Type::UINT16);
+constexpr Register FWVER(770, 1, Register::Type::UINT16);
 
 /**
- * @brief Meter firmware version — minor component.
- * @see VR_MAJOR
+ * @brief Meter firmware revision code, printed as a decimal digit.
+ * @see FWVER
  */
-constexpr Register VR_MINOR(771, 1, Register::Type::UINT16);
+constexpr Register FWREV(771, 1, Register::Type::UINT16);
 
 /**
- * @brief Total AC current
- * @unit Amperes [A]
+ * @brief Phase rotation of the measured supply.
+ *
+ * 0 means L1-L2-L3, 1 means L1-L3-L2. Meaningful only on a three-phase
+ * connection. Sits inside the system block this driver already reads, so it
+ * costs no extra bus traffic.
  */
-constexpr Register A(270, 2, Register::Type::INT32);
+constexpr Register PHSEQ(270, 2, Register::Type::INT32);
 
 /**
  * @brief AC current phase A

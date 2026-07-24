@@ -143,7 +143,8 @@ public:
    *
    * For the SunSpec map, reads from the common block VR register.
    * For the proprietary map, reads the version registers directly and
-   * returns a string in `"major.minor"` format (e.g. `"1.5"`).
+   * returns the Carlo Gavazzi code, a letter followed by a decimal
+   * revision (e.g. `"B5"`).
    */
   std::expected<std::string, ModbusError> getFwVersion();
 

@@ -18,15 +18,11 @@ FroniusBus::FroniusBus(const ModbusBusConfig &cfg) : cfg_(cfg) {
 }
 
 FroniusBus::~FroniusBus() {
-  // Signal the bus thread to stop and wake it up in case it is waiting
-  // on the condition variable. The same cv_ is used by per-device retry
-  // loops, so this also wakes them.
+  // Stop the bus thread and cancel every retry loop, then wake both — they
+  // share cv_.
   {
     std::lock_guard<std::mutex> lock(mtx_);
     running_.store(false);
-    // Set cancelled on every retry entry so any loop currently inside
-    // device->onBusConnected() will short-circuit at its next predicate
-    // check rather than retry again.
     for (auto &entry : retries_)
       entry->cancelled.store(true);
     cv_.notify_all();
@@ -35,31 +31,22 @@ FroniusBus::~FroniusBus() {
   if (busThread_.joinable())
     busThread_.join();
 
-  // Join the connect-notify thread before touching retries_ or freeing this
-  // object. With running_ already false, any scheduleDeviceRetry() it runs
-  // returns without queuing new work, so the join is quick; without it the
-  // detached thread could lock mtx_ after it is destroyed (use-after-free at
-  // shutdown). Joined before the retries_ move below so any retries it did
-  // schedule are captured and joined too.
+  // Join before touching retries_: an unjoined notify thread could lock mtx_
+  // after it is destroyed, and joining now also captures any retries it
+  // scheduled.
   if (notifyConnectThread_.joinable())
     notifyConnectThread_.join();
 
-  // Move the retry list out so jthread destructors join while no member
-  // lock is held. The retry loops never modify retries_ themselves, so
-  // there is no race between this move and an in-flight loop. The loops
-  // do, however, acquire mtx_ briefly in cv_.wait_for predicate checks —
-  // their condition is already satisfied (running_=false, cancelled=true),
-  // so they exit promptly when they next get the lock.
+  // Move the list out so the jthread destructors join with no member lock
+  // held — the loops still take mtx_ for their final predicate check.
   decltype(retries_) toJoin;
   {
     std::lock_guard<std::mutex> lock(mtx_);
     toJoin = std::move(retries_);
   }
-  // jthreads in toJoin join in their destructors as the list unwinds.
   toJoin.clear();
 
-  // Cancel any transactions that were queued but never executed, so that
-  // callers blocked on future.get() are unblocked immediately.
+  // Unblock callers waiting on transactions that were queued but never ran.
   cancelPendingTransactions();
 
   if (ctx_) {
@@ -74,9 +61,9 @@ FroniusBus::~FroniusBus() {
    ------------------------------------------------------------------------- */
 
 void FroniusBus::connect() {
-  // Guard against double-connect (e.g. shared bus used by multiple masters)
+  // Guard against double-connect on a bus shared by several masters.
   if (running_.exchange(true))
-    return; // already started
+    return;
 
   busThread_ = std::thread(&FroniusBus::busLoop, this);
 }
@@ -105,18 +92,26 @@ FroniusBus::addBusConnectCallback(std::function<void()> cb) {
 }
 
 FroniusBus::CallbackId
-FroniusBus::addBusDisconnectCallback(std::function<void(int)> cb) {
+FroniusBus::addBusDisconnectCallback(std::function<void()> cb) {
   const CallbackId id = nextCallbackId_.fetch_add(1);
   std::lock_guard<std::mutex> lock(cbMutex_);
   onBusDisconnect_.push_back({id, std::move(cb)});
   return id;
 }
 
-FroniusBus::CallbackId FroniusBus::addBusErrorCallback(
-    std::function<void(const ModbusError &)> cb) {
+FroniusBus::CallbackId
+FroniusBus::addBusErrorCallback(std::function<void(const ModbusError &)> cb) {
   const CallbackId id = nextCallbackId_.fetch_add(1);
   std::lock_guard<std::mutex> lock(cbMutex_);
   onBusError_.push_back({id, std::move(cb)});
+  return id;
+}
+
+FroniusBus::CallbackId
+FroniusBus::addBusRetryCallback(std::function<void(int)> cb) {
+  const CallbackId id = nextCallbackId_.fetch_add(1);
+  std::lock_guard<std::mutex> lock(cbMutex_);
+  onBusRetry_.push_back({id, std::move(cb)});
   return id;
 }
 
@@ -124,31 +119,28 @@ void FroniusBus::removeBusCallback(CallbackId id) {
   if (id == 0)
     return;
 
-  // Acquire cbMutex_. If the bus thread is currently inside a fire loop,
-  // this blocks until that loop finishes, fulfilling the contract that
-  // after this method returns, the callback is guaranteed not to run.
+  // Blocks if the bus thread is inside a fire loop, which is what makes the
+  // "will not run again after this returns" guarantee hold.
   std::lock_guard<std::mutex> lock(cbMutex_);
 
-  // The id is unique across all three lists (nextCallbackId_ is shared),
-  // so erase_if at most one will fire.
+  // nextCallbackId_ is shared, so the id is unique across all four lists.
   auto matches = [id](const auto &entry) { return entry.id == id; };
   std::erase_if(onBusConnect_, matches);
   std::erase_if(onBusDisconnect_, matches);
+  std::erase_if(onBusRetry_, matches);
   std::erase_if(onBusError_, matches);
 }
 
 std::future<std::expected<void, ModbusError>>
 FroniusBus::submit(Transaction t) {
-  // Extract the future from the promise before moving the transaction
-  // into the queue — the promise is consumed by the move.
+  // Take the future before the move — it consumes the promise.
   auto future = t.promise.get_future();
 
   {
     std::lock_guard<std::mutex> lock(mtx_);
 
     if (!running_.load()) {
-      // Bus is shutting down: fulfill immediately with a shutdown error
-      // rather than queuing a transaction that will never execute.
+      // Shutting down: fail now rather than queue something that never runs.
       t.promise.set_value(std::unexpected(ModbusError::custom(
           EINTR, "submit(): Bus is shutting down, transaction cancelled")));
       return future;
@@ -179,60 +171,52 @@ void FroniusBus::busLoop() {
       auto res = tryConnect();
 
       if (res) {
-        // Successful connection — update state and notify
         {
           std::lock_guard<std::mutex> lock(mtx_);
           connected_.store(true);
           cv_.notify_all();
         }
 
-        // Fire all registered bus-level connect callbacks. Lock cbMutex_
-        // for the duration so removeBusCallback() callers (typically a
-        // master in its destructor) synchronize against any in-flight
-        // invocation here.
+        // Held across the fire loop so removeBusCallback() synchronises
+        // against an in-flight invocation.
         {
           std::lock_guard<std::mutex> lock(cbMutex_);
           for (auto &entry : onBusConnect_)
             entry.fn();
         }
 
-        // Reset backoff delay after a successful connection
         if (cfg_.exponential)
           reconnectDelay = cfg_.reconnectDelay;
 
-        // Notify devices on a separate thread so the bus thread proceeds
-        // directly to drainQueue(). onBusConnected() submits transactions
-        // and blocks on future.get() — it must not run on the bus thread.
-        // Tracked (not detached) so ~FroniusBus can join it; a reconnect
-        // joins the previous one first.
+        // onBusConnected() submits transactions and blocks on future.get(),
+        // so it cannot run on the bus thread. Tracked, not detached, so the
+        // destructor can join it; a reconnect joins the previous one first.
         if (notifyConnectThread_.joinable())
           notifyConnectThread_.join();
         notifyConnectThread_ =
             std::thread([this] { notifyDevicesConnected(); });
 
       } else {
-        // Connection failed
         connected_.store(false);
 
-        // Report the bus error and notify with current reconnect delay
-        // before backing off. Both fires share a single cbMutex_ lock so
-        // we synchronize once against in-flight removeBusCallback callers.
+        // The delay goes to onBusRetry_, not onBusDisconnect_: this is one
+        // failed attempt, not the loss of the connection, which was already
+        // reported when it happened.
         {
           std::lock_guard<std::mutex> lock(cbMutex_);
           for (auto &entry : onBusError_)
             entry.fn(res.error());
-          for (auto &entry : onBusDisconnect_)
+          for (auto &entry : onBusRetry_)
             entry.fn(reconnectDelay);
         }
 
-        // Wait for the backoff period or until shutdown is requested
+        // Back off, or wake early on shutdown.
         {
           std::unique_lock<std::mutex> lock(mtx_);
           cv_.wait_for(lock, std::chrono::seconds(reconnectDelay),
                        [this] { return !running_.load(); });
         }
 
-        // Apply exponential backoff for the next attempt
         if (cfg_.exponential)
           reconnectDelay = std::min(reconnectDelay * 2, cfg_.reconnectDelayMax);
 
@@ -245,28 +229,25 @@ void FroniusBus::busLoop() {
     // -----------------------------------------------------------------
     drainQueue();
 
-    // drainQueue() returns when either:
-    // a) the bus disconnected (connected_ == false), or
-    // b) the bus thread is being shut down (running_ == false)
-    //
-    // If the bus dropped while connected, notify devices and fire the
-    // disconnect callback before looping back to Phase 1.
+    // drainQueue() returns on disconnect or on shutdown. Every path that
+    // clears connected_ while the loop runs passes through here, so this is
+    // where onBusDisconnect_ fires — once per outage, carrying no delay.
+    // See addBusDisconnectCallback().
     if (!connected_.load() && running_.load()) {
       cancelPendingTransactions();
       notifyDevicesDisconnected();
 
-      // onBusDisconnect_ is deliberately not fired here. Phase 1 fires it
-      // with this same reconnectDelay the moment its tryConnect() fails,
-      // so firing here produced two identical reports per outage. The
-      // delay named at this point is also only a prediction: the attempt
-      // it refers to has not run yet, and if it succeeds the wait never
-      // happens. The drop itself stays visible — whatever cleared
-      // connected_ reported it through onBusError_, and the devices have
-      // just been told they are unavailable.
+      {
+        std::lock_guard<std::mutex> lock(cbMutex_);
+        for (auto &entry : onBusDisconnect_)
+          entry.fn();
+      }
     }
   }
 
-  // Shut down: notify devices one final time so they can clean up
+  // Shutdown: notify devices a final time. onBusDisconnect_ deliberately
+  // does not fire — it would race with the removeBusCallback() calls the
+  // consumers' destructors are making.
   if (connected_.load()) {
     connected_.store(false);
     cancelPendingTransactions();
@@ -279,14 +260,13 @@ void FroniusBus::busLoop() {
    ------------------------------------------------------------------------- */
 
 std::expected<void, ModbusError> FroniusBus::tryConnect() {
-  // Clean up any leftover context from a previous failed attempt
+  // Discard any context left over from a previous attempt.
   if (ctx_) {
     modbus_close(ctx_);
     modbus_free(ctx_);
     ctx_ = nullptr;
   }
 
-  // Create the transport context
   if (cfg_.isTcp()) {
     const auto &t = cfg_.tcp();
     if (auto res = connectTcp(t.host, t.port); !res)
@@ -299,7 +279,6 @@ std::expected<void, ModbusError> FroniusBus::tryConnect() {
       return res;
   }
 
-  // Enable debug logging if configured
   if (cfg_.debug) {
     if (modbus_set_debug(ctx_, true) == -1) {
       modbus_free(ctx_);
@@ -309,7 +288,6 @@ std::expected<void, ModbusError> FroniusBus::tryConnect() {
     }
   }
 
-  // Open the connection
   if (modbus_connect(ctx_) == -1) {
     const std::string target =
         cfg_.isTcp() ? cfg_.tcp().host : cfg_.rtu().device;
@@ -319,7 +297,6 @@ std::expected<void, ModbusError> FroniusBus::tryConnect() {
         "tryConnect(): Connection to '{}' failed", target));
   }
 
-  // Capture remote endpoint info for TCP connections
   if (cfg_.isTcp()) {
     int sock = modbus_get_socket(ctx_);
     if (sock == -1) {
@@ -372,19 +349,16 @@ FroniusBus::connectRtu(const std::string &device, int baud, char parity,
 void FroniusBus::drainQueue() {
   while (running_.load() && connected_.load()) {
 
-    // Wait for a transaction to arrive or for a state change
     std::unique_lock<std::mutex> lock(mtx_);
     cv_.wait(lock, [this] {
       return !txQueue_.empty() || !connected_.load() || !running_.load();
     });
 
-    // Exit immediately if the bus dropped or a shutdown was requested
     if (!connected_.load() || !running_.load())
       return;
 
-    // Pop the next transaction under the lock, then release before
-    // executing so that submit() can enqueue new transactions concurrently
-    // while the bus is busy with the current one.
+    // Pop under the lock, execute without it, so submit() can keep
+    // enqueueing while the bus is busy.
     Transaction t = std::move(txQueue_.front());
     txQueue_.pop();
 
@@ -417,11 +391,10 @@ void FroniusBus::executeTransaction(Transaction &t) {
   busLog("[tx] slave={} addr={} count={} -> sending", t.slaveId, t.startAddr,
          t.count);
 
-  // RTU receive-buffer hygiene: stale bytes from a glitched or timed-out read
-  // desync the bus by one frame (every reply reads as the previous request's),
-  // and a transient error never reconnects to clear them. Flush before the send
-  // -- not after the failed read, which only shifts the lag -- so the read
-  // blocks for this request's own reply. On a healthy bus this is a no-op.
+  // Stale RTU bytes from a glitched or timed-out read desync the bus by one
+  // frame, and a transient error never reconnects to clear them. Flushing
+  // before the send — not after the failed read, which only shifts the lag —
+  // is what restores alignment. On a healthy bus it is a no-op.
   if (cfg_.isRtu())
     modbus_flush(ctx_);
 
@@ -442,19 +415,34 @@ void FroniusBus::executeTransaction(Transaction &t) {
            elapsedMs);
   }
 
-  busLog("[--] slave={} addr={} guard done, queue free", t.slaveId,
-         t.startAddr);
-
   if (rc == -1) {
     auto err = ModbusError::fromErrno(
         "executeTransaction(): modbus_read_registers() failed "
         "[slave={}, addr={}, count={}]",
         t.slaveId, t.startAddr, t.count);
 
-    // RECONNECT joins FATAL/SHUTDOWN: Phase 1 is the only place that
-    // reopens the transport, so without this the bus spins on a dead fd.
-    // No transport gate — a hung-up tty needs this as much as a reset
-    // socket.
+    // ETIMEDOUT is the one code whose meaning depends on the transport, and
+    // this is the only site that produces it on an established one.
+    //
+    // On TCP it is the sole signal of a link-down: the kernel holds the
+    // connection open, the timed-out request stays outstanding, and its late
+    // reply answers the next one — leaving every read a frame behind until a
+    // fresh connect(). On RTU it is the ordinary silent-slave case, and
+    // reconnecting would drop a bus other devices share; the pre-send flush
+    // clears the stale frame instead.
+    //
+    // Handled here rather than in deduceSeverity() because tryConnect() also
+    // sees ETIMEDOUT on TCP, from an unanswered SYN, where it is a genuine
+    // transient that Phase 1 already retries.
+    if (cfg_.isTcp() && err.code == ETIMEDOUT) {
+      busLog("[esc] slave={} addr={} -> TCP read timeout, escalating to "
+             "RECONNECT",
+             t.slaveId, t.startAddr);
+      err.severity = ModbusError::Severity::RECONNECT;
+    }
+
+    // RECONNECT joins FATAL/SHUTDOWN: Phase 1 is the only place that reopens
+    // the transport, and a hung-up tty needs that as much as a reset socket.
     if (err.severity == ModbusError::Severity::FATAL ||
         err.severity == ModbusError::Severity::SHUTDOWN ||
         err.severity == ModbusError::Severity::RECONNECT) {
@@ -495,8 +483,8 @@ void FroniusBus::cancelPendingTransactions() {
  */
 
 void FroniusBus::notifyDevicesConnected() {
-  // Snapshot the live device pointers under the lock, then call callbacks
-  // outside it — onBusConnected() calls submit() which also acquires mtx_.
+  // Snapshot under the lock, call outside it — onBusConnected() reaches
+  // submit(), which takes mtx_ too.
   std::vector<std::shared_ptr<FroniusDevice>> live;
   {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -541,54 +529,44 @@ void FroniusBus::scheduleDeviceRetry(std::shared_ptr<FroniusDevice> device) {
     if (!running_.load() || !connected_.load())
       return;
 
-    // Opportunistically reap finished entries so retries_ does not grow
-    // unboundedly across many disconnect/reconnect cycles. Loops that
-    // exited set finished=true; their jthreads have already returned,
-    // so the join inside unique_ptr destruction is non-blocking.
+    // Reap finished entries so retries_ does not grow across reconnect
+    // cycles. Their jthreads have already returned, so the join inside
+    // unique_ptr destruction is non-blocking.
     std::erase_if(retries_, [](const std::unique_ptr<RetryEntry> &e) {
       return e->finished.load();
     });
 
-    // If a retry is already in flight for this device (an entry that has
-    // not yet finished), nothing to do — the existing loop will observe
-    // the (still-present) error state on its next iteration.
+    // A retry already in flight will pick up the still-present error state
+    // on its next iteration.
     for (auto &existing : retries_) {
       if (existing->device == device.get() && !existing->finished.load())
         return;
     }
 
-    // Create the entry under the lock so unregisterDevice / ~FroniusBus
-    // observe a fully-constructed entry whose `cancelled` flag they can
-    // set safely. The jthread is constructed *after* the lock is released
-    // so the loop can immediately acquire mtx_ at its first cv_.wait_for.
+    // Create the entry under the lock so unregisterDevice / ~FroniusBus see
+    // a fully-constructed `cancelled` flag; the jthread is spawned after the
+    // lock is released so the loop can take mtx_ immediately.
     auto entry = std::make_unique<RetryEntry>();
     entry->device = device.get();
     entryPtr = entry.get();
     retries_.push_back(std::move(entry));
   }
 
-  // Launch outside the lock. Once spawned, the jthread owns its own
-  // execution; the loop holds `device` (a shared_ptr) and a reference to
-  // `*entryPtr` (alive for as long as the entry remains in retries_, which
-  // is guaranteed because only ~FroniusBus or unregisterDevice removes
-  // entries, and both either set cancelled first and join, or simply set
-  // cancelled and leave the entry in place to be reaped later).
+  // The loop holds `device` by shared_ptr and `*entryPtr` by reference. The
+  // entry outlives it: only ~FroniusBus and unregisterDevice remove entries,
+  // and both set `cancelled` first.
   std::jthread t(
       [this, device, entryPtr] { deviceConnectLoop(device, *entryPtr); });
 
   std::lock_guard<std::mutex> lock(mtx_);
-  // Find the entry we created (it should still be there — only the
-  // destructor moves entries out, and the destructor would have set
-  // running_=false which would have aborted us above). If it is somehow
-  // gone, joining `t` here is safe — it just blocks until the loop exits,
-  // which is fast because cancelled would have been set.
   for (auto &existing : retries_) {
     if (existing.get() == entryPtr) {
       existing->thread = std::move(t);
       return;
     }
   }
-  // Fallback: entry vanished. Joining here is fine.
+  // Entry vanished: `t` joins on scope exit, promptly, since a removal
+  // would have set `cancelled`.
 }
 
 void FroniusBus::deviceConnectLoop(std::shared_ptr<FroniusDevice> device,
@@ -609,8 +587,7 @@ void FroniusBus::deviceConnectLoop(std::shared_ptr<FroniusDevice> device,
     {
       std::unique_lock<std::mutex> lock(mtx_);
       cv_.wait_for(lock, std::chrono::seconds(delay), [this, &entry] {
-        return !running_.load() || !connected_.load() ||
-               entry.cancelled.load();
+        return !running_.load() || !connected_.load() || entry.cancelled.load();
       });
     }
 
@@ -618,34 +595,27 @@ void FroniusBus::deviceConnectLoop(std::shared_ptr<FroniusDevice> device,
       delay = std::min(delay * 2, cfg.reconnectDelayMax);
   }
 
-  // Mark the entry as finished so ~FroniusBus or the next scheduleDeviceRetry
-  // can join and remove it. We do *not* erase ourselves: that would require
-  // joining the running jthread, which a jthread cannot do to itself.
+  // Mark reapable rather than self-erasing: removing the entry would mean
+  // joining this jthread from itself.
   entry.finished.store(true);
 
-  // Wake anyone (notably ~FroniusBus on a fast path, or a near-simultaneous
-  // scheduleDeviceRetry that is about to reap) so they observe the finish
-  // promptly.
+  // Wake any waiting reaper so it observes the finish promptly.
   cv_.notify_all();
 }
 
 void FroniusBus::unregisterDevice(FroniusDevice *device) {
   std::lock_guard<std::mutex> lock(mtx_);
 
-  // Remove this device's weak_ptr from the registry so future
-  // notifyDevicesConnected / notifyDevicesDisconnected walks skip it.
-  // We match by lock()-and-compare because we only have the raw pointer.
+  // Drop the registry entry so later notify walks skip it. Matched by
+  // lock()-and-compare, since only the raw pointer is available here.
   std::erase_if(devices_, [device](const std::weak_ptr<FroniusDevice> &wp) {
     auto sp = wp.lock();
     return !sp || sp.get() == device;
   });
 
-  // Signal any in-flight retry loop for this device to exit at its next
-  // wake. We do not join the entry here — joining under mtx_ would deadlock
-  // with the loop's own mtx_ acquisition in cv_.wait_for. The reap below
-  // picks up any entries that have already finished (typically prior
-  // reconnect cycles); the one we just cancelled, if still running, will
-  // be reaped by the next scheduleDeviceRetry call or by ~FroniusBus.
+  // Signal the retry loop rather than joining it: joining under mtx_ would
+  // deadlock against the loop's own acquisition in cv_.wait_for. If it is
+  // still running, the next scheduleDeviceRetry or ~FroniusBus reaps it.
   for (auto &entry : retries_) {
     if (entry->device == device)
       entry->cancelled.store(true);

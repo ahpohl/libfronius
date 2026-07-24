@@ -68,11 +68,9 @@ FroniusBus::Transaction Inverter::makeTransaction(int startAddr, int count,
    ------------------------------------------------------------------------- */
 
 std::expected<void, ModbusError> Inverter::fetchInverterRegisters() {
-  // Active state code
   auto fState = bus_->submit(makeTransaction(
       F::ACTIVE_STATE_CODE.ADDR, F::ACTIVE_STATE_CODE.NB, regs_.data()));
 
-  // Main inverter register block
   const auto &inverterBaseReg = useFloatRegisters_ ? I11X::A : I10X::A;
   const uint16_t inverterBlockSize =
       useFloatRegisters_ ? I11X::SIZE : I10X::SIZE;
@@ -80,7 +78,6 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters() {
   auto fInv = bus_->submit(
       makeTransaction(inverterBaseReg.ADDR, inverterBlockSize, regs_.data()));
 
-  // Multi MPPT extension block
   const auto &multiMpptBaseReg =
       useFloatRegisters_ ? I160::DCA_SF.withOffset(I160::FLOAT_OFFSET)
                          : I160::DCA_SF;
@@ -88,7 +85,7 @@ std::expected<void, ModbusError> Inverter::fetchInverterRegisters() {
   auto fMppt = bus_->submit(
       makeTransaction(multiMpptBaseReg.ADDR, I160::SIZE, regs_.data()));
 
-  // Wait for all submitted transactions in order
+  // Submission is non-blocking, so all three are queued before we wait.
   if (auto res = fState.get(); !res) {
     setUnavailable();
     return reportError<void>(std::unexpected(res.error()));
@@ -404,27 +401,24 @@ Inverter::getEvents() const {
    ------------------------------------------------------------------------- */
 
 std::expected<void, ModbusError> Inverter::validateDevice() {
-  // --- Step 1: validate common register block ---
   if (auto res = validateCommonRegisters(); !res)
     return res;
 
-  // --- Step 2: detect float vs. integer model ---
+  // Sets useFloatRegisters_, which every step below depends on.
   if (auto res = validateInverterRegisters(); !res)
     return res;
 
-  // --- Step 3: validate multi MPPT block and detect input count ---
+  // Sets inputs_.
   if (auto res = validateMultiMpptRegisters(); !res)
     return res;
 
-  // --- Step 4: validate storage control block (sets hybrid_) ---
+  // Sets hybrid_, which validateEndRegisters() needs to place the end block.
   if (auto res = validateStorageRegisters(); !res)
     return res;
 
-  // --- Step 5: validate and cache nameplate block ---
   if (auto res = validateNameplateRegisters(); !res)
     return res;
 
-  // --- Step 6: validate and end register block ---
   if (auto res = validateEndRegisters(); !res)
     return res;
 
@@ -587,8 +581,10 @@ std::expected<void, ModbusError> Inverter::validateNameplateRegisters() {
   const auto idReg =
       useFloatRegisters_ ? I120::ID.withOffset(I120::FLOAT_OFFSET) : I120::ID;
 
-  auto fName = bus_->submit(
-      makeTransaction(idReg.ADDR, I120::ID.NB + I120::L.NB, regs_.data()));
+  // ID + size + payload in one transaction. The block is static and no poll
+  // covers I120, so this single read backs every getAcPowerRating() call.
+  auto fName = bus_->submit(makeTransaction(
+      idReg.ADDR, I120::ID.NB + I120::L.NB + I120::SIZE, regs_.data()));
 
   if (auto res = fName.get(); !res)
     return reportError<void>(std::unexpected(res.error()));
@@ -633,7 +629,6 @@ std::expected<void, ModbusError> Inverter::validateEndRegisters() {
     return reportError<void>(std::unexpected(res.error()));
   }
 
-  // Validate end block content
   if (!(regs_[endBlockBaseReg.ADDR] == 0xFFFF &&
         regs_[endBlockLengthReg.ADDR] == 0)) {
     return reportError<void>(std::unexpected(ModbusError::custom(

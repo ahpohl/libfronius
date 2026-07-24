@@ -207,8 +207,7 @@ struct ModbusDeviceConfig {
       throw std::invalid_argument(
           "secTimeout and usecTimeout cannot both be 0");
     if (usecTimeout < 0 || usecTimeout > 999999)
-      throw std::invalid_argument(
-          "usecTimeout must be in range 0-999999");
+      throw std::invalid_argument("usecTimeout must be in range 0-999999");
     if (reconnectDelay <= 0 || reconnectDelayMax <= 0)
       throw std::invalid_argument(
           "reconnectDelay and reconnectDelayMax must be positive");

@@ -63,9 +63,8 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters() {
   // --- Proprietary path ---
 
   if (registerMap_ == FroniusTypes::RegisterMap::PROPRIETARY) {
-    // Submit all three register blocks concurrently — they will be executed
-    // sequentially by the bus thread, but submission is non-blocking so all
-    // three are in the queue before we start waiting.
+    // Submission is non-blocking, so all three blocks are queued before we
+    // start waiting; the bus thread still executes them one at a time.
     auto fSum = bus_->submit(makeTransaction(REG::PHV.ADDR, 16, regs_.data()));
 
     auto fPhase =
@@ -74,7 +73,6 @@ std::expected<void, ModbusError> Meter::fetchMeterRegisters() {
     auto fEnergy =
         bus_->submit(makeTransaction(REG::TOT_KWH_IMP.ADDR, 16, regs_.data()));
 
-    // Now wait for all three in submission order
     if (auto res = fSum.get(); !res) {
       setUnavailable();
       return reportError<void>(std::unexpected(res.error()));
@@ -136,8 +134,8 @@ std::expected<std::string, ModbusError> Meter::getSerialNumber() {
     if (auto res = f.get(); !res)
       return reportError<std::string>(std::unexpected(res.error()));
 
-    uint32_t serial =
-        ModbusUtils::modbus_get_uint32(regs_.data() + REG::SN.ADDR);
+    uint32_t serial = ModbusUtils::modbus_get_uint32(
+        regs_.data() + REG::SN.ADDR, /*word_swap=*/true);
     return std::to_string(serial);
   }
   return getModbusString(regs_, C001::SN);
@@ -157,16 +155,22 @@ std::expected<std::string, ModbusError> Meter::getDeviceModel() {
 
 std::expected<std::string, ModbusError> Meter::getFwVersion() {
   if (registerMap_ == FroniusTypes::RegisterMap::PROPRIETARY) {
-    // VR_MAJOR and VR_MINOR are two consecutive UINT16 registers. Read
-    // them in a single transaction starting at VR_MAJOR for efficiency.
-    auto f = bus_->submit(makeTransaction(REG::VR_MAJOR.ADDR,
-                                          REG::VR_MAJOR.NB + REG::VR_MINOR.NB,
-                                          regs_.data()));
+    // FWVER and FWREV are consecutive UINT16s; read both in one transaction.
+    auto f = bus_->submit(makeTransaction(
+        REG::FWVER.ADDR, REG::FWVER.NB + REG::FWREV.NB, regs_.data()));
     if (auto res = f.get(); !res)
       return reportError<std::string>(std::unexpected(res.error()));
 
-    return std::format("{}.{}", regs_[REG::VR_MAJOR.ADDR],
-                       regs_[REG::VR_MINOR.ADDR]);
+    // Carlo Gavazzi encoding: version is a letter index (0 is "A") and
+    // revision prints as a decimal, giving "B5" rather than "1.5". Out of
+    // range means the device is not following the documented encoding, so
+    // report the raw code rather than a wrong letter.
+    const uint16_t version = regs_[REG::FWVER.ADDR];
+    const uint16_t revision = regs_[REG::FWREV.ADDR];
+    if (version > 'Z' - 'A')
+      return std::format("{}.{}", version, revision);
+
+    return std::format("{}{}", static_cast<char>('A' + version), revision);
   }
   return getModbusString(regs_, C001::VR);
 }
@@ -183,7 +187,9 @@ Meter::getAcCurrent(FroniusTypes::Phase ph) const {
       return reportError<double>(std::unexpected(ModbusError::custom(
           ENOTSUP, "getAcCurrent(): Phase::TOTAL not supported for "
                    "proprietary register map")));
-    return getRegValue(REG::A, REG::A_SF, M20X::A, M20X::A_SF, M21X::A);
+    // The proprietary map names no register here; a default Register decodes
+    // to EINVAL rather than to whatever sits at some address.
+    return getRegValue(Register{}, 0.0, M20X::A, M20X::A_SF, M21X::A);
   case FroniusTypes::Phase::A:
     return getRegValue(REG::APHA, REG::A_SF, M20X::APHA, M20X::A_SF,
                        M21X::APHA);
@@ -431,11 +437,9 @@ Meter::getAcEnergyReactive(FroniusTypes::EnergyDirection direction) const {
    ------------------------------------------------------------------------- */
 
 std::expected<FroniusTypes::RegisterMap, ModbusError> Meter::validateDevice() {
-  // --- Step 1: probe for the proprietary register map ---
-  // Read the device type register. If it responds with device type 731 this
-  // is a Smart Meter TS 65A-3 using the proprietary RTU map.
-  // If the register address is illegal (EMBXILADD) the device does not have
-  // this register and we fall through to SunSpec probing.
+  // Probe the proprietary map first: device type 731 is a Smart Meter
+  // TS 65A-3. EMBXILADD means the register does not exist, so fall through
+  // to SunSpec probing.
   auto fProp =
       bus_->submit(makeTransaction(REG::ID.ADDR, REG::ID.NB, regs_.data()));
 
@@ -443,21 +447,18 @@ std::expected<FroniusTypes::RegisterMap, ModbusError> Meter::validateDevice() {
     if (res.error().code != EMBXILADD)
       return reportError<FroniusTypes::RegisterMap>(
           std::unexpected(res.error()));
-    // EMBXILADD means address does not exist — not a proprietary device
   } else {
     if (regs_[REG::ID.ADDR] == 731)
       return FroniusTypes::RegisterMap::PROPRIETARY;
   }
 
-  // --- Step 2: validate SunSpec signature ---
-  // Read the SunSpec ID and common block header in one transaction.
+  // SunSpec ID and common block header in one transaction.
   auto fSunSpec =
       bus_->submit(makeTransaction(C001::SID.ADDR, 4, regs_.data()));
 
   if (auto res = fSunSpec.get(); !res)
     return reportError<FroniusTypes::RegisterMap>(std::unexpected(res.error()));
 
-  // Verify "SunS" identifier
   if (!(regs_[C001::SID.ADDR] == 0x5375 && regs_[C001::SID.ADDR + 1] == 0x6e53))
     return reportError<FroniusTypes::RegisterMap>(std::unexpected(
         ModbusError::custom(EINVAL,
@@ -480,18 +481,15 @@ std::expected<FroniusTypes::RegisterMap, ModbusError> Meter::validateDevice() {
                             "received {}, expected {}",
                             regs_[C001::L.ADDR], C001::SIZE)));
 
-  // --- Step 3: fetch the full common register block ---
   auto fCommon =
       bus_->submit(makeTransaction(C001::MN.ADDR, C001::SIZE, regs_.data()));
 
   if (auto res = fCommon.get(); !res)
     return reportError<FroniusTypes::RegisterMap>(std::unexpected(res.error()));
 
-  // --- Step 4: detect float vs. integer model ---
   if (auto res = detectFloatOrIntRegisters(); !res)
     return reportError<FroniusTypes::RegisterMap>(std::unexpected(res.error()));
 
-  // --- Step 5: validate the end register block ---
   if (auto res = validateEndRegisters(); !res)
     return reportError<FroniusTypes::RegisterMap>(std::unexpected(res.error()));
 
@@ -542,7 +540,6 @@ std::expected<void, ModbusError> Meter::detectFloatOrIntRegisters() {
 
 std::expected<void, ModbusError> Meter::validateEndRegisters() {
 
-  // End block validation
   const auto endBlockBaseReg = useFloatRegisters_
                                    ? M_END::ID.withOffset(M_END::FLOAT_OFFSET)
                                    : M_END::ID;
