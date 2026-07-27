@@ -127,8 +127,7 @@ std::jthread&#160;</td><td class="memItemRight" valign="bottom"><b>thread</b></t
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Per-device retry tracking entry. </p>
-<p>One entry is created every time <code>scheduleDeviceRetry</code> launches a new <code>deviceConnectLoop</code>. <code>device</code> is the raw pointer used to match the entry against the device that owns the retry; <code>thread</code> is the jthread executing the loop; <code>cancelled</code> is set when the device has been unregistered (or the bus is tearing down) so the loop exits at its next wake without calling <code>onBusConnected()</code> again.</p>
-<p>Entries are never removed by the loop itself — self-removal would require joining the running thread. Instead, finished entries are reaped opportunistically by <code>scheduleDeviceRetry</code> and <code>unregisterDevice</code> (so the list does not grow unboundedly) and the destructor of <code><a class="el" href="class_fronius_bus.html" title="Owns and manages one shared Modbus bus (RTU or TCP).">FroniusBus</a></code> joins any that are still in flight. </p>
+<p>One entry is created every time <code>scheduleDeviceRetry</code> launches a new <code>deviceConnectLoop</code>. Entries are never removed by the loop itself — self-removal would require joining the running thread. Finished entries are reaped by <code>scheduleDeviceRetry</code> and <code>unregisterDevice</code>; <code>~FroniusBus</code> joins any still in flight. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="fronius__bus_8h_source.html">fronius_bus.h</a></li>
 </ul>

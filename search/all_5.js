@@ -13,9 +13,9 @@ var searchData=
   ['fixed_5fvoltage_5ffault_10',['FIXED_VOLTAGE_FAULT',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a30af8d0fc4b16129d3dfd843a848398c',1,'FroniusTypes']]],
   ['flash_5ffault_11',['FLASH_FAULT',['../struct_fronius_types.html#a7cbd6dd6f60e3350fb871a6345ee14cfa57c140a51079970b35f2e78a03b81ea2',1,'FroniusTypes']]],
   ['float_12',['FLOAT',['../struct_register.html#ae15379f39ed468afb25f0d3c367b7fe4ae738c26bf4ce1037fa81b039a915cbf6',1,'Register']]],
-  ['float_5foffset_13',['float_offset',['../namespace_m___e_n_d.html#a91109401fb9ff27119b9cbbeba0de697',1,'M_END::FLOAT_OFFSET'],['../namespace_i___e_n_d.html#a3894a70f4b49a302b823d64afa6f6efe',1,'I_END::FLOAT_OFFSET'],['../namespace_i160.html#a56a7c9609e0ebfdf89a9218aed3046ad',1,'I160::FLOAT_OFFSET'],['../namespace_i124.html#a9cac1eca329c358c3950d6f96eb84a82',1,'I124::FLOAT_OFFSET'],['../namespace_i120.html#aae6304f9ddb001cc2fee9135eee196ea',1,'I120::FLOAT_OFFSET'],['../namespace_i122.html#ad9533d05f6fe9256ffbf1fec67e9a34e',1,'I122::FLOAT_OFFSET'],['../namespace_i123.html#a93a70c44823c1e7951f12f2a30fb44e9',1,'I123::FLOAT_OFFSET']]],
+  ['float_5foffset_13',['float_offset',['../namespace_i___e_n_d.html#a3894a70f4b49a302b823d64afa6f6efe',1,'I_END::FLOAT_OFFSET'],['../namespace_i160.html#a56a7c9609e0ebfdf89a9218aed3046ad',1,'I160::FLOAT_OFFSET'],['../namespace_i124.html#a9cac1eca329c358c3950d6f96eb84a82',1,'I124::FLOAT_OFFSET'],['../namespace_i123.html#a93a70c44823c1e7951f12f2a30fb44e9',1,'I123::FLOAT_OFFSET'],['../namespace_i122.html#ad9533d05f6fe9256ffbf1fec67e9a34e',1,'I122::FLOAT_OFFSET'],['../namespace_i120.html#aae6304f9ddb001cc2fee9135eee196ea',1,'I120::FLOAT_OFFSET'],['../namespace_m___e_n_d.html#a91109401fb9ff27119b9cbbeba0de697',1,'M_END::FLOAT_OFFSET']]],
   ['fn_14',['fn',['../struct_fronius_bus_1_1_callback_entry.html#a589bad07c19d02cfd9f5a3ea30b6efdc',1,'FroniusBus::CallbackEntry']]],
-  ['freq_15',['freq',['../namespace_i11_x.html#afe2e34812d5b86da264e95ab369921e4',1,'I11X::FREQ()'],['../namespace_i10_x.html#a723b747facafcdb948ac2cd9fed91ee5',1,'I10X::FREQ()'],['../namespace_m20_x.html#a2daf034bbe709c881f235edb70e173ae',1,'M20X::FREQ()'],['../namespace_m21_x.html#ac686fb43de4e4d7960b1dcc22aacbfea',1,'M21X::FREQ()'],['../namespace_r_e_g.html#a0d8dd20c7ab55257e2eb60eab202ee0c',1,'REG::FREQ(272, 2, Register::Type::INT32)']]],
+  ['freq_15',['freq',['../namespace_i10_x.html#a723b747facafcdb948ac2cd9fed91ee5',1,'I10X::FREQ()'],['../namespace_i11_x.html#afe2e34812d5b86da264e95ab369921e4',1,'I11X::FREQ()'],['../namespace_m20_x.html#a2daf034bbe709c881f235edb70e173ae',1,'M20X::FREQ()'],['../namespace_m21_x.html#ac686fb43de4e4d7960b1dcc22aacbfea',1,'M21X::FREQ()'],['../namespace_r_e_g.html#a0d8dd20c7ab55257e2eb60eab202ee0c',1,'REG::FREQ(272, 2, Register::Type::INT32)']]],
   ['freq_5fsf_16',['freq_sf',['../namespace_r_e_g.html#a4b9051bc669c4a6dbabcebca26071623',1,'REG::FREQ_SF'],['../namespace_i10_x.html#abb91d181cba8d305620be36b36f996bd',1,'I10X::FREQ_SF()'],['../namespace_m20_x.html#aeed208594614b490555db39c53dc7109',1,'M20X::FREQ_SF()']]],
   ['frequency_5fhigh_17',['FREQUENCY_HIGH',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01aeb59af23c4b5e71885686c2e0a173e7e',1,'FroniusTypes']]],
   ['frequency_5flow_18',['FREQUENCY_LOW',['../struct_fronius_types.html#a8e5073aa91d91d9443e4101cf2117f01a61e706c405c220c0c424ec2f2b6fb072',1,'FroniusTypes']]],
@@ -25,6 +25,8 @@ var searchData=
   ['fronius_5fdevice_2eh_22',['fronius_device.h',['../fronius__device_8h.html',1,'']]],
   ['fronius_5ftypes_2eh_23',['fronius_types.h',['../fronius__types_8h.html',1,'']]],
   ['froniusbus_24',['froniusbus',['../class_fronius_bus.html#ad47bd94f9572a7b85ed9932b39f8105d',1,'FroniusBus::FroniusBus()'],['../class_fronius_bus.html',1,'FroniusBus']]],
-  ['froniusdevice_25',['froniusdevice',['../class_fronius_device.html#a8f49e65d3ef3522e707c6130cb0b9c66',1,'FroniusDevice::FroniusDevice()'],['../class_fronius_device.html',1,'FroniusDevice']]],
-  ['froniustypes_26',['FroniusTypes',['../struct_fronius_types.html',1,'']]]
+  ['froniusdevice_25',['froniusdevice',['../class_fronius_device.html',1,'FroniusDevice'],['../class_fronius_device.html#a8f49e65d3ef3522e707c6130cb0b9c66',1,'FroniusDevice::FroniusDevice()']]],
+  ['froniustypes_26',['FroniusTypes',['../struct_fronius_types.html',1,'']]],
+  ['fwrev_27',['FWREV',['../namespace_r_e_g.html#acb2e1bf31deb362edcf677c7e8475c98',1,'REG']]],
+  ['fwver_28',['FWVER',['../namespace_r_e_g.html#a114a5fbe6bd491132b31454b07ef25c8',1,'REG']]]
 ];

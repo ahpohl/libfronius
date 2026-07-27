@@ -7,5 +7,7 @@ var searchData=
   ['freq_5fsf_4',['freq_sf',['../namespace_i10_x.html#abb91d181cba8d305620be36b36f996bd',1,'I10X::FREQ_SF()'],['../namespace_m20_x.html#aeed208594614b490555db39c53dc7109',1,'M20X::FREQ_SF()']]],
   ['fromerrno_5',['fromerrno',['../struct_modbus_error.html#a8ee0a18c7b54598998e9755b440d7bac',1,'ModbusError::fromErrno(const std::string &amp;msg)'],['../struct_modbus_error.html#afbb17e4c67217fb75da19606ba25fc14',1,'ModbusError::fromErrno(std::format_string&lt; Args... &gt; fmt, Args &amp;&amp;...args)']]],
   ['froniusbus_6',['FroniusBus',['../class_fronius_bus.html#ad47bd94f9572a7b85ed9932b39f8105d',1,'FroniusBus']]],
-  ['froniusdevice_7',['FroniusDevice',['../class_fronius_device.html#a8f49e65d3ef3522e707c6130cb0b9c66',1,'FroniusDevice']]]
+  ['froniusdevice_7',['FroniusDevice',['../class_fronius_device.html#a8f49e65d3ef3522e707c6130cb0b9c66',1,'FroniusDevice']]],
+  ['fwrev_8',['FWREV',['../namespace_r_e_g.html#acb2e1bf31deb362edcf677c7e8475c98',1,'REG']]],
+  ['fwver_9',['FWVER',['../namespace_r_e_g.html#a114a5fbe6bd491132b31454b07ef25c8',1,'REG']]]
 ];
