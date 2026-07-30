@@ -247,9 +247,17 @@ std::expected<void, ModbusError> packToModbus(modbus_mapping_t *dest,
       detail::packInteger<uint64_t>(&dest->tab_registers[reg.ADDR], value);
     break;
   case Register::Type::FLOAT:
-    if constexpr (std::is_floating_point_v<T>)
-      modbus_set_float_abcd(static_cast<float>(value),
-                            &dest->tab_registers[reg.ADDR]);
+    if constexpr (std::is_floating_point_v<T>) {
+      // Not modbus_set_float_abcd(): that writes raw wire bytes, but
+      // modbus_reply() serialises each tab_registers entry as a host-order
+      // uint16, so on a little-endian host the bytes end up swapped inside
+      // every word. Route the bit pattern through packInteger instead, which
+      // already produces the host-order words the reply path expects.
+      const float f = static_cast<float>(value);
+      uint32_t bits;
+      std::memcpy(&bits, &f, sizeof(bits));
+      detail::packInteger<uint32_t>(&dest->tab_registers[reg.ADDR], bits);
+    }
     break;
   case Register::Type::STRING: {
     if constexpr (std::is_same_v<T, std::string>) {
