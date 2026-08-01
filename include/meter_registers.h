@@ -718,10 +718,26 @@ namespace REG {
 constexpr Register ID(11, 1, Register::Type::UINT16);
 
 /**
- * @brief Device serial number.
+ * @brief Device serial number, as printed on the meter's barcode label.
  *
  * Two consecutive registers; read as a 32-bit unsigned integer (decimal).
  * Word order is LSW first, as for every 32-bit value in this map.
+ *
+ * This address is not described by the Carlo Gavazzi EM/ET300 protocol
+ * document that the rest of this map derives from. That document places a
+ * serial number at 0x5000-0x5006 (seven UINT16 registers, one ASCII character
+ * in the LSB of each); on the TS 65A-3 those registers still hold the original
+ * pre-Fronius value, which does not match the label and must not be used. The
+ * address below was verified against the printed barcode on the physical
+ * device.
+ *
+ * @note The inverter's SunSpec proxy and web interface decode this same
+ *       register pair MSW first, so the serial they report is the word-swapped
+ *       rendering of the value read here. Words 0x08EC, 0x05B1 decode to
+ *       95488236 (matching the label) but are reported by the proxy as
+ *       149685681. Correlating an RTU-discovered meter with a TCP-discovered
+ *       one therefore requires swapping the words on one side before
+ *       comparing. Observed on meter firmware 1.5 with Datamanager 3.34.1-5.
  */
 constexpr Register SN(20487, 2, Register::Type::UINT32);
 
