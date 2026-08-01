@@ -952,7 +952,31 @@ constexpr Register PFPHB(312, 2, Register::Type::INT32);
  */
 constexpr Register PFPHC(326, 2, Register::Type::INT32);
 
-/** @brief Power factor scale factor */
+/**
+ * @brief Power factor scale factor.
+ *
+ * Deliberately not the value implied by the source protocol document. The
+ * Carlo Gavazzi EM/ET300 document specifies these registers as PF*1000, so the
+ * raw value denotes a dimensionless fraction and the literal scale factor
+ * would be 0.001. The factor below folds an additional x100 into that
+ * conversion so this map reports percent, matching the SunSpec meter models
+ * (`M20X`, `M21X`) where power factor is expressed in percent. Both device
+ * paths therefore yield the same number for the same physical quantity.
+ *
+ * Verified on hardware: at one idle sample this map returned raw 377 on phase
+ * A (37.7 %) while the inverter's SunSpec proxy reported 37 for the same
+ * phase.
+ *
+ * @note This map has 0.1 % resolution. The SunSpec path is coarser: the meter
+ *       reports `PF_SF` = 0 there, giving whole percent. Prefer this map where
+ *       power factor precision matters.
+ *
+ * @note Power factor here is P/(V*I), the true power factor, whereas the
+ *       apparent power registers hold sqrt(P^2 + Q^2), the displacement
+ *       apparent power. The two definitions coincide only for an undistorted
+ *       load, so `PF` must not be cross-checked against `W / VA`; on a lightly
+ *       loaded phase the two have been observed to differ by 0.28.
+ */
 constexpr double PF_SF = 0.1;
 
 /**
